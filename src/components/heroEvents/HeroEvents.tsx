@@ -1,17 +1,16 @@
 // src/components/HeroEvents.tsx
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y } from 'swiper/modules';
-import 'swiper/css';
-
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import 'swiper/swiper-bundle.css';
 import sliderImage from '@/assets/SliderEvent/Slider.png';
+import HeroEventsNav from './HeroEventsNav';
 
 interface Event {
   id: number;
   image: string;
   title: string;
-  date: string;
+  date: string;      // formato "DD MMM YYYY"
   location: string;
   artist: string;
 }
@@ -38,61 +37,92 @@ const events: Event[] = [
 
 const HeroEvents: React.FC = () => {
   const swiperRef = useRef<any>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <section className="relative bg-primary overflow-hidden p-8 md:py-28 md:px-16">
       <Swiper
         modules={[A11y]}
         onSwiper={(swiper) => { swiperRef.current = swiper; }}
+        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         spaceBetween={0}
         slidesPerView={1}
         loop
-        breakpoints={{
-          768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
-        }}
         className="h-[60vh] md:h-[80vh] rounded-md"
       >
-        {events.map((ev) => (
-          <SwiperSlide key={ev.id}>
-            <div className="relative h-full">
-              <div
-                className="absolute inset-0 bg-center bg-cover"
-                style={{ backgroundImage: `url(${ev.image})` }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/60" />
+        {events.map((ev) => {
+          const [day, month, year] = ev.date.split(' ');
+          return (
+            <SwiperSlide key={ev.id}>
+              <div className="relative h-full">
+                {/* Imagen de fondo */}
+                <div
+                  className="absolute inset-0 bg-center bg-cover"
+                  style={{ backgroundImage: `url(${ev.image})` }}
+                />
+                {/* Gradiente overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/60" />
 
-              {/* Tarjeta centrada verticalmente, pegada al borde izquierdo, más ancha con blur */}
-              <div className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-secondary bg-opacity-60 backdrop-blur-sm p-6 rounded-lg w-80 text-white">
-                <h2 className="text-2xl font-bold mb-2">{ev.title}</h2>
-                <div className="bg-black bg-opacity-70 inline-block px-3 py-1 rounded mb-2">
-                  <span className="text-sm">{ev.date}</span>
+                {/* Tarjeta principal */}
+                <div className="
+                  absolute left-0 top-0
+                  sm:top-1/2 sm:transform sm:-translate-y-1/2
+                  w-1/2 h-64 md:h-auto md:w-full sm:max-w-2xl
+                  bg-secondary bg-opacity-30 backdrop-blur-lg
+                  border border-white border-opacity-50
+                  rounded-xl
+                  p-4 md:p-8
+                  flex flex-col items-center justify-center
+                  text-white space-y-4
+                ">
+                  <h2 className="text-xl sm:text-5xl md:text-6xl font-bold text-center">
+                    {ev.title}
+                  </h2>
+
+                  <div className="
+                    flex flex-col items-center justify-center w-full space-y-4
+                    sm:flex-row sm:space-y-0 sm:space-x-4
+                  ">
+                    {/* Fecha */}
+                    <div className="
+                      bg-primary px-6 py-4 rounded-lg text-center
+                      text-secondary font-bold
+                    ">
+                      <span className="block text-md sm:text-4xl font-semibold">
+                        {day} – {month}
+                      </span>
+                      <span className="block text-md sm:text-4xl">
+                        {year}
+                      </span>
+                    </div>
+
+                    {/* Ubicación */}
+                    <div className="text-sm sm:text-base md:text-lg font-bold text-center">
+                      {ev.location}
+                    </div>
+                  </div>
                 </div>
-                <p className="text-sm">{ev.location}</p>
               </div>
-
-              <h1 className="absolute bottom-8 left-8 text-5xl md:text-7xl font-extrabold uppercase text-white drop-shadow-lg">
-                {ev.artist}
-              </h1>
-            </div>
-          </SwiperSlide>
-        ))}
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
 
-      {/* Flechas personalizadas abajo derecha */}
-      <div className="absolute bottom-4 right-4 flex space-x-4">
-        <button
-          onClick={() => swiperRef.current?.slidePrev()}
-          className="bg-secondary text-white p-3 rounded-full hover:opacity-90 transition-opacity"
-        >
-          <FaArrowLeft className="w-5 h-5" />
-        </button>
-        <button
-          onClick={() => swiperRef.current?.slideNext()}
-          className="bg-secondary text-white p-3 rounded-full hover:opacity-90 transition-opacity"
-        >
-          <FaArrowRight className="w-5 h-5" />
-        </button>
+      {/* Flechas de navegación en desktop/tablet */}
+      <HeroEventsNav swiperRef={swiperRef} />
+
+      {/* Dots de navegación solo en mobile */}
+      <div className="flex sm:hidden justify-center mt-4 space-x-2">
+        {events.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => swiperRef.current?.slideToLoop(idx)}
+            className={`
+              w-2 h-2 rounded-full transition-colors
+              ${activeIndex === idx ? 'bg-white' : 'bg-white/50'}
+            `}
+          />
+        ))}
       </div>
     </section>
   );
