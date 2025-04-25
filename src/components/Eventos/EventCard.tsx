@@ -1,10 +1,11 @@
 // src/components/EventCard.tsx
 import React from 'react';
+import { FaMapMarkerAlt } from 'react-icons/fa';
 
 export interface EventCardProps {
     image: string;
     category: string;
-    date: string;     // "DD MMM YYYY"
+    date: string;     // Ej: "22 Mar 2025"
     title: string;
     location: string;
     city: string;
@@ -12,44 +13,51 @@ export interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({
-    image, category, date, title, location, city, onInfoClick,
+    image,
+    category,
+    date,
+    title,
+    location,
+    city,
+    onInfoClick,
 }) => {
-    const [day, month, year] = date.split(' ');
     return (
-        <div className="relative bg-black rounded-lg overflow-hidden shadow-lg">
-            {/* Imagen + overlay */}
-            <div
-                className="h-64 bg-center bg-cover"
-                style={{ backgroundImage: `url(${image})` }}
-            >
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+        <div className="rounded-2xl overflow-hidden shadow-xl bg-transparent">
+            {/* Imagen con overlay y pill */}
+            <div className="relative">
+                <div
+                    className="h-64 bg-center bg-cover"
+                    style={{ backgroundImage: `url(${image})` }}
+                />
+                {/* Overlay sutil */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                {/* Pill de categoría */}
+                <span className="absolute top-4 right-4 bg-white text-black text-xs font-medium px-3 py-1 rounded-full shadow-sm">
+                    {category}
+                </span>
             </div>
 
-            {/* Pill de categoría */}
-            <span className="absolute top-2 right-2 bg-secondary px-2 py-1 text-xs font-semibold text-white rounded">
-                {category}
-            </span>
-
-            {/* Contenido */}
-            <div className="p-4 flex flex-col space-y-2">
-                <div className="text-secondary font-bold text-sm">
-                    {day} – {month} <span className="block">{year}</span>
-                </div>
-                <h3 className="text-lg font-bold text-white">{title}</h3>
-                <p className="text-sm text-white/80">{location}</p>
-                <p className="text-sm text-white/60 flex items-center">
-                    <svg
-                        className="w-4 h-4 mr-1 text-secondary"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                    >
-                        <path d="M10 2a6 6 0 00-6 6c0 4.5 6 10 6 10s6-5.5 6-10a6 6 0 00-6-6z" />
-                    </svg>
-                    {city}
+            {/* Detalles */}
+            <div className="px-6 py-5 text-center space-y-2">
+                {/* Fecha */}
+                <p className="text-secondary font-semibold text-base">
+                    {date}
                 </p>
+                {/* Título */}
+                <h3 className="text-white text-2xl font-bold">
+                    {title}
+                </h3>
+                {/* Ubicación */}
+                <p className="text-white/70 text-sm">
+                    {location}
+                </p>
+                <p className="flex items-center justify-center text-secondary text-sm">
+                    <FaMapMarkerAlt className="mr-1" /> {city}
+                </p>
+                {/* Botón Más Info */}
                 <button
                     onClick={onInfoClick}
-                    className="mt-2 self-start px-4 py-1 text-sm border border-secondary rounded text-secondary hover:bg-secondary hover:text-primary transition"
+                    className="mt-4 px-6 py-2 border border-secondary text-secondary rounded-full hover:bg-secondary hover:text-primary transition"
                 >
                     Más Info
                 </button>
