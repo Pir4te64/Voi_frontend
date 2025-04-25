@@ -1,18 +1,15 @@
 // src/pages/Home.tsx
 import React from 'react';
-import Navbar from '../../components/navbar/Navbar';
 import HeroEvents from '@/components/heroEvents/HeroEvents';
 import Eventos from '@/components/Eventos/Eventos';
-import Footer from '@/components/Footer/Footer';
+import Layout from '@/Layout';
 
 const Home: React.FC = () => {
   return (
-    <>
-      <Navbar />
+    <Layout>
       <HeroEvents />
       <Eventos />
-      <Footer />
-    </>
+    </Layout>
   );
 };
 

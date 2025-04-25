@@ -3,11 +3,11 @@ import React, { useState, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
-import EventCard, { EventCardProps } from './EventCard';
+import EventCard, { EventCardProps } from '@/components/Eventos/EventCard';
 import sliderImage from '@/assets/SliderEvent/Slider.png';
-import HeaderEvent from './HeaderEvent';
-import GlowWrapper from '../GlowWrapper';
-import EventsNav from './EventsNav';
+import HeaderEvent from '@/components/Eventos/HeaderEvent';
+import GlowWrapper from '@/components/GlowWrapper';
+import EventsNav from '@/components/Eventos/EventsNav';
 
 interface Event extends Omit<EventCardProps, 'onInfoClick'> {
     id: number;

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import logo from '@/assets/logo.svg';
-import MobileMenu from './MobileMenu';
+import MobileMenu from '@/components/navbar/MobileMenu';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

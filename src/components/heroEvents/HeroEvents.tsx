@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import sliderImage from '@/assets/SliderEvent/Slider.png';
-import HeroEventsNav from './HeroEventsNav';
+import HeroEventsNav from '@/components/heroEvents/HeroEventsNav';
 
 interface Event {
   id: number;
