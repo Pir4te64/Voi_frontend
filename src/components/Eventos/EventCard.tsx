@@ -22,29 +22,28 @@ const EventCard: React.FC<EventCardProps> = ({
     onInfoClick,
 }) => {
     return (
-        <div className="rounded-2xl overflow-hidden shadow-xl bg-transparent">
+        <div className="overflow-hidden  bg-transparent max-w-md h-[776px] mx-auto">
             {/* Imagen con overlay y pill */}
-            <div className="relative">
+            <div className="relative rounded-2xl overflow-hidden">
                 <div
-                    className="h-64 bg-center bg-cover"
+                    className="h-[528px] bg-center bg-cover rounded-2xl"
                     style={{ backgroundImage: `url(${image})` }}
                 />
                 {/* Overlay sutil */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 {/* Pill de categoría */}
-                <span className="absolute top-4 right-4 bg-white text-black text-xs font-medium px-3 py-1 rounded-full shadow-sm">
+                <span className="absolute top-4 right-4 bg-white text-black text-xs font-medium px-3 py-1 rounded-md font-semibold shadow-sm">
                     {category}
                 </span>
             </div>
 
             {/* Detalles */}
-            <div className="px-6 py-5 text-center space-y-2">
+            <div className="px-6 py-5 text-center space-y-4">
                 {/* Fecha */}
                 <p className="text-secondary font-semibold text-base">
                     {date}
                 </p>
                 {/* Título */}
-                <h3 className="text-white text-2xl font-bold">
+                <h3 className="text-white text-4xl font-bold">
                     {title}
                 </h3>
                 {/* Ubicación */}
@@ -57,7 +56,7 @@ const EventCard: React.FC<EventCardProps> = ({
                 {/* Botón Más Info */}
                 <button
                     onClick={onInfoClick}
-                    className="mt-4 px-6 py-2 border border-secondary text-secondary rounded-full hover:bg-secondary hover:text-primary transition"
+                    className="mt-4 px-6 py-2 border border-white text-white rounded-full hover:bg-secondary hover:text-primary transition"
                 >
                     Más Info
                 </button>

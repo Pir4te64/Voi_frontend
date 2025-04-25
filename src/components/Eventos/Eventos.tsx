@@ -62,33 +62,46 @@ const EventsSection: React.FC = () => {
 
     return (
         <section className="relative py-12 px-4 md:px-16 bg-primary text-white overflow-hidden">
+            <div
+                className="
+        absolute -top-10 -right-10
+        w-40 h-40
+        bg-secondary rounded-full
+        filter blur-3xl opacity-80
+        pointer-events-none
+      "
+            />
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
                 <div>
-                    <h2 className="text-3xl font-bold">Eventos</h2>
-                    <p className="mt-1 text-sm text-white/70">Categoría</p>
+                    <h2 className="text-5xl font-bold">Eventos</h2>
+                    <p className="my-2 text-xl font-bold text-white">Categoría</p>
                 </div>
-                <button className="mt-4 md:mt-0 px-4 py-2 border border-white rounded hover:bg-white hover:text-primary transition">
-                    Ver Todos
-                </button>
+
             </div>
 
             {/* Filters */}
-            <div className="flex flex-wrap gap-2 mb-8">
-                {categories.map(cat => (
-                    <button
-                        key={cat}
-                        onClick={() => setActiveCat(cat)}
-                        className={`
-              px-3 py-1 text-sm rounded-full transition
+            <div className="flex flex-wrap gap-2 mb-8 justify-between">
+                <div className='space-x-2'>
+                    {categories.map(cat => (
+                        <button
+                            key={cat}
+                            onClick={() => setActiveCat(cat)}
+                            className={`
+              p-2 text-md rounded-2xl transition
               ${activeCat === cat
-                                ? 'bg-secondary text-primary'
-                                : 'bg-white/20 text-white hover:bg-white/30'}
+                                    ? 'bg-secondary text-primary'
+                                    : 'bg-back text-white hover:bg-white/30 '}
             `}
-                    >
-                        {cat}
-                    </button>
-                ))}
+                        >
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+
+                <button className="mt-4 md:mt-0 px-4 py-2 border border-white rounded hover:bg-white hover:text-primary transition">
+                    Ver Todos
+                </button>
             </div>
 
             {/* Swiper Carousel */}
@@ -136,6 +149,15 @@ const EventsSection: React.FC = () => {
                     <FaArrowRight className="w-5 h-5" />
                 </button>
             </div>
+            <div
+                className="
+        absolute -bottom-10 -left-10
+        w-40 h-40
+        bg-secondary rounded-full
+        filter blur-3xl opacity-80
+        pointer-events-none
+      "
+            />
         </section>
     );
 };
