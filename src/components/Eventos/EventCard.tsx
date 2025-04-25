@@ -22,16 +22,15 @@ const EventCard: React.FC<EventCardProps> = ({
     onInfoClick,
 }) => {
     return (
-        <div className="overflow-hidden  bg-transparent max-w-md h-[776px] mx-auto">
+        <div className="overflow-hidden  bg-transparent max-w-xl h-[776px] mx-auto">
             {/* Imagen con overlay y pill */}
             <div className="relative rounded-2xl overflow-hidden">
                 <div
                     className="h-[528px] bg-center bg-cover rounded-2xl"
                     style={{ backgroundImage: `url(${image})` }}
                 />
-                {/* Overlay sutil */}
                 {/* Pill de categoría */}
-                <span className="absolute top-4 right-4 bg-white text-black text-xs font-medium px-3 py-1 rounded-md font-semibold shadow-sm">
+                <span className="absolute top-4 right-4 bg-white text-black text-xs  px-3 py-1 rounded-md font-semibold shadow-sm">
                     {category}
                 </span>
             </div>

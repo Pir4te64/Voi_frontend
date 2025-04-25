@@ -2,12 +2,12 @@
 import React from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
-interface HeroEventsNavProps {
+interface EventsNavProps {
     swiperRef: React.RefObject<any>;
 }
 
-const HeroEventsNav: React.FC<HeroEventsNavProps> = ({ swiperRef }) => (
-    <div className="absolute hidden sm:flex right-4 bottom-4 lg:bottom-4 space-x-4 z-50">
+const EventsNav: React.FC<EventsNavProps> = ({ swiperRef }) => (
+    <div className="absolute hidden sm:flex right-4 bottom-4 lg:bottom-0 space-x-4 z-50">
         <button
             onClick={() => swiperRef.current?.slidePrev()}
             className="bg-transparent text-secondary border border-secondary p-3 rounded-full hover:opacity-90 transition-opacity"
@@ -23,4 +23,4 @@ const HeroEventsNav: React.FC<HeroEventsNavProps> = ({ swiperRef }) => (
     </div>
 );
 
-export default HeroEventsNav;
+export default EventsNav;
