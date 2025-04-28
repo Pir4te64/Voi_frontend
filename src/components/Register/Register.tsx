@@ -14,7 +14,7 @@ const Register = () => {
         <img
           src={logoGrande}
           alt="Logo Grande"
-          className="w-[32rem] h-auto mb-4"
+          className="w-[36rem] h-auto mb-4"
         />
       </div>
 
@@ -31,37 +31,45 @@ const Register = () => {
 
         {/* Form container */}
         <form className="w-full max-w-xl bg-primary bg-opacity-80 p-6 rounded-lg">
-          <h2 className="text-5xl font-bold mb-6 text-secondary text-center">Hey! Venís?</h2>
+          <h2 className="text-5xl font-bold mb-6 text-secondary text-center">
+            Hey! Venís?
+          </h2>
 
-          <label className="block mb-4">
-            <span className="text-sm">Email*</span>
+          {/* Email with fixed floating label */}
+          <div className="relative mb-4">
+            <span className="absolute left-4 top-2 text-sm text-gray-400">
+              Email*
+            </span>
             <input
+              id="email"
               type="email"
-              placeholder="tu@email.com"
-              className="mt-1 block w-full px-4 py-2 bg-back border border-gray-600 rounded-xl focus:outline-none"
+              placeholder=""
+              className="w-full px-4 pt-6 pb-2 bg-gray-700 border border-gray-600 rounded-xl focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary"
             />
-          </label>
+          </div>
 
-          <label className="block mb-4">
-            <span className="text-sm">Contraseña*</span>
-            <div className="relative mt-1">
-              <input
-                type={showPassword ? 'text' : 'password'}
-                placeholder="********"
-                className="block w-full px-4 py-2 bg-back border border-gray-600 rounded-xl focus:outline-none"
-              />
-              <span
-                className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-400 hover:text-gray-200"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>
-            </div>
-          </label>
+          {/* Password with fixed floating label */}
+          <div className="relative mb-6">
+            <span className="absolute left-4 -top-3 bg-back text-sm text-gray-400">
+              Contraseña*
+            </span>
+            <input
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder=""
+              className="w-full px-4 pt-6 pb-2 bg-gray-700 border border-gray-600 rounded-xl focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary"
+            />
+            <span
+              className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-400 hover:text-gray-200"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
+          </div>
 
           <label className="block mb-6">
             <span className="text-sm">Ingreso como*</span>
-            <select className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none">
+            <select className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary">
               <option>Productora</option>
               <option>Consumidor</option>
             </select>
