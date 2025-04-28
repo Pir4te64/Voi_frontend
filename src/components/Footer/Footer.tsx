@@ -7,12 +7,12 @@ const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-primary text-white flex flex-col justify-between">
+        <footer className="bg-primary text-white flex flex-col justify-between md:h-auto ">
             {/* Barra superior */}
             <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center md:justify-between space-y-6 md:space-y-0">
                 {/* Logo */}
                 <div className="flex justify-center md:justify-start flex-1">
-                    <img src={logo} alt="VOI Logo" className="h-16 md:h-20" />
+                    <img src={logo} alt="VOI Logo" className="h-16 md:h-16 object-cover" />
                 </div>
 
                 {/* Enlaces de utilidad */}
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
                         <FaInstagram className="w-6 h-6" />
                     </a>
                     <a
-                        href="https://wa.me/whatsapplink"
+                        href="https://api.whatsapp.com/send?phone=+3765484773&text=Te%20comunicaste%20con%20VOI.%F0%9F%8E%9F%EF%B8%8F%20%0ADejanos%20tu%20consulta%20y%20te%20responderemos%20en%20breve."
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="WhatsApp"
