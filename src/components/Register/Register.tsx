@@ -1,5 +1,4 @@
-import React from 'react'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa'
 import logoGrande from "@/assets/LogoGrande.svg"
 import logoPequeno from "@/assets/Logo.svg"
 import { useState } from 'react'
@@ -7,6 +6,7 @@ import { Link } from 'react-router-dom'
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
+
   return (
     <div className="min-h-screen flex bg-primary text-white">
       {/* Left: Large logo section */}
@@ -19,7 +19,7 @@ const Register = () => {
       </div>
 
       {/* Right: Form section */}
-      <div className="w-1/2 relative flex items-center justify-center p-8">
+      <div className="w-1/2 relative flex items-center justify-center p-8 space-y-5">
         {/* Small logo top-right with link */}
         <Link to="/">
           <img
@@ -35,29 +35,45 @@ const Register = () => {
             Hey! Venís?
           </h2>
 
-          {/* Email with fixed floating label */}
-          <div className="relative mb-4">
-            <span className="absolute left-4 top-2 text-sm text-gray-400">
+          {/* Email */}
+          <div className="mb-4 group">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium mb-1 text-gray-400 group-focus-within:text-secondary transition-colors"
+            >
               Email*
-            </span>
+            </label>
             <input
               id="email"
               type="email"
-              placeholder=""
-              className="w-full px-4 pt-6 pb-2 bg-gray-700 border border-gray-600 rounded-xl focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary"
+              className="
+                block w-full px-4 py-3
+                bg-gray-700 border border-gray-600 rounded-xl
+                focus:outline-none
+                focus:border-secondary focus:ring-1 focus:ring-secondary
+                transition-colors
+              "
             />
           </div>
 
-          {/* Password with fixed floating label */}
-          <div className="relative mb-6">
-            <span className="absolute left-4 -top-3 bg-back text-sm text-gray-400">
+          {/* Contraseña */}
+          <div className="mb-6 relative group">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium mb-1 text-gray-400 group-focus-within:text-secondary transition-colors"
+            >
               Contraseña*
-            </span>
+            </label>
             <input
               id="password"
               type={showPassword ? 'text' : 'password'}
-              placeholder=""
-              className="w-full px-4 pt-6 pb-2 bg-gray-700 border border-gray-600 rounded-xl focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary"
+              className="
+                block w-full px-4 py-3
+                bg-gray-700 border border-gray-600 rounded-xl
+                focus:outline-none
+                focus:border-secondary focus:ring-1 focus:ring-secondary
+                transition-colors
+              "
             />
             <span
               className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-400 hover:text-gray-200"
@@ -67,9 +83,10 @@ const Register = () => {
             </span>
           </div>
 
+          {/* Ingreso como */}
           <label className="block mb-6">
             <span className="text-sm">Ingreso como*</span>
-            <select className="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary">
+            <select className="mt-1 block w-full px-4 py-4 bg-gray-700 border border-gray-600 rounded-xl focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary">
               <option>Productora</option>
               <option>Consumidor</option>
             </select>
@@ -77,24 +94,33 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full py-2 mb-4 bg-secondary rounded-xl hover:bg-secondary/80 transition"
+            className="w-full py-4 mb-4 bg-secondary rounded-xl hover:bg-secondary/80 transition"
           >
             Iniciar Sesión
           </button>
-
-          <div className="text-center mb-4">
+          <div className="text-center mt-6">
             ¿No tenés una cuenta?{' '}
-            <a href="/register" className="text-secondary underline">
+            <Link to="/register" className="text-secondary underline font-bold">
               Registrate
-            </a>
+            </Link>
+          </div>
+          {/* Separador con "o" */}
+          <div className="flex items-center my-6">
+            <hr className="flex-grow border-gray-600" />
+            <span className="px-2 ">o</span>
+            <hr className="flex-grow border-gray-600" />
           </div>
 
+          {/* Continuar con Google */}
           <button
             type="button"
-            className="w-full py-2 border border-gray-600 rounded-xl flex items-center justify-center hover:bg-gray-700 transition"
+            className="w-full py-4 border border-gray-600 rounded-xl flex items-center justify-center hover:bg-gray-700 transition"
           >
-            <span className="mr-2">G</span>Continuar con Google
+            <FaGoogle className="mr-2 text-xl" />
+            Continuar con Google
           </button>
+
+
         </form>
       </div>
     </div>
