@@ -8,26 +8,50 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <div className="min-h-screen flex bg-primary text-white">
+    <div className="min-h-screen flex overflow-hidden bg-primary text-white">
       {/* Left: Large logo section */}
-      <div className="w-1/2 flex flex-col items-center justify-center p-8">
+      <div className="w-1/2 flex flex-col items-center justify-center p-8 relative">
+        {/* Glow bajo el logo grande */}
+        <span
+          className="
+           absolute bottom-0 left-56
+        w-80 h-80
+        bg-secondary rounded-full
+        filter blur-3xl opacity-80
+        pointer-events-none
+          "
+        />
         <img
           src={logoGrande}
           alt="Logo Grande"
-          className="w-[36rem] h-auto mb-4"
+          className="w-[36rem] h-auto mb-4 relative z-10"
         />
       </div>
 
       {/* Right: Form section */}
       <div className="w-1/2 relative flex items-center justify-center p-8 space-y-5">
         {/* Small logo top-right with link */}
-        <Link to="/">
-          <img
-            src={logoPequeno}
-            alt="Logo Pequeño"
-            className="absolute top-4 right-4 w-16 h-auto cursor-pointer"
-          />
-        </Link>
+        <div className="absolute top-4 right-4">
+          <div className="relative w-16 h-16">
+            {/* Glow detrás */}
+            <span
+              className="
+                 absolute -top-10 -right-10
+        w-52 h-52
+        bg-secondary rounded-full
+        filter blur-3xl opacity-80
+        pointer-events-none
+              "
+            />
+            <Link to="/">
+              <img
+                src={logoPequeno}
+                alt="Logo Pequeño"
+                className="w-16 h-auto cursor-pointer relative z-10"
+              />
+            </Link>
+          </div>
+        </div>
 
         {/* Form container */}
         <form className="w-full max-w-xl bg-primary bg-opacity-80 p-6 rounded-lg">
