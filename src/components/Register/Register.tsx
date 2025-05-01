@@ -1,4 +1,4 @@
-import { FaEye, FaEyeSlash, FaGoogle } from 'react-icons/fa'
+import { FaEye, FaEyeSlash, FaGoogle, FaArrowLeft } from 'react-icons/fa'
 import logoGrande from "@/assets/LogoGrande.svg"
 import logoPequeno from "@/assets/Logo.svg"
 import { useState } from 'react'
@@ -14,11 +14,11 @@ const Register = () => {
         {/* Glow bajo el logo grande */}
         <span
           className="
-           absolute bottom-0 left-56
-        w-80 h-80
-        bg-secondary rounded-full
-        filter blur-3xl opacity-80
-        pointer-events-none
+            absolute -bottom-10 left-56
+            w-80 h-52
+            bg-secondary rounded-full
+            filter blur-3xl opacity-80
+            pointer-events-none
           "
         />
         <img
@@ -30,17 +30,16 @@ const Register = () => {
 
       {/* Right: Form section */}
       <div className="w-1/2 relative flex items-center justify-center p-8 space-y-5">
-        {/* Small logo top-right with link */}
+        {/* Small logo top-right with glow */}
         <div className="absolute top-4 right-4">
           <div className="relative w-16 h-16">
-            {/* Glow detrás */}
             <span
               className="
-                 absolute -top-10 -right-10
-        w-52 h-52
-        bg-secondary rounded-full
-        filter blur-3xl opacity-80
-        pointer-events-none
+                absolute -top-10 -right-10
+                w-52 h-52
+                bg-secondary rounded-full
+                filter blur-3xl opacity-80
+                pointer-events-none
               "
             />
             <Link to="/">
@@ -54,7 +53,22 @@ const Register = () => {
         </div>
 
         {/* Form container */}
-        <form className="w-full max-w-xl bg-primary bg-opacity-80 p-6 rounded-lg">
+        <form className="w-full max-w-xl  bg-opacity-80 p-6 rounded-lg relative">
+          {/* Back button above the heading */}
+          <Link
+            to="/"
+            className="
+              absolute -top-36 left-6
+              w-10 h-10
+              border border-white rounded-full
+              flex items-center justify-center
+              text-white hover:bg-white/10
+              transition
+            "
+          >
+            <FaArrowLeft />
+          </Link>
+
           <h2 className="text-5xl font-bold mb-6 text-secondary text-center">
             Hey! Venís?
           </h2>
@@ -63,7 +77,10 @@ const Register = () => {
           <div className="mb-4 group">
             <label
               htmlFor="email"
-              className="block text-sm font-medium mb-1 text-gray-400 group-focus-within:text-secondary transition-colors"
+              className="
+                block text-sm font-medium mb-1 text-gray-400
+                group-focus-within:text-secondary transition-colors
+              "
             >
               Email*
             </label>
@@ -84,7 +101,10 @@ const Register = () => {
           <div className="mb-6 relative group">
             <label
               htmlFor="password"
-              className="block text-sm font-medium mb-1 text-gray-400 group-focus-within:text-secondary transition-colors"
+              className="
+                block text-sm font-medium mb-1 text-gray-400
+                group-focus-within:text-secondary transition-colors
+              "
             >
               Contraseña*
             </label>
@@ -100,7 +120,10 @@ const Register = () => {
               "
             />
             <span
-              className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-400 hover:text-gray-200"
+              className="
+                absolute inset-y-0 right-3 top-6 flex items-center
+                cursor-pointer text-xl text-gray-400 hover:text-gray-200
+              "
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -110,7 +133,13 @@ const Register = () => {
           {/* Ingreso como */}
           <label className="block mb-6">
             <span className="text-sm">Ingreso como*</span>
-            <select className="mt-1 block w-full px-4 py-4 bg-gray-700 border border-gray-600 rounded-xl focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary">
+            <select
+              className="
+                mt-1 block w-full px-4 py-4
+                bg-gray-700 border border-gray-600 rounded-xl
+                focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary
+              "
+            >
               <option>Productora</option>
               <option>Consumidor</option>
             </select>
@@ -118,33 +147,42 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full py-4 mb-4 bg-secondary rounded-xl hover:bg-secondary/80 transition"
+            className="
+              w-full py-4 mb-4
+              bg-secondary rounded-xl hover:bg-secondary/80
+              transition
+            "
           >
             Iniciar Sesión
           </button>
+
+          {/* ¿No tenés una cuenta? */}
           <div className="text-center mt-6">
             ¿No tenés una cuenta?{' '}
             <Link to="/register" className="text-secondary underline font-bold">
               Registrate
             </Link>
           </div>
+
           {/* Separador con "o" */}
           <div className="flex items-center my-6">
             <hr className="flex-grow border-gray-600" />
-            <span className="px-2 ">o</span>
+            <span className="px-2 text-gray-400">o</span>
             <hr className="flex-grow border-gray-600" />
           </div>
 
           {/* Continuar con Google */}
           <button
             type="button"
-            className="w-full py-4 border border-gray-600 rounded-xl flex items-center justify-center hover:bg-gray-700 transition"
+            className="
+              w-full py-4 border border-gray-600 rounded-xl
+              flex items-center justify-center
+              hover:bg-gray-700 transition
+            "
           >
             <FaGoogle className="mr-2 text-xl" />
             Continuar con Google
           </button>
-
-
         </form>
       </div>
     </div>
