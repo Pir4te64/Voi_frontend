@@ -52,7 +52,7 @@ const QuienesSomos = () => {
                         <h2 id="qs-title" className="text-4xl sm:text-6xl font-bold mb-4 text-white">
                             ¿QUIÉNES SOMOS?
                         </h2>
-                        <p className="text-base sm:text-lg leading-relaxed text-white">
+                        <p className="text-base font-bold sm:text-lg leading-relaxed text-white">
                             Somos una plataforma de ticketing diseñada para ofrecer soluciones
                             rápidas, seguras y eficientes para la gestión de eventos de música
                             electrónica, fiestas y eventos sociales.
