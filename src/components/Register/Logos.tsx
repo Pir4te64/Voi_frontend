@@ -2,7 +2,7 @@ import logoGrande from "@/assets/LogoGrande.svg"
 
 const Logos = () => {
     return (
-        <div className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-8 relative overflow-hidden  md:mt-0">
+        <div className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-8 relative overflow-hidden py-16 md:py-0  md:mt-0">
             {/* Glow bajo el logo grande:
                 - Mobile: bottom-right (visible solo mitad para desktop/tablet)
                 - Tablet+ (md): centered bajo la imagen y recortado por overflow */}
