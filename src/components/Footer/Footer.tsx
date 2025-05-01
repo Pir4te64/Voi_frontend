@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-primary text-white flex flex-col justify-between md:h-auto ">
+        <footer className="bg-primary text-white flex flex-col justify-between md:h-auto z-50">
             {/* Barra superior */}
             <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center md:justify-between space-y-6 md:space-y-0">
                 {/* Logo */}

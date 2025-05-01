@@ -57,10 +57,10 @@ const Faqs = () => {
         setOpenIndex(openIndex === idx ? null : idx);
 
     return (
-        <section className="relative bg-primary py-12 px-4 overflow-visible">
+        <section className="relative bg-primary py-12 px-4 overflow-hidden">
             {/* Glow superior derecho */}
             <div
-                className="absolute top-0 right-0 w-80 h-80 rounded-full filter blur-3xl opacity-30 
+                className="absolute top-0 right-52 w-80 h-80 rounded-full filter blur-3xl opacity-80 
                      bg-gradient-to-tr from-secondary to-secondary 
                      transform translate-x-1/3 -translate-y-1/3"
             />
@@ -71,7 +71,7 @@ const Faqs = () => {
                      transform translate-x-1/4 translate-y-1/4 z-0"
             />
 
-            <div className="relative  mx-auto rounded-lg shadow-lg p-6">
+            <div className="relative  mx-auto rounded-lg  p-6">
                 <h2 className="text-3xl font-bold text-white text-left mb-8">
                     PREGUNTAS FRECUENTES ¿?
                 </h2>
@@ -86,7 +86,7 @@ const Faqs = () => {
                                     className="w-full flex justify-between items-center bg-back rounded-t-md px-4 py-3 focus:outline-none"
                                 >
                                     <span
-                                        className={`font-medium text-left ${isOpen ? "text-secondary" : "text-white"
+                                        className={`font-bold text-left ${isOpen ? "text-secondary" : "text-white"
                                             }`}
                                     >
                                         {item.question}
