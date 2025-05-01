@@ -8,122 +8,104 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <div className="min-h-screen flex overflow-hidden bg-primary text-white">
-      {/* Left: Large logo section */}
-      <div className="w-1/2 flex flex-col items-center justify-center p-8 relative">
-        {/* Glow bajo el logo grande */}
+    <div className="min-h-screen flex flex-col-reverse md:flex-row overflow-hidden bg-primary text-white">
+      {/* Logo grande: debajo del form en mobile (con mt), a la izquierda en desktop */}
+      <div className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-8 relative mt-8 md:mt-0">
+        {/* Glow bajo el logo grande: siempre visible, en el borde inferior */}
         <span
           className="
-            absolute -bottom-10 left-56
-            w-80 h-52
+            absolute bottom-0 left-1/2 transform -translate-x-1/2
+            w-48 h-32      /* tamaño glow mobile */
+            md:w-80 md:h-80 /* tamaño glow desktop */
             bg-secondary rounded-full
-            filter blur-3xl opacity-80
+            filter blur-2xl opacity-80
             pointer-events-none
           "
         />
         <img
           src={logoGrande}
           alt="Logo Grande"
-          className="w-[36rem] h-auto mb-4 relative z-10"
+          className="
+            w-40             /* más pequeño en mobile */
+            md:w-3/4    /* full width en desktop */
+            h-auto relative z-10
+          "
         />
       </div>
 
-      {/* Right: Form section */}
-      <div className="w-1/2 relative flex items-center justify-center p-8 space-y-5">
-        {/* Small logo top-right with glow */}
-        <div className="absolute top-4 right-4">
-          <div className="relative w-16 h-16">
+      {/* Formulario */}
+      <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-6 md:p-8 relative">
+        {/* Logo pequeño top-right */}
+        <div className="absolute top-0 right-4">
+          <Link to="/" className="relative w-8 h-8 md:w-16 md:h-16">
+            {/* Glow detrás: ahora visible en mobile y desktop */}
             <span
               className="
-                absolute -top-10 -right-10
-                w-52 h-52
+                absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4
+                w-32 h-32           /* glow mobile */
+                md:w-52 md:h-52      /* glow desktop */
                 bg-secondary rounded-full
-                filter blur-3xl opacity-80
+                filter blur-xl md:blur-2xl opacity-80
                 pointer-events-none
               "
             />
-            <Link to="/">
-              <img
-                src={logoPequeno}
-                alt="Logo Pequeño"
-                className="w-16 h-auto cursor-pointer relative z-10"
-              />
-            </Link>
-          </div>
+            <img
+              src={logoPequeno}
+              alt="Logo Pequeño"
+              className="w-full  cursor-pointer relative object-cover z-10"
+            />
+          </Link>
         </div>
 
-        {/* Form container */}
-        <form className="w-full max-w-xl  bg-opacity-80 p-6 rounded-lg relative">
-          {/* Back button above the heading */}
+        <form className="w-full max-w-md lg:max-w-xl bg-opacity-80 p-4 md:p-6 rounded-lg relative space-y-4">
+          {/* Back button */}
           <Link
             to="/"
             className="
-              absolute -top-36 left-6
-              w-10 h-10
+              absolute -top-5 md:-top-10 lg:-top-40 left-4 md:left-6 lg:left-8
+              w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12
               border border-white rounded-full
               flex items-center justify-center
-              text-white hover:bg-white/10
-              transition
+              text-white hover:bg-white/10 transition
             "
           >
-            <FaArrowLeft />
+            <FaArrowLeft className="text-lg md:text-xl lg:text-2xl" />
           </Link>
 
-          <h2 className="text-5xl font-bold mb-6 text-secondary text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-secondary text-center">
             Hey! Venís?
           </h2>
 
           {/* Email */}
-          <div className="mb-4 group">
+          <div className="group">
             <label
               htmlFor="email"
-              className="
-                block text-sm font-medium mb-1 text-gray-400
-                group-focus-within:text-secondary transition-colors
-              "
+              className="block text-sm font-medium mb-2  group-focus-within:text-secondary transition-colors"
             >
               Email*
             </label>
             <input
               id="email"
               type="email"
-              className="
-                block w-full px-4 py-3
-                bg-gray-700 border border-gray-600 rounded-xl
-                focus:outline-none
-                focus:border-secondary focus:ring-1 focus:ring-secondary
-                transition-colors
-              "
+              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors"
             />
           </div>
 
           {/* Contraseña */}
-          <div className="mb-6 relative group">
+          <div className="relative group">
             <label
               htmlFor="password"
-              className="
-                block text-sm font-medium mb-1 text-gray-400
-                group-focus-within:text-secondary transition-colors
-              "
+              className="block text-sm font-medium mb-2  group-focus-within:text-secondary transition-colors"
             >
               Contraseña*
             </label>
             <input
               id="password"
               type={showPassword ? 'text' : 'password'}
-              className="
-                block w-full px-4 py-3
-                bg-gray-700 border border-gray-600 rounded-xl
-                focus:outline-none
-                focus:border-secondary focus:ring-1 focus:ring-secondary
-                transition-colors
-              "
+              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary transition-colors"
             />
             <span
-              className="
-                absolute inset-y-0 right-3 top-6 flex items-center
-                cursor-pointer text-xl text-gray-400 hover:text-gray-200
-              "
+              className="absolute inset-y-0 right-3 top-5 flex items-center text-xl cursor-pointer text-gray-400 hover:text-gray-200"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
@@ -131,41 +113,36 @@ const Register = () => {
           </div>
 
           {/* Ingreso como */}
-          <label className="block mb-6">
-            <span className="text-sm">Ingreso como*</span>
+          <div>
+            <label htmlFor="role" className="block text-sm font-medium mb-2">
+              Ingreso como*
+            </label>
             <select
-              className="
-                mt-1 block w-full px-4 py-4
-                bg-gray-700 border border-gray-600 rounded-xl
-                focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary
-              "
+              id="role"
+              className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary"
             >
               <option>Productora</option>
               <option>Consumidor</option>
             </select>
-          </label>
+          </div>
 
+          {/* Botón Iniciar */}
           <button
             type="submit"
-            className="
-              w-full py-4 mb-4
-              bg-secondary rounded-xl hover:bg-secondary/80
-              transition
-            "
+            className="w-full py-3 md:py-5 bg-secondary rounded-xl hover:bg-secondary/80 transition"
           >
             Iniciar Sesión
           </button>
 
-          {/* ¿No tenés una cuenta? */}
-          <div className="text-center mt-6">
-            ¿No tenés una cuenta?{' '}
+          {/* ¿No tenés cuenta? */}
+          <div className="text-center">
             <Link to="/register" className="text-secondary underline font-bold">
-              Registrate
+              ¿No tenés una cuenta? Registrate
             </Link>
           </div>
 
           {/* Separador con "o" */}
-          <div className="flex items-center my-6">
+          <div className="flex items-center">
             <hr className="flex-grow border-gray-600" />
             <span className="px-2 text-gray-400">o</span>
             <hr className="flex-grow border-gray-600" />
@@ -174,11 +151,7 @@ const Register = () => {
           {/* Continuar con Google */}
           <button
             type="button"
-            className="
-              w-full py-4 border border-gray-600 rounded-xl
-              flex items-center justify-center
-              hover:bg-gray-700 transition
-            "
+            className="w-full py-3 md:py-4 border border-gray-600 rounded-xl flex items-center justify-center hover:bg-gray-700 transition"
           >
             <FaGoogle className="mr-2 text-xl" />
             Continuar con Google
