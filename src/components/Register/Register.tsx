@@ -3,8 +3,8 @@ import logoPequeno from "@/assets/Logo.svg";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Logos from "../LoginUser/Logos";
-import Separador from "../LoginUser/Separador";
+import Logos from "@/components/LoginUser/Logos";
+import Separador from "@/components/LoginUser/Separador";
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);

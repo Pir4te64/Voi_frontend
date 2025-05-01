@@ -1,8 +1,9 @@
 // src/App.tsx
 import { Routes, Route } from 'react-router-dom';
 import Home from '@/pages/Home/Home';
-import LoginPage from './pages/Login/Login';
-import RegisterPage from './pages/Register/Register';
+import LoginPage from '@/pages/Login/Login';
+import RegisterPage from '@/pages/Register/Register';
+import FaqPage from '@/pages/Faq/Faq';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/faq" element={<FaqPage />} />
       </Routes>
     </div>
   );
