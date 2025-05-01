@@ -1,8 +1,10 @@
 import { FaEye, FaEyeSlash, FaGoogle, FaArrowLeft } from 'react-icons/fa'
-import logoGrande from "@/assets/LogoGrande.svg"
 import logoPequeno from "@/assets/Logo.svg"
+
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Separador from './Separador'
+import Logos from './Logos'
 
 const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -10,66 +12,44 @@ const Register = () => {
   return (
     <div className="min-h-screen flex flex-col-reverse md:flex-row overflow-hidden bg-primary text-white">
       {/* Logo grande: debajo del form en mobile (con mt), a la izquierda en desktop */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-6 md:p-8 relative mt-8 md:mt-0">
-        {/* Glow bajo el logo grande: siempre visible, en el borde inferior */}
-        <span
-          className="
-            absolute bottom-0 left-1/2 transform -translate-x-1/2
-            w-48 h-32      /* tamaño glow mobile */
-            md:w-80 md:h-80 /* tamaño glow desktop */
-            bg-secondary rounded-full
-            filter blur-2xl opacity-80
-            pointer-events-none
-          "
-        />
-        <img
-          src={logoGrande}
-          alt="Logo Grande"
-          className="
-            w-40             /* más pequeño en mobile */
-            md:w-3/4    /* full width en desktop */
-            h-auto relative z-10
-          "
-        />
-      </div>
-
+      <Logos />
       {/* Formulario */}
       <div className="w-full md:w-1/2 flex flex-col items-center justify-center p-6 md:p-8 relative">
         {/* Logo pequeño top-right */}
-        <div className="absolute top-0 right-4">
+        <div className="absolute top-4 right-4">
           <Link to="/" className="relative w-8 h-8 md:w-16 md:h-16">
-            {/* Glow detrás: ahora visible en mobile y desktop */}
+            {/* Glow detrás: visible en all breakpoints */}
             <span
               className="
                 absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4
-                w-32 h-32           /* glow mobile */
-                md:w-52 md:h-52      /* glow desktop */
+                w-32 h-32
+                md:w-52 md:h-52
                 bg-secondary rounded-full
-                filter blur-xl md:blur-2xl opacity-80
+                filter blur-3xl md:blur-3xl opacity-80
                 pointer-events-none
               "
             />
             <img
               src={logoPequeno}
               alt="Logo Pequeño"
-              className="w-full  cursor-pointer relative object-cover z-10"
+              className="w-full cursor-pointer relative z-10 object-cover"
             />
           </Link>
         </div>
 
-        <form className="w-full max-w-md lg:max-w-xl bg-opacity-80 p-4 md:p-6 rounded-lg relative space-y-4">
+        <form className="w-full max-w-md lg:max-w-xl bg-opacity-80 p-4 md:p-6 mt-6 md:mt-0 rounded-lg relative space-y-6">
           {/* Back button */}
           <Link
             to="/"
             className="
-              absolute -top-5 md:-top-10 lg:-top-40 left-4 md:left-6 lg:left-8
-              w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12
+              absolute -top-5 md:-top-64 lg:-top-28 left-4 md:left-6 lg:left-8
+              w-8 h-8 md:w-10 md:h-10 lg:w-8 lg:h-8
               border border-white rounded-full
               flex items-center justify-center
               text-white hover:bg-white/10 transition
             "
           >
-            <FaArrowLeft className="text-lg md:text-xl lg:text-2xl" />
+            <FaArrowLeft className="text-lg md:text-xl lg:text-xl" />
           </Link>
 
           <h2 className="text-3xl md:text-5xl font-bold text-secondary text-center">
@@ -129,24 +109,20 @@ const Register = () => {
           {/* Botón Iniciar */}
           <button
             type="submit"
-            className="w-full py-3 md:py-5 bg-secondary rounded-xl hover:bg-secondary/80 transition"
+            className="w-full py-3 md:py-3 bg-secondary rounded-xl hover:bg-secondary/80 transition"
           >
             Iniciar Sesión
           </button>
 
           {/* ¿No tenés cuenta? */}
           <div className="text-center">
-            <Link to="/register" className="text-secondary underline font-bold">
-              ¿No tenés una cuenta? Registrate
+            <Link to="/register" className="">
+              ¿No tenés una cuenta? <strong className='underline text-secondary'>Registrate</strong>
             </Link>
           </div>
 
           {/* Separador con "o" */}
-          <div className="flex items-center">
-            <hr className="flex-grow border-gray-600" />
-            <span className="px-2 text-gray-400">o</span>
-            <hr className="flex-grow border-gray-600" />
-          </div>
+          <Separador />
 
           {/* Continuar con Google */}
           <button
