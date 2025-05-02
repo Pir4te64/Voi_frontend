@@ -19,18 +19,18 @@ const navItems = [
         label: "Crear Evento",
         Icon: FaCalendarPlus,
         children: [
-            { to: "/dashboard/modify-evento", label: "Modificar Evento", Icon: FaRegDotCircle },
-            { to: "/dashboard/crear-lote", label: "Crear Lote", Icon: FaRegDotCircle },
+            { to: "/dashboard/modificarevento", label: "Modificar Evento", Icon: FaRegDotCircle },
+            { to: "/dashboard/gestionarlotes", label: "Crear Lote", Icon: FaRegDotCircle },
         ],
     },
     {
-        to: "/dashboard/mis-ventas",
+        to: "/dashboard/misventas",
         label: "Mis Ventas",
         Icon: FaWallet,
         children: [
-            { to: "/dashboard/ventas/web", label: "Web", Icon: FaRegDotCircle },
-            { to: "/dashboard/ventas/revendedores", label: "Revendedores", Icon: FaRegDotCircle },
-            { to: "/dashboard/ventas/lote", label: "Lote", Icon: FaRegDotCircle },
+            { to: "/dashboard/misventas/web", label: "Web", Icon: FaRegDotCircle },
+            { to: "/dashboard/misventas/revendedores", label: "Revendedores", Icon: FaRegDotCircle },
+            { to: "/dashboard/misventas/lote", label: "Lote", Icon: FaRegDotCircle },
         ],
     },
     {
