@@ -1,7 +1,7 @@
 
 const CrearPerfil = () => {
     return (
-        <div>CrearPerfil</div>
+        <div className="bg-back">CrearPerfil</div>
     )
 }
 
