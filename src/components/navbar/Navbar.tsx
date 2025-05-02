@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBars, FaTimes } from 'react-icons/fa';
-import logo from '@/assets/logo.svg';
+import logo from '@/assets/Logo.svg';
 import MobileMenu from '@/components/navbar/MobileMenu';
 
 const Navbar: React.FC = () => {
