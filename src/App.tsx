@@ -10,20 +10,20 @@ import DashboardLayout from "@/pages/Dashboard/DashboardLayout";
 import Index from "@/pages/Dashboard/Index";
 import CrearPerfil from "@/components/Dashboard/CrearPerfil/CrearPerfil";
 import Miperfil from "@/components/Dashboard/Sidebar/MiPerfil/Miperfil";
-import CrearEventos from "./components/Dashboard/GestionEventos/CrearEventos";
-import ModificarEventos from "./components/Dashboard/GestionEventos/ModificarEventos";
-import GestionarLotes from "./components/Dashboard/GestionEventos/GestionarLotes";
-import { MisVentas } from "./components/Dashboard/Misventas/MisVentas";
-import Web from "./components/Dashboard/Misventas/Web";
-import Revendedores from "./components/Dashboard/Misventas/Revendedores";
-import Lote from "./components/Dashboard/Misventas/Lote";
-import RevendedoresR from "./components/Dashboard/Revendedores/RevendedoresR";
-import RevenededoresEventos from "./components/Dashboard/Revendedores/RevenededoresEventos";
-import AgregarRevendedor from "./components/Dashboard/Revendedores/AgregarRevendedor";
-import RevendedorPerfiles from "./components/Dashboard/Revendedores/RevendedorPerfiles";
-import RevendedoresLotes from "./components/Dashboard/Revendedores/RevendedoresLotes";
-import AgregarComision from "./components/Dashboard/Revendedores/AgregarComision";
-import ErrorNotFound from "./pages/404";
+import CrearEventos from "@/components/Dashboard/GestionEventos/CrearEventos";
+import ModificarEventos from "@/components/Dashboard/GestionEventos/ModificarEventos";
+import GestionarLotes from "@/components/Dashboard/GestionEventos/GestionarLotes";
+import { MisVentas } from "@/components/Dashboard/Misventas/MisVentas";
+import Web from "@/components/Dashboard/Misventas/Web";
+import Revendedores from "@/components/Dashboard/Misventas/Revendedores";
+import Lote from "@/components/Dashboard/Misventas/Lote";
+import RevendedoresR from "@/components/Dashboard/Revendedores/RevendedoresR";
+import RevenededoresEventos from "@/components/Dashboard/Revendedores/RevenededoresEventos";
+import AgregarRevendedor from "@/components/Dashboard/Revendedores/AgregarRevendedor";
+import RevendedorPerfiles from "@/components/Dashboard/Revendedores/RevendedorPerfiles";
+import RevendedoresLotes from "@/components/Dashboard/Revendedores/RevendedoresLotes";
+import AgregarComision from "@/components/Dashboard/Revendedores/AgregarComision";
+import ErrorNotFound from "@/pages/404";
 
 function App() {
   return (
