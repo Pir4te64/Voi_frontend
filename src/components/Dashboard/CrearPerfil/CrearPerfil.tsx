@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ImageUpload from "../ComponentesReutilizables/ImageUpload";
-import { FloatingField } from "../ComponentesReutilizables/FloatingField";
+import ImageUpload from "@/components/Dashboard/ComponentesReutilizables/ImageUpload";
+import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 
 const CrearPerfil: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
