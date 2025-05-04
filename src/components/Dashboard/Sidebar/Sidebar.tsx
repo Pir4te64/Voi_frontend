@@ -51,7 +51,7 @@ const Sidebar = () => {
     const navigate = useNavigate();
 
     return (
-        <aside className="w-72 bg-primary min-h-screen p-6 text-white flex flex-col rounded-r-md">
+        <aside className="w-72 bg-black min-h-screen p-6 text-white flex flex-col rounded-r-md">
             {/* Volver */}
             <button
                 onClick={() => navigate(-1)}
