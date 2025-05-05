@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
             <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center md:justify-between space-y-6 md:space-y-0">
                 {/* Logo */}
                 <div className="flex justify-center md:justify-start flex-1">
-                    <img src={logo} alt="VOI Logo" className="h-16 md:h-16 object-cover" />
+                    <img src={logo} loading='lazy' alt="VOI Logo" className="h-auto  md:h-16 object-cover" />
                 </div>
 
                 {/* Enlaces de utilidad */}

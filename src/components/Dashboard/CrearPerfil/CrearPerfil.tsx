@@ -166,7 +166,7 @@ const CrearPerfil: React.FC = () => {
                                 con un peso máximo de 1 Mb.
                             </>
                         }
-                        onFileSelect={(file, previewUrl) => {
+                        onFileSelect={(file) => {
                             setSelectedFile(file);
                             // si necesitas previewUrl para mostrarlo en otro lugar, lo guardas aquí
                         }}

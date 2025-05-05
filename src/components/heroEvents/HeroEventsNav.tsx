@@ -7,7 +7,7 @@ interface HeroEventsNavProps {
 }
 
 const HeroEventsNav: React.FC<HeroEventsNavProps> = ({ swiperRef }) => (
-    <div className="absolute hidden sm:flex right-4 bottom-4 lg:bottom-4 space-x-4 z-50">
+    <div className="absolute hidden sm:flex right-4 bottom-4 my-2 lg:-bottom-0 space-x-4 z-50">
         <button
             onClick={() => swiperRef.current?.slidePrev()}
             className="bg-transparent text-secondary border border-secondary p-3 rounded-full hover:opacity-90 transition-opacity"

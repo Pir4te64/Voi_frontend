@@ -19,6 +19,7 @@
     "react-toastify": "^11.0.5",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.2.6",
+    "voi": "file:",
     "zustand": "^5.0.3"
   },
   "devDependencies": {

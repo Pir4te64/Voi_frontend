@@ -40,7 +40,7 @@ const HeroEvents: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="relative bg-primary overflow-hidden p-8 md:py-28 md:px-16">
+    <section className="relative bg-primary overflow-hidden p-8 md:pb-14  md:px-16">
       <Swiper
         modules={[A11y]}
         onSwiper={(swiper) => { swiperRef.current = swiper; }}

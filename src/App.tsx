@@ -24,6 +24,7 @@ import RevendedorPerfiles from "@/components/Dashboard/Revendedores/RevendedorPe
 import RevendedoresLotes from "@/components/Dashboard/Revendedores/RevendedoresLotes";
 import AgregarComision from "@/components/Dashboard/Revendedores/AgregarComision";
 import ErrorNotFound from "@/pages/404";
+import EventosPage from "./pages/Eventos/Eventos";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/faq" element={<FaqPage />} />
       <Route path="/sobre-voi" element={<QuienesSomosPage />} />
+      <Route path="/eventos" element={<EventosPage />} />
       <Route path="*" element={<ErrorNotFound />} />
       {/* Dashboard con layout y rutas hijas */}
       <Route path="/dashboard" element={<DashboardLayout />}>
