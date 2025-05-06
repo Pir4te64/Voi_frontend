@@ -1,10 +1,10 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import { staticEvents } from './EventosEstaticos';
-import { FaMapMarkerAlt } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaMinus, FaPlus } from 'react-icons/fa';
 
 const EventDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -12,6 +12,11 @@ const EventDetail: React.FC = () => {
     const swiperRef = useRef<any>(null);
     const [activeIdx, setActiveIdx] = useState(0);
     const [showMap, setShowMap] = useState(false);
+    const [quantity, setQuantity] = useState(1);
+    // Estado para ticket seleccionado
+    const [selectedTicket, setSelectedTicket] = useState<string>(
+        event?.defaultTicket || (event?.ticketTypes[0]?.type ?? '')
+    );
 
     if (!event) {
         return (
@@ -21,23 +26,28 @@ const EventDetail: React.FC = () => {
         );
     }
 
-    // Usamos la dirección para generar un embed de Google Maps
     const mapSrc =
-        `https://www.google.com/maps?q=${encodeURIComponent(event.mapUrl || '')}&output=embed`;
+        `https://www.google.com/maps?q=${encodeURIComponent(event.address)}&output=embed`;
+
+    // Calcula el total
+    const total = useMemo(() => {
+        const ticket = event.ticketTypes.find(t => t.type === selectedTicket);
+        return (ticket?.price || 0) * quantity;
+    }, [selectedTicket, quantity, event.ticketTypes]);
 
     return (
         <div className="relative w-full bg-primary">
-            {/* Glow a la izquierda, centrado verticalmente */}
+            {/* Glow lateral */}
             <div
                 className="absolute left-0 top-1/2 transform -translate-y-1/2
                    w-96 h-96 bg-secondary rounded-full
                    filter blur-3xl opacity-30 pointer-events-none"
             />
 
-            <div className="max-w-7xl mx-auto py-6 bg-primary flex justify-center items-center">
+            <div className="max-w-7xl mx-auto py-6 flex justify-center">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
 
-                    {/* Columna izquierda: carrusel */}
+                    {/* Carrusel */}
                     <div>
                         <Swiper
                             modules={[A11y]}
@@ -69,7 +79,7 @@ const EventDetail: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Columna derecha: detalles */}
+                    {/* Detalles */}
                     <div className="space-y-6">
                         <h1 className="text-4xl font-bold text-white">{event.title}</h1>
 
@@ -90,14 +100,12 @@ const EventDetail: React.FC = () => {
                             <p className="text-white">{event.address}</p>
                             <button
                                 onClick={() => setShowMap(prev => !prev)}
-                                className="mt-2 flex items-center text-lg text-secondary "
+                                className="mt-2 flex items-center text-lg text-secondary"
                             >
                                 <FaMapMarkerAlt className="mr-2" /> Ver Mapa
                             </button>
-
-                            {/* Mapa embebido */}
                             {showMap && (
-                                <div className="mt-4 w-full h-64 rounded-lg overflow-hidden">
+                                <div className="mt-4 w-full h-64 rounded-lg overflow-hidden transition-all duration-300">
                                     <iframe
                                         src={mapSrc}
                                         width="100%"
@@ -110,25 +118,60 @@ const EventDetail: React.FC = () => {
                             )}
                         </section>
 
-                        <section className="space-y-2">
-                            <span className="text-secondary text-sm font-semibold uppercase">Tipo de Entrada</span>
-                            <select
-                                defaultValue={event.defaultTicket}
-                                className="w-full bg-primary border border-gray-600 rounded-lg px-4 py-2 text-white"
-                            >
-                                {event.ticketTypes.map(t => (
-                                    <option key={t.type} value={t.type} disabled={!t.available}>
-                                        {t.type} {t.available ? '' : '(SOLD OUT)'} — ${t.price.toLocaleString()}
-                                    </option>
-                                ))}
-                            </select>
+                        {/* Entrada y Cantidad en fila */}
+                        <section className="flex flex-row items-center gap-6">
+                            <div className="flex-1 space-y-2">
+                                <h2 className="text-secondary text-sm font-semibold uppercase">Tipo de Entrada</h2>
+                                <select
+                                    value={selectedTicket}
+                                    onChange={e => setSelectedTicket(e.target.value)}
+                                    className="w-full bg-primary border border-gray-600 rounded-lg px-4 py-2 text-white"
+                                >
+                                    {event.ticketTypes.map(t => (
+                                        <option key={t.type} value={t.type} disabled={!t.available}>
+                                            {t.type} {t.available ? '' : '(SOLD OUT)'} — ${t.price.toLocaleString()}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className="space-y-2">
+                                <h2 className="text-secondary text-sm font-semibold uppercase">Cantidad</h2>
+                                <div className="inline-flex items-center border border-gray-600 rounded-lg overflow-hidden">
+                                    <button
+                                        className="px-4 py-2 text-white"
+                                        onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                                    >
+                                        <FaMinus />
+                                    </button>
+                                    <input
+                                        type="text"
+                                        readOnly
+                                        value={quantity}
+                                        className="w-12 px-4 py-2 text-center bg-primary text-white focus:outline-none"
+                                    />
+                                    <button
+                                        className="px-4 py-2 text-white"
+                                        onClick={() => setQuantity(q => q + 1)}
+                                    >
+                                        <FaPlus />
+                                    </button>
+                                </div>
+                            </div>
                         </section>
 
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <button className="flex-1 bg-secondary text-primary py-3 rounded-full font-semibold">
+                        {/* Total */}
+                        <div className="mt-4">
+                            <p className=" text-sm font-semibold uppercase">Total</p>
+                            <p className="text-4xl font-bold text-white">${total.toLocaleString()}</p>
+                        </div>
+
+                        {/* Botones */}
+                        <div className="flex flex-col  gap-4 mt-4">
+                            <button className="flex-1 bg-secondary text-primary hover:text-white px-4 py-3 rounded-xl font-semibold">
                                 Añadir al Carrito
                             </button>
-                            <button className="flex-1 border border-secondary text-secondary py-3 rounded-full font-semibold">
+                            <button className="flex-1 border border-secondary text-secondary hover:text-white px-4 py-3 rounded-xl font-semibold">
                                 Comprar Ahora
                             </button>
                         </div>
