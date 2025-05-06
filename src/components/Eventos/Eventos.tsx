@@ -44,7 +44,7 @@ const EventsSection: React.FC = () => {
                                 key={cat}
                                 onClick={() => setActiveCat(cat)}
                                 className={`
-                  p-2 text-md rounded-2xl transition
+                  px-4 py-2 text-md rounded-2xl transition uppercase
                   ${activeCat === cat
                                         ? 'bg-secondary text-primary'
                                         : 'bg-back text-white hover:bg-white/30'}
@@ -64,7 +64,7 @@ const EventsSection: React.FC = () => {
                     modules={[A11y]}
                     onSwiper={swiper => { swiperRef.current = swiper; }}
                     onSlideChange={swiper => setActiveIndex(swiper.realIndex)}
-                    spaceBetween={100}
+                    spaceBetween={20}
                     slidesPerView={1}
                     breakpoints={{
                         640: { slidesPerView: 1 },
@@ -76,14 +76,15 @@ const EventsSection: React.FC = () => {
                     {filtered.map(ev => (
                         <SwiperSlide key={ev.id}>
                             <EventCard
+                                id={ev.id}
                                 image={ev.image}
                                 category={ev.category}
                                 date={ev.date}
                                 title={ev.title}
                                 location={ev.location}
                                 city={ev.city}
-                                onInfoClick={() => { /* abrir modal o navegar */ }}
                             />
+
                         </SwiperSlide>
                     ))}
                 </Swiper>

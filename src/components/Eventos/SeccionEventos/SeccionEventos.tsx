@@ -84,13 +84,13 @@ const SeccionEventos: React.FC = () => {
                                 {events.map(ev => (
                                     <SwiperSlide key={ev.id}>
                                         <EventCard
+                                            id={ev.id}
                                             image={ev.image}
                                             category={ev.category}
                                             date={ev.date}
                                             title={ev.title}
                                             location={ev.location}
                                             city={ev.city}
-                                            onInfoClick={() => {/* modal o ruta */ }}
                                         />
                                     </SwiperSlide>
                                 ))}
