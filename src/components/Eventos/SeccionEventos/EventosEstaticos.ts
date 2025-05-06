@@ -47,7 +47,7 @@ export const staticEvents: Event[] = [
     `.trim(),
     fullDate: "22 Mar 2025 • 18:00 hs – 05:30 hs",
     address: "Tambor de Tacuarí 8160, Posadas (Misiones)",
-    mapUrl: "https://goo.gl/maps/XXXXXXXXX",
+    mapUrl: "-27.368865959886943, -55.89753393427119",
     ticketTypes: [
       { type: "Early Bird (sin límite de horario)", price: 10000, available: false },
       { type: "General", price: 15000, available: true },
@@ -77,7 +77,7 @@ export const staticEvents: Event[] = [
     `.trim(),
     fullDate: "30 Abr 2025 • 17:00 hs – 23:00 hs",
     address: "Av. Costanera 1234, Posadas (Misiones)",
-    mapUrl: "https://goo.gl/maps/YYYYYYYYY",
+    mapUrl: "-27.368865959886943, -55.89753393427119",
     ticketTypes: [
       { type: "Early Bird", price: 12000, available: true },
       { type: "General", price: 18000, available: true },
@@ -107,7 +107,7 @@ export const staticEvents: Event[] = [
     `.trim(),
     fullDate: "10 May 2025 • 20:00 hs – 02:00 hs",
     address: "Rivadavia 567, Posadas (Misiones)",
-    mapUrl: "https://goo.gl/maps/ZZZZZZZZZ",
+    mapUrl: "-27.368865959886943, -55.89753393427119",
     ticketTypes: [
       { type: "Early Bird", price: 8000, available: true },
       { type: "General", price: 12000, available: true },
@@ -137,7 +137,7 @@ export const staticEvents: Event[] = [
     `.trim(),
     fullDate: "18 Jun 2025 • 22:00 hs – 04:00 hs",
     address: "Ruta 12 km 8, Posadas (Misiones)",
-    mapUrl: "https://goo.gl/maps/WWWWWWWWW",
+    mapUrl: "-27.368865959886943, -55.89753393427119",
     ticketTypes: [
       { type: "Early Bird", price: 9000, available: true },
       { type: "General", price: 14000, available: true },

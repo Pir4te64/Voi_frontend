@@ -6,7 +6,7 @@ import { ToastContainer } from 'react-toastify';
 
 const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     return (
-        <div className="flex flex-col min-h-screen bg-back text-white">
+        <div className="flex flex-col min-h-screen bg-primary text-white">
             {/* Cabecera */}
             <ToastContainer position="top-right" autoClose={3000} />
 
