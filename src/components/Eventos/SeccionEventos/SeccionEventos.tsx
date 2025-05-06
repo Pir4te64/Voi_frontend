@@ -7,6 +7,7 @@ import 'swiper/swiper-bundle.css';
 import EventCard from '@/components/Eventos/EventCard';
 import { staticEvents } from './EventosEstaticos';
 import EventsFiltersSidebar from './EventsFiltersSidebar';
+import GlowWrapper from '@/components/GlowWrapper';
 
 /* Datos de demo */
 
@@ -44,73 +45,75 @@ const SeccionEventos: React.FC = () => {
     }, [search, category, order, province, city]);
 
     return (
-        <section className="w-full min-h-screen bg-primary text-white
+        <GlowWrapper reverse intensity={52}>
+            <section className="w-full min-h-screen bg-primary text-white
                         flex flex-col md:flex-row gap-10
                         px-4 md:px-16 py-12">
-            {/* Sidebar separada */}
-            <EventsFiltersSidebar
-                search={search} setSearch={setSearch}
-                category={category} setCategory={setCategory}
-                order={order} setOrder={setOrder}
-                province={province} setProvince={setProvince}
-                city={city} setCity={setCity}
-                categories={categories}
-                orders={orders}
-            />
+                {/* Sidebar separada */}
+                <EventsFiltersSidebar
+                    search={search} setSearch={setSearch}
+                    category={category} setCategory={setCategory}
+                    order={order} setOrder={setOrder}
+                    province={province} setProvince={setProvince}
+                    city={city} setCity={setCity}
+                    categories={categories}
+                    orders={orders}
+                />
 
-            {/* Carrusel */}
-            <div className="flex-1 min-w-0"> {/* min-w-0 evita overflow */}
-                {events.length === 0 ? (
-                    <p className="text-center text-gray-400">
-                        No se encontraron eventos 🤷‍♂️
-                    </p>
-                ) : (
-                    <>
-                        <Swiper
-                            modules={[A11y]}
-                            onSwiper={swiper => { swiperRef.current = swiper; }}
-                            onSlideChange={swiper => setActiveIdx(swiper.realIndex)}
-                            slidesPerView={1}
-                            spaceBetween={40}           /* valor seguro para desktop */
-                            breakpoints={{
-                                640: { slidesPerView: 1 },
-                                768: { slidesPerView: 2 },
-                                1024: { slidesPerView: 1 },
-                            }}
-                            className="mb-6 overflow-hidden" /* oculta sobrante */
-                        >
-                            {events.map(ev => (
-                                <SwiperSlide key={ev.id}>
-                                    <EventCard
-                                        image={ev.image}
-                                        category={ev.category}
-                                        date={ev.date}
-                                        title={ev.title}
-                                        location={ev.location}
-                                        city={ev.city}
-                                        onInfoClick={() => {/* modal o ruta */ }}
-                                    />
-                                </SwiperSlide>
-                            ))}
-                        </Swiper>
+                {/* Carrusel */}
+                <div className="flex-1 min-w-0"> {/* min-w-0 evita overflow */}
+                    {events.length === 0 ? (
+                        <p className="text-center text-gray-400">
+                            No se encontraron eventos 🤷‍♂️
+                        </p>
+                    ) : (
+                        <>
+                            <Swiper
+                                modules={[A11y]}
+                                onSwiper={swiper => { swiperRef.current = swiper; }}
+                                onSlideChange={swiper => setActiveIdx(swiper.realIndex)}
+                                slidesPerView={1}
+                                spaceBetween={40}           /* valor seguro para desktop */
+                                breakpoints={{
+                                    640: { slidesPerView: 1 },
+                                    768: { slidesPerView: 2 },
+                                    1024: { slidesPerView: 1 },
+                                }}
+                                className="mb-6 overflow-hidden" /* oculta sobrante */
+                            >
+                                {events.map(ev => (
+                                    <SwiperSlide key={ev.id}>
+                                        <EventCard
+                                            image={ev.image}
+                                            category={ev.category}
+                                            date={ev.date}
+                                            title={ev.title}
+                                            location={ev.location}
+                                            city={ev.city}
+                                            onInfoClick={() => {/* modal o ruta */ }}
+                                        />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
 
-                        {/* dots */}
-                        <div className="flex justify-center gap-2">
-                            {events.map((_, idx) => (
-                                <button
-                                    key={idx}
-                                    onClick={() => swiperRef.current?.slideToLoop(idx)}
-                                    className={`
+                            {/* dots */}
+                            <div className="flex justify-center gap-2">
+                                {events.map((_, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => swiperRef.current?.slideToLoop(idx)}
+                                        className={`
                     w-2 h-2 rounded-full transition-colors
                     ${activeIdx === idx ? 'bg-white' : 'bg-white/40'}
                   `}
-                                />
-                            ))}
-                        </div>
-                    </>
-                )}
-            </div>
-        </section>
+                                    />
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
+            </section>
+        </GlowWrapper>
     );
 };
 

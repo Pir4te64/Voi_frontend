@@ -23,7 +23,7 @@ const EventsFiltersSidebar: React.FC<Props> = ({
     orders,
 }) => {
     return (
-        <aside className="w-full md:w-1/3 lg:w-1/4 shrink-0">
+        <aside className="w-full md:w-1/3 lg:w-1/4 shrink-0 z-50">
             {/* Buscar */}
             <label className="relative block mb-6">
                 <FiSearch className="absolute top-3 left-3 text-white/70" />
@@ -45,7 +45,7 @@ const EventsFiltersSidebar: React.FC<Props> = ({
                             key={cat}
                             onClick={() => setCategory(cat)}
                             className={`
-                px-4 py-1 rounded-full text-sm transition
+                px-4 py-2 rounded-full text-sm transition
                 ${category === cat
                                     ? 'bg-secondary text-primary'
                                     : 'bg-back hover:bg-white/30'}
@@ -64,7 +64,7 @@ const EventsFiltersSidebar: React.FC<Props> = ({
                             key={o}
                             onClick={() => setOrder(o)}
                             className={`
-                px-4 py-1 rounded-full text-sm text-left transition
+               px-4 py-2 rounded-full text-sm text-left transition
                 ${order === o
                                     ? 'bg-secondary text-primary'
                                     : 'bg-back hover:bg-white/30'}
@@ -103,7 +103,7 @@ const EventsFiltersSidebar: React.FC<Props> = ({
             </FilterBlock>
 
             <button
-                className="mt-6 w-full bg-secondary text-primary font-semibold
+                className="mt-2 w-full bg-secondary text-primary font-semibold
                    py-2 rounded-xl hover:opacity-90 transition"
             >
                 Aplicar
@@ -128,7 +128,7 @@ const FilterBlock: React.FC<{ title: string; children?: React.ReactNode }> = ({ 
                 />
             </button>
             {open && children}
-            <hr className="mt-3 border-white/20" />
+            <hr className="mt-3 border-white" />
         </div>
     );
 };

@@ -26,7 +26,7 @@ const EventCard: React.FC<EventCardProps> = ({
             {/* Imagen con overlay y pill */}
             <div className="relative rounded-2xl overflow-hidden">
                 <div
-                    className="h-[528px] bg-center bg-cover rounded-2xl"
+                    className="h-[628px] bg-center bg-cover rounded-2xl"
                     style={{ backgroundImage: `url(${image})` }}
                 />
                 {/* Pill de categoría */}
