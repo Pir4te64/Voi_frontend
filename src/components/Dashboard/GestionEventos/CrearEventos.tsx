@@ -23,24 +23,19 @@ const CrearEventos: React.FC = () => {
     };
 
     return (
-        <div className="bg-primary rounded-lg p-6 text-white">
-            <h2 className="text-secondary text-2xl font-semibold mb-6">
+        <div className="rounded-lg bg-primary p-6 text-white">
+            <h2 className="mb-6 text-2xl font-semibold text-secondary">
                 Crear Evento
             </h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 {/* IZQUIERDA: Formulario */}
                 <form className="space-y-6" onSubmit={handleSubmit}>
                     <FloatingField label="Nombre del Evento">
                         <input
                             type="text"
                             placeholder=" "
-                            className="
-                w-full bg-back border border-gray-700 rounded-xl
-                px-3 pt-6 pb-2
-                focus:outline-none focus:border-secondary
-                transition
-              "
+                            className="w-full rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none"
                         />
                     </FloatingField>
 
@@ -48,36 +43,21 @@ const CrearEventos: React.FC = () => {
                         <textarea
                             rows={4}
                             placeholder=" "
-                            className="
-                w-full bg-back border border-gray-700 rounded-xl
-                px-3 pt-6 pb-2
-                focus:outline-none focus:border-secondary
-                resize-none transition
-              "
+                            className="w-full resize-none rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none"
                         />
                     </FloatingField>
 
                     <FloatingField label="Fecha de Inicio">
                         <input
                             type="date"
-                            className="
-                w-full bg-back border border-gray-700 rounded-xl
-                px-3 py-4
-                focus:outline-none focus:border-secondary
-                transition
-              "
+                            className="w-full rounded-xl border border-gray-700 bg-back px-3 py-4 transition focus:border-secondary focus:outline-none"
                         />
                     </FloatingField>
 
                     <FloatingField label="Fecha de Finalización">
                         <input
                             type="date"
-                            className="
-                w-full bg-back border border-gray-700 rounded-xl
-                px-3 py-4
-                focus:outline-none focus:border-secondary
-                transition
-              "
+                            className="w-full rounded-xl border border-gray-700 bg-back px-3 py-4 transition focus:border-secondary focus:outline-none"
                         />
                     </FloatingField>
 
@@ -85,24 +65,14 @@ const CrearEventos: React.FC = () => {
                         <input
                             type="text"
                             placeholder=" "
-                            className="
-                w-full bg-back border border-gray-700 rounded-xl
-                px-3 pt-6 pb-2
-                focus:outline-none focus:border-secondary
-                transition
-              "
+                            className="w-full rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none"
                         />
                     </FloatingField>
 
                     <FloatingField label="Categoría">
                         <select
                             defaultValue=""
-                            className="
-                w-full bg-back border border-gray-700 rounded-xl
-                px-3 py-4
-                focus:outline-none focus:border-secondary
-                appearance-none transition
-              "
+                            className="w-full appearance-none rounded-xl border border-gray-700 bg-back px-3 py-4 transition focus:border-secondary focus:outline-none"
                         >
                             <option value="" disabled hidden>
                                 Selecciona categoría
@@ -118,12 +88,7 @@ const CrearEventos: React.FC = () => {
                         <input
                             type="url"
                             placeholder=" "
-                            className="
-                w-full bg-back border border-gray-700 rounded-xl
-                px-3 pt-6 pb-2
-                focus:outline-none focus:border-secondary
-                transition
-              "
+                            className="w-full rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none"
                         />
                     </FloatingField>
 
@@ -131,21 +96,13 @@ const CrearEventos: React.FC = () => {
                         <input
                             type="url"
                             placeholder=" "
-                            className="
-                w-full bg-back border border-gray-700 rounded-xl
-                px-3 pt-6 pb-2
-                focus:outline-none focus:border-secondary
-                transition
-              "
+                            className="w-full rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none"
                         />
                     </FloatingField>
 
                     <button
                         type="submit"
-                        className="
-              mt-4 w-full bg-secondary text-white font-semibold
-              py-3 rounded-xl hover:opacity-90 transition
-            "
+                        className="mt-4 w-full rounded-xl bg-secondary py-3 font-semibold text-white transition hover:opacity-90"
                     >
                         Crear Evento
                     </button>

@@ -44,32 +44,28 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     return (
         <div className="flex flex-col items-center">
             <div className="relative w-full max-w-xs">
-                <label className="absolute left-3 -top-2 bg-back px-1 text-white text-sm">
+                <label className="absolute -top-2 left-3 bg-back px-1 text-sm text-white">
                     {label}
                 </label>
 
                 <div
                     onClick={handleUploadClick}
-                    className="
-            w-full h-80 border-2 border-white rounded-lg
-            flex flex-col items-center justify-center
-            cursor-pointer hover:border-secondary transition
-          "
+                    className="flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-white transition hover:border-secondary"
                 >
                     {preview ? (
                         <img
                             src={preview}
                             alt="Preview"
-                            className="object-cover w-full h-full rounded-lg"
+                            className="h-full w-full rounded-lg object-cover"
                         />
                     ) : (
                         <>
                             <img
                                 src={agregarImgIcon}
                                 alt="Agregar"
-                                className="w-28 h-28 mb-2 opacity-70"
+                                className="mb-2 h-28 w-28 opacity-70"
                             />
-                            <span className="text-gray-400 text-center">
+                            <span className="text-center text-gray-400">
                                 Clic aquí para elegir imagen
                             </span>
                         </>
@@ -86,16 +82,13 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             </div>
 
             {description && (
-                <p className="text-xs text-white mt-2 text-center">{description}</p>
+                <p className="mt-2 text-center text-xs text-white">{description}</p>
             )}
 
             <button
                 type="button"
                 onClick={handleUploadClick}
-                className="
-          mt-4 border border-white text-white font-semibold
-          px-6 py-4 rounded-xl hover:opacity-90 transition
-        "
+                className="mt-4 rounded-xl border border-white px-6 py-4 font-semibold text-white transition hover:opacity-90"
             >
                 Cargar imagen
             </button>

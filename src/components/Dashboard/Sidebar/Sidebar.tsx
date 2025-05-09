@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import {
     FaRegArrowAltCircleLeft,
-    FaRegArrowAltCircleRight
+    FaRegArrowAltCircleRight,
+    FaTimes
 } from "react-icons/fa";
 import { navItems } from "@/components/Dashboard/Sidebar/NavItems";
 
@@ -43,6 +44,7 @@ const Sidebar = () => {
             {/* Sidebar */}
             <aside
                 className={`
+          relative
           fixed inset-y-0 left-0 z-50 bg-black min-h-screen p-6 text-white flex flex-col rounded-r-md
           transform transition-transform duration-200 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
@@ -50,13 +52,14 @@ const Sidebar = () => {
         `}
                 aria-hidden={!isOpen && window.innerWidth < 768}
             >
+
                 {/* Botón para cerrar en mobile */}
                 <button
                     className="md:hidden self-end mb-6 text-white hover:text-gray-200"
                     onClick={() => setIsOpen(false)}
                     aria-label="Cerrar menú"
                 >
-                    <FaRegArrowAltCircleLeft className="w-5 h-5" />
+                    <FaTimes className="w-5 h-5" />
                 </button>
 
                 {/* Volver */}
@@ -97,6 +100,7 @@ const Sidebar = () => {
                                         : "text-white hover:text-secondary"
                                     }`
                                 }
+                                onClick={() => setIsOpen(false)}
                             >
                                 <Icon className="mr-3 w-4 h-4" />
                                 {label}
@@ -114,6 +118,7 @@ const Sidebar = () => {
                                                     : "text-white hover:text-secondary"
                                                 }`
                                             }
+                                            onClick={() => setIsOpen(false)}
                                         >
                                             <SubIcon className="mr-2 w-3 h-3" />
                                             {subLabel}
