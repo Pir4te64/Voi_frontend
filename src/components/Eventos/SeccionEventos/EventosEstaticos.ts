@@ -1,6 +1,6 @@
 // src/components/EventosEstaticos.ts
 import sliderImage from "@/assets/SliderEvent/Slider.png";
-import { EventCardProps } from "../EventCard";
+import { EventCardProps } from "@/components/Eventos/EventCard";
 
 /**
  * Extiende lo que necesita EventCard, y añade campos extra

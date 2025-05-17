@@ -24,8 +24,8 @@ import RevendedorPerfiles from "@/components/Dashboard/Revendedores/RevendedorPe
 import RevendedoresLotes from "@/components/Dashboard/Revendedores/RevendedoresLotes";
 import AgregarComision from "@/components/Dashboard/Revendedores/AgregarComision";
 import ErrorNotFound from "@/pages/404";
-import EventosPage from "./pages/Eventos/Eventos";
-import DetallesPage from "./pages/Eventos/Detalles";
+import EventosPage from "@/pages/Eventos/Eventos";
+import DetallesPage from "@/pages/Eventos/Detalles";
 
 function App() {
   return (

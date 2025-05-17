@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
-import { staticEvents } from './EventosEstaticos';
+import { staticEvents } from '@/components/Eventos/SeccionEventos/EventosEstaticos';
 import { FaMapMarkerAlt, FaMinus, FaPlus } from 'react-icons/fa';
 
 const EventDetail: React.FC = () => {

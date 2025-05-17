@@ -5,8 +5,8 @@ import { A11y } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 
 import EventCard from '@/components/Eventos/EventCard';
-import { staticEvents } from './EventosEstaticos';
-import EventsFiltersSidebar from './EventsFiltersSidebar';
+import { staticEvents } from '@/components/Eventos/SeccionEventos/EventosEstaticos';
+import EventsFiltersSidebar from '@/components/Eventos/SeccionEventos/EventsFiltersSidebar';
 import GlowWrapper from '@/components/GlowWrapper';
 
 /* Datos de demo */
