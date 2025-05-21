@@ -25,12 +25,12 @@ const AccountTypeSelector: React.FC<AccountTypeSelectorProps> = ({
             <Logos />
             <div className="relative flex w-full flex-col items-center justify-center p-6 md:w-1/2 md:p-8">
                 <SmallLogo src={logoPequeno} />
-                <Link
+                {/* <Link
                     to="/"
                     className="absolute left-4 top-4 flex h-6 w-6 items-center justify-center rounded-full border border-white text-white transition hover:bg-white/10 md:-top-28 md:left-6 md:h-10 md:w-10 lg:-top-4 lg:left-8 lg:h-8 lg:w-8"
                 >
                     <FaArrowLeft />
-                </Link>
+                </Link> */}
                 <div className="mt-6 w-full max-w-md space-y-6 rounded-lg bg-opacity-80 p-4 md:p-6 lg:max-w-xl">
                     <h2 className="mb-6 text-center text-2xl font-bold text-secondary md:text-4xl lg:text-6xl">
                         Elige tu tipo de cuenta
