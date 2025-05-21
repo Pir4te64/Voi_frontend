@@ -5,7 +5,6 @@ import Logos from "@/components/LoginUser/Logos";
 import SmallLogo from "@/components/Register/SmallLogo";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import logoPequeno from "@/assets/Logo.svg";
-import { FaArrowLeft } from "react-icons/fa";
 
 type AccountType = "" | "Productora" | "Usuario";
 
