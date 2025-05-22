@@ -1,4 +1,4 @@
-// src/components/LoginUser/UsuarioForm.tsx
+// src/components/Register/RRPPForm.tsx
 import React from "react";
 import { FaArrowLeft, FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { useFormik } from "formik";
@@ -8,14 +8,14 @@ import Separador from "@/components/LoginUser/Separador";
 import SmallLogo from "@/components/Register/SmallLogo";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import logoPequeno from "@/assets/Logo.svg";
-import { validationSchema } from "@/components/Register/data/UsuarioForm.schema";
-import { initialValues } from "@/components/Register/data/UsuarioForm.schema";
 
-interface UsuarioFormProps {
+import { initialValues, validationSchema } from "@/components/Register/data/RRPPForm.schema";
+
+interface RRPPFormProps {
     onBack: () => void;
 }
 
-export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
+const RRPPForm: React.FC<RRPPFormProps> = ({ onBack }) => {
     const [showPassword, setShowPassword] = React.useState(false);
 
     const formik = useFormik({
@@ -23,7 +23,7 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
         validationSchema,
         onSubmit: (values, { resetForm }) => {
             console.log("Payload a enviar:", values);
-            // llamada a API...
+            // aquí llamas a tu API...
             resetForm();
             onBack();
         },
@@ -101,8 +101,8 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
                         <span
-                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
-                            onClick={() => setShowPassword((v) => !v)}
+                            className="absolute inset-y-0 right-3 top-0 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
+                            onClick={() => setShowPassword(v => !v)}
                         >
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
@@ -111,7 +111,7 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                         )}
                     </FloatingField>
 
-                    {/* Repetir contraseña */}
+                    {/* Repetir Contraseña */}
                     <FloatingField label="Repetir Contraseña*">
                         <input
                             id="repeatPassword"
@@ -120,8 +120,8 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
                         <span
-                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
-                            onClick={() => setShowPassword((v) => !v)}
+                            className="absolute inset-y-0 right-3 top-0 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
+                            onClick={() => setShowPassword(v => !v)}
                         >
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
@@ -175,4 +175,4 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
     );
 };
 
-export default UsuarioForm;
+export default RRPPForm;

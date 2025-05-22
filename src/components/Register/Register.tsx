@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import AccountTypeSelector from "@/components/Register/AccountTypeSelector";
 import ProductoraForm from "@/components/Register/ProductoraForm";
 import UsuarioForm from "@/components/Register/UsuarioForm";
+import RRPPForm from "@/components/Register/RRPPForm";
 
-type AccountType = "" | "Productora" | "Usuario";
+type AccountType = "" | "Productora" | "RRPP" | "Usuario";
 
 const Register: React.FC = () => {
     const [accountType, setAccountType] = useState<AccountType>("");
@@ -33,7 +34,19 @@ const Register: React.FC = () => {
         );
     }
 
-    // 3) Si eligió “Usuario”, delego a UsuarioForm
+    // 3) Si eligió “RRPP”, delego a RRPPForm
+    if (accountType === "RRPP") {
+        return (
+            <RRPPForm
+                onBack={() => {
+                    setAccountType("");
+                    setSelectedType("");
+                }}
+            />
+        );
+    }
+
+    // 4) Si eligió “Usuario”, delego a UsuarioForm
     return (
         <UsuarioForm
             onBack={() => {
