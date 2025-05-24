@@ -1,33 +1,28 @@
 // src/components/Register/RRPPForm.tsx
 import React from "react";
 import { FaArrowLeft, FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
-import { useFormik } from "formik";
-
 import Logos from "@/components/LoginUser/Logos";
 import Separador from "@/components/LoginUser/Separador";
 import SmallLogo from "@/components/Register/SmallLogo";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import logoPequeno from "@/assets/Logo.svg";
 
-import { initialValues, validationSchema } from "@/components/Register/data/RRPPForm.schema";
+import { useRRPPRegistration } from "@/components/Register/storeLogin/useRRPPRegistration";
 
 interface RRPPFormProps {
     onBack: () => void;
 }
 
 const RRPPForm: React.FC<RRPPFormProps> = ({ onBack }) => {
-    const [showPassword, setShowPassword] = React.useState(false);
-
-    const formik = useFormik({
-        initialValues,
-        validationSchema,
-        onSubmit: (values, { resetForm }) => {
-            console.log("Payload a enviar:", values);
-            // aquí llamas a tu API...
-            resetForm();
-            onBack();
-        },
-    });
+    const { showPassword, setShowPassword, formik } = useRRPPRegistration(onBack);
+    const {
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+    } = formik;
 
     return (
         <div className="flex min-h-screen flex-col-reverse overflow-hidden bg-primary text-white md:flex-row">
@@ -36,7 +31,7 @@ const RRPPForm: React.FC<RRPPFormProps> = ({ onBack }) => {
                 <SmallLogo src={logoPequeno} />
 
                 <form
-                    onSubmit={formik.handleSubmit}
+                    onSubmit={handleSubmit}
                     className="relative mt-6 w-full max-w-md space-y-6 rounded-lg bg-opacity-80 p-4 md:mt-0 md:p-6 lg:max-w-xl"
                 >
                     {/* Botón Volver */}
@@ -56,77 +51,108 @@ const RRPPForm: React.FC<RRPPFormProps> = ({ onBack }) => {
                     </h2>
 
                     {/* Nombre */}
-                    <FloatingField label="Nombre*">
+                    <FloatingField label="Nombre*" htmlFor="name">
                         <input
                             id="name"
-                            {...formik.getFieldProps("name")}
+                            name="name"
+                            value={values.name}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
-                        {formik.touched.name && formik.errors.name && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.name}</p>
+                        {touched.name && errors.name && (
+                            <p className="mt-1 text-sm text-red-400">{errors.name}</p>
                         )}
                     </FloatingField>
 
                     {/* Apellido */}
-                    <FloatingField label="Apellido*">
+                    <FloatingField label="Apellido*" htmlFor="apellido">
                         <input
                             id="apellido"
-                            {...formik.getFieldProps("apellido")}
+                            name="apellido"
+                            value={values.apellido}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
-                        {formik.touched.apellido && formik.errors.apellido && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.apellido}</p>
+                        {touched.apellido && errors.apellido && (
+                            <p className="mt-1 text-sm text-red-400">{errors.apellido}</p>
+                        )}
+                    </FloatingField>
+
+                    {/* Teléfono */}
+                    <FloatingField label="Teléfono*" htmlFor="phoneNumber">
+                        <input
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            type="tel"
+                            value={values.phoneNumber}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
+                        />
+                        {touched.phoneNumber && errors.phoneNumber && (
+                            <p className="mt-1 text-sm text-red-400">{errors.phoneNumber}</p>
                         )}
                     </FloatingField>
 
                     {/* Email */}
-                    <FloatingField label="Email*">
+                    <FloatingField label="Email*" htmlFor="email">
                         <input
                             id="email"
+                            name="email"
                             type="email"
-                            {...formik.getFieldProps("email")}
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
-                        {formik.touched.email && formik.errors.email && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.email}</p>
+                        {touched.email && errors.email && (
+                            <p className="mt-1 text-sm text-red-400">{errors.email}</p>
                         )}
                     </FloatingField>
 
                     {/* Contraseña */}
-                    <FloatingField label="Contraseña*">
+                    <FloatingField label="Contraseña*" htmlFor="password">
                         <input
                             id="password"
+                            name="password"
                             type={showPassword ? "text" : "password"}
-                            {...formik.getFieldProps("password")}
+                            value={values.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
                         <span
-                            className="absolute inset-y-0 right-3 top-0 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
+                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
                             onClick={() => setShowPassword(v => !v)}
                         >
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
-                        {formik.touched.password && formik.errors.password && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.password}</p>
+                        {touched.password && errors.password && (
+                            <p className="mt-1 text-sm text-red-400">{errors.password}</p>
                         )}
                     </FloatingField>
 
                     {/* Repetir Contraseña */}
-                    <FloatingField label="Repetir Contraseña*">
+                    <FloatingField label="Repetir Contraseña*" htmlFor="repeatPassword">
                         <input
                             id="repeatPassword"
+                            name="repeatPassword"
                             type={showPassword ? "text" : "password"}
-                            {...formik.getFieldProps("repeatPassword")}
+                            value={values.repeatPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
                         <span
-                            className="absolute inset-y-0 right-3 top-0 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
+                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
                             onClick={() => setShowPassword(v => !v)}
                         >
                             {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </span>
-                        {formik.touched.repeatPassword && formik.errors.repeatPassword && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.repeatPassword}</p>
+                        {touched.repeatPassword && errors.repeatPassword && (
+                            <p className="mt-1 text-sm text-red-400">{errors.repeatPassword}</p>
                         )}
                     </FloatingField>
 
@@ -135,26 +161,29 @@ const RRPPForm: React.FC<RRPPFormProps> = ({ onBack }) => {
                         <div className="mb-4 flex items-center space-x-2">
                             <input
                                 id="termsAccepted"
+                                name="termsAccepted"
                                 type="checkbox"
-                                {...formik.getFieldProps("termsAccepted")}
-                                className="h-4 w-4 appearance-none rounded border border-white bg-transparent checked:border-secondary checked:bg-secondary checked:accent-white focus:outline-none focus:ring-2 focus:ring-secondary"
+                                checked={values.termsAccepted}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="h-4 w-4 appearance-none rounded border border-white bg-transparent checked:border-secondary checked:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary"
                             />
-                            <label htmlFor="terms" className="text-sm underline">
+                            <label htmlFor="termsAccepted" className="text-sm underline">
                                 Ver Términos y Condiciones
                             </label>
                         </div>
-                        <label htmlFor="terms" className="text-sm">
+                        <label htmlFor="termsAccepted" className="text-sm">
                             Acepto los Términos y Condiciones
                         </label>
-                        {formik.touched.termsAccepted && formik.errors.termsAccepted && (
-                            <p className="text-sm text-red-400">{formik.errors.termsAccepted}</p>
+                        {touched.termsAccepted && errors.termsAccepted && (
+                            <p className="text-sm text-red-400">{errors.termsAccepted}</p>
                         )}
                     </div>
 
                     {/* Crear Cuenta */}
                     <button
                         type="submit"
-                        disabled={!formik.values.termsAccepted || formik.isSubmitting}
+                        disabled={!values.termsAccepted || formik.isSubmitting}
                         className="w-full rounded-xl bg-secondary py-3 hover:bg-secondary/80 disabled:opacity-50"
                     >
                         Crear Cuenta

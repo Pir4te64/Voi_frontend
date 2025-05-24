@@ -9,6 +9,7 @@ export const initialValues = {
     password: "",
     repeatPassword: "",
     termsAccepted: false,
+    phoneNumber: "",
 };
 
 // Esquema de validación con Yup para RRPPForm
@@ -30,4 +31,7 @@ export const validationSchema = Yup.object({
         .required("Repite tu contraseña"),
     termsAccepted: Yup.boolean()
         .oneOf([true], "Debes aceptar los términos"),
+    phoneNumber: Yup.string()
+        .required("El número de teléfono es obligatorio")
+        .matches(/^[0-9]{10}$/, "Debe tener exactamente 10 dígitos numéricos"),
 });

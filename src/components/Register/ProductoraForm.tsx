@@ -49,53 +49,7 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         Registro Productora
                     </h2>
 
-                    {/* Email */}
-                    <FloatingField label="Email*" htmlFor="email">
-                        <input
-                            id="email"
-                            name="email"
-                            type="email"
-                            value={values.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-                        />
-                        {touched.email && errors.email && (
-                            <p className="mt-1 text-sm text-red-400">{errors.email}</p>
-                        )}
-                    </FloatingField>
 
-                    {/* Contraseña */}
-                    <FloatingField label="Contraseña*" htmlFor="password">
-                        <input
-                            id="password"
-                            name="password"
-                            type="password"
-                            value={values.password}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-                        />
-                        {touched.password && errors.password && (
-                            <p className="mt-1 text-sm text-red-400">{errors.password}</p>
-                        )}
-                    </FloatingField>
-
-                    {/* Repetir Contraseña */}
-                    <FloatingField label="Repetir Contraseña*" htmlFor="repeatPassword">
-                        <input
-                            id="repeatPassword"
-                            name="repeatPassword"
-                            type="password"
-                            value={values.repeatPassword}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
-                        />
-                        {touched.repeatPassword && errors.repeatPassword && (
-                            <p className="mt-1 text-sm text-red-400">{errors.repeatPassword}</p>
-                        )}
-                    </FloatingField>
 
                     {/* Nombre legal/razón social */}
                     <FloatingField label="Nombre legal/razón social*" htmlFor="razonSocial">
@@ -171,7 +125,53 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                             <p className="mt-1 text-sm text-red-400">{errors.cbu}</p>
                         )}
                     </FloatingField>
+                    {/* Email */}
+                    <FloatingField label="Email*" htmlFor="email">
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                        />
+                        {touched.email && errors.email && (
+                            <p className="mt-1 text-sm text-red-400">{errors.email}</p>
+                        )}
+                    </FloatingField>
 
+                    {/* Contraseña */}
+                    <FloatingField label="Contraseña*" htmlFor="password">
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            value={values.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                        />
+                        {touched.password && errors.password && (
+                            <p className="mt-1 text-sm text-red-400">{errors.password}</p>
+                        )}
+                    </FloatingField>
+
+                    {/* Repetir Contraseña */}
+                    <FloatingField label="Repetir Contraseña*" htmlFor="repeatPassword">
+                        <input
+                            id="repeatPassword"
+                            name="repeatPassword"
+                            type="password"
+                            value={values.repeatPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                        />
+                        {touched.repeatPassword && errors.repeatPassword && (
+                            <p className="mt-1 text-sm text-red-400">{errors.repeatPassword}</p>
+                        )}
+                    </FloatingField>
                     {/* Términos y Condiciones */}
                     <div className="flex flex-col items-center space-x-2">
                         <div className="mb-4 flex items-center space-x-2">
