@@ -33,6 +33,7 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('auth');
+        window.location.href = '/';
         setUser(null);
     };
 

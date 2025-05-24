@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import Separador from '@/components/LoginUser/Separador'
 import Logos from '@/components/LoginUser/Logos'
 import { useLogin } from '@/components/LoginUser/store/useLogin'
-import FloatingField from '../Dashboard/ComponentesReutilizables/FloatingField'
+import FloatingField from '@/components/Dashboard/ComponentesReutilizables/FloatingField'
 import { ToastContainer } from 'react-toastify'
 
 const Login: React.FC = () => {

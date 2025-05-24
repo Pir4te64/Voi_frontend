@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from 'react';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { ToastContainer } from 'react-toastify';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from '@/context/AuthContext';
 
 const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
     return (

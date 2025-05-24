@@ -23,19 +23,19 @@ const Sidebar = () => {
             {/* Botón para abrir en mobile (sólo cuando está cerrado) */}
             {!isOpen && (
                 <button
-                    className="md:hidden fixed left-0 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded-r focus:outline-none z-50"
+                    className="fixed left-0 top-1/2 z-50 -translate-y-1/2 transform rounded-r bg-secondary p-2 text-white focus:outline-none md:hidden"
                     onClick={() => setIsOpen(true)}
                     aria-label="Abrir menú"
                     aria-expanded={isOpen}
                 >
-                    <FaRegArrowAltCircleRight className="w-5 h-5" />
+                    <FaRegArrowAltCircleRight className="h-5 w-5" />
                 </button>
             )}
 
             {/* Backdrop móvil */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+                    className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden"
                     onClick={() => setIsOpen(false)}
                     aria-hidden="true"
                 />
@@ -44,7 +44,6 @@ const Sidebar = () => {
             {/* Sidebar */}
             <aside
                 className={`
-          relative
           fixed inset-y-0 left-0 z-50 bg-black min-h-screen p-6 text-white flex flex-col rounded-r-md
           transform transition-transform duration-200 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
@@ -55,26 +54,26 @@ const Sidebar = () => {
 
                 {/* Botón para cerrar en mobile */}
                 <button
-                    className="md:hidden self-end mb-6 text-white hover:text-gray-200"
+                    className="mb-6 self-end text-white hover:text-gray-200 md:hidden"
                     onClick={() => setIsOpen(false)}
                     aria-label="Cerrar menú"
                 >
-                    <FaTimes className="w-5 h-5" />
+                    <FaTimes className="h-5 w-5" />
                 </button>
 
                 {/* Volver */}
                 <button
                     onClick={() => navigate(-1)}
-                    className="flex items-center text-white hover:text-gray-200 mb-6"
+                    className="mb-6 flex items-center text-white hover:text-gray-200"
                 >
-                    <FaRegArrowAltCircleLeft className="mr-2 w-5 h-5" />
+                    <FaRegArrowAltCircleLeft className="mr-2 h-5 w-5" />
                     Volver
                 </button>
 
                 {/* Mi Perfil */}
                 <NavLink
                     to="/dashboard/miperfil"
-                    className="inline-block w-2/4 text-center px-4 py-2 mb-6 border border-secondary text-secondary rounded-full hover:bg-secondary hover:text-white transition"
+                    className="mb-6 inline-block w-2/4 rounded-full border border-secondary px-4 py-2 text-center text-secondary transition hover:bg-secondary hover:text-white"
                 >
                     Mi Perfil
                 </NavLink>
@@ -86,7 +85,7 @@ const Sidebar = () => {
                 </div>
 
                 {/* Sección */}
-                <h4 className="text-lg font-semibold text-secondary mb-4">Productora</h4>
+                <h4 className="mb-4 text-lg font-semibold text-secondary">Productora</h4>
 
                 {/* Navegación */}
                 <nav className="flex-1 space-y-2 overflow-y-auto">
@@ -102,7 +101,7 @@ const Sidebar = () => {
                                 }
                                 onClick={() => setIsOpen(false)}
                             >
-                                <Icon className="mr-3 w-4 h-4" />
+                                <Icon className="mr-3 h-4 w-4" />
                                 {label}
                             </NavLink>
 
@@ -120,7 +119,7 @@ const Sidebar = () => {
                                             }
                                             onClick={() => setIsOpen(false)}
                                         >
-                                            <SubIcon className="mr-2 w-3 h-3" />
+                                            <SubIcon className="mr-2 h-3 w-3" />
                                             {subLabel}
                                         </NavLink>
                                     ))}

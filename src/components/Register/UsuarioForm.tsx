@@ -2,14 +2,16 @@
 import React from "react";
 import { FaArrowLeft, FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import { useFormik } from "formik";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 import Logos from "@/components/LoginUser/Logos";
 import Separador from "@/components/LoginUser/Separador";
 import SmallLogo from "@/components/Register/SmallLogo";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import logoPequeno from "@/assets/Logo.svg";
-import { validationSchema } from "@/components/Register/data/UsuarioForm.schema";
-import { initialValues } from "@/components/Register/data/UsuarioForm.schema";
+import { validationSchema, initialValues } from "@/components/Register/data/UsuarioForm.schema";
+import { api_url } from "@/api/api";
 
 interface UsuarioFormProps {
     onBack: () => void;
@@ -21,11 +23,36 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
     const formik = useFormik({
         initialValues,
         validationSchema,
-        onSubmit: (values, { resetForm }) => {
-            console.log("Payload a enviar:", values);
-            // llamada a API...
-            resetForm();
-            onBack();
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
+            try {
+                // Construimos el payload según tu API
+                const payload = {
+                    email: values.email,
+                    password: values.password,
+                    firstName: values.name,
+                    lastName: values.apellido,
+                    termsAndConditions: values.termsAccepted,
+                };
+
+                // Llamada al endpoint de registro
+                await axios.post(api_url.register_user, payload);
+
+                toast.success("Usuario registrado correctamente", {
+                    position: "top-right",
+                    autoClose: 3000,
+                });
+
+                resetForm();
+                onBack();
+            } catch (error: any) {
+                console.error("Registro error:", error);
+                toast.error(
+                    error.response?.data?.message || "No se pudo registrar el usuario",
+                    { position: "top-right", autoClose: 3000 }
+                );
+            } finally {
+                setSubmitting(false);
+            }
         },
     });
 
@@ -56,7 +83,7 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                     </h2>
 
                     {/* Nombre */}
-                    <FloatingField label="Nombre*">
+                    <FloatingField label="Nombre*" htmlFor="name">
                         <input
                             id="name"
                             {...formik.getFieldProps("name")}
@@ -68,7 +95,7 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                     </FloatingField>
 
                     {/* Apellido */}
-                    <FloatingField label="Apellido*">
+                    <FloatingField label="Apellido*" htmlFor="apellido">
                         <input
                             id="apellido"
                             {...formik.getFieldProps("apellido")}
@@ -80,7 +107,7 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                     </FloatingField>
 
                     {/* Email */}
-                    <FloatingField label="Email*">
+                    <FloatingField label="Email*" htmlFor="email">
                         <input
                             id="email"
                             type="email"
@@ -93,7 +120,7 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                     </FloatingField>
 
                     {/* Contraseña */}
-                    <FloatingField label="Contraseña*">
+                    <FloatingField label="Contraseña*" htmlFor="password">
                         <input
                             id="password"
                             type={showPassword ? "text" : "password"}
@@ -112,7 +139,7 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                     </FloatingField>
 
                     {/* Repetir contraseña */}
-                    <FloatingField label="Repetir Contraseña*">
+                    <FloatingField label="Repetir Contraseña*" htmlFor="repeatPassword">
                         <input
                             id="repeatPassword"
                             type={showPassword ? "text" : "password"}
