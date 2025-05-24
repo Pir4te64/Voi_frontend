@@ -1,5 +1,5 @@
 // src/components/Sidebar.jsx
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import {
     FaRegArrowAltCircleLeft,
@@ -12,11 +12,25 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isOpen, setIsOpen] = useState(false);
+    const [email, setEmail] = useState("");
 
     // Cerrar sidebar al cambiar de ruta
     useEffect(() => {
         setIsOpen(false);
     }, [location.pathname]);
+
+    // Leer el email de "me" en localStorage
+    useEffect(() => {
+        const meJson = localStorage.getItem("me");
+        if (meJson) {
+            try {
+                const me = JSON.parse(meJson);
+                setEmail(me.email || "");
+            } catch {
+                setEmail("");
+            }
+        }
+    }, []);
 
     return (
         <>
@@ -51,7 +65,6 @@ const Sidebar = () => {
         `}
                 aria-hidden={!isOpen && window.innerWidth < 768}
             >
-
                 {/* Botón para cerrar en mobile */}
                 <button
                     className="mb-6 self-end text-white hover:text-gray-200 md:hidden"
@@ -81,7 +94,7 @@ const Sidebar = () => {
                 {/* Datos de usuario */}
                 <div className="mb-6">
                     <h3 className="text-xl font-semibold">Ticketera VOI</h3>
-                    <p className="text-sm">ticketeravoi@gmail.com</p>
+                    <p className="text-sm">{email}</p>
                 </div>
 
                 {/* Sección */}
