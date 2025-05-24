@@ -17,6 +17,15 @@ interface UsuarioFormProps {
     onBack: () => void;
 }
 
+// Mapa de traducción de errores
+const errorTranslations: Record<string, string> = {
+    "Password must contain at least one uppercase letter.":
+        "La contraseña debe contener al menos una letra mayúscula.",
+    "Password must contain at least one lowercase letter.":
+        "La contraseña debe contener al menos una letra minúscula.",
+    // Agrega aquí más traducciones según sea necesario
+};
+
 export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -25,7 +34,6 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
         validationSchema,
         onSubmit: async (values, { resetForm, setSubmitting }) => {
             try {
-                // Construimos el payload según tu API
                 const payload = {
                     email: values.email,
                     password: values.password,
@@ -34,7 +42,6 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                     termsAndConditions: values.termsAccepted,
                 };
 
-                // Llamada al endpoint de registro
                 await axios.post(api_url.register_user, payload);
 
                 toast.success("Usuario registrado correctamente", {
@@ -46,10 +53,18 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                 onBack();
             } catch (error: any) {
                 console.error("Registro error:", error);
-                toast.error(
-                    error.response?.data?.message || "No se pudo registrar el usuario",
-                    { position: "top-right", autoClose: 3000 }
-                );
+                const descriptions: string[] = error.response?.data?.error?.description;
+                if (Array.isArray(descriptions)) {
+                    const messages = descriptions
+                        .map(msg => errorTranslations[msg] || msg)
+                        .join("\n");
+                    toast.error(messages, { position: "top-right", autoClose: 5000 });
+                } else {
+                    toast.error(
+                        error.response?.data?.message || "No se pudo registrar el usuario",
+                        { position: "top-right", autoClose: 3000 }
+                    );
+                }
             } finally {
                 setSubmitting(false);
             }
@@ -177,7 +192,6 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                             <p className="text-sm text-red-400">{formik.errors.termsAccepted}</p>
                         )}
                     </div>
-
                     {/* Crear Cuenta */}
                     <button
                         type="submit"
