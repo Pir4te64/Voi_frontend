@@ -1,75 +1,20 @@
 // src/components/LoginUser/UsuarioForm.tsx
 import React from "react";
 import { FaArrowLeft, FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
-import { useFormik } from "formik";
-import axios from "axios";
-import { toast } from "react-toastify";
 
 import Logos from "@/components/LoginUser/Logos";
 import Separador from "@/components/LoginUser/Separador";
 import SmallLogo from "@/components/Register/SmallLogo";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import logoPequeno from "@/assets/Logo.svg";
-import { validationSchema, initialValues } from "@/components/Register/data/UsuarioForm.schema";
-import { api_url } from "@/api/api";
+import { useLoginUsuarioRegular } from "@/components/Register/storeLogin/useLoginUsuarioRegular";
 
 interface UsuarioFormProps {
     onBack: () => void;
 }
 
-// Mapa de traducción de errores
-const errorTranslations: Record<string, string> = {
-    "Password must contain at least one uppercase letter.":
-        "La contraseña debe contener al menos una letra mayúscula.",
-    "Password must contain at least one lowercase letter.":
-        "La contraseña debe contener al menos una letra minúscula.",
-    // Agrega aquí más traducciones según sea necesario
-};
-
 export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
-    const [showPassword, setShowPassword] = React.useState(false);
-
-    const formik = useFormik({
-        initialValues,
-        validationSchema,
-        onSubmit: async (values, { resetForm, setSubmitting }) => {
-            try {
-                const payload = {
-                    email: values.email,
-                    password: values.password,
-                    firstName: values.name,
-                    lastName: values.apellido,
-                    termsAndConditions: values.termsAccepted,
-                };
-
-                await axios.post(api_url.register_user, payload);
-
-                toast.success("Usuario registrado correctamente", {
-                    position: "top-right",
-                    autoClose: 3000,
-                });
-
-                resetForm();
-                onBack();
-            } catch (error: any) {
-                console.error("Registro error:", error);
-                const descriptions: string[] = error.response?.data?.error?.description;
-                if (Array.isArray(descriptions)) {
-                    const messages = descriptions
-                        .map(msg => errorTranslations[msg] || msg)
-                        .join("\n");
-                    toast.error(messages, { position: "top-right", autoClose: 5000 });
-                } else {
-                    toast.error(
-                        error.response?.data?.message || "No se pudo registrar el usuario",
-                        { position: "top-right", autoClose: 3000 }
-                    );
-                }
-            } finally {
-                setSubmitting(false);
-            }
-        },
-    });
+    const { showPassword, setShowPassword, formik } = useLoginUsuarioRegular(onBack);
 
     return (
         <div className="flex min-h-screen flex-col-reverse overflow-hidden bg-primary text-white md:flex-row">
@@ -181,17 +126,18 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                                 {...formik.getFieldProps("termsAccepted")}
                                 className="h-4 w-4 appearance-none rounded border border-white bg-transparent checked:border-secondary checked:bg-secondary checked:accent-white focus:outline-none focus:ring-2 focus:ring-secondary"
                             />
-                            <label htmlFor="terms" className="text-sm underline">
+                            <label htmlFor="termsAccepted" className="text-sm underline">
                                 Ver Términos y Condiciones
                             </label>
                         </div>
-                        <label htmlFor="terms" className="text-sm">
+                        <label htmlFor="termsAccepted" className="text-sm">
                             Acepto los Términos y Condiciones
                         </label>
                         {formik.touched.termsAccepted && formik.errors.termsAccepted && (
                             <p className="text-sm text-red-400">{formik.errors.termsAccepted}</p>
                         )}
                     </div>
+
                     {/* Crear Cuenta */}
                     <button
                         type="submit"
