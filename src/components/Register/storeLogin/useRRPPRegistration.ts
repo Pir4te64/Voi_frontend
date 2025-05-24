@@ -8,7 +8,7 @@ import { useAuth } from '@/context/AuthContext';
 import { initialValues, validationSchema } from '@/components/Register/data/RRPPForm.schema';
 import { api_url } from '@/api/api';
 
-export const useRRPPRegistration = (onBack: () => void) => {
+export const useRRPPRegistration = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const { login } = useAuth();
@@ -43,7 +43,6 @@ export const useRRPPRegistration = (onBack: () => void) => {
                     autoClose: 3000,
                     onClose: () => {
                         resetForm();
-                        onBack();
                         navigate('/');
                     },
                 });

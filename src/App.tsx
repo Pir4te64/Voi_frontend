@@ -30,7 +30,6 @@ import RevendedorPerfiles from "@/components/Dashboard/Revendedores/RevendedorPe
 import RevendedoresLotes from "@/components/Dashboard/Revendedores/RevendedoresLotes";
 import AgregarComision from "@/components/Dashboard/Revendedores/AgregarComision";
 
-import ProtectedRoute from "@/components/ProtectedRoute";
 
 function App() {
   return (
@@ -50,9 +49,7 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
+            <DashboardLayout />
           }
         >
           <Route index element={<Index />} />

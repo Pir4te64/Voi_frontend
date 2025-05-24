@@ -16,9 +16,8 @@ const errorTranslations: Record<string, string> = {
     // Agrega más traducciones si es necesario
 };
 
-export const useLoginUsuarioRegular = (onBack: () => void) => {
+export const useLoginUsuarioRegular = () => {
     const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues,
@@ -40,6 +39,7 @@ export const useLoginUsuarioRegular = (onBack: () => void) => {
                     email: values.email,
                     password: values.password,
                 });
+
                 const { idUser, idProfile, userType, accessToken, refreshToken } = loginRes.data;
                 localStorage.setItem(
                     'auth',
@@ -52,8 +52,7 @@ export const useLoginUsuarioRegular = (onBack: () => void) => {
                     autoClose: 3000,
                     onClose: () => {
                         resetForm();
-                        onBack();
-                        navigate('/');
+                        window.location.href = '/';
                     },
                 });
             } catch (error: any) {

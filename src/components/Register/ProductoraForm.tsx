@@ -5,7 +5,7 @@ import Logos from "@/components/LoginUser/Logos";
 import SmallLogo from "@/components/Register/SmallLogo";
 import logoPequeno from "@/assets/Logo.svg";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
-import { useProductoraRegistration } from "./storeLogin/useLoginUsuarioProductoraRegular";
+import { useProductoraRegistration } from "@/components/Register/storeLogin/useLoginUsuarioProductoraRegular";
 
 interface ProductoraFormProps {
     onBack: () => void;
@@ -13,7 +13,7 @@ interface ProductoraFormProps {
 
 const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
     const [showPassword, setShowPassword] = React.useState(false);
-    const { formik } = useProductoraRegistration(onBack);
+    const { formik } = useProductoraRegistration();
     const {
         values,
         errors,

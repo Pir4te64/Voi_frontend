@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const baseUrl = "https://voi-gateway-production.up.railway.app/api";
 
 export const api_url = {
@@ -8,4 +10,13 @@ export const api_url = {
   get_me: `${baseUrl}/auth/user/v1/get-me`,
   admin_solicitudes_get: `${baseUrl}/auth/admin/v1/productoras/pending`,
   admin_solicitudes_put: `${baseUrl}/auth/admin/v1/productoras/status`,
+};
+
+export const GETME = () => {
+  const token = localStorage.getItem('auth')
+    ? JSON.parse(localStorage.getItem('auth')!).accessToken
+    : null;
+  return axios.get(api_url.get_me, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 };

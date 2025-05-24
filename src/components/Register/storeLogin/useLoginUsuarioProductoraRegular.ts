@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { initialValues, validationSchema } from '@/components/Register/data/ProductoraForm';
 import { api_url } from '@/api/api';
 
-export const useProductoraRegistration = (onBack: () => void) => {
+export const useProductoraRegistration = () => {
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -32,7 +32,6 @@ export const useProductoraRegistration = (onBack: () => void) => {
                     autoClose: 3000,
                     onClose: () => {
                         resetForm();
-                        onBack();
                         navigate('/gracias-productora');
                     }
                 });

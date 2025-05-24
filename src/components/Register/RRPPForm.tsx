@@ -14,7 +14,7 @@ interface RRPPFormProps {
 }
 
 const RRPPForm: React.FC<RRPPFormProps> = ({ onBack }) => {
-    const { showPassword, setShowPassword, formik } = useRRPPRegistration(onBack);
+    const { showPassword, setShowPassword, formik } = useRRPPRegistration();
     const {
         values,
         errors,

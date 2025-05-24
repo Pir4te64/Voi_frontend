@@ -1,65 +1,29 @@
 // src/components/LoginUser/UsuarioForm.tsx
 import React from "react";
 import { FaArrowLeft, FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
-import { useFormik } from "formik";
-import axios from "axios";
-import { toast } from "react-toastify";
-
 import Logos from "@/components/LoginUser/Logos";
 import Separador from "@/components/LoginUser/Separador";
 import SmallLogo from "@/components/Register/SmallLogo";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import logoPequeno from "@/assets/Logo.svg";
-import {
-    validationSchema,
-    initialValues,
-} from "@/components/Register/data/UsuarioForm.schema";
-import { api_url } from "@/api/api";
+
+import { useLoginUsuarioRegular } from "@/components/Register/storeLogin/useLoginUsuarioRegular";
 
 interface UsuarioFormProps {
     onBack: () => void;
 }
 
-const errorTranslations: Record<string, string> = {
-    "Password must contain at least one uppercase letter.": "La contraseña debe contener al menos una letra mayúscula.",
-    "Password must contain at least one lowercase letter.": "La contraseña debe contener al menos una letra minúscula.",
-};
-
-export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
-    const [showPassword, setShowPassword] = React.useState(false);
-
-    const formik = useFormik({
-        initialValues,
-        validationSchema,
-        onSubmit: async (values, { resetForm, setSubmitting }) => {
-            try {
-                const payload = {
-                    email: values.email,
-                    password: values.password,
-                    firstName: values.name,
-                    lastName: values.apellido,
-                    termsAndConditions: values.termsAccepted,
-                };
-                await axios.post(api_url.register_user, payload);
-                toast.success("Usuario registrado correctamente", { position: "top-right", autoClose: 3000 });
-                resetForm();
-                onBack();
-            } catch (error: any) {
-                const descriptions: string[] = error.response?.data?.error?.description;
-                if (Array.isArray(descriptions)) {
-                    const messages = descriptions.map(msg => errorTranslations[msg] || msg).join("\n");
-                    toast.error(messages, { position: "top-right", autoClose: 5000 });
-                } else {
-                    toast.error(error.response?.data?.message || "No se pudo registrar el usuario", {
-                        position: "top-right",
-                        autoClose: 3000,
-                    });
-                }
-            } finally {
-                setSubmitting(false);
-            }
-        },
-    });
+const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
+    const { showPassword, setShowPassword, formik } = useLoginUsuarioRegular();
+    const {
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isSubmitting,
+    } = formik;
 
     return (
         <div className="flex min-h-screen flex-col-reverse overflow-hidden bg-primary text-white md:flex-row">
@@ -68,7 +32,7 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                 <SmallLogo src={logoPequeno} />
 
                 <form
-                    onSubmit={formik.handleSubmit}
+                    onSubmit={handleSubmit}
                     className="relative mt-6 w-full max-w-md space-y-6 rounded-lg bg-opacity-80 p-4 md:mt-0 md:p-6 lg:max-w-xl"
                 >
                     {/* Botón Volver */}
@@ -91,11 +55,14 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                     <FloatingField label="Nombre*" htmlFor="name">
                         <input
                             id="name"
-                            {...formik.getFieldProps("name")}
+                            name="name"
+                            value={values.name}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
-                        {formik.touched.name && formik.errors.name && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.name}</p>
+                        {touched.name && errors.name && (
+                            <p className="mt-1 text-sm text-red-400">{errors.name}</p>
                         )}
                     </FloatingField>
 
@@ -103,11 +70,14 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                     <FloatingField label="Apellido*" htmlFor="apellido">
                         <input
                             id="apellido"
-                            {...formik.getFieldProps("apellido")}
+                            name="apellido"
+                            value={values.apellido}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
-                        {formik.touched.apellido && formik.errors.apellido && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.apellido}</p>
+                        {touched.apellido && errors.apellido && (
+                            <p className="mt-1 text-sm text-red-400">{errors.apellido}</p>
                         )}
                     </FloatingField>
 
@@ -115,12 +85,15 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                     <FloatingField label="Email*" htmlFor="email">
                         <input
                             id="email"
+                            name="email"
                             type="email"
-                            {...formik.getFieldProps("email")}
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                         />
-                        {formik.touched.email && formik.errors.email && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.email}</p>
+                        {touched.email && errors.email && (
+                            <p className="mt-1 text-sm text-red-400">{errors.email}</p>
                         )}
                     </FloatingField>
 
@@ -129,8 +102,11 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                         <div className="relative">
                             <input
                                 id="password"
+                                name="password"
                                 type={showPassword ? "text" : "password"}
-                                {...formik.getFieldProps("password")}
+                                value={values.password}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
                                 className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                             />
                             <span
@@ -140,18 +116,21 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                                 {showPassword ? <FaEyeSlash /> : <FaEye />}
                             </span>
                         </div>
-                        {formik.touched.password && formik.errors.password && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.password}</p>
+                        {touched.password && errors.password && (
+                            <p className="mt-1 text-sm text-red-400">{errors.password}</p>
                         )}
                     </FloatingField>
 
-                    {/* Repetir contraseña */}
+                    {/* Repetir Contraseña */}
                     <FloatingField label="Repetir Contraseña*" htmlFor="repeatPassword">
                         <div className="relative">
                             <input
                                 id="repeatPassword"
+                                name="repeatPassword"
                                 type={showPassword ? "text" : "password"}
-                                {...formik.getFieldProps("repeatPassword")}
+                                value={values.repeatPassword}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
                                 className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
                             />
                             <span
@@ -161,18 +140,21 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                                 {showPassword ? <FaEyeSlash /> : <FaEye />}
                             </span>
                         </div>
-                        {formik.touched.repeatPassword && formik.errors.repeatPassword && (
-                            <p className="mt-1 text-sm text-red-400">{formik.errors.repeatPassword}</p>
+                        {touched.repeatPassword && errors.repeatPassword && (
+                            <p className="mt-1 text-sm text-red-400">{errors.repeatPassword}</p>
                         )}
                     </FloatingField>
 
-                    {/* Términos */}
+                    {/* Términos y Condiciones */}
                     <div className="flex flex-col items-center space-x-2">
                         <div className="mb-4 flex items-center space-x-2">
                             <input
                                 id="termsAccepted"
+                                name="termsAccepted"
                                 type="checkbox"
-                                {...formik.getFieldProps("termsAccepted")}
+                                checked={values.termsAccepted}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
                                 className="h-4 w-4 appearance-none rounded border border-white bg-transparent checked:border-secondary checked:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary"
                             />
                             <label htmlFor="termsAccepted" className="text-sm underline">
@@ -182,18 +164,18 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                         <label htmlFor="termsAccepted" className="text-sm">
                             Acepto los Términos y Condiciones
                         </label>
-                        {formik.touched.termsAccepted && formik.errors.termsAccepted && (
-                            <p className="text-sm text-red-400">{formik.errors.termsAccepted}</p>
+                        {touched.termsAccepted && errors.termsAccepted && (
+                            <p className="text-sm text-red-400">{errors.termsAccepted}</p>
                         )}
                     </div>
 
                     {/* Crear Cuenta */}
                     <button
                         type="submit"
-                        disabled={!formik.values.termsAccepted || formik.isSubmitting}
+                        disabled={!values.termsAccepted || isSubmitting}
                         className="w-full rounded-xl bg-secondary py-3 hover:bg-secondary/80 disabled:opacity-50"
                     >
-                        Crear Cuenta
+                        {isSubmitting ? "Registrando…" : "Crear Cuenta"}
                     </button>
 
                     {/* Separador y Google */}
