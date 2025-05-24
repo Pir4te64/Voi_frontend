@@ -114,21 +114,23 @@ const RRPPForm: React.FC<RRPPFormProps> = ({ onBack }) => {
 
                     {/* Contraseña */}
                     <FloatingField label="Contraseña*" htmlFor="password">
-                        <input
-                            id="password"
-                            name="password"
-                            type={showPassword ? "text" : "password"}
-                            value={values.password}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
-                        />
-                        <span
-                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
-                            onClick={() => setShowPassword(v => !v)}
-                        >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
+                        <div className="relative">
+                            <input
+                                id="password"
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                value={values.password}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
+                            />
+                            <span
+                                className="absolute inset-y-0 right-3 flex items-center text-xl text-gray-400 hover:text-gray-200"
+                                onClick={() => setShowPassword(v => !v)}
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </span>
+                        </div>
                         {touched.password && errors.password && (
                             <p className="mt-1 text-sm text-red-400">{errors.password}</p>
                         )}
@@ -136,21 +138,23 @@ const RRPPForm: React.FC<RRPPFormProps> = ({ onBack }) => {
 
                     {/* Repetir Contraseña */}
                     <FloatingField label="Repetir Contraseña*" htmlFor="repeatPassword">
-                        <input
-                            id="repeatPassword"
-                            name="repeatPassword"
-                            type={showPassword ? "text" : "password"}
-                            value={values.repeatPassword}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
-                        />
-                        <span
-                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
-                            onClick={() => setShowPassword(v => !v)}
-                        >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
+                        <div className="relative">
+                            <input
+                                id="repeatPassword"
+                                name="repeatPassword"
+                                type={showPassword ? "text" : "password"}
+                                value={values.repeatPassword}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
+                            />
+                            <span
+                                className="absolute inset-y-0 right-3 flex items-center text-xl text-gray-400 hover:text-gray-200"
+                                onClick={() => setShowPassword(v => !v)}
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </span>
+                        </div>
                         {touched.repeatPassword && errors.repeatPassword && (
                             <p className="mt-1 text-sm text-red-400">{errors.repeatPassword}</p>
                         )}

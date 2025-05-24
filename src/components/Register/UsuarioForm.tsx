@@ -1,20 +1,65 @@
 // src/components/LoginUser/UsuarioForm.tsx
 import React from "react";
 import { FaArrowLeft, FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import { useFormik } from "formik";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 import Logos from "@/components/LoginUser/Logos";
 import Separador from "@/components/LoginUser/Separador";
 import SmallLogo from "@/components/Register/SmallLogo";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import logoPequeno from "@/assets/Logo.svg";
-import { useLoginUsuarioRegular } from "@/components/Register/storeLogin/useLoginUsuarioRegular";
+import {
+    validationSchema,
+    initialValues,
+} from "@/components/Register/data/UsuarioForm.schema";
+import { api_url } from "@/api/api";
 
 interface UsuarioFormProps {
     onBack: () => void;
 }
 
+const errorTranslations: Record<string, string> = {
+    "Password must contain at least one uppercase letter.": "La contraseña debe contener al menos una letra mayúscula.",
+    "Password must contain at least one lowercase letter.": "La contraseña debe contener al menos una letra minúscula.",
+};
+
 export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
-    const { showPassword, setShowPassword, formik } = useLoginUsuarioRegular(onBack);
+    const [showPassword, setShowPassword] = React.useState(false);
+
+    const formik = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit: async (values, { resetForm, setSubmitting }) => {
+            try {
+                const payload = {
+                    email: values.email,
+                    password: values.password,
+                    firstName: values.name,
+                    lastName: values.apellido,
+                    termsAndConditions: values.termsAccepted,
+                };
+                await axios.post(api_url.register_user, payload);
+                toast.success("Usuario registrado correctamente", { position: "top-right", autoClose: 3000 });
+                resetForm();
+                onBack();
+            } catch (error: any) {
+                const descriptions: string[] = error.response?.data?.error?.description;
+                if (Array.isArray(descriptions)) {
+                    const messages = descriptions.map(msg => errorTranslations[msg] || msg).join("\n");
+                    toast.error(messages, { position: "top-right", autoClose: 5000 });
+                } else {
+                    toast.error(error.response?.data?.message || "No se pudo registrar el usuario", {
+                        position: "top-right",
+                        autoClose: 3000,
+                    });
+                }
+            } finally {
+                setSubmitting(false);
+            }
+        },
+    });
 
     return (
         <div className="flex min-h-screen flex-col-reverse overflow-hidden bg-primary text-white md:flex-row">
@@ -81,18 +126,20 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
 
                     {/* Contraseña */}
                     <FloatingField label="Contraseña*" htmlFor="password">
-                        <input
-                            id="password"
-                            type={showPassword ? "text" : "password"}
-                            {...formik.getFieldProps("password")}
-                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
-                        />
-                        <span
-                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
-                            onClick={() => setShowPassword((v) => !v)}
-                        >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
+                        <div className="relative">
+                            <input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                {...formik.getFieldProps("password")}
+                                className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
+                            />
+                            <span
+                                className="absolute inset-y-0 right-3 flex items-center text-xl text-gray-400 hover:text-gray-200"
+                                onClick={() => setShowPassword(v => !v)}
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </span>
+                        </div>
                         {formik.touched.password && formik.errors.password && (
                             <p className="mt-1 text-sm text-red-400">{formik.errors.password}</p>
                         )}
@@ -100,18 +147,20 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
 
                     {/* Repetir contraseña */}
                     <FloatingField label="Repetir Contraseña*" htmlFor="repeatPassword">
-                        <input
-                            id="repeatPassword"
-                            type={showPassword ? "text" : "password"}
-                            {...formik.getFieldProps("repeatPassword")}
-                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
-                        />
-                        <span
-                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
-                            onClick={() => setShowPassword((v) => !v)}
-                        >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
+                        <div className="relative">
+                            <input
+                                id="repeatPassword"
+                                type={showPassword ? "text" : "password"}
+                                {...formik.getFieldProps("repeatPassword")}
+                                className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
+                            />
+                            <span
+                                className="absolute inset-y-0 right-3 flex items-center text-xl text-gray-400 hover:text-gray-200"
+                                onClick={() => setShowPassword(v => !v)}
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </span>
+                        </div>
                         {formik.touched.repeatPassword && formik.errors.repeatPassword && (
                             <p className="mt-1 text-sm text-red-400">{formik.errors.repeatPassword}</p>
                         )}
@@ -124,7 +173,7 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                                 id="termsAccepted"
                                 type="checkbox"
                                 {...formik.getFieldProps("termsAccepted")}
-                                className="h-4 w-4 appearance-none rounded border border-white bg-transparent checked:border-secondary checked:bg-secondary checked:accent-white focus:outline-none focus:ring-2 focus:ring-secondary"
+                                className="h-4 w-4 appearance-none rounded border border-white bg-transparent checked:border-secondary checked:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary"
                             />
                             <label htmlFor="termsAccepted" className="text-sm underline">
                                 Ver Términos y Condiciones

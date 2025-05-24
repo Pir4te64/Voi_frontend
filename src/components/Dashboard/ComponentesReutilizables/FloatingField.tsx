@@ -18,7 +18,7 @@ export const FloatingField: React.FC<{
     return (
         <div className="relative">
             <label
-                className="pointer-events-none absolute left-3 top-0 -translate-y-1/2 bg-back px-1 text-xs text-gray-400"
+                className="pointer-events-none absolute left-3 top-0 z-50 -translate-y-1/2 bg-back px-1 text-xs text-gray-400"
                 htmlFor={htmlFor}
             >
                 {label}
