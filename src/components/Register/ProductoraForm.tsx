@@ -1,6 +1,6 @@
 // src/components/LoginUser/ProductoraForm.tsx
 import React from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import Logos from "@/components/LoginUser/Logos";
 import SmallLogo from "@/components/Register/SmallLogo";
 import logoPequeno from "@/assets/Logo.svg";
@@ -12,6 +12,7 @@ interface ProductoraFormProps {
 }
 
 const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
+    const [showPassword, setShowPassword] = React.useState(false);
     const { formik } = useProductoraRegistration(onBack);
     const {
         values,
@@ -48,8 +49,6 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                     <h2 className="text-center text-3xl font-bold text-secondary md:text-4xl">
                         Registro Productora
                     </h2>
-
-
 
                     {/* Nombre legal/razón social */}
                     <FloatingField label="Nombre legal/razón social*" htmlFor="razonSocial">
@@ -125,6 +124,7 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                             <p className="mt-1 text-sm text-red-400">{errors.cbu}</p>
                         )}
                     </FloatingField>
+
                     {/* Email */}
                     <FloatingField label="Email*" htmlFor="email">
                         <input
@@ -146,12 +146,18 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         <input
                             id="password"
                             name="password"
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             value={values.password}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
                         />
+                        <span
+                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
+                            onClick={() => setShowPassword(v => !v)}
+                        >
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </span>
                         {touched.password && errors.password && (
                             <p className="mt-1 text-sm text-red-400">{errors.password}</p>
                         )}
@@ -162,16 +168,23 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         <input
                             id="repeatPassword"
                             name="repeatPassword"
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             value={values.repeatPassword}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
                         />
+                        <span
+                            className="absolute inset-y-0 right-3 flex cursor-pointer items-center text-xl text-gray-400 hover:text-gray-200"
+                            onClick={() => setShowPassword(v => !v)}
+                        >
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </span>
                         {touched.repeatPassword && errors.repeatPassword && (
                             <p className="mt-1 text-sm text-red-400">{errors.repeatPassword}</p>
                         )}
                     </FloatingField>
+
                     {/* Términos y Condiciones */}
                     <div className="flex flex-col items-center space-x-2">
                         <div className="mb-4 flex items-center space-x-2">
