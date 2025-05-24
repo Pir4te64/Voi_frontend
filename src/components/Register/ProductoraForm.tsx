@@ -1,32 +1,27 @@
 // src/components/LoginUser/ProductoraForm.tsx
 import React from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useFormik } from "formik";
-
 import Logos from "@/components/LoginUser/Logos";
 import SmallLogo from "@/components/Register/SmallLogo";
 import logoPequeno from "@/assets/Logo.svg";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
-
-import { initialValues, validationSchema } from "@/components/Register/data/ProductoraForm";
+import { useProductoraRegistration } from "./storeLogin/useLoginUsuarioProductoraRegular";
 
 interface ProductoraFormProps {
     onBack: () => void;
 }
 
 const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
-    const formik = useFormik({
-        initialValues,
-        validationSchema,
-        onSubmit: (values, { resetForm }) => {
-            console.log("Payload Productora:", values);
-            // aquí podrías llamar a tu API...
-            resetForm();
-            onBack();
-        },
-    });
-
-    const { values, errors, touched, handleChange, handleBlur, handleSubmit, isValid } = formik;
+    const { formik } = useProductoraRegistration(onBack);
+    const {
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        isValid,
+    } = formik;
 
     return (
         <div className="flex min-h-screen flex-col-reverse overflow-hidden bg-primary text-white md:flex-row">
@@ -54,7 +49,56 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         Registro Productora
                     </h2>
 
-                    <FloatingField label="Nombre legal/razón social*">
+                    {/* Email */}
+                    <FloatingField label="Email*" htmlFor="email">
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={values.email}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                        />
+                        {touched.email && errors.email && (
+                            <p className="mt-1 text-sm text-red-400">{errors.email}</p>
+                        )}
+                    </FloatingField>
+
+                    {/* Contraseña */}
+                    <FloatingField label="Contraseña*" htmlFor="password">
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            value={values.password}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                        />
+                        {touched.password && errors.password && (
+                            <p className="mt-1 text-sm text-red-400">{errors.password}</p>
+                        )}
+                    </FloatingField>
+
+                    {/* Repetir Contraseña */}
+                    <FloatingField label="Repetir Contraseña*" htmlFor="repeatPassword">
+                        <input
+                            id="repeatPassword"
+                            name="repeatPassword"
+                            type="password"
+                            value={values.repeatPassword}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                        />
+                        {touched.repeatPassword && errors.repeatPassword && (
+                            <p className="mt-1 text-sm text-red-400">{errors.repeatPassword}</p>
+                        )}
+                    </FloatingField>
+
+                    {/* Nombre legal/razón social */}
+                    <FloatingField label="Nombre legal/razón social*" htmlFor="razonSocial">
                         <input
                             id="razonSocial"
                             name="razonSocial"
@@ -68,7 +112,8 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         )}
                     </FloatingField>
 
-                    <FloatingField label="Nº de CUIT/CUIL*">
+                    {/* CUIT/CUIL */}
+                    <FloatingField label="Nº de CUIT/CUIL*" htmlFor="cuit">
                         <input
                             id="cuit"
                             name="cuit"
@@ -82,7 +127,8 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         )}
                     </FloatingField>
 
-                    <FloatingField label="DNI del responsable*">
+                    {/* DNI */}
+                    <FloatingField label="DNI del responsable*" htmlFor="dni">
                         <input
                             id="dni"
                             name="dni"
@@ -96,7 +142,8 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         )}
                     </FloatingField>
 
-                    <FloatingField label="Dirección legal*">
+                    {/* Dirección */}
+                    <FloatingField label="Dirección legal*" htmlFor="direccion">
                         <input
                             id="direccion"
                             name="direccion"
@@ -110,7 +157,8 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         )}
                     </FloatingField>
 
-                    <FloatingField label="Nº CBU para pagos*">
+                    {/* CBU */}
+                    <FloatingField label="Nº CBU para pagos*" htmlFor="cbu">
                         <input
                             id="cbu"
                             name="cbu"
@@ -124,6 +172,7 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         )}
                     </FloatingField>
 
+                    {/* Términos y Condiciones */}
                     <div className="flex flex-col items-center space-x-2">
                         <div className="mb-4 flex items-center space-x-2">
                             <input
@@ -133,13 +182,13 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                                 checked={values.termsAccepted}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                className="h-4 w-4 appearance-none rounded border border-white bg-transparent checked:border-secondary checked:bg-secondary checked:accent-white focus:outline-none focus:ring-2 focus:ring-secondary"
+                                className="h-4 w-4 appearance-none rounded border border-white bg-transparent checked:border-secondary checked:bg-secondary focus:outline-none focus:ring-2 focus:ring-secondary"
                             />
-                            <label htmlFor="terms" className="text-sm underline">
+                            <label htmlFor="termsAccepted" className="text-sm underline">
                                 Ver Términos y Condiciones
                             </label>
                         </div>
-                        <label htmlFor="terms" className="text-sm">
+                        <label htmlFor="termsAccepted" className="text-sm">
                             Acepto los Términos y Condiciones
                         </label>
                         {touched.termsAccepted && errors.termsAccepted && (
@@ -147,6 +196,7 @@ const ProductoraForm: React.FC<ProductoraFormProps> = ({ onBack }) => {
                         )}
                     </div>
 
+                    {/* Crear Cuenta */}
                     <button
                         type="submit"
                         disabled={!values.termsAccepted || !isValid}

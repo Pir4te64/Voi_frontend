@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useState, PropsWithChildren } from 'react';
+// src/context/AuthContext.tsx
+import React, { createContext, useContext, useState, PropsWithChildren } from 'react';
 
 type AuthData = {
     idUser: number;
@@ -11,25 +12,29 @@ type AuthData = {
 type AuthContextType = {
     user: AuthData | null;
     isAuthenticated: boolean;
+    login: (authData: AuthData) => void;
     logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
-    const [user, setUser] = useState<AuthData | null>(null);
+// Lee de localStorage **sincrónicamente** al inicializar
+function getStoredAuth(): AuthData | null {
+    try {
+        const json = localStorage.getItem('auth');
+        return json ? JSON.parse(json) : null;
+    } catch {
+        return null;
+    }
+}
 
-    // Al montar, leo localStorage
-    useEffect(() => {
-        const stored = localStorage.getItem('auth');
-        if (stored) {
-            try {
-                setUser(JSON.parse(stored));
-            } catch {
-                localStorage.removeItem('auth');
-            }
-        }
-    }, []);
+export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+    const [user, setUser] = useState<AuthData | null>(getStoredAuth());
+
+    const login = (authData: AuthData) => {
+        localStorage.setItem('auth', JSON.stringify(authData));
+        setUser(authData);
+    };
 
     const logout = () => {
         localStorage.removeItem('auth');
@@ -37,16 +42,13 @@ export const AuthProvider: React.FC<PropsWithChildren<{}>> = ({ children }) => {
         setUser(null);
     };
 
-    const value: AuthContextType = {
-        user,
-        isAuthenticated: !!user,
-        logout,
-    };
-
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={{ user, isAuthenticated: !!user, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
 
-// Hook para usar en componentes
 export const useAuth = (): AuthContextType => {
     const ctx = useContext(AuthContext);
     if (!ctx) throw new Error('useAuth debe usarse dentro de AuthProvider');

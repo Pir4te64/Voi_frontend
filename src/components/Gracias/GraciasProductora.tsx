@@ -2,13 +2,16 @@
 import React from 'react';
 import { FaCheck, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
 import voiLogo from '@/assets/LogoGrande.svg';
+import { Link } from 'react-router-dom';
 
 const GraciasProductora: React.FC = () => {
     return (
         <div className="relative z-50 flex min-h-screen flex-col items-center justify-between overflow-hidden bg-black p-8 text-white">
             {/* Logo VOI */}
             <header className="flex items-center justify-center">
-                <img src={voiLogo} alt="VOI Logo" className="w-64 md:w-[30rem]" />
+                <Link to="/">
+                    <img src={voiLogo} alt="VOI Logo" className="w-64 md:w-[30rem]" />
+                </Link>
             </header>
 
             {/* Contenido principal */}
@@ -68,11 +71,12 @@ const GraciasProductora: React.FC = () => {
                 </div>
 
                 {/* Glare inferior */}
-                <div
-                    className="pointer-events-none absolute left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-secondary opacity-80 md:-bottom-20 md:h-96 md:w-96"
-                    style={{ filter: 'blur(64px)' }}
-                />
+
             </footer>
+            <div
+                className="pointer-events-none absolute left-1/2 z-0 h-64 w-64 -translate-x-1/2 rounded-full bg-secondary opacity-50 md:-bottom-20 md:h-96 md:w-96"
+                style={{ filter: 'blur(64px)' }}
+            />
         </div>
     );
 };
