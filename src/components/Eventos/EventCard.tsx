@@ -32,7 +32,7 @@ const EventCard: React.FC<EventCardProps> = ({
     };
 
     return (
-        <div className="mx-auto h-[776px] max-w-xl overflow-hidden bg-transparent">
+        <div className="mx-auto h-[800px] max-w-xl overflow-hidden bg-transparent">
             <div className="relative overflow-hidden rounded-2xl">
                 <div
                     className="h-[528px] rounded-2xl bg-cover bg-center"

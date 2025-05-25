@@ -38,7 +38,6 @@ export const useEventsStore = create<EventsState>((set) => ({
                 },
             });
             set({ events: data });
-            console.log("Eventos obtenidos:", data);
         } catch (error) {
             console.error("Error al obtener eventos:", error);
         }

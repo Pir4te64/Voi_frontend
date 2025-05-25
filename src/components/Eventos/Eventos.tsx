@@ -9,7 +9,7 @@ import HeaderEvent from '@/components/Eventos/HeaderEvent';
 import GlowWrapper from '@/components/GlowWrapper';
 import EventsNav from '@/components/Eventos/EventsNav';
 import { useEventsStore } from '@/components/heroEvents/store/useEventsStore';
-import sliderImage from '@/assets/SliderEvent/Slider.png';
+import { staticEvents } from './data/estaticos';
 
 const monthNames = [
     'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
@@ -17,44 +17,7 @@ const monthNames = [
 ];
 
 // Eventos estáticos por defecto
-const staticEvents: EventCardProps[] = [
-    {
-        id: 1,
-        image: sliderImage,
-        category: 'Electrónica',
-        date: '22 Mar 2025',
-        title: 'Garden Rituals',
-        location: 'Tambor de Tacuarí 8160',
-        city: 'Posadas (Misiones)',
-    },
-    {
-        id: 2,
-        image: sliderImage,
-        category: 'Fiestas',
-        date: '30 Abr 2025',
-        title: 'Sunset Beats',
-        location: 'Av. Costanera 1234',
-        city: 'Posadas (Misiones)',
-    },
-    {
-        id: 3,
-        image: sliderImage,
-        category: 'Sociales',
-        date: '10 May 2025',
-        title: 'City Vibes',
-        location: 'Rivadavia 567',
-        city: 'Posadas (Misiones)',
-    },
-    {
-        id: 4,
-        image: sliderImage,
-        category: 'Electrónica',
-        date: '18 Jun 2025',
-        title: 'Deep House Night',
-        location: 'Ruta 12 km 8',
-        city: 'Posadas (Misiones)',
-    },
-];
+
 
 // Categorías estáticas
 const staticCategories = ['Todos', 'Electrónica', 'Fiestas', 'Sociales'];
@@ -156,7 +119,7 @@ const EventsSection: React.FC = () => {
                 <EventsNav swiperRef={swiperRef} />
 
                 {/* Dots mobile */}
-                <div className="mt-4 flex justify-center space-x-2 sm:hidden">
+                <div className="mt-20 flex justify-center space-x-2 sm:hidden">
                     {filtered.map((_, idx) => (
                         <button
                             key={idx}
