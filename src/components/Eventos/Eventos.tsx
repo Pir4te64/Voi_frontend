@@ -1,43 +1,115 @@
 // src/components/EventsSection.tsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
+
 import EventCard, { EventCardProps } from '@/components/Eventos/EventCard';
-import sliderImage from '@/assets/SliderEvent/Slider.png';
 import HeaderEvent from '@/components/Eventos/HeaderEvent';
 import GlowWrapper from '@/components/GlowWrapper';
 import EventsNav from '@/components/Eventos/EventsNav';
+import { useEventsStore } from '@/components/heroEvents/store/useEventsStore';
+import sliderImage from '@/assets/SliderEvent/Slider.png';
 
-interface Event extends Omit<EventCardProps, 'onInfoClick'> {
-    id: number;
-}
-
-const staticEvents: Event[] = [
-    { id: 1, image: sliderImage, category: 'Electrónica', date: '22 Mar 2025', title: 'Garden Rituals', location: 'Tambor de Tacuarí 8160', city: 'Posadas (Misiones)' },
-    { id: 2, image: sliderImage, category: 'Fiestas', date: '30 Abr 2025', title: 'Sunset Beats', location: 'Av. Costanera 1234', city: 'Posadas (Misiones)' },
-    { id: 3, image: sliderImage, category: 'Sociales', date: '10 May 2025', title: 'City Vibes', location: 'Rivadavia 567', city: 'Posadas (Misiones)' },
-    { id: 4, image: sliderImage, category: 'Electrónica', date: '18 Jun 2025', title: 'Deep House Night', location: 'Ruta 12 km 8', city: 'Posadas (Misiones)' },
+const monthNames = [
+    'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
+    'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic',
 ];
 
-const categories = ['Todos', 'Electrónica', 'Fiestas', 'Sociales'];
+// Eventos estáticos por defecto
+const staticEvents: EventCardProps[] = [
+    {
+        id: 1,
+        image: sliderImage,
+        category: 'Electrónica',
+        date: '22 Mar 2025',
+        title: 'Garden Rituals',
+        location: 'Tambor de Tacuarí 8160',
+        city: 'Posadas (Misiones)',
+    },
+    {
+        id: 2,
+        image: sliderImage,
+        category: 'Fiestas',
+        date: '30 Abr 2025',
+        title: 'Sunset Beats',
+        location: 'Av. Costanera 1234',
+        city: 'Posadas (Misiones)',
+    },
+    {
+        id: 3,
+        image: sliderImage,
+        category: 'Sociales',
+        date: '10 May 2025',
+        title: 'City Vibes',
+        location: 'Rivadavia 567',
+        city: 'Posadas (Misiones)',
+    },
+    {
+        id: 4,
+        image: sliderImage,
+        category: 'Electrónica',
+        date: '18 Jun 2025',
+        title: 'Deep House Night',
+        location: 'Ruta 12 km 8',
+        city: 'Posadas (Misiones)',
+    },
+];
+
+// Categorías estáticas
+const staticCategories = ['Todos', 'Electrónica', 'Fiestas', 'Sociales'];
 
 const EventsSection: React.FC = () => {
     const [activeCat, setActiveCat] = useState<string>('Todos');
     const [activeIndex, setActiveIndex] = useState<number>(0);
     const swiperRef = useRef<any>(null);
 
+    // Datos remotos de Zustand
+    const eventsFromStore = useEventsStore(state => state.events);
+    const fetchEvents = useEventsStore(state => state.fetchEvents);
+
+    // Cargar al montar
+    useEffect(() => {
+        fetchEvents();
+    }, [fetchEvents]);
+
+    // Transformar datos remotos al shape de EventCardProps
+    const mappedEvents: EventCardProps[] = eventsFromStore.map(ev => {
+        const [year, monthNum, dayStr] = ev.fechaInicio.split('-');
+        const day = parseInt(dayStr, 10).toString();
+        const month = monthNames[parseInt(monthNum, 10) - 1];
+        return {
+            id: ev.id,
+            image: ev.sliderImageUrl,
+            category: ev.categoriaNombre,
+            date: `${day} ${month} ${year}`,
+            title: ev.nombre,
+            location: ev.lugar,
+            city: 'Posadas (Misiones)', // ningun campo city en API
+        };
+    });
+
+    // Decidir fuente de datos: si hay datos remotos, usarlos; si no, los estáticos
+    const hasRemote = mappedEvents.length > 0;
+    const dataSource = hasRemote ? mappedEvents : staticEvents;
+
+    // Categorías dinámicas o estáticas según disponibilidad de datos
+    const categories = hasRemote
+        ? ['Todos', ...Array.from(new Set(mappedEvents.map(ev => ev.category)))]
+        : staticCategories;
+
+    // Filtrar según categoría activa
     const filtered = activeCat === 'Todos'
-        ? staticEvents
-        : staticEvents.filter(e => e.category === activeCat);
+        ? dataSource
+        : dataSource.filter(ev => ev.category === activeCat);
 
     return (
-        <GlowWrapper className="py-12 px-4 md:px-16 bg-primary text-white  ">
-            <section className="relative text-white overflow-hidden w-full ">
+        <GlowWrapper className="bg-primary px-4 py-12 text-white md:px-16">
+            <section className="relative w-full overflow-hidden text-white">
                 <HeaderEvent />
 
-                {/* Filters + Ver Todos desktop */}
-                <div className="flex flex-wrap gap-2 mb-8 justify-between">
+                {/* Filtros + Ver Todos desktop */}
+                <div className="mb-8 flex flex-wrap justify-between gap-2">
                     <div className="space-x-2">
                         {categories.map(cat => (
                             <button
@@ -54,7 +126,7 @@ const EventsSection: React.FC = () => {
                             </button>
                         ))}
                     </div>
-                    <button className="hidden sm:inline-block mt-4 md:mt-0 px-4 py-2 border border-white rounded hover:bg-white hover:text-primary transition">
+                    <button className="mt-4 hidden rounded border border-white px-4 py-2 transition hover:bg-white hover:text-primary sm:inline-block md:mt-0">
                         Ver Todos
                     </button>
                 </div>
@@ -75,39 +147,29 @@ const EventsSection: React.FC = () => {
                 >
                     {filtered.map(ev => (
                         <SwiperSlide key={ev.id}>
-                            <EventCard
-                                id={ev.id}
-                                image={ev.image}
-                                category={ev.category}
-                                date={ev.date}
-                                title={ev.title}
-                                location={ev.location}
-                                city={ev.city}
-                            />
-
+                            <EventCard {...ev} />
                         </SwiperSlide>
                     ))}
                 </Swiper>
 
-
                 {/* Flechas de navegación */}
                 <EventsNav swiperRef={swiperRef} />
 
-                {/* Dots de navegación solo en mobile */}
-                <div className="flex sm:hidden justify-center mt-4 space-x-2">
+                {/* Dots mobile */}
+                <div className="mt-4 flex justify-center space-x-2 sm:hidden">
                     {filtered.map((_, idx) => (
                         <button
                             key={idx}
                             onClick={() => swiperRef.current?.slideToLoop(idx)}
-                            className={`
-                w-2 h-2 rounded-full transition-colors
-                ${activeIndex === idx ? 'bg-white' : 'bg-white/50'}
-              `}
+                            className={`w-2 h-2 rounded-full transition-colors ${activeIndex === idx ? 'bg-white' : 'bg-white/50'
+                                }`}
                         />
                     ))}
                 </div>
-                <div className="sm:hidden flex justify-center my-8">
-                    <button className="px-4 py-2 border border-white rounded hover:bg-white hover:text-primary transition">
+
+                {/* Ver Todos mobile */}
+                <div className="my-8 flex justify-center sm:hidden">
+                    <button className="rounded border border-white px-4 py-2 transition hover:bg-white hover:text-primary">
                         Ver Todos
                     </button>
                 </div>
