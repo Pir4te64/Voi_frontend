@@ -7,6 +7,24 @@ import { EventoFormProps } from "@/components/Dashboard/GestionEventos/CrearEven
 
 const MAX_DESC = 200;
 
+// Componente loader full-screen
+const LoaderOverlay: React.FC = () => (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div className="relative">
+            {/* Spinner exterior */}
+            <div className="h-20 w-20 animate-spin rounded-full border-4 border-t-4 border-secondary" />
+
+            {/* Spinner interior */}
+            <div className="absolute inset-0 animate-spin rounded-full border-4 border-t-4 border-white/30" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
+
+            {/* Punto central */}
+            <div className="absolute inset-0 flex items-center justify-center">
+                <div className="h-4 w-4 animate-pulse rounded-full bg-secondary" />
+            </div>
+        </div>
+    </div>
+);
+
 const EventoForm: React.FC<EventoFormProps> = ({
     resetKey,
     setSliderImage,
@@ -26,6 +44,9 @@ const EventoForm: React.FC<EventoFormProps> = ({
 
     return (
         <>
+            {/* Mostrar loader por encima de todo */}
+            {isSubmitting && <LoaderOverlay />}
+
             <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Nombre del Evento */}
                 <FloatingField label="Nombre del Evento" htmlFor="name">
@@ -126,7 +147,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                         onBlur={handleBlur}
                         className="z-50 w-full appearance-none rounded-xl border border-gray-700 bg-back px-3 py-4 transition focus:border-secondary focus:outline-none"
                     >
-                        <option value=""  >
+                        <option value="" >
                             Selecciona categoría
                         </option>
                         {categories.map((cat) => (
@@ -140,7 +161,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                     )}
                 </FloatingField>
 
-                {/* Link a Redes Sociales */}
+                {/* Redes Sociales */}
                 <FloatingField label="Link a Red Social 1" htmlFor="social1">
                     <input
                         id="social1"

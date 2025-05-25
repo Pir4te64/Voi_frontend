@@ -77,10 +77,12 @@ export const useCrearEventoForm = () => {
                 formData.append("sliderImage", sliderImage);
                 eventImages.forEach((file) => formData.append("galeria", file));
 
-                // Descomenta para envío real
-                // await axios.post(api_url.create_event, formData, {
-                //     headers: { "Content-Type": "multipart/form-data" },
-                // });
+                await axios.post(api_url.crear_evento, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')!).accessToken}`
+                    },
+                });
 
                 toast.success("Evento creado correctamente", {
                     position: "top-right",
