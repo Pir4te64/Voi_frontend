@@ -7,7 +7,7 @@ export const crearEventoInitialValues = {
     startDate: "",
     endDate: "",
     location: "",
-    category: "",
+    category: 0,
     social1: "",
     social2: "",
 };
@@ -23,9 +23,15 @@ export const crearEventoValidationSchema = Yup.object({
         .min(Yup.ref("startDate"), "La fecha de finalización debe ser posterior")
         .typeError("Fecha inválida"),
     location: Yup.string().required("El lugar es requerido"),
-    category: Yup.string()
+    // validamos como número y mayor que cero
+    category: Yup.number()
         .typeError("Categoría inválida")
+        .min(1, "Debes seleccionar una categoría")
         .required("La categoría es requerida"),
-    social1: Yup.string().url("Debe ser una URL válida").notRequired(),
-    social2: Yup.string().url("Debe ser una URL válida").notRequired(),
+    social1: Yup.string()
+        .url("Debe ser una URL válida")
+        .notRequired(),
+    social2: Yup.string()
+        .url("Debe ser una URL válida")
+        .notRequired(),
 });

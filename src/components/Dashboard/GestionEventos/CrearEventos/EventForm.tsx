@@ -11,15 +11,14 @@ interface EventoFormProps {
     eventImages: File[];
     setEventImages: (files: File[]) => void;
     formik: any;
+    categories: { id: number; nombre: string }[];
 }
-
 const EventoForm: React.FC<EventoFormProps> = ({
     resetKey,
-    sliderImage,
     setSliderImage,
-    eventImages,
     setEventImages,
     formik,
+    categories,
 }) => {
     const {
         values,
@@ -116,14 +115,16 @@ const EventoForm: React.FC<EventoFormProps> = ({
                         value={values.category}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className="w-full appearance-none rounded-xl border border-gray-700 bg-back px-3 py-4 transition focus:border-secondary focus:outline-none"
+                        className="z-50 w-full appearance-none rounded-xl border border-gray-700 bg-back px-3 py-4 transition focus:border-secondary focus:outline-none"
                     >
                         <option value="" disabled hidden>
                             Selecciona categoría
                         </option>
-                        <option>Concierto</option>
-                        <option>Festival</option>
-                        <option>Charla</option>
+                        {categories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                                {cat.nombre}
+                            </option>
+                        ))}
                     </select>
                     {touched.category && errors.category && (
                         <p className="mt-1 text-sm text-red-400">{errors.category}</p>

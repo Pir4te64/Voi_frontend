@@ -11,6 +11,7 @@ const CrearEventos: React.FC = () => {
         eventImages,
         setEventImages,
         formik,
+        categories,
     } = useCrearEventoForm();
 
     return (
@@ -27,6 +28,7 @@ const CrearEventos: React.FC = () => {
                     eventImages={eventImages}
                     setEventImages={setEventImages}
                     formik={formik}
+                    categories={categories}
                 />
             </div>
         </div>

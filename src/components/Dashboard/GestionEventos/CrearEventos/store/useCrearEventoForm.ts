@@ -1,5 +1,5 @@
 // src/components/Dashboard/GestionEventos/CrearEventos/store/useCrearEventoForm.ts
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -13,6 +13,31 @@ export const useCrearEventoForm = () => {
     const [sliderImage, setSliderImage] = useState<File | null>(null);
     const [eventImages, setEventImages] = useState<File[]>([]);
     const [resetKey, setResetKey] = useState(0);
+
+    // 1) Estado para las categorías
+    const [categories, setCategories] = useState<
+        { id: number; nombre: string }[]
+    >([]);
+
+    // 2) Al montar, pedimos las categorías
+    useEffect(() => {
+        axios
+            .get<{ id: number; nombre: string }[]>(api_url.get_categorias, {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(localStorage.getItem('auth')!).accessToken}`
+                }
+            })
+            .then((res) => {
+                setCategories(res.data);
+            })
+            .catch((err) => {
+                console.error("Error al cargar categorías:", err);
+                toast.error(
+                    "No se pudieron cargar las categorías",
+                    { position: "top-right", autoClose: 3000 }
+                );
+            });
+    }, []);
 
     const formik = useFormik({
         initialValues: crearEventoInitialValues,
@@ -52,16 +77,16 @@ export const useCrearEventoForm = () => {
                 formData.append("sliderImage", sliderImage);
                 eventImages.forEach((file) => formData.append("galeria", file));
 
-                /*  await axios.post(api_url.create_event, formData, {
-                     headers: { "Content-Type": "multipart/form-data" },
-                 }); */
+                // Descomenta para envío real
+                // await axios.post(api_url.create_event, formData, {
+                //     headers: { "Content-Type": "multipart/form-data" },
+                // });
 
                 toast.success("Evento creado correctamente", {
                     position: "top-right",
                     autoClose: 3000,
                 });
 
-                // aquí limpiamos todo, y también incrementamos resetKey
                 resetForm();
                 setSliderImage(null);
                 setEventImages([]);
@@ -82,6 +107,7 @@ export const useCrearEventoForm = () => {
         setSliderImage,
         eventImages,
         setEventImages,
+        categories,
         resetKey,
         formik,
     };
