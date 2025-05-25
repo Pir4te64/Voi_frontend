@@ -30,13 +30,7 @@ export const useEventsStore = create<EventsState>((set) => ({
     events: [],
     fetchEvents: async () => {
         try {
-            const { data } = await axios.get<Event[]>(api_url.get_eventos, {
-                headers: {
-                    Authorization: `Bearer ${JSON.parse(
-                        localStorage.getItem("auth")!
-                    ).accessToken}`,
-                },
-            });
+            const { data } = await axios.get<Event[]>(api_url.get_eventos);
             set({ events: data });
         } catch (error) {
             console.error("Error al obtener eventos:", error);
