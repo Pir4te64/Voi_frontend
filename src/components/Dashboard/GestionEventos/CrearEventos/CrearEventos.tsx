@@ -171,7 +171,7 @@ const CrearEventos: React.FC = () => {
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="mt-4 w-full rounded-xl bg-secondary py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+                        className="mt-4 hidden w-full rounded-xl bg-secondary py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-50 md:block"
                     >
                         {isSubmitting ? "Creando…" : "Crear Evento"}
                     </button>
@@ -206,6 +206,16 @@ const CrearEventos: React.FC = () => {
                         onFilesSelect={setEventImages}
                     />
                 </div>
+            </div>
+            <div className="mt-6 block md:hidden">
+                <button
+                    type="button"
+                    onClick={() => handleSubmit()}
+                    disabled={isSubmitting}
+                    className="w-full rounded-xl bg-secondary py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
+                >
+                    {isSubmitting ? "Creando…" : "Crear Evento"}
+                </button>
             </div>
         </div>
     );

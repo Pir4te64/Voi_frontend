@@ -26,8 +26,6 @@ export const crearEventoValidationSchema = Yup.object({
     category: Yup.string()
         .typeError("Categoría inválida")
         .required("La categoría es requerida"),
-    social1: Yup.string()
-        .url("Debe ser una URL válida")
-        .required("El link es requerido"),
+    social1: Yup.string().url("Debe ser una URL válida").notRequired(),
     social2: Yup.string().url("Debe ser una URL válida").notRequired(),
 });
