@@ -7,7 +7,7 @@ import 'swiper/swiper-bundle.css';
 import { staticEvents } from '@/components/Eventos/SeccionEventos/EventosEstaticos';
 import { useEventsStore } from '@/components/heroEvents/store/useEventsStore';
 import { FaMapMarkerAlt, FaMinus, FaPlus } from 'react-icons/fa';
-import { RemoteEvent, StaticEventDetail } from './data/Interfaces';
+import { RemoteEvent, StaticEventDetail } from '@/components/Eventos/SeccionEventos/data/Interfaces';
 
 
 

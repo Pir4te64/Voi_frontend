@@ -1,5 +1,5 @@
 import sliderImage from '@/assets/SliderEvent/Slider.png';
-import { EventCardProps } from '../EventCard';
+import { EventCardProps } from '@/components/Eventos/EventCard';
 
 export const staticEvents: EventCardProps[] = [
     {

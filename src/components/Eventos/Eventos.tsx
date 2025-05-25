@@ -9,7 +9,7 @@ import HeaderEvent from '@/components/Eventos/HeaderEvent';
 import GlowWrapper from '@/components/GlowWrapper';
 import EventsNav from '@/components/Eventos/EventsNav';
 import { useEventsStore } from '@/components/heroEvents/store/useEventsStore';
-import { staticEvents } from './data/estaticos';
+import { staticEvents } from '@/components/Eventos/data/estaticos';
 import { Link } from 'react-router-dom';
 
 const monthNames = [

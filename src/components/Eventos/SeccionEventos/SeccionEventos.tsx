@@ -9,7 +9,7 @@ import { staticEvents } from '@/components/Eventos/SeccionEventos/EventosEstatic
 import EventsFiltersSidebar from '@/components/Eventos/SeccionEventos/EventsFiltersSidebar';
 import GlowWrapper from '@/components/GlowWrapper';
 import { useEventsStore } from '@/components/heroEvents/store/useEventsStore';
-import { CardData } from './data/Interfaces';
+import { CardData } from '@/components/Eventos/SeccionEventos/data/Interfaces';
 
 const ordersList = ['Aleatorio', 'Últimos Eventos Publicados', 'Primeros Eventos Publicados'];
 const monthNames = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];

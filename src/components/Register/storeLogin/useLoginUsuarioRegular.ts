@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 import { validationSchema, initialValues } from '@/components/Register/data/UsuarioForm.schema';
 import { api_url } from '@/api/api';
 
