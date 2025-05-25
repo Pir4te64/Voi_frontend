@@ -1,6 +1,6 @@
 // src/components/Dashboard/CrearEventos/CrearEventos.tsx
 import React from "react";
-import EventoForm from "./EventForm";
+import EventoForm from "@/components/Dashboard/GestionEventos/CrearEventos/EventForm";
 import { useCrearEventoForm } from "@/components/Dashboard/GestionEventos/CrearEventos/store/useCrearEventoForm";
 
 const CrearEventos: React.FC = () => {

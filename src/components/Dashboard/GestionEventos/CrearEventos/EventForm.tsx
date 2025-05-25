@@ -1,18 +1,12 @@
-// src/components/Dashboard/CrearEventos/EventoForm.tsx
+// src/components/Dashboard/GestionEventos/CrearEventos/EventoForm.tsx
 import React from "react";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import ImageUpload from "@/components/Dashboard/ComponentesReutilizables/ImageUpload";
 import MultiImageUpload from "@/components/Dashboard/GestionEventos/CrearEventos/MultiImageUpload";
+import { EventoFormProps } from "@/components/Dashboard/GestionEventos/CrearEventos/data/Interface";
 
-interface EventoFormProps {
-    resetKey: number;
-    sliderImage: File | null;
-    setSliderImage: (f: File) => void;
-    eventImages: File[];
-    setEventImages: (files: File[]) => void;
-    formik: any;
-    categories: { id: number; nombre: string }[];
-}
+const MAX_DESC = 200;
+
 const EventoForm: React.FC<EventoFormProps> = ({
     resetKey,
     setSliderImage,
@@ -29,9 +23,11 @@ const EventoForm: React.FC<EventoFormProps> = ({
         handleSubmit,
         isSubmitting,
     } = formik;
+
     return (
         <>
             <form className="space-y-6" onSubmit={handleSubmit}>
+                {/* Nombre del Evento */}
                 <FloatingField label="Nombre del Evento" htmlFor="name">
                     <input
                         id="name"
@@ -47,6 +43,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                     )}
                 </FloatingField>
 
+                {/* Descripción con límite */}
                 <FloatingField label="Descripción" htmlFor="description">
                     <textarea
                         id="description"
@@ -55,19 +52,27 @@ const EventoForm: React.FC<EventoFormProps> = ({
                         value={values.description}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        maxLength={MAX_DESC}
                         placeholder=" "
                         className="w-full resize-none rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none"
                     />
-                    {touched.description && errors.description && (
-                        <p className="mt-1 text-sm text-red-400">{errors.description}</p>
-                    )}
+                    <div className="flex justify-between text-sm">
+                        <p className="text-red-400">
+                            {touched.description && errors.description && errors.description}
+                        </p>
+                        <p className="text-gray-400">
+                            {values.description.length}/{MAX_DESC}
+                        </p>
+                    </div>
                 </FloatingField>
 
+                {/* Fecha de Inicio */}
                 <FloatingField label="Fecha de Inicio" htmlFor="startDate">
                     <input
                         id="startDate"
                         name="startDate"
                         type="date"
+                        min={new Date().toISOString().split('T')[0]}
                         value={values.startDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -78,6 +83,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                     )}
                 </FloatingField>
 
+                {/* Fecha de Finalización */}
                 <FloatingField label="Fecha de Finalización" htmlFor="endDate">
                     <input
                         id="endDate"
@@ -86,6 +92,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                         value={values.endDate}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        min={values.startDate || undefined}
                         className="w-full rounded-xl border border-gray-700 bg-back px-3 py-4 transition focus:border-secondary focus:outline-none"
                     />
                     {touched.endDate && errors.endDate && (
@@ -93,6 +100,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                     )}
                 </FloatingField>
 
+                {/* Lugar */}
                 <FloatingField label="Lugar" htmlFor="location">
                     <input
                         id="location"
@@ -108,6 +116,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                     )}
                 </FloatingField>
 
+                {/* Categoría */}
                 <FloatingField label="Categoría" htmlFor="category">
                     <select
                         id="category"
@@ -117,7 +126,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                         onBlur={handleBlur}
                         className="z-50 w-full appearance-none rounded-xl border border-gray-700 bg-back px-3 py-4 transition focus:border-secondary focus:outline-none"
                     >
-                        <option value="" disabled hidden>
+                        <option value=""  >
                             Selecciona categoría
                         </option>
                         {categories.map((cat) => (
@@ -131,6 +140,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                     )}
                 </FloatingField>
 
+                {/* Link a Redes Sociales */}
                 <FloatingField label="Link a Red Social 1" htmlFor="social1">
                     <input
                         id="social1"
@@ -176,6 +186,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                 </button>
             </form>
 
+            {/* Upload de imágenes */}
             <div className="mt-6 space-y-6">
                 <ImageUpload
                     key={`slider-${resetKey}`}
@@ -188,7 +199,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                         </>
                     }
                     maxImageSize={5 * 1024 * 1024}
-                    onFileSelect={(file) => setSliderImage(file)}
+                    onFileSelect={setSliderImage}
                 />
 
                 <MultiImageUpload
@@ -202,7 +213,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                         </>
                     }
                     maxImageSize={5 * 1024 * 1024}
-                    onFilesSelect={(files) => setEventImages(files)}
+                    onFilesSelect={setEventImages}
                 />
             </div>
 

@@ -2,17 +2,9 @@
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import agregarImgIcon from "@/assets/agregarimg.svg";
+import { MultiImageUploadProps } from "@/components/Dashboard/GestionEventos/CrearEventos/data/Interface";
 
-export interface MultiImageUploadProps {
-    /** Texto de la etiqueta sobre el recuadro */
-    label: string;
-    /** Callback al seleccionar archivos válidos */
-    onFilesSelect: (files: File[], previewUrls: string[]) => void;
-    /** Texto o fragmento HTML para debajo del recuadro */
-    description?: React.ReactNode;
-    /** Tamaño máximo en bytes (por defecto 5 MB) */
-    maxImageSize?: number;
-}
+
 
 const MultiImageUpload: React.FC<MultiImageUploadProps> = ({
     label,

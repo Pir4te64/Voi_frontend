@@ -25,7 +25,6 @@ export const crearEventoValidationSchema = Yup.object({
     location: Yup.string().required("El lugar es requerido"),
     // validamos como número y mayor que cero
     category: Yup.number()
-        .typeError("Categoría inválida")
         .min(1, "Debes seleccionar una categoría")
         .required("La categoría es requerida"),
     social1: Yup.string()
