@@ -30,3 +30,13 @@ export interface RemoteEvent {
     fechaFin: string;       // "YYYY-MM-DD"
     galeriaUrls: string[];
 }
+export type CardData = {
+    id: number;
+    image: string;
+    category: string;
+    date: string;
+    title: string;
+    location: string;
+    city: string;
+    createdAt: string;
+};

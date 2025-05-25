@@ -10,6 +10,7 @@ import GlowWrapper from '@/components/GlowWrapper';
 import EventsNav from '@/components/Eventos/EventsNav';
 import { useEventsStore } from '@/components/heroEvents/store/useEventsStore';
 import { staticEvents } from './data/estaticos';
+import { Link } from 'react-router-dom';
 
 const monthNames = [
     'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
@@ -89,9 +90,11 @@ const EventsSection: React.FC = () => {
                             </button>
                         ))}
                     </div>
-                    <button className="mt-4 hidden rounded border border-white px-4 py-2 transition hover:bg-white hover:text-primary sm:inline-block md:mt-0">
-                        Ver Todos
-                    </button>
+                    <Link to="/eventos">
+                        <button className="mt-4 hidden rounded border border-white px-4 py-2 transition hover:bg-white hover:text-primary sm:inline-block md:mt-0">
+                            Ver Todos
+                        </button>
+                    </Link>
                 </div>
 
                 {/* Swiper Carousel */}
@@ -132,9 +135,11 @@ const EventsSection: React.FC = () => {
 
                 {/* Ver Todos mobile */}
                 <div className="my-8 flex justify-center sm:hidden">
-                    <button className="rounded border border-white px-4 py-2 transition hover:bg-white hover:text-primary">
-                        Ver Todos
-                    </button>
+                    <Link to="/eventos">
+                        <button className="rounded border border-white px-4 py-2 transition hover:bg-white hover:text-primary">
+                            Ver Todos
+                        </button>
+                    </Link>
                 </div>
             </section>
         </GlowWrapper>

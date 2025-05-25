@@ -21,6 +21,7 @@ const EventCard: React.FC<EventCardProps> = ({
     title,
     location,
     city,
+
 }) => {
     const navigate = useNavigate();
 

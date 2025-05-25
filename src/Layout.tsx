@@ -7,7 +7,9 @@ import { AuthProvider } from '@/context/AuthContext';
 import { GETME } from '@/api/api';
 
 const Layout: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+
     useEffect(() => {
+        window.scrollTo(0, 0);
         const storedAuth = localStorage.getItem('auth');
         if (!storedAuth) return;
 
