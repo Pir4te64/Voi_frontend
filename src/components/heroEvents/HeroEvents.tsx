@@ -8,16 +8,29 @@ import { useEventsStore } from "@/components/heroEvents/store/useEventsStore";
 import sliderImage from "@/assets/SliderEvent/Slider.png";
 
 const monthNames = [
-  "Ene", "Feb", "Mar", "Abr", "May", "Jun",
-  "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
+  "Ene",
+  "Feb",
+  "Mar",
+  "Abr",
+  "May",
+  "Jun",
+  "Jul",
+  "Ago",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dic",
 ];
 
 interface APIEvent {
   id: number;
   nombre: string;
   lugar: string;
-  fechaInicio: string;      // "YYYY-MM-DD"
+  fechaInicio: string; // "YYYY-MM-DD"
   sliderImageUrl: string;
+  address?: {
+    street: string;
+  };
 }
 
 // Eventos estáticos por defecto
@@ -56,16 +69,15 @@ const HeroEvents: React.FC = () => {
   const swiperRef = useRef<any>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const remoteEvents = useEventsStore(s => s.events) as APIEvent[];
-  const fetchEvents = useEventsStore(s => s.fetchEvents);
+  const remoteEvents = useEventsStore((s) => s.events) as APIEvent[];
+  const fetchEvents = useEventsStore((s) => s.fetchEvents);
 
   useEffect(() => {
     fetchEvents();
   }, [fetchEvents]);
 
   // Si la petición no ha traído nada, usamos los estáticos
-  const dataSource = (remoteEvents.length > 0 ? remoteEvents : staticEvents);
-
+  const dataSource = remoteEvents.length > 0 ? remoteEvents : staticEvents;
   return (
     <section
       className="relative overflow-hidden bg-primary p-8 md:px-16 md:pb-14"
@@ -73,7 +85,9 @@ const HeroEvents: React.FC = () => {
     >
       <Swiper
         modules={[A11y]}
-        onSwiper={(swiper) => { swiperRef.current = swiper; }}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+        }}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         spaceBetween={0}
         slidesPerView={1}
@@ -104,13 +118,11 @@ const HeroEvents: React.FC = () => {
                       <span className="text-md block font-semibold sm:text-4xl">
                         {day} – {month}
                       </span>
-                      <span className="text-md block sm:text-4xl">
-                        {year}
-                      </span>
+                      <span className="text-md block sm:text-4xl">{year}</span>
                     </div>
 
                     <div className="text-center text-sm font-bold sm:text-base md:text-lg">
-                      {ev.lugar}
+                      {ev.address?.street}
                     </div>
                   </div>
                 </div>
@@ -128,8 +140,9 @@ const HeroEvents: React.FC = () => {
           <button
             key={idx}
             onClick={() => swiperRef.current?.slideToLoop(idx)}
-            className={`w-2 h-2 rounded-full transition-colors ${activeIndex === idx ? "bg-white" : "bg-white/50"
-              }`}
+            className={`w-2 h-2 rounded-full transition-colors ${
+              activeIndex === idx ? "bg-white" : "bg-white/50"
+            }`}
           />
         ))}
       </div>
