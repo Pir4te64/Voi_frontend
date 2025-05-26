@@ -1,5 +1,5 @@
 // src/components/Dashboard/GestionEventos/CrearEventos/EventoForm.tsx
-import React, { useState } from "react";
+import React, { useState, Dispatch, SetStateAction } from "react";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import ImageUpload from "@/components/Dashboard/ComponentesReutilizables/ImageUpload";
 import { EventoFormProps } from "@/components/Dashboard/GestionEventos/CrearEventos/data/Interface";
@@ -25,18 +25,21 @@ const EventoForm: React.FC<EventoFormProps> = ({
     handleSubmit,
     isSubmitting,
   } = formik;
+
   const [modalOpen, setModalOpen] = useState(false);
   const [locationLabel, setLocationLabel] = useState("");
+
   return (
     <>
-      {/* Loader */}
+      {/* Loader de envío */}
       {isSubmitting && <LoaderOverlay />}
 
+      {/* ---------- Formulario principal ---------- */}
       <form
         className="space-y-6 rounded-lg bg-back p-6"
         onSubmit={handleSubmit}
       >
-        {/* Nombre del Evento */}
+        {/* Nombre */}
         <FloatingField label="Nombre del Evento" htmlFor="name">
           <input
             id="name"
@@ -75,8 +78,9 @@ const EventoForm: React.FC<EventoFormProps> = ({
           </div>
         </FloatingField>
 
+        {/* ---------- FILA 1: Fechas ---------- */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {/* Fecha de Inicio */}
+          {/* Fecha inicio */}
           <FloatingField label="Fecha de Inicio" htmlFor="startDate">
             <input
               id="startDate"
@@ -93,7 +97,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
             )}
           </FloatingField>
 
-          {/* Fecha de Finalización */}
+          {/* Fecha fin */}
           <FloatingField label="Fecha de Finalización" htmlFor="endDate">
             <input
               id="endDate"
@@ -109,13 +113,14 @@ const EventoForm: React.FC<EventoFormProps> = ({
               <p className="mt-1 text-sm text-red-400">{errors.endDate}</p>
             )}
           </FloatingField>
+        </div>
 
-          {/* Lugar */}
-          <div className="col-span-full">
-            <label className="mb-1 block text-xs uppercase">
-              Ubicación (clic para elegir en el mapa)
-            </label>
+        {/* ---------- FILA 2: Ubicación + Categoría ---------- */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Ubicación (label flotante) */}
+          <FloatingField label="Ubicación" htmlFor="ubicacion">
             <input
+              id="ubicacion"
               type="text"
               readOnly
               onClick={() => setModalOpen(true)}
@@ -127,8 +132,8 @@ const EventoForm: React.FC<EventoFormProps> = ({
                     )}`
                   : "")
               }
-              placeholder="Haz clic para seleccionar"
-              className="w-full cursor-pointer rounded-xl border border-gray-700 bg-back px-3 py-4 transition focus:border-secondary focus:outline-none"
+              placeholder=" "
+              className="w-full cursor-pointer rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none"
             />
             {(touched.latitud || touched.longitud) &&
               (errors.latitud || errors.longitud) && (
@@ -136,7 +141,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
                   {errors.latitud || errors.longitud}
                 </p>
               )}
-          </div>
+          </FloatingField>
 
           {/* Categoría */}
           <FloatingField label="Categoría" htmlFor="category">
@@ -159,8 +164,10 @@ const EventoForm: React.FC<EventoFormProps> = ({
               <p className="mt-1 text-sm text-red-400">{errors.category}</p>
             )}
           </FloatingField>
+        </div>
 
-          {/* Redes Sociales */}
+        {/* ---------- FILA 3: Redes Sociales ---------- */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <FloatingField label="Link a Red Social 1" htmlFor="social1">
             <input
               id="social1"
@@ -198,28 +205,27 @@ const EventoForm: React.FC<EventoFormProps> = ({
         </div>
       </form>
 
-      {/* Upload de imágenes */}
+      {/* ---------- Upload de imágenes ---------- */}
       <div className="mt-6 space-y-6 rounded-lg bg-back p-6">
         <ImageUpload
           key={`slider-${resetKey}`}
           label="Imagen para el Slider Home"
-          description={
-            <>
-              La imagen debe tener 1920 x 1080 px con un peso máximo de 10 Mb.
-            </>
-          }
+          description="La imagen debe tener 1920 x 1080 px con un peso máximo de 10 Mb."
           maxImageSize={10 * 1024 * 1024}
           onFileSelect={setSliderImage}
         />
 
         <GalleryUpload
-          onSlotChange={(file) => {
-            setEventImages([...values.eventImages, file]);
+          onSlotChange={(index, file) => {
+            setEventImages((prev: File[]) => {
+              if (prev.length >= 4) return prev;
+              return [...prev, file];
+            });
           }}
         />
       </div>
 
-      {/* Botón Guardar Cambios, visible en todos los tamaños */}
+      {/* ---------- Botón Guardar ---------- */}
       <div className="z-50 mt-6">
         <button
           type="button"
@@ -230,20 +236,19 @@ const EventoForm: React.FC<EventoFormProps> = ({
           {isSubmitting ? "Guardando…" : "Guardar Cambios"}
         </button>
       </div>
+
+      {/* ---------- Modal del mapa ---------- */}
       {modalOpen && (
         <MapPickerModal
           lat={values.latitud}
           lon={values.longitud}
           onClose={() => setModalOpen(false)}
           onSave={({ lat, lon, geo }) => {
-            // 1. Guarda coords para el payload
+            // Guarda lat/lon en Formik (payload)
             formik.setFieldValue("latitud", lat);
             formik.setFieldValue("longitud", lon);
 
-            // 2. Muestra en consola todo el JSON
-            console.log("👉 Geo devuelto:", geo);
-
-            // 3. Construye etiqueta "Calle Nº"
+            // Construye etiqueta legible: "Calle Nº"
             const road = geo.address?.road ?? "";
             const number = geo.address?.house_number ?? "";
             const etiqueta =

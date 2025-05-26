@@ -11,6 +11,7 @@ export const crearEventoInitialValues = {
   category: 0,
   social1: "",
   social2: "",
+  eventImages: [] as File[],
 };
 
 export const crearEventoValidationSchema = Yup.object({

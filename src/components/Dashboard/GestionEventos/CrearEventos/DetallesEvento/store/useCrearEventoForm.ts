@@ -50,12 +50,11 @@ export const useCrearEventoForm = () => {
         setSubmitting(false);
         return;
       }
-      if (eventImages.length === 0) {
-        toast.error("Debes cargar al menos una imagen para la galería");
+      if (eventImages.length > 4) {
+        toast.error("La galería admite hasta 4 imágenes");
         setSubmitting(false);
         return;
       }
-
       const evento = {
         nombre: values.name,
         descripcion: values.description,
