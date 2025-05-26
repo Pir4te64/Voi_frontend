@@ -10,7 +10,7 @@ import {
 
 import { useUserInfo } from "@/context/useUserInfo";
 import { useAuth } from "@/context/AuthContext";
-import { navItemsAdmin } from "./Items/NavItemsAdmin";
+import { navItemsAdmin } from "@/components/Dashboard/Sidebar/SidebarAdmin/Items/NavItemsAdmin";
 import { BiLogOut } from "react-icons/bi";
 
 /**

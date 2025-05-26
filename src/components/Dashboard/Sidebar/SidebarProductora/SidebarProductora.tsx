@@ -8,7 +8,7 @@ import {
     FaSignOutAlt,
 } from "react-icons/fa";
 
-import { navItemsProductora } from "./Items/NavItemsProductora";
+import { navItemsProductora } from "@/components/Dashboard/Sidebar/SidebarProductora/Items/NavItemsProductora";
 import { useUserInfo } from "@/context/useUserInfo";
 import { useAuth } from "@/context/AuthContext";
 import { BiLogOut } from "react-icons/bi";

@@ -1,5 +1,6 @@
 export const reverseGeocode = async (lat: number, lon: number) => {
-  const url = `https://cors.isomorphic-git.org/https://api.opentopodata.org/v1/srtm90m?locations=${lat},${lon}`;
+  // fetchElevation
+  const url = `https://api.open-elevation.com/api/v1/lookup?locations=${lat},${lon}`;
 
   const res = await fetch(url, {
     headers: {

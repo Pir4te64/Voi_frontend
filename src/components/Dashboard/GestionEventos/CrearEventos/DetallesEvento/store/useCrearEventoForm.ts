@@ -7,7 +7,7 @@ import { api_url } from "@/api/api";
 import {
   crearEventoInitialValues,
   crearEventoValidationSchema,
-} from "./crearEvento.schema";
+} from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/crearEvento.schema";
 
 export const useCrearEventoForm = () => {
   const [sliderImage, setSliderImage] = useState<File | null>(null);

@@ -7,7 +7,7 @@ import {
     FaTimes,
 } from "react-icons/fa";
 
-import { navItemsRevendedor } from "./Items/NavItemsRevendedor";
+import { navItemsRevendedor } from "@/components/Dashboard/Sidebar/SidebarRevendedor/Items/NavItemsRevendedor";
 import { useUserInfo } from "@/context/useUserInfo";
 import { useAuth } from "@/context/AuthContext";
 import { BiLogOut } from "react-icons/bi";

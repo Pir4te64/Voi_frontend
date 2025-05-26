@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { genId } from "../utils/genId";
+import { genId } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/utils/genId";
 
 export interface TicketLot {
   id: string;

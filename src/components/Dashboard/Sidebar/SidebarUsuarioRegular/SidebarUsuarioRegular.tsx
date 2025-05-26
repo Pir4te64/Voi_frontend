@@ -10,7 +10,7 @@ import {
 import voiLogo from "@/assets/Logo.svg"; // ajusta la ruta si cambia
 import { useUserInfo } from "@/context/useUserInfo";
 import { useAuth } from "@/context/AuthContext";
-import { navItemsUsuario } from "./Items/navItemsUsuario";
+import { navItemsUsuario } from "@/components/Dashboard/Sidebar/SidebarUsuarioRegular/Items/navItemsUsuario";
 
 /**
  * Sidebar para usuarios de tipo USUARIO (cliente final).

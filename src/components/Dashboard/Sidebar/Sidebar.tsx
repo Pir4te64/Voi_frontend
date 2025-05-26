@@ -1,9 +1,9 @@
 // src/components/Sidebar.jsx
-import { SidebarProductora } from "./SidebarProductora/SidebarProductora";
-import { SidebarAdmin } from "./SidebarAdmin/SidebarAdmin";
+import { SidebarProductora } from "@/components/Dashboard/Sidebar/SidebarProductora/SidebarProductora";
+import { SidebarAdmin } from "@/components/Dashboard/Sidebar/SidebarAdmin/SidebarAdmin";
 import { useUserInfo } from "@/context/useUserInfo";
-import { SidebarRevendedor } from "./SidebarRevendedor/SidebarRevendedor";
-import { SidebarUsuario } from "./SidebarUsuarioRegular/SidebarUsuarioRegular";
+import { SidebarRevendedor } from "@/components/Dashboard/Sidebar/SidebarRevendedor/SidebarRevendedor";
+import { SidebarUsuario } from "@/components/Dashboard/Sidebar/SidebarUsuarioRegular/SidebarUsuarioRegular";
 const Sidebar = () => {
     const { userType } = useUserInfo();
     if (userType === "PRODUCTORA") return <SidebarProductora />;

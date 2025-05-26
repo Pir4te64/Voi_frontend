@@ -8,11 +8,11 @@ import {
   FiChevronLeft,
   FiChevronRight,
 } from "react-icons/fi";
-import { useTicketLotsForm, TicketLot } from "./store/useTicketLotsForm";
+import { useTicketLotsForm, TicketLot } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/store/useTicketLotsForm";
 import {
   ticketLotInitialValues,
   ticketLotValidationSchema,
-} from "./data/ticketLots.data";
+} from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/data/ticketLots.data";
 
 const TicketLotsForm: React.FC = () => {
   const { lots, addLot, deleteLot, updateLot } = useTicketLotsForm();
