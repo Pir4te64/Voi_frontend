@@ -4,7 +4,7 @@ import { FiX } from "react-icons/fi";
 import {
   reverseGeocode,
   fetchElevation,
-} from "../GestionEventos/CrearEventos/DetallesEvento/utils/locationHelpers";
+} from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/utils/locationHelpers";
 
 interface Props {
   lat?: number;
