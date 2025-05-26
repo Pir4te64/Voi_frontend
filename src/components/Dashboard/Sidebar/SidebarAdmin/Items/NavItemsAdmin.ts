@@ -11,18 +11,18 @@ import { IoHomeOutline } from "react-icons/io5";
  */
 export const navItemsAdmin = [
     {
-        to: "/admin/perfil",
+        to: "/dashboard/miperfil",
         label: "Perfil",
         Icon: LuUser,
         end: true,
     },
     {
-        to: "/admin/productoras",
+        to: "/dashboard/productoras",
         label: "Productoras",
         Icon: MdGroup,
         children: [
             {
-                to: "/admin/productoras/solicitudes",
+                to: "/dashboard/productoras/solicitudes",
                 label: "Solicitudes",
                 Icon: FaInbox,
                 badge: 19, // reemplaza por tu contador dinámico
@@ -30,12 +30,12 @@ export const navItemsAdmin = [
         ],
     },
     {
-        to: "/admin/eventos",
+        to: "/dashboard/eventos",
         label: "Eventos",
         Icon: FaCalendarAlt,
     },
     {
-        to: "/admin",
+        to: "/dashboard",
         label: "Inicio",
         Icon: IoHomeOutline,
     },

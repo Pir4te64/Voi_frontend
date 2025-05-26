@@ -14,7 +14,7 @@ import {
  */
 export const navItemsRevendedor = [
     {
-        to: "/reseller/perfil",
+        to: "/reseller/miperfil",
         label: "Perfil Profesional",
         Icon: FaUser,
         end: true,

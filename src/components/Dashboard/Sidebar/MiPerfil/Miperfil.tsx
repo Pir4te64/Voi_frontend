@@ -1,138 +1,105 @@
 // src/components/Dashboard/MiPerfil/Miperfil.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
-import ImageUpload from "@/components/Dashboard/ComponentesReutilizables/ImageUpload";
+import { useUserInfo, AllUser, UserType } from "@/context/useUserInfo";
 
+const fieldsConfig: Record<
+    UserType,
+    { name: keyof AllUser; label: string; type?: string }[]
+> = {
+    PRODUCTORA: [
+        { name: "razonSocial", label: "Razón Social" },
+        { name: "cuit", label: "CUIT" },
+        { name: "dni", label: "DNI" },
+        { name: "direccion", label: "Dirección" },
+        { name: "cbu", label: "CBU" },
+        { name: "status", label: "Estado" },
+    ],
+    REVENDEDOR: [
+        { name: "name", label: "Nombre" },
+        { name: "lastName", label: "Apellido" },
+        { name: "phoneNumber", label: "Teléfono de contacto", type: "tel" },
+    ],
+    USUARIO: [
+        { name: "firstName", label: "Nombre" },
+        { name: "lastName", label: "Apellido" },
+    ],
+};
 
 const Miperfil: React.FC = () => {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const { email, userType, allUser } = useUserInfo();
+    const [formValues, setFormValues] = useState<Partial<Record<keyof AllUser, string>>>({});
+
+    useEffect(() => {
+        if (!allUser) return;
+        const initial: Partial<Record<keyof AllUser, string>> = {};
+        fieldsConfig[userType].forEach(({ name }) => {
+            initial[name] = allUser[name]?.toString() ?? "";
+        });
+        setFormValues(initial);
+    }, [allUser, userType]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormValues((prev) => ({ ...prev, [name]: value }));
+    };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedFile) {
-            toast.error("Debes cargar una foto de perfil");
-            return;
-        }
-        // Aquí tu lógica de guardado/actualización de perfil,
-        // con los valores de los inputs y `selectedFile`.
+
+        const payload = {
+            userType,
+            email,
+            ...formValues,
+        };
+
+        console.log("Payload a enviar:", payload);
+        // Aquí llamás a tu API con fetch o axios…
     };
 
     return (
-        <>
-            <div className="bg-primary rounded-lg p-6 text-white">
-                <h2 className="text-secondary text-2xl font-semibold mb-6">
-                    Mi Perfil
-                </h2>
+        <div className="rounded-lg bg-primary p-6 text-white">
+            <h2 className="mb-6 text-2xl font-semibold text-secondary">
+                Mi Perfil ({userType})
+            </h2>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* IZQUIERDA: Formulario */}
-                    <form className="space-y-6" onSubmit={handleSubmit}>
-                        <FloatingField label="Nombre y Apellido">
+            <div className="grid grid-cols-1 gap-6">
+                {/* Formulario Dinámico */}
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                    {fieldsConfig[userType].map(({ name, label, type }) => (
+                        <FloatingField key={name} label={label}>
                             <input
-                                type="text"
+                                name={name}
+                                type={type ?? "text"}
+                                value={(formValues[name] as string) ?? ""}
+                                onChange={handleChange}
                                 placeholder=" "
-                                className="
-                  w-full bg-back border border-gray-700 rounded-xl
-                  px-3 pt-6 pb-2
-                  focus:outline-none focus:border-secondary
-                  transition
-                "
+                                className="w-full rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none"
                             />
                         </FloatingField>
+                    ))}
 
-                        <FloatingField label="Teléfono de contacto">
-                            <input
-                                type="tel"
-                                placeholder=" "
-                                className="
-                  w-full bg-back border border-gray-700 rounded-xl
-                  px-3 pt-6 pb-2
-                  focus:outline-none focus:border-secondary
-                  transition
-                "
-                            />
-                        </FloatingField>
+                    {/* Email (solo lectura) */}
+                    <FloatingField label="Email">
+                        <input
+                            type="email"
+                            value={email}
+                            disabled
+                            className="w-full rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6"
+                        />
+                    </FloatingField>
 
-                        <FloatingField label="Email">
-                            <input
-                                type="email"
-                                placeholder=" "
-                                className="
-                  w-full bg-back border border-gray-700 rounded-xl
-                  px-3 pt-6 pb-2
-                  focus:outline-none focus:border-secondary
-                  transition
-                "
-                            />
-                        </FloatingField>
-
-                        <FloatingField label="Provincia / Localidad">
-                            <input
-                                type="text"
-                                placeholder=" "
-                                className="
-                  w-full bg-back border border-gray-700 rounded-xl
-                  px-3 pt-6 pb-2
-                  focus:outline-none focus:border-secondary
-                  transition
-                "
-                            />
-                        </FloatingField>
-
-                        <FloatingField label="Restablecer contraseña">
-                            <input
-                                type="password"
-                                placeholder=" "
-                                className="
-                  w-full bg-back border border-gray-700 rounded-xl
-                  px-3 pt-6 pb-2
-                  focus:outline-none focus:border-secondary
-                  transition
-                "
-                            />
-                        </FloatingField>
-
-                        <FloatingField label="Volver a ingresar contraseña">
-                            <input
-                                type="password"
-                                placeholder=" "
-                                className="
-                  w-full bg-back border border-gray-700 rounded-xl
-                  px-3 pt-6 pb-2
-                  focus:outline-none focus:border-secondary
-                  transition
-                "
-                            />
-                        </FloatingField>
-
-                        <button
-                            type="submit"
-                            className="
-                mt-4 w-full bg-secondary text-white font-semibold
-                py-3 rounded-xl hover:opacity-90 transition
-              "
-                        >
-                            Guardar Perfil
-                        </button>
-                    </form>
-
-                    {/* DERECHA: Carga de Foto de Perfil */}
-                    <ImageUpload
-                        label="Foto de Perfil"
-                        description={
-                            <>
-                                La imagen debe tener 400 x 400 px
-                                <br />
-                                con un peso máximo de 1 Mb.
-                            </>
-                        }
-                        onFileSelect={(file) => setSelectedFile(file)}
-                    />
-                </div>
+                    <button
+                        type="submit"
+                        className="mt-4 w-full rounded-xl bg-secondary py-3 font-semibold text-white transition hover:opacity-90"
+                    >
+                        Guardar Perfil
+                    </button>
+                </form>
             </div>
-        </>
+        </div>
     );
 };
 
