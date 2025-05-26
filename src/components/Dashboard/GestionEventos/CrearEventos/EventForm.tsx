@@ -31,7 +31,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
             {/* Loader */}
             {isSubmitting && <LoaderOverlay />}
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6 rounded-lg bg-back p-6" onSubmit={handleSubmit}>
                 {/* Nombre del Evento */}
                 <FloatingField label="Nombre del Evento" htmlFor="name">
                     <input
@@ -180,7 +180,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
             </form>
 
             {/* Upload de imágenes */}
-            <div className="mt-6 space-y-6">
+            <div className="mt-6 space-y-6 rounded-lg bg-back p-6">
                 <ImageUpload
                     key={`slider-${resetKey}`}
                     label="Imagen para el Slider Home"
