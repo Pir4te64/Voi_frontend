@@ -3,9 +3,7 @@ import React, { useState, useMemo, useRef, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y } from "swiper/modules";
 import "swiper/swiper-bundle.css";
-
 import EventCard from "@/components/Eventos/EventCard";
-import { staticEvents } from "@/components/Eventos/SeccionEventos/EventosEstaticos";
 import EventsFiltersSidebar from "@/components/Eventos/SeccionEventos/EventsFiltersSidebar";
 import GlowWrapper from "@/components/GlowWrapper";
 import { useEventsStore } from "@/components/heroEvents/store/useEventsStore";
@@ -51,7 +49,7 @@ const SeccionEventos: React.FC = () => {
   }, [fetchEvents]);
 
   /* mapear remoto a CardData */
-  const mappedRemote: CardData[] = rawRemote.map((ev) => {
+  const mappedEvents: CardData[] = rawRemote.map((ev) => {
     const [y, m, d] = ev.fechaInicio.split("-");
     return {
       id: ev.id,
@@ -65,30 +63,15 @@ const SeccionEventos: React.FC = () => {
     };
   });
 
-  /* elegir fuente: remoto o estático */
-  const dataSource: CardData[] =
-    mappedRemote.length > 0
-      ? mappedRemote
-      : staticEvents.map((e) => ({
-          id: e.id,
-          image: e.gallery?.[0] || "",
-          category: e.title,
-          date: e.fullDate,
-          title: e.title,
-          location: e.address,
-          city: "",
-          createdAt: e.fullDate,
-        }));
-
   /* categorías dinámicas */
   const categoriesList = useMemo(() => {
-    const cats = Array.from(new Set(dataSource.map((ev) => ev.category)));
+    const cats = Array.from(new Set(mappedEvents.map((ev) => ev.category)));
     return ["Todos", ...cats];
-  }, [dataSource]);
+  }, [mappedEvents]);
 
   /* filtrar + ordenar */
   const events = useMemo(() => {
-    let evts = [...dataSource];
+    let evts = [...mappedEvents];
     if (category !== "Todos")
       evts = evts.filter((e) => e.category === category);
     if (province)
@@ -112,7 +95,7 @@ const SeccionEventos: React.FC = () => {
       evts.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
     }
     return evts;
-  }, [search, category, order, province, city, dataSource]);
+  }, [search, category, order, province, city, mappedEvents]);
 
   return (
     <GlowWrapper reverse intensity={52}>

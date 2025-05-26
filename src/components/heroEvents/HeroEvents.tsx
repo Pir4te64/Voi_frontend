@@ -5,7 +5,6 @@ import { A11y } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import HeroEventsNav from "@/components/heroEvents/HeroEventsNav";
 import { useEventsStore } from "@/components/heroEvents/store/useEventsStore";
-import sliderImage from "@/assets/SliderEvent/Slider.png";
 
 const monthNames = [
   "Ene",
@@ -33,37 +32,6 @@ interface APIEvent {
   };
 }
 
-// Eventos estáticos por defecto
-const staticEvents: APIEvent[] = [
-  {
-    id: 1,
-    nombre: "Garden Rituals",
-    lugar: "Tambor de Tacuarí 8160",
-    fechaInicio: "2025-03-22",
-    sliderImageUrl: sliderImage,
-  },
-  {
-    id: 2,
-    nombre: "Sunset Beats",
-    lugar: "Av. Costanera 1234",
-    fechaInicio: "2025-04-30",
-    sliderImageUrl: sliderImage,
-  },
-  {
-    id: 3,
-    nombre: "City Vibes",
-    lugar: "Rivadavia 567",
-    fechaInicio: "2025-05-10",
-    sliderImageUrl: sliderImage,
-  },
-  {
-    id: 4,
-    nombre: "Deep House Night",
-    lugar: "Ruta 12 km 8",
-    fechaInicio: "2025-06-18",
-    sliderImageUrl: sliderImage,
-  },
-];
 
 const HeroEvents: React.FC = () => {
   const swiperRef = useRef<any>(null);
@@ -77,7 +45,7 @@ const HeroEvents: React.FC = () => {
   }, [fetchEvents]);
 
   // Si la petición no ha traído nada, usamos los estáticos
-  const dataSource = remoteEvents.length > 0 ? remoteEvents : staticEvents;
+  const dataSource = remoteEvents
   return (
     <section
       className="relative overflow-hidden bg-primary p-8 md:px-16 md:pb-14"
@@ -140,9 +108,8 @@ const HeroEvents: React.FC = () => {
           <button
             key={idx}
             onClick={() => swiperRef.current?.slideToLoop(idx)}
-            className={`w-2 h-2 rounded-full transition-colors ${
-              activeIndex === idx ? "bg-white" : "bg-white/50"
-            }`}
+            className={`w-2 h-2 rounded-full transition-colors ${activeIndex === idx ? "bg-white" : "bg-white/50"
+              }`}
           />
         ))}
       </div>

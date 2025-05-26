@@ -9,7 +9,6 @@ import HeaderEvent from "@/components/Eventos/HeaderEvent";
 import GlowWrapper from "@/components/GlowWrapper";
 import EventsNav from "@/components/Eventos/EventsNav";
 import { useEventsStore } from "@/components/heroEvents/store/useEventsStore";
-import { staticEvents } from "@/components/Eventos/data/estaticos";
 import { Link } from "react-router-dom";
 
 const monthNames = [
@@ -26,11 +25,6 @@ const monthNames = [
   "Nov",
   "Dic",
 ];
-
-// Eventos estáticos por defecto
-
-// Categorías estáticas
-const staticCategories = ["Todos", "Electrónica", "Fiestas", "Sociales"];
 
 const EventsSection: React.FC = () => {
   const [activeCat, setActiveCat] = useState<string>("Todos");
@@ -62,20 +56,14 @@ const EventsSection: React.FC = () => {
     };
   });
 
-  // Decidir fuente de datos: si hay datos remotos, usarlos; si no, los estáticos
-  const hasRemote = mappedEvents.length > 0;
-  const dataSource = hasRemote ? mappedEvents : staticEvents;
-
-  // Categorías dinámicas o estáticas según disponibilidad de datos
-  const categories = hasRemote
-    ? ["Todos", ...Array.from(new Set(mappedEvents.map((ev) => ev.category)))]
-    : staticCategories;
+  // Obtener categorías únicas de los eventos
+  const categories = ["Todos", ...Array.from(new Set(mappedEvents.map((ev) => ev.category)))];
 
   // Filtrar según categoría activa
   const filtered =
     activeCat === "Todos"
-      ? dataSource
-      : dataSource.filter((ev) => ev.category === activeCat);
+      ? mappedEvents
+      : mappedEvents.filter((ev) => ev.category === activeCat);
 
   return (
     <GlowWrapper className="bg-primary px-4 py-12 text-white md:px-16">
@@ -91,10 +79,9 @@ const EventsSection: React.FC = () => {
                 onClick={() => setActiveCat(cat)}
                 className={`
                   px-4 py-2 text-md rounded-2xl transition uppercase
-                  ${
-                    activeCat === cat
-                      ? "bg-secondary text-primary"
-                      : "bg-back text-white hover:bg-white/30"
+                  ${activeCat === cat
+                    ? "bg-secondary text-primary"
+                    : "bg-back text-white hover:bg-white/30"
                   }
                 `}
               >
@@ -141,9 +128,8 @@ const EventsSection: React.FC = () => {
             <button
               key={idx}
               onClick={() => swiperRef.current?.slideToLoop(idx)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                activeIndex === idx ? "bg-white" : "bg-white/50"
-              }`}
+              className={`w-2 h-2 rounded-full transition-colors ${activeIndex === idx ? "bg-white" : "bg-white/50"
+                }`}
             />
           ))}
         </div>
