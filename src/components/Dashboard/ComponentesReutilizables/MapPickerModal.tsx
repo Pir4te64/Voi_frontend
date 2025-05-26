@@ -1,11 +1,10 @@
-// src/components/Dashboard/ComponentesReutilizables/MapPickerModal.tsx
 import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import { FiX } from "react-icons/fi";
 import {
   reverseGeocode,
   fetchElevation,
-} from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/utils/locationHelpers";
+} from "../GestionEventos/CrearEventos/DetallesEvento/utils/locationHelpers";
 
 interface Props {
   lat?: number;
@@ -14,7 +13,7 @@ interface Props {
   onSave: (data: {
     lat: number;
     lon: number;
-    direccion: string;
+    geo: any; // JSON completo de Nominatim
     elevacion: number;
   }) => void;
 }
@@ -41,14 +40,14 @@ const MapPickerModal: React.FC<Props> = ({ lat, lon, onClose, onSave }) => {
     if (!pos) return;
     setLoading(true);
     try {
-      const [direccion, elevacion] = await Promise.all([
-        reverseGeocode(pos[0], pos[1]),
+      const [geo, elevacion] = await Promise.all([
+        reverseGeocode(pos[0], pos[1]), // JSON completo
         fetchElevation(pos[0], pos[1]),
       ]);
       onSave({
         lat: pos[0],
         lon: pos[1],
-        direccion,
+        geo,
         elevacion,
       });
     } catch (e) {
@@ -61,6 +60,7 @@ const MapPickerModal: React.FC<Props> = ({ lat, lon, onClose, onSave }) => {
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70">
       <div className="relative w-[90vw] max-w-3xl rounded-xl bg-back p-4">
+        {/* Header */}
         <div className="mb-2 flex items-center justify-between">
           <h3 className="text-lg font-semibold text-secondary">
             Selecciona la ubicación
@@ -73,6 +73,7 @@ const MapPickerModal: React.FC<Props> = ({ lat, lon, onClose, onSave }) => {
           </button>
         </div>
 
+        {/* Mapa */}
         <MapContainer
           center={pos ?? [-27.42, -55.92]}
           zoom={13}
@@ -85,6 +86,7 @@ const MapPickerModal: React.FC<Props> = ({ lat, lon, onClose, onSave }) => {
           <LocationMarker pos={pos} setPos={setPos} />
         </MapContainer>
 
+        {/* Footer */}
         <div className="mt-4 flex justify-end gap-3">
           <button
             onClick={onClose}

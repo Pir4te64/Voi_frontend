@@ -235,16 +235,23 @@ const EventoForm: React.FC<EventoFormProps> = ({
           lat={values.latitud}
           lon={values.longitud}
           onClose={() => setModalOpen(false)}
-          /* MapPickerModal ahora devuelve dirección + elevación, pero
-             solo usamos el texto para mostrarlo al usuario.            */
-          onSave={({ lat, lon, direccion, elevacion }) => {
+          onSave={({ lat, lon, geo }) => {
+            // 1. Guarda coords para el payload
             formik.setFieldValue("latitud", lat);
             formik.setFieldValue("longitud", lon);
-            const label = direccion
-              ? `${direccion} (${elevacion} m s. n. m.)`
-              : `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
-            setLocationLabel(label);
 
+            // 2. Muestra en consola todo el JSON
+            console.log("👉 Geo devuelto:", geo);
+
+            // 3. Construye etiqueta "Calle Nº"
+            const road = geo.address?.road ?? "";
+            const number = geo.address?.house_number ?? "";
+            const etiqueta =
+              road || number
+                ? `${road} ${number}`.trim()
+                : `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+
+            setLocationLabel(etiqueta);
             setModalOpen(false);
           }}
         />
