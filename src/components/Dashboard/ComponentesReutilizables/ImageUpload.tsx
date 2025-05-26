@@ -4,13 +4,13 @@ import { toast } from "react-toastify";
 import agregarImgIcon from "@/assets/agregarimg.svg";
 
 export interface ImageUploadProps {
-    /** Texto de la etiqueta sobre el recuadro */
+    /** Texto de la etiqueta flotante sobre el recuadro */
     label: string;
     /** Callback al seleccionar un archivo válido */
     onFileSelect: (file: File, previewUrl: string) => void;
-    /** Texto o fragmento HTML para debajo del recuadro */
+    /** Texto o fragmento HTML adicional debajo (opcional) */
     description?: React.ReactNode;
-    /** Tamaño máximo en bytes (por defecto 1 MB) */
+    /** Tamaño máximo en bytes (por defecto 10 MB) */
     maxImageSize?: number;
 }
 
@@ -18,17 +18,20 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     label,
     onFileSelect,
     description,
-    maxImageSize = 1 * 1024 * 1024, // 1 MB
+    maxImageSize = 10 * 1024 * 1024, // 10 MB por defecto
 }) => {
     const [preview, setPreview] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    /* ---------- Handlers ---------- */
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (!file) return;
 
         if (file.size > maxImageSize) {
-            toast.error(`La imagen no debe pesar más de ${maxImageSize / 1024 / 1024} MB.`);
+            toast.error(
+                `La imagen no debe pesar más de ${maxImageSize / 1024 / 1024} MB.`
+            );
             return;
         }
 
@@ -37,61 +40,49 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         onFileSelect(file, url);
     };
 
-    const handleUploadClick = () => {
-        fileInputRef.current?.click();
-    };
+    const triggerSelect = () => fileInputRef.current?.click();
 
+    /* ---------- Render ---------- */
     return (
-        <div className="flex flex-col items-center">
-            <div className="relative w-full max-w-xs">
-                <label className="absolute -top-2 left-3 bg-back px-1 text-sm text-white">
-                    {label}
-                </label>
+        <div className="w-full">
+            {/* Label flotante sobre el borde */}
+            <span className="absolute z-10 -translate-y-1/2 translate-x-4 select-none rounded bg-back px-2 text-xs font-medium text-white">
+                {label}
+            </span>
 
-                <div
-                    onClick={handleUploadClick}
-                    className="flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-white transition hover:border-secondary"
-                >
-                    {preview ? (
-                        <img
-                            src={preview}
-                            alt="Preview"
-                            className="h-full w-full rounded-lg object-cover"
-                        />
-                    ) : (
-                        <>
-                            <img
-                                src={agregarImgIcon}
-                                alt="Agregar"
-                                className="mb-2 h-28 w-28 opacity-70"
-                            />
-                            <span className="text-center text-gray-400">
-                                Clic aquí para elegir imagen
-                            </span>
-                        </>
-                    )}
-
-                    <input
-                        type="file"
-                        accept="image/*"
-                        ref={fileInputRef}
-                        onChange={handleFileChange}
-                        className="hidden"
-                    />
-                </div>
-            </div>
-
-            {description && (
-                <p className="mt-2 text-center text-xs text-white">{description}</p>
-            )}
-
-            <button
-                type="button"
-                onClick={handleUploadClick}
-                className="mt-4 rounded-xl border border-white px-6 py-4 font-semibold text-white transition hover:opacity-90"
+            <div
+                onClick={triggerSelect}
+                className="relative flex w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-500 bg-back py-10 transition hover:border-secondary"
             >
-                Cargar imagen
-            </button>
+                {preview ? (
+                    <img
+                        src={preview}
+                        alt="Preview"
+                        className="h-full w-full rounded-lg object-cover"
+                    />
+                ) : (
+                    <>
+                        <img
+                            src={agregarImgIcon}
+                            alt="Agregar"
+                            className="mb-4 h-16 w-16 opacity-70 md:h-28 md:w-28"
+                        />
+                        <p className="md:text-md mb-1 text-center text-base font-semibold text-white">
+                            <span className="font-bold">Sube una imagen</span> o arrástrala y
+                            suéltala
+                        </p>
+                        {description && <p className="text-center text-[10px] text-gray-300 md:text-xs">{description}</p>}
+                    </>
+                )}
+
+                <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                />
+            </div>
         </div>
     );
 };
