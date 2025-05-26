@@ -6,7 +6,6 @@ import { SidebarRevendedor } from "./SidebarRevendedor/SidebarRevendedor";
 import { SidebarUsuario } from "./SidebarUsuarioRegular/SidebarUsuarioRegular";
 const Sidebar = () => {
     const { userType } = useUserInfo();
-    console.log(userType);
     if (userType === "PRODUCTORA") return <SidebarProductora />;
     if (userType === "ADMIN") return <SidebarAdmin />;
     if (userType === "REVENDEDOR") return <SidebarRevendedor />;
