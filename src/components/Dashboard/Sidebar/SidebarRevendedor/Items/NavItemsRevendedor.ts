@@ -14,73 +14,73 @@ import {
  */
 export const navItemsRevendedor = [
     {
-        to: "/reseller/miperfil",
+        to: "/dashboard/miperfil",
         label: "Perfil Profesional",
         Icon: FaUser,
         end: true,
     },
     {
-        to: "/reseller/notificaciones",
+        to: "/dashboard/notificaciones",
         label: "Notificaciones",
         Icon: FaBell,
         badge: 9, // ← reemplaza por tu contador dinámico
     },
     {
-        to: "/reseller/ticket",
+        to: "/dashboard/ticket",
         label: "Enviar ticket",
         Icon: FaTicketAlt,
         children: [
             {
-                to: "/reseller/ticket/evento",
+                to: "/dashboard/ticket/evento",
                 label: "Evento",
                 Icon: FaRegArrowAltCircleRight,
             },
             {
-                to: "/reseller/ticket/lote",
+                to: "/dashboard/ticket/lote",
                 label: "Lote",
                 Icon: FaRegArrowAltCircleRight,
             },
         ],
     },
     {
-        to: "/reseller/ventas",
+        to: "/dashboard/ventas",
         label: "Mis Ventas",
         Icon: FaShoppingCart,
         children: [
             {
-                to: "/reseller/ventas/total",
+                to: "/dashboard/ventas/total",
                 label: "Total",
                 Icon: FaRegArrowAltCircleRight,
             },
             {
-                to: "/reseller/ventas/eventos",
+                to: "/dashboard/ventas/eventos",
                 label: "Eventos",
                 Icon: FaRegArrowAltCircleRight,
             },
             {
-                to: "/reseller/ventas/lotes",
+                to: "/dashboard/ventas/lotes",
                 label: "Lotes",
                 Icon: FaRegArrowAltCircleRight,
             },
             {
-                to: "/reseller/ventas/comisiones",
+                to: "/dashboard/ventas/comisiones",
                 label: "Comisiones generadas (por lotes)",
                 Icon: FaRegArrowAltCircleRight,
             },
         ],
     },
     {
-        to: "/reseller/recursos",
+        to: "/dashboard/recursos",
         label: "Recursos",
         Icon: FaChartLine,
         children: [
             {
-                to: "/reseller/recursos/marketing",
+                to: "/dashboard/recursos/marketing",
                 label: "Material de marketing",
                 Icon: FaRegArrowAltCircleRight,
             },
             {
-                to: "/reseller/recursos/qr",
+                to: "/dashboard/recursos/qr",
                 label: "Código QR personalizado",
                 Icon: FaRegArrowAltCircleRight,
             },

@@ -24,9 +24,8 @@ export const useCrearEventoForm = () => {
     axios
       .get<{ id: number; nombre: string }[]>(api_url.get_categorias, {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("auth")!).accessToken
-          }`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken
+            }`,
         },
       })
       .then((res) => {
@@ -81,9 +80,8 @@ export const useCrearEventoForm = () => {
         await axios.post(api_url.crear_evento, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("auth")!).accessToken
-            }`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken
+              }`,
           },
         });
 

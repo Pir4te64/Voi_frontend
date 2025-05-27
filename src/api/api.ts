@@ -25,6 +25,9 @@ export const api_url = {
 
   // Endpoints de categorias
   get_categorias: `${baseUrl}/eventos/user/v1/categorias/get-all`,
+
+  //Endpoint actualizar perfil
+  update_profile: `${baseUrl}/auth/user/v1/profile/update`,
 };
 
 /**

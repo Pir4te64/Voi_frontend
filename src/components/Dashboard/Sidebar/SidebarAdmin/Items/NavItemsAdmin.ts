@@ -2,7 +2,6 @@ import {
     FaInbox,
     FaCalendarAlt,
 } from "react-icons/fa";
-import { LuUser } from "react-icons/lu";
 import { MdGroup } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
 /**
@@ -11,9 +10,9 @@ import { IoHomeOutline } from "react-icons/io5";
  */
 export const navItemsAdmin = [
     {
-        to: "/dashboard/miperfil",
-        label: "Perfil",
-        Icon: LuUser,
+        to: "/dashboard",
+        label: "Inicio",
+        Icon: IoHomeOutline,
         end: true,
     },
     {
@@ -34,9 +33,5 @@ export const navItemsAdmin = [
         label: "Eventos",
         Icon: FaCalendarAlt,
     },
-    {
-        to: "/dashboard",
-        label: "Inicio",
-        Icon: IoHomeOutline,
-    },
+
 ];

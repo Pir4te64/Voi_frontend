@@ -1,8 +1,8 @@
 // src/components/Dashboard/GestionEventos/CrearEventos/EventoForm.tsx
-import React, { useState, Dispatch, SetStateAction } from "react";
+import React, { useState } from "react";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 import ImageUpload from "@/components/Dashboard/ComponentesReutilizables/ImageUpload";
-import { EventoFormProps } from "@/components/Dashboard/GestionEventos/CrearEventos/data/Interface";
+import { EventoFormProps } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/data/Interface";
 import LoaderOverlay from "@/components/Dashboard/ComponentesReutilizables/LoaderOverlay";
 import GalleryUpload from "@/components/Dashboard/GestionEventos/CrearEventos/UI/MultiImageUpload";
 import MapPickerModal from "@/components/Dashboard/ComponentesReutilizables/MapPickerModal";
@@ -128,8 +128,8 @@ const EventoForm: React.FC<EventoFormProps> = ({
                 locationLabel ||
                 (values.latitud && values.longitud
                   ? `${values.latitud.toFixed(5)}, ${values.longitud.toFixed(
-                      5
-                    )}`
+                    5
+                  )}`
                   : "")
               }
               placeholder=" "
@@ -243,20 +243,13 @@ const EventoForm: React.FC<EventoFormProps> = ({
           lat={values.latitud}
           lon={values.longitud}
           onClose={() => setModalOpen(false)}
-          onSave={({ lat, lon, geo }) => {
-            // Guarda lat/lon en Formik (payload)
+          onSave={({ lat, lon }) => {
+            // Guardamos coordenadas en Formik
             formik.setFieldValue("latitud", lat);
             formik.setFieldValue("longitud", lon);
 
-            // Construye etiqueta legible: "Calle Nº"
-            const road = geo.address?.road ?? "";
-            const number = geo.address?.house_number ?? "";
-            const etiqueta =
-              road || number
-                ? `${road} ${number}`.trim()
-                : `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
-
-            setLocationLabel(etiqueta);
+            // Mostramos siempre este texto en el input
+            setLocationLabel("Ver Ubicación");
             setModalOpen(false);
           }}
         />

@@ -26,6 +26,7 @@ export interface UserInfo {
     email: string;
     userType: UserType;
     allUser: AllUser | null;
+    setAllUser: (user: AllUser | null) => void;
 }
 
 export function useUserInfo(): UserInfo {
@@ -50,5 +51,5 @@ export function useUserInfo(): UserInfo {
         }
     }, []);
 
-    return { email, userType, allUser };
+    return { email, userType, allUser, setAllUser };
 }

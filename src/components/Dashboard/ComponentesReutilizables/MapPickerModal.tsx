@@ -1,21 +1,14 @@
+// src/components/Dashboard/ComponentesReutilizables/MapPickerModal.tsx
 import React, { useState } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import { FiX } from "react-icons/fi";
-import {
-  reverseGeocode,
-  fetchElevation,
-} from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/utils/locationHelpers";
 
 interface Props {
   lat?: number;
   lon?: number;
   onClose: () => void;
-  onSave: (data: {
-    lat: number;
-    lon: number;
-    geo: any; // JSON completo de Nominatim
-    elevacion: number;
-  }) => void;
+  // Ahora solo devuelve lat y lon:
+  onSave: (data: { lat: number; lon: number }) => void;
 }
 
 const LocationMarker: React.FC<{
@@ -34,46 +27,25 @@ const MapPickerModal: React.FC<Props> = ({ lat, lon, onClose, onSave }) => {
   const [pos, setPos] = useState<[number, number] | null>(
     lat && lon ? [lat, lon] : null
   );
-  const [loading, setLoading] = useState(false);
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!pos) return;
-    setLoading(true);
-    try {
-      const [geo, elevacion] = await Promise.all([
-        reverseGeocode(pos[0], pos[1]), // JSON completo
-        fetchElevation(pos[0], pos[1]),
-      ]);
-      onSave({
-        lat: pos[0],
-        lon: pos[1],
-        geo,
-        elevacion,
-      });
-    } catch (e) {
-      alert("No se pudo obtener la dirección/elevación");
-    } finally {
-      setLoading(false);
-    }
+    // Solo pasamos lat y lon, sin geocoding extra:
+    onSave({ lat: pos[0], lon: pos[1] });
   };
 
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/70">
       <div className="relative w-[90vw] max-w-3xl rounded-xl bg-back p-4">
-        {/* Header */}
-        <div className="mb-2 flex items-center justify-between">
+        <header className="mb-2 flex items-center justify-between">
           <h3 className="text-lg font-semibold text-secondary">
             Selecciona la ubicación
           </h3>
-          <button
-            onClick={onClose}
-            className="rounded p-1 transition hover:bg-white/10"
-          >
+          <button onClick={onClose} className="rounded p-1 hover:bg-white/10">
             <FiX size={22} />
           </button>
-        </div>
+        </header>
 
-        {/* Mapa */}
         <MapContainer
           center={pos ?? [-27.42, -55.92]}
           zoom={13}
@@ -86,22 +58,21 @@ const MapPickerModal: React.FC<Props> = ({ lat, lon, onClose, onSave }) => {
           <LocationMarker pos={pos} setPos={setPos} />
         </MapContainer>
 
-        {/* Footer */}
-        <div className="mt-4 flex justify-end gap-3">
+        <footer className="mt-4 flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="rounded bg-black px-4 py-2 text-white transition hover:bg-gray-800"
+            className="rounded bg-black px-4 py-2 text-white hover:bg-gray-800"
           >
             Cancelar
           </button>
           <button
-            disabled={!pos || loading}
+            disabled={!pos}
             onClick={handleSave}
-            className="rounded bg-secondary px-4 py-2 font-semibold text-black transition hover:opacity-90 disabled:opacity-40"
+            className="rounded bg-secondary px-4 py-2 font-semibold text-black hover:opacity-90 disabled:opacity-40"
           >
-            {loading ? "Obteniendo…" : "Guardar"}
+            Guardar
           </button>
-        </div>
+        </footer>
       </div>
     </div>
   );
