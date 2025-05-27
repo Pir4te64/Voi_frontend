@@ -1,7 +1,7 @@
 // src/hooks/useUserInfo.ts
 import { useState, useEffect } from "react";
 
-export type UserType = "PRODUCTORA" | "REVENDEDOR" | "USUARIO";
+export type UserType = "PRODUCTORA" | "REVENDEDOR" | "USUARIO" | "ADMIN";
 
 export interface AllUser {
     idUser: number;

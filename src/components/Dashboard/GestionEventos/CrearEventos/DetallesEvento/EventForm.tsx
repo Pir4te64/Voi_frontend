@@ -216,7 +216,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
         />
 
         <GalleryUpload
-          onSlotChange={(index, file) => {
+          onSlotChange={(_, file) => {
             setEventImages((prev: File[]) => {
               if (prev.length >= 4) return prev;
               return [...prev, file];

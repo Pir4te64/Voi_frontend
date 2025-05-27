@@ -4,6 +4,8 @@ import { SidebarAdmin } from "@/components/Dashboard/Sidebar/SidebarAdmin/Sideba
 import { useUserInfo } from "@/context/useUserInfo";
 import { SidebarRevendedor } from "@/components/Dashboard/Sidebar/SidebarRevendedor/SidebarRevendedor";
 import { SidebarUsuario } from "@/components/Dashboard/Sidebar/SidebarUsuarioRegular/SidebarUsuarioRegular";
+
+
 const Sidebar = () => {
     const { userType } = useUserInfo();
     if (userType === "PRODUCTORA") return <SidebarProductora />;

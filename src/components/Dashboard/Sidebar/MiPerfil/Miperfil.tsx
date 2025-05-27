@@ -4,9 +4,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FloatingField } from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
-import { useUserInfo, AllUser, UserType } from "@/context/useUserInfo";
+import { useUserInfo, AllUser } from "@/context/useUserInfo";
 import { api_url } from "@/api/api";
 import { GETME } from "@/api/api";
+
+type UserType = "PRODUCTORA" | "REVENDEDOR" | "USUARIO" | "ADMIN";
 
 const fieldsConfig: Record<
     UserType,
@@ -25,6 +27,10 @@ const fieldsConfig: Record<
         { name: "firstName", label: "Nombre" },
         { name: "lastName", label: "Apellido" }
     ],
+    ADMIN: [
+        { name: "name", label: "Nombre" },
+        { name: "lastName", label: "Apellido" }
+    ]
 };
 
 const Miperfil: React.FC = () => {
