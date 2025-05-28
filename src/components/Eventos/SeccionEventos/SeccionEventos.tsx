@@ -57,8 +57,8 @@ const SeccionEventos: React.FC = () => {
       category: ev.categoriaNombre,
       date: `${parseInt(d, 10)} ${monthNames[parseInt(m, 10) - 1]} ${y}`,
       title: ev.nombre,
-      location: ev.lugar,
-      city: ev.address?.street ?? ev.lugar,
+      location: ev.address.street ?? ev.address.city,
+      city: ev.address.city,
       createdAt: ev.fechaInicio,
     };
   });

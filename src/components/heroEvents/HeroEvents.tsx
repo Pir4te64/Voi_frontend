@@ -24,11 +24,12 @@ const monthNames = [
 interface APIEvent {
   id: number;
   nombre: string;
-  lugar: string;
   fechaInicio: string; // "YYYY-MM-DD"
   sliderImageUrl: string;
-  address?: {
-    street: string;
+  address: {
+    street: string | null;
+    city: string;
+    state: string;
   };
 }
 

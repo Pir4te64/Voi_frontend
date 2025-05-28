@@ -51,8 +51,8 @@ const EventsSection: React.FC = () => {
       category: ev.categoriaNombre,
       date: `${day} ${month} ${year}`,
       title: ev.nombre,
-      location: ev.lugar,
-      city: ev.address?.street ?? ev.lugar,
+      location: ev.address.street ?? ev.address.city,
+      city: ev.address.city,
     };
   });
 
