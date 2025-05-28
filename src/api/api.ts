@@ -35,14 +35,23 @@ export const api_url = {
  * @returns Promise con la respuesta de la API
  * @throws Error si no hay token o si la petición falla
  */
-export const GETME = () => {
+export const GETME = async () => {
   // Obtiene el token de autenticación del localStorage
   const token = localStorage.getItem('auth')
     ? JSON.parse(localStorage.getItem('auth')!).accessToken
     : null;
 
+  if (!token) {
+    throw new Error('No hay token de autenticación');
+  }
+
   // Realiza la petición GET con el token en los headers
-  return axios.get(api_url.get_me, {
+  const response = await axios.get(api_url.get_me, {
     headers: { Authorization: `Bearer ${token}` },
   });
+
+  // Guardar en localStorage para mantener sincronizado
+  localStorage.setItem('me', JSON.stringify(response.data));
+
+  return response;
 };

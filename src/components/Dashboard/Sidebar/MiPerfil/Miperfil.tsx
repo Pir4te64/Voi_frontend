@@ -34,9 +34,9 @@ const fieldsConfig: Record<
 };
 
 const Miperfil: React.FC = () => {
-    // Incluimos setAllUser para actualizar el contexto tras GETME
     const { email, userType, allUser, setAllUser } = useUserInfo();
     const [formValues, setFormValues] = useState<Partial<Record<keyof AllUser, string>>>({});
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (!allUser) return;
@@ -54,33 +54,45 @@ const Miperfil: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        // Obtenemos el token desde localStorage
-        const token = localStorage.getItem('auth')
-            ? JSON.parse(localStorage.getItem('auth')!).accessToken
-            : null;
-
-        const payload = {
-            email,
-            ...formValues
-        };
+        setIsLoading(true);
 
         try {
-            // Enviamos PUT con cabecera Authorization
+            const token = localStorage.getItem('auth')
+                ? JSON.parse(localStorage.getItem('auth')!).accessToken
+                : null;
+
+            const payload = {
+                email,
+                ...formValues
+            };
+
             await axios.put(
                 api_url.update_profile,
                 payload,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            toast.success('Perfil actualizado correctamente');
 
-            // Refrescamos datos de usuario
             const response = await GETME();
-            setAllUser(response.data);
+            await setAllUser(response.data);
+
+            // Esperar a que los datos se actualicen antes de limpiar los campos
+            const initial: Partial<Record<keyof AllUser, string>> = {};
+            fieldsConfig[userType].forEach(({ name }) => {
+                initial[name] = response.data[name]?.toString() ?? "";
+            });
+            await setFormValues(initial);
+
+            toast.success('Perfil actualizado correctamente');
+            // Esperar un momento para asegurar que los datos se hayan actualizado
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         } catch (error: any) {
             console.error('Error al actualizar perfil:', error);
             const message = error.response?.data?.message || 'Error al actualizar el perfil';
             toast.error(message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -98,7 +110,8 @@ const Miperfil: React.FC = () => {
                             value={(formValues[name] as string) ?? ""}
                             onChange={handleChange}
                             placeholder=" "
-                            className="w-full rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none"
+                            disabled={isLoading}
+                            className="w-full rounded-xl border border-gray-700 bg-back px-3 pb-2 pt-6 transition focus:border-secondary focus:outline-none disabled:opacity-50"
                         />
                     </FloatingField>
                 ))}
@@ -114,9 +127,17 @@ const Miperfil: React.FC = () => {
 
                 <button
                     type="submit"
-                    className="mt-4 w-full rounded-xl bg-secondary py-3 font-semibold text-white transition hover:opacity-90"
+                    disabled={isLoading}
+                    className="mt-4 w-full rounded-xl bg-secondary py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-50"
                 >
-                    Guardar Perfil
+                    {isLoading ? (
+                        <div className="flex items-center justify-center">
+                            <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                            <span className="ml-2">Guardando...</span>
+                        </div>
+                    ) : (
+                        "Guardar Perfil"
+                    )}
                 </button>
             </form>
         </div>
