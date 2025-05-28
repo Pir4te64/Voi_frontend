@@ -2,30 +2,10 @@
 import { create } from "zustand";
 import axios from "axios";
 import { api_url } from "@/api/api";
-
-export interface Event {
-  id: number;
-  nombre: string;
-  descripcion: string;
-  lugar: string;
-  categoriaId: number;
-  categoriaNombre: string;
-  linkRedSocial1: string;
-  linkRedSocial2: string;
-  fechaInicio: string; // "YYYY-MM-DD"
-  fechaFin: string; // "YYYY-MM-DD"
-  estado: string;
-  sliderImageUrl: string; // <-- aquí está la URL que usaremos
-  galeriaUrls: string[];
-  lotes: any[];
-  revendedores: any[];
-  address?: {
-    street: string;
-  };
-}
+import { RemoteEvent } from "@/components/Eventos/SeccionEventos/data/Interfaces";
 
 interface EventsState {
-  events: Event[];
+  events: RemoteEvent[];
   fetchEvents: () => Promise<void>;
 }
 
@@ -33,10 +13,10 @@ export const useEventsStore = create<EventsState>((set) => ({
   events: [],
   fetchEvents: async () => {
     try {
-      const { data } = await axios.get<Event[]>(api_url.get_eventos);
-      set({ events: data });
+      const response = await axios.get(api_url.get_eventos);
+      set({ events: response.data });
     } catch (error) {
-      console.error("Error al obtener eventos:", error);
+      console.error("Error fetching events:", error);
     }
   },
 }));

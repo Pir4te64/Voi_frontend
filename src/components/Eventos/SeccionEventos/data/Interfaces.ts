@@ -23,13 +23,40 @@ export interface StaticEventDetail {
 // Shape de un evento remoto desde API
 export interface RemoteEvent {
   id: number;
+  productorId: number;
   nombre: string;
   descripcion: string;
-  lugar: string;
-  fechaInicio: string; // "YYYY-MM-DD"
-  fechaFin: string; // "YYYY-MM-DD"
+  categoriaId: number;
+  categoriaNombre: string;
+  linkRedSocial1: string;
+  linkRedSocial2: string;
+  fechaInicio: string;
+  fechaFin: string;
+  estado: string;
+  sliderImageUrl: string;
   galeriaUrls: string[];
+  lotes: Array<{
+    id: number;
+    nombre: string;
+    tipoComision: string;
+    precio: number;
+    cantidadTickets: number;
+    ticketsDisponibles: number;
+    estado: string;
+  }>;
+  revendedores: any[];
+  address: {
+    id: number;
+    street: string | null;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    latitude: string;
+    longitude: string;
+  };
 }
+
 export type CardData = {
   id: number;
   image: string;
