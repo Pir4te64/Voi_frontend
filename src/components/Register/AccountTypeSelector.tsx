@@ -41,7 +41,7 @@ const AccountTypeSelector: React.FC<AccountTypeSelectorProps> = ({
                             <option value="">Selecciona una opción</option>
                             <option value="Productora">Productora</option>
                             <option value="RRPP">RRPP</option>
-                            <option value="Usuario Único">Usuario Único</option>
+                            <option value="Usuario Único">Usuario</option>
                         </select>
                     </FloatingField>
 
