@@ -40,7 +40,9 @@ const SidebarProductora = () => {
   const renderNavItem = (item: any) => {
     const isExpanded = expandedItems.includes(item.to);
     const hasChildren = item.children && item.children.length > 0;
-    const isActive = location.pathname.startsWith(item.to);
+    const isActive = item.end
+      ? location.pathname === item.to
+      : location.pathname.startsWith(item.to);
 
     return (
       <div key={item.to} className="space-y-1">
