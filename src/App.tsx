@@ -16,7 +16,7 @@ import DashboardLayout from "@/pages/Dashboard/DashboardLayout";
 import Index from "@/pages/Dashboard/Index";
 import CrearPerfil from "@/components/Dashboard/CrearPerfil/CrearPerfil";
 import Miperfil from "@/components/Dashboard/Sidebar/MiPerfil/Miperfil";
-import CrearEventos from "@/components/Dashboard/GestionEventos/CrearEventos/CrearEventos";
+import CrearEventos from "@/components/Dashboard/GestionEventos/CrearEventos";
 import ModificarEventos from "@/components/Dashboard/GestionEventos/ModificarEventos";
 import GestionarLotes from "@/components/Dashboard/GestionEventos/GestionarLotes";
 import { MisVentas } from "@/components/Dashboard/Misventas/MisVentas";
