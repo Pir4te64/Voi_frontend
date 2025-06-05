@@ -10,7 +10,6 @@ export const navItemsProductora = [
   { to: "/dashboard", label: "Dashboard", Icon: IoHomeOutline, end: true },
   { to: "/dashboard/miperfil", label: "Mi Perfil", Icon: LuUser },
   {
-    to: "/dashboard/crearevento/nuevo",
     label: "Eventos",
     Icon: FaCalendarPlus,
     children: [

@@ -54,11 +54,29 @@ const CrearEventos: React.FC = () => {
         Crear Evento
       </h2>
 
+      {/* ---------- Pestañas ---------- */}
+      {/* <div className="mb-8 flex gap-4 rounded-lg bg-black/40 p-2">
+        {steps.map(({ label }, idx) => (
+          <button
+            key={label}
+            onClick={() => setActive(idx)}
+            className={`whitespace-nowrap rounded px-6 py-4 text-md font-semibold transition
+              ${
+                active === idx
+                  ? "bg-secondary text-black font-bold"
+                  : "bg-black hover:bg-gray-800 font-normal"
+              }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div> */}
+
       {/* ---------- Contenido ---------- */}
       <div className="grid grid-cols-1 gap-6">{steps[active].content}</div>
 
       {/* ---------- Navegación abajo ---------- */}
-      <div className="mt-8 flex justify-end gap-4">
+      {/* <div className="mt-8 flex justify-end gap-4">
         <button
           onClick={prevStep}
           disabled={active === 0}
@@ -75,7 +93,7 @@ const CrearEventos: React.FC = () => {
         >
           Continuar
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
