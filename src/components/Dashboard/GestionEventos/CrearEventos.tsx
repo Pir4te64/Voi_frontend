@@ -8,6 +8,7 @@ import EventoForm from "@/components/Dashboard/GestionEventos/CrearEventos/Detal
 import TicketLotsForm from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/LotesEntrada";
 import { FiChevronLeft } from "react-icons/fi";
 import { useCrearEventoForm } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/useCrearEventoForm";
+import { useSelectedEventStore } from "./store/useSelectedEventStore";
 
 const CrearEventos: React.FC = () => {
   const navigate = useNavigate();
