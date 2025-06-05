@@ -29,7 +29,6 @@ import AgregarRevendedor from "@/components/Dashboard/Revendedores/AgregarRevend
 import RevendedorPerfiles from "@/components/Dashboard/Revendedores/RevendedorPerfiles";
 import RevendedoresLotes from "@/components/Dashboard/Revendedores/RevendedoresLotes";
 import AgregarComision from "@/components/Dashboard/Revendedores/AgregarComision";
-import LotesPorEvento from "@/components/Dashboard/GestionEventos/LotesPorEvento";
 
 function App() {
   return (
@@ -51,8 +50,6 @@ function App() {
           <Route path="crearperfil" element={<CrearPerfil />} />
           <Route path="miperfil" element={<Miperfil />} />
           <Route path="crearevento" element={<CrearEventos />} />
-          <Route path="crearevento/nuevo" element={<CrearEventos />} />
-          <Route path="crearevento/lotes" element={<LotesPorEvento />} />
           <Route path="modificarevento" element={<ModificarEventos />} />
           <Route path="gestionarlotes" element={<GestionarLotes />} />
           <Route path="misventas" element={<MisVentas />} />
