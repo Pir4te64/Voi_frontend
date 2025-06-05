@@ -5,12 +5,15 @@ import {
   FaRegArrowAltCircleLeft,
   FaRegArrowAltCircleRight,
   FaTimes,
+  FaChevronDown,
+  FaChevronRight,
 } from "react-icons/fa";
 
 import { navItemsProductora } from "@/components/Dashboard/Sidebar/SidebarProductora/Items/NavItemsProductora";
 import { useUserInfo } from "@/context/useUserInfo";
 import { useAuth } from "@/context/AuthContext";
 import { BiLogOut } from "react-icons/bi";
+
 /**
  * Sidebar completo para usuarios con rol PRODUCTORA.
  */
@@ -19,6 +22,7 @@ const SidebarProductora = () => {
   const location = useLocation();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const { email, allUser } = useUserInfo();
   const { logout } = useAuth();
 
@@ -26,6 +30,73 @@ const SidebarProductora = () => {
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
+
+  const toggleSubmenu = (to: string) => {
+    setExpandedItems((prev) =>
+      prev.includes(to) ? prev.filter((item) => item !== to) : [...prev, to]
+    );
+  };
+
+  const renderNavItem = (item: any) => {
+    const isExpanded = expandedItems.includes(item.to);
+    const hasChildren = item.children && item.children.length > 0;
+    const isActive = location.pathname.startsWith(item.to);
+
+    return (
+      <div key={item.to} className="space-y-1">
+        <div
+          className={`flex items-center justify-between w-full p-2 rounded transition-colors ${
+            isActive
+              ? "bg-secondary text-white font-semibold"
+              : "text-white hover:text-secondary"
+          }`}
+        >
+          <NavLink
+            to={item.to}
+            end={item.end}
+            className="flex items-center flex-1"
+            onClick={() => setIsOpen(false)}
+          >
+            <item.Icon className="mr-3 h-4 w-4" />
+            {item.label}
+          </NavLink>
+          {hasChildren && (
+            <button
+              onClick={() => toggleSubmenu(item.to)}
+              className="p-1 hover:text-secondary"
+            >
+              {isExpanded ? (
+                <FaChevronDown className="h-3 w-3" />
+              ) : (
+                <FaChevronRight className="h-3 w-3" />
+              )}
+            </button>
+          )}
+        </div>
+        {hasChildren && isExpanded && (
+          <div className="ml-6 space-y-1">
+            {item.children.map((child: any) => (
+              <NavLink
+                key={child.to}
+                to={child.to}
+                className={({ isActive }) =>
+                  `flex items-center w-full p-2 rounded transition-colors ${
+                    isActive
+                      ? "bg-secondary text-white font-semibold"
+                      : "text-white hover:text-secondary"
+                  }`
+                }
+                onClick={() => setIsOpen(false)}
+              >
+                <child.Icon className="mr-3 h-4 w-4" />
+                {child.label}
+              </NavLink>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -87,24 +158,7 @@ const SidebarProductora = () => {
 
         {/* Navegación */}
         <nav className="flex-1 space-y-2 overflow-y-auto">
-          {navItemsProductora.map(({ to, label, Icon, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              className={({ isActive }) =>
-                `flex items-center w-full p-2 rounded transition-colors ${
-                  isActive
-                    ? "bg-secondary text-white font-semibold"
-                    : "text-white hover:text-secondary"
-                }`
-              }
-              onClick={() => setIsOpen(false)}
-            >
-              <Icon className="mr-3 h-4 w-4" />
-              {label}
-            </NavLink>
-          ))}
+          {navItemsProductora.map(renderNavItem)}
         </nav>
 
         {/* Botón cerrar sesión */}

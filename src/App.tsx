@@ -29,7 +29,7 @@ import AgregarRevendedor from "@/components/Dashboard/Revendedores/AgregarRevend
 import RevendedorPerfiles from "@/components/Dashboard/Revendedores/RevendedorPerfiles";
 import RevendedoresLotes from "@/components/Dashboard/Revendedores/RevendedoresLotes";
 import AgregarComision from "@/components/Dashboard/Revendedores/AgregarComision";
-
+import LotesPorEvento from "@/components/Dashboard/GestionEventos/LotesPorEvento";
 
 function App() {
   return (
@@ -46,16 +46,12 @@ function App() {
         <Route path="*" element={<ErrorNotFound />} />
 
         {/* Rutas protegidas de Dashboard */}
-        <Route
-          path="/dashboard"
-          element={
-            <DashboardLayout />
-          }
-        >
+        <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Index />} />
           <Route path="crearperfil" element={<CrearPerfil />} />
           <Route path="miperfil" element={<Miperfil />} />
           <Route path="crearevento" element={<CrearEventos />} />
+          <Route path="crearevento/lotes" element={<LotesPorEvento />} />
           <Route path="modificarevento" element={<ModificarEventos />} />
           <Route path="gestionarlotes" element={<GestionarLotes />} />
           <Route path="misventas" element={<MisVentas />} />
@@ -63,11 +59,23 @@ function App() {
           <Route path="misventas/revendedores" element={<Revendedores />} />
           <Route path="misventas/lote" element={<Lote />} />
           <Route path="revendedores" element={<RevendedoresR />} />
-          <Route path="revendedores/eventos" element={<RevenededoresEventos />} />
-          <Route path="revendedores/agregar-revendedores" element={<AgregarRevendedor />} />
-          <Route path="revendedores/perfiles" element={<RevendedorPerfiles />} />
+          <Route
+            path="revendedores/eventos"
+            element={<RevenededoresEventos />}
+          />
+          <Route
+            path="revendedores/agregar-revendedores"
+            element={<AgregarRevendedor />}
+          />
+          <Route
+            path="revendedores/perfiles"
+            element={<RevendedorPerfiles />}
+          />
           <Route path="revendedores/lotes" element={<RevendedoresLotes />} />
-          <Route path="revendedores/agregar-comision-por-lotes" element={<AgregarComision />} />
+          <Route
+            path="revendedores/agregar-comision-por-lotes"
+            element={<AgregarComision />}
+          />
         </Route>
       </Routes>
     </AuthProvider>
