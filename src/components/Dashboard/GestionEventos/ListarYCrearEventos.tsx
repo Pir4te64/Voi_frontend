@@ -8,7 +8,7 @@ import { FiChevronLeft } from "react-icons/fi";
 import { useCrearEventoForm } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/useCrearEventoForm";
 import EventosTable from "@/components/Dashboard/GestionEventos/CrearEventos/UI/EventosTable";
 
-const CrearEventos: React.FC = () => {
+const ListarYCrearEventos: React.FC = () => {
   const navigate = useNavigate();
   const { events, fetchEvents } = useEventsStore();
   const [isCreating, setIsCreating] = useState(false);
@@ -162,4 +162,4 @@ const CrearEventos: React.FC = () => {
   );
 };
 
-export default CrearEventos;
+export default ListarYCrearEventos;
