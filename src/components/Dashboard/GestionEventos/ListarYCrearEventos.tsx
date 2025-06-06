@@ -26,24 +26,93 @@ const ListarYCrearEventos: React.FC = () => {
   const [events, setEvents] = useState<Evento[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentView, setCurrentView] = useState<"list" | "create" | "tickets">("list");
-  const [createdEventId, setCreatedEventId] = useState<number | null>(null);
+  const [currentView, setCurrentView] = useState<"list" | "create">("list");
   const [active, setActive] = useState(0);
+  const [createdEventId, setCreatedEventId] = useState<number | null>(null);
+
+  const prevStep = () => setActive((p) => Math.max(p - 1, 0));
+  const nextStep = () => setActive((p) => Math.min(p + 1, 3 - 1)); // 3 es el número total de pasos
 
   const handleEventCreated = (eventId: number) => {
     setCreatedEventId(eventId);
-    setCurrentView("tickets");
+    nextStep();
   };
 
   const {
-    resetKey,
+    formik,
+    categories,
     sliderImage,
     setSliderImage,
     eventImages,
     setEventImages,
-    formik,
-    categories,
+    resetKey,
   } = useCrearEventoForm(handleEventCreated);
+
+  const handleEdit = (eventId: number) => {
+    // Implementar lógica de edición
+  };
+
+  const handleDelete = (eventId: number) => {
+    // Implementar lógica de eliminación
+  };
+
+  const handleStatusChange = (eventId: number, newStatus: string) => {
+    // Implementar lógica de cambio de estado
+  };
+
+  const createSteps = () => [
+    {
+      label: "Detalles del Evento",
+      content: (
+        <EventoForm
+          resetKey={resetKey}
+          sliderImage={sliderImage}
+          setSliderImage={setSliderImage}
+          eventImages={eventImages}
+          setEventImages={setEventImages}
+          formik={formik}
+          categories={categories}
+          onEventCreated={handleEventCreated}
+        />
+      ),
+    },
+    {
+      label: "Lotes de Entrada",
+      content: createdEventId ? (
+        <GestionarLoteUI
+          prevStep={prevStep}
+          nextStep={nextStep}
+          active={active}
+          stepsLength={3}
+          eventId={createdEventId}
+          eventName={events.find(e => e.id === createdEventId)?.nombre || ""}
+        />
+      ) : null,
+    },
+    {
+      label: "Revendedores",
+      content: createdEventId ? (
+        <div className="rounded-lg bg-black/80 p-8">
+          <h2 className="mb-2 text-lg font-semibold text-white">
+            Gestionar Revendedores para:{" "}
+            <span className="text-secondary">
+              {events.find(e => e.id === createdEventId)?.nombre || ""}
+            </span>
+          </h2>
+          <p className="mb-6 text-gray-400">
+            ID del evento: <span className="font-mono">{createdEventId}</span>
+          </p>
+          <div className="rounded-lg bg-black/60 p-4">
+            <p className="text-center text-gray-400">
+              Aquí irá la gestión de revendedores para el evento
+            </p>
+          </div>
+        </div>
+      ) : null,
+    },
+  ];
+
+  const steps = createSteps();
 
   const loadEvents = async () => {
     try {
@@ -83,53 +152,6 @@ const ListarYCrearEventos: React.FC = () => {
       sliderImage !== null
     );
   };
-
-  const nextStep = () => {
-    if (active === 0 && !isFormValid()) {
-      formik.handleSubmit();
-      return;
-    }
-    setActive((p) => Math.min(p + 1, steps.length - 1));
-  };
-
-  const prevStep = () => setActive((p) => Math.max(p - 1, 0));
-
-  const steps = [
-    {
-      label: "Detalles del Evento",
-      content: (
-        <EventoForm
-          resetKey={resetKey}
-          sliderImage={sliderImage}
-          setSliderImage={setSliderImage}
-          eventImages={eventImages}
-          setEventImages={setEventImages}
-          formik={formik}
-          categories={categories}
-          onEventCreated={handleEventCreated}
-        />
-      ),
-    },
-    {
-      label: "Lotes de Entrada",
-      content: null,
-    },
-    {
-      label: "Revendedores",
-      content: <div className="p-6">Paso 3</div>,
-    },
-  ];
-  const stepsLength = steps.length;
-  steps[1].content = (
-    <GestionarLoteUI
-      eventName={formik.values.name}
-      eventId={createdEventId || 0}
-      prevStep={prevStep}
-      nextStep={nextStep}
-      active={active}
-      stepsLength={stepsLength}
-    />
-  );
 
   if (loading) {
     return (
@@ -227,7 +249,6 @@ const ListarYCrearEventos: React.FC = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

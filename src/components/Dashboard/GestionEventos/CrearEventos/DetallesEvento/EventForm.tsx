@@ -214,6 +214,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
           description="La imagen debe tener 1920 x 1080 px con un peso máximo de 10 Mb."
           maxImageSize={10 * 1024 * 1024}
           onFileSelect={setSliderImage}
+          required
         />
 
         <GalleryUpload
@@ -224,6 +225,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
             });
           }}
         />
+
       </div>
 
       {/* ---------- Botón Guardar ---------- */}

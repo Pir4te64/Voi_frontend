@@ -8,7 +8,6 @@ import {
 import { useLoteForm } from "./store/useLoteForm";
 import { useFormik } from "formik";
 import { initialSchema, validationSchema } from "./data/lotesEntrada.data";
-import { FiChevronLeft } from "react-icons/fi";
 
 interface GestionarLoteUIProps {
   eventName: string;
@@ -20,12 +19,9 @@ interface GestionarLoteUIProps {
 }
 
 const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
-  eventName,
   eventId,
-  prevStep,
+  eventName,
   nextStep,
-  active,
-  stepsLength,
 }) => {
   const { createLote, success } = useLoteForm();
   const dateInputRef = useRef<HTMLInputElement>(null);
@@ -33,8 +29,15 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
   const formik = useFormik({
     initialValues: initialSchema,
     validationSchema,
-    onSubmit: async (values) => {
-      await createLote(values, eventId);
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await createLote(values, eventId);
+        resetForm();
+        nextStep();
+      } catch (error) {
+        // El error ya se maneja en el store
+        console.error("Error al crear el lote:", error);
+      }
     },
   });
 
@@ -44,19 +47,8 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
 
   return (
     <form onSubmit={formik.handleSubmit} className="relative w-full rounded-2xl bg-black/80 p-8 shadow-lg">
-      <h2 className="mb-2 text-lg font-semibold text-white">
-        Gestionar lotes para:{" "}
-        <span className="text-secondary">{eventName}</span>
-      </h2>
-      <p className="mb-6 text-gray-400">
-        ID del evento: <span className="font-mono">{eventId}</span>
-      </p>
       {/* Mensaje de éxito */}
-      {success && (
-        <div className="mb-4 flex items-center justify-end gap-2 text-sm text-green-400">
-          <FaCheckCircle /> Perfil actualizado con éxito
-        </div>
-      )}
+
       {/* Nombre del Lote */}
       <div className="mb-4">
         <label
@@ -224,7 +216,19 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
             <div className="mt-1 text-sm text-red-500">{formik.errors.cantidadTickets}</div>
           )}
         </div>
+        {success && (
+          <div className="mb-4 flex items-center justify-end gap-2 text-sm text-green-400">
+            <FaCheckCircle /> Lote creado con éxito
+          </div>
+        )}
       </div>
+      {/* Botón Agregar Lote */}
+      <button
+        type="submit"
+        className="mt-2 w-full rounded-lg bg-secondary py-3 text-lg font-semibold text-white transition hover:opacity-90"
+      >
+        Agregar Lote
+      </button>
     </form>
   );
 };

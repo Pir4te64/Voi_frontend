@@ -37,14 +37,14 @@ export const useLoteForm = create<LoteFormStore>((set) => ({
             });
 
             set({ success: true });
-            setTimeout(() => {
-                set({ success: false });
-            }, 2000);
+            return Promise.resolve();
         } catch (error: any) {
             toast.error(
                 error.response?.data?.message || "Error al crear el lote",
                 { position: "top-right", autoClose: 3000 }
             );
+            set({ success: false });
+            return Promise.reject(error);
         }
     },
 })); 

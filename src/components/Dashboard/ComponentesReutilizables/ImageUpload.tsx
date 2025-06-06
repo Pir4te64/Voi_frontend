@@ -10,15 +10,18 @@ export interface ImageUploadProps {
     onFileSelect: (file: File, previewUrl: string) => void;
     /** Texto o fragmento HTML adicional debajo (opcional) */
     description?: React.ReactNode;
-    /** Tamaño máximo en bytes (por defecto 10 MB) */
+    /** Tamaño máximo en bytes (por defecto 10 MB) */
     maxImageSize?: number;
+    /** Indica si el campo es requerido */
+    required?: boolean;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
     label,
     onFileSelect,
     description,
-    maxImageSize = 10 * 1024 * 1024, // 10 MB por defecto
+    maxImageSize = 10 * 1024 * 1024, // 10 MB por defecto
+    required = false,
 }) => {
     const [preview, setPreview] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -30,7 +33,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
         if (file.size > maxImageSize) {
             toast.error(
-                `La imagen no debe pesar más de ${maxImageSize / 1024 / 1024} MB.`
+                `La imagen no debe pesar más de ${maxImageSize / 1024 / 1024} MB.`
             );
             return;
         }
@@ -47,7 +50,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         <div className="w-full">
             {/* Label flotante sobre el borde */}
             <span className="absolute z-10 -translate-y-1/2 translate-x-4 select-none rounded bg-back px-2 text-xs font-medium text-white">
-                {label}
+                {label} {required && <span className="text-red-500">*</span>}
             </span>
 
             <div
@@ -77,7 +80,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
                 <input
                     type="file"
-                    required
+                    required={required}
                     accept="image/*"
                     ref={fileInputRef}
                     onChange={handleFileChange}
