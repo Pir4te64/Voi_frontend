@@ -112,19 +112,24 @@ const ListarYCrearEventos: React.FC = () => {
     },
     {
       label: "Lotes de Entrada",
-      content: (
-        <GestionarLoteUI
-          onClose={() => setCurrentView("list")}
-          eventName={formik.values.name}
-          eventId={createdEventId || 0}
-        />
-      ),
+      content: null,
     },
     {
       label: "Revendedores",
       content: <div className="p-6">Paso 3</div>,
     },
   ];
+  const stepsLength = steps.length;
+  steps[1].content = (
+    <GestionarLoteUI
+      eventName={formik.values.name}
+      eventId={createdEventId || 0}
+      prevStep={prevStep}
+      nextStep={nextStep}
+      active={active}
+      stepsLength={stepsLength}
+    />
+  );
 
   if (loading) {
     return (
@@ -222,13 +227,7 @@ const ListarYCrearEventos: React.FC = () => {
           </div>
         </div>
       )}
-      {currentView === "tickets" && createdEventId && (
-        <GestionarLoteUI
-          eventId={createdEventId}
-          eventName={events.find(e => e.id === createdEventId)?.nombre || ""}
-          onClose={() => setCurrentView("list")}
-        />
-      )}
+
     </div>
   );
 };

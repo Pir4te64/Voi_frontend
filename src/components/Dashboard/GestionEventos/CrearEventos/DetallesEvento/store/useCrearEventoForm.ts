@@ -65,11 +65,11 @@ export const useCrearEventoForm = (onEventCreated?: (eventId: number) => void) =
         fechaInicio: values.startDate,
         fechaFin: values.endDate,
       };
-      console.log("📤 Payload a enviar:", {
-        evento,
-        sliderImage,
-        galeria: eventImages,
-      });
+      /*   console.log("📤 Payload a enviar:", {
+          evento,
+          sliderImage,
+          galeria: eventImages,
+        }); */
 
       try {
         const formData = new FormData();

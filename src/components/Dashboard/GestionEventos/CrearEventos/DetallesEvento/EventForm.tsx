@@ -123,6 +123,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
               id="ubicacion"
               type="text"
               readOnly
+              required
               onClick={() => setModalOpen(true)}
               value={
                 locationLabel ||
