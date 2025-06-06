@@ -28,6 +28,10 @@ export const api_url = {
 
   //Endpoint actualizar perfil
   update_profile: `${baseUrl}/auth/user/v1/profile/update`,
+
+
+  // Endpoints de lotes
+  crear_lote: `${baseUrl}/eventos/user/v1/lotes/eventos/lotes`,
 };
 
 /**

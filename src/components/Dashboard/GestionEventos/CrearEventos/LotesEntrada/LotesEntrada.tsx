@@ -1,27 +1,49 @@
-import React from "react";
+import React, { useRef } from "react";
 import {
   FaEdit,
   FaDollarSign,
   FaCalendarAlt,
   FaCheckCircle,
-  FaTimes,
 } from "react-icons/fa";
+import { useLoteForm } from "./store/useLoteForm";
+import { useFormik } from "formik";
+import { initialSchema, validationSchema } from "./data/lotesEntrada.data";
+import { FiChevronLeft } from "react-icons/fi";
 
-const GestionarLoteUI: React.FC<{
-  onClose: () => void;
+interface GestionarLoteUIProps {
   eventName: string;
   eventId: number;
-}> = ({ onClose, eventName, eventId }) => (
-  console.log(eventId),
-  (
-    <div className="relative w-full rounded-2xl bg-black/80 p-8 shadow-lg">
-      <button
-        onClick={onClose}
-        className="absolute right-4 top-4 text-xl text-white hover:text-secondary"
-        title="Cerrar"
-      >
-        <FaTimes />
-      </button>
+  prevStep: () => void;
+  nextStep: () => void;
+  active: number;
+  stepsLength: number;
+}
+
+const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
+  eventName,
+  eventId,
+  prevStep,
+  nextStep,
+  active,
+  stepsLength,
+}) => {
+  const { createLote, success } = useLoteForm();
+  const dateInputRef = useRef<HTMLInputElement>(null);
+
+  const formik = useFormik({
+    initialValues: initialSchema,
+    validationSchema,
+    onSubmit: async (values) => {
+      await createLote(values, eventId);
+    },
+  });
+
+  const handleCalendarClick = () => {
+    dateInputRef.current?.showPicker();
+  };
+
+  return (
+    <form onSubmit={formik.handleSubmit} className="relative w-full rounded-2xl bg-black/80 p-8 shadow-lg">
       <h2 className="mb-2 text-lg font-semibold text-white">
         Gestionar lotes para:{" "}
         <span className="text-secondary">{eventName}</span>
@@ -29,6 +51,12 @@ const GestionarLoteUI: React.FC<{
       <p className="mb-6 text-gray-400">
         ID del evento: <span className="font-mono">{eventId}</span>
       </p>
+      {/* Mensaje de éxito */}
+      {success && (
+        <div className="mb-4 flex items-center justify-end gap-2 text-sm text-green-400">
+          <FaCheckCircle /> Perfil actualizado con éxito
+        </div>
+      )}
       {/* Nombre del Lote */}
       <div className="mb-4">
         <label
@@ -40,33 +68,68 @@ const GestionarLoteUI: React.FC<{
         <div className="relative">
           <input
             id="nombreLote"
+            name="nombre"
             type="text"
             placeholder='p. ej. "Entrada anticipada", "Entrada general"'
-            className="w-full rounded-lg border border-red-400 bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none"
-            disabled
+            className={`w-full rounded-lg border ${formik.touched.nombre && formik.errors.nombre
+              ? "border-red-500"
+              : "border-red-400"
+              } bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+            value={formik.values.nombre}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
           <FaEdit className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
         </div>
+        {formik.touched.nombre && formik.errors.nombre && (
+          <div className="mt-1 text-sm text-red-500">{formik.errors.nombre}</div>
+        )}
       </div>
       {/* Precio y Fecha */}
       <div className="mb-4 flex gap-4">
         <div className="relative flex-1">
           <input
-            type="text"
+            name="precio"
+            type="number"
             placeholder="Precio"
-            className="w-full rounded-lg border border-gray-700 bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none"
-            disabled
+            className={`w-full rounded-lg border ${formik.touched.precio && formik.errors.precio
+              ? "border-red-500"
+              : "border-gray-700"
+              } bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+            value={formik.values.precio || ""}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
           <FaDollarSign className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          {formik.touched.precio && formik.errors.precio && (
+            <div className="mt-1 text-sm text-red-500">{formik.errors.precio}</div>
+          )}
         </div>
         <div className="relative flex-1">
           <input
-            type="text"
+            ref={dateInputRef}
+            name="fechaValidez"
+            type="date"
+            min={new Date().toISOString().split('T')[0]}
             placeholder="Válido hasta"
-            className="w-full rounded-lg border border-gray-700 bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none"
-            disabled
+            className={`w-full rounded-lg border ${formik.touched.fechaValidez && formik.errors.fechaValidez
+              ? "border-red-500"
+              : "border-gray-700"
+              } bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+            value={formik.values.fechaValidez}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
-          <FaCalendarAlt className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <button
+            type="button"
+            onClick={handleCalendarClick}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-secondary"
+          >
+            <FaCalendarAlt />
+          </button>
+          {formik.touched.fechaValidez && formik.errors.fechaValidez && (
+            <div className="mt-1 text-sm text-red-500">{formik.errors.fechaValidez}</div>
+          )}
         </div>
       </div>
       {/* Tipo de Comisión */}
@@ -76,51 +139,94 @@ const GestionarLoteUI: React.FC<{
         </label>
         <div className="flex flex-col gap-2">
           <label className="flex items-center gap-2">
-            <input type="radio" checked readOnly className="accent-red-500" />
+            <input
+              type="radio"
+              name="tipoComision"
+              checked={formik.values.tipoComision === "MONTO_FIJO"}
+              onChange={formik.handleChange}
+              value="MONTO_FIJO"
+              className="accent-red-500"
+            />
             <span className="text-white">Monto Fijo</span>
             <div className="relative ml-4 flex-1">
               <input
-                type="text"
+                name="montoFijo"
+                type="number"
                 placeholder="Escribe un monto"
-                className="w-full rounded-lg border border-gray-700 bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none"
-                disabled
+                className={`w-full rounded-lg border ${formik.touched.montoFijo && formik.errors.montoFijo
+                  ? "border-red-500"
+                  : "border-gray-700"
+                  } bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+                value={formik.values.montoFijo || ""}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={formik.values.tipoComision !== "MONTO_FIJO"}
               />
               <FaDollarSign className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
             </div>
           </label>
+          {formik.touched.montoFijo && formik.errors.montoFijo && (
+            <div className="mt-1 text-sm text-red-500">{formik.errors.montoFijo}</div>
+          )}
           <label className="mt-2 flex items-center gap-2">
-            <input type="radio" disabled className="accent-red-500" />
+            <input
+              type="radio"
+              name="tipoComision"
+              checked={formik.values.tipoComision === "PORCENTAJE"}
+              onChange={formik.handleChange}
+              value="PORCENTAJE"
+              className="accent-red-500"
+            />
             <span className="text-white">Porcentaje</span>
             <div className="relative ml-4 flex-1">
               <input
-                type="text"
+                name="porcentaje"
+                type="number"
                 placeholder="Escribe un porcentaje"
-                className="w-full rounded-lg border border-gray-700 bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none"
-                disabled
+                className={`w-full rounded-lg border ${formik.touched.porcentaje && formik.errors.porcentaje
+                  ? "border-red-500"
+                  : "border-gray-700"
+                  } bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+                value={formik.values.porcentaje || ""}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                disabled={formik.values.tipoComision !== "PORCENTAJE"}
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                 %
               </span>
             </div>
           </label>
+          {formik.touched.porcentaje && formik.errors.porcentaje && (
+            <div className="mt-1 text-sm text-red-500">{formik.errors.porcentaje}</div>
+          )}
         </div>
       </div>
-      {/* Guardar Cambios y Mensaje */}
-      <div className="mb-4 flex items-center justify-between">
-        <span className="font-semibold text-red-400">Guardar Cambios</span>
-        <span className="flex items-center gap-2 text-sm text-green-400">
-          <FaCheckCircle /> Perfil actualizado con éxito
-        </span>
+      {/* Cantidad de Tickets */}
+      <div className="mb-4">
+        <label className="mb-1 block text-sm text-secondary">
+          Cantidad de Tickets
+        </label>
+        <div className="relative">
+          <input
+            name="cantidadTickets"
+            type="number"
+            placeholder="Cantidad de tickets disponibles"
+            className={`w-full rounded-lg border ${formik.touched.cantidadTickets && formik.errors.cantidadTickets
+              ? "border-red-500"
+              : "border-gray-700"
+              } bg-black/60 px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+            value={formik.values.cantidadTickets || ""}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.cantidadTickets && formik.errors.cantidadTickets && (
+            <div className="mt-1 text-sm text-red-500">{formik.errors.cantidadTickets}</div>
+          )}
+        </div>
       </div>
-      {/* Botón Agregar Lote */}
-      <button
-        className="mt-2 w-full rounded-lg bg-secondary py-3 text-lg font-semibold text-white transition hover:opacity-90"
-        disabled
-      >
-        Agregar Lote
-      </button>
-    </div>
-  )
-);
+    </form>
+  );
+};
 
 export default GestionarLoteUI;
