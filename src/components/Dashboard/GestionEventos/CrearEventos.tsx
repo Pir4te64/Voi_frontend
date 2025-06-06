@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaArrowLeft, FaPlus } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { useEventsStore } from "@/components/heroEvents/store/useEventsStore";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
 import EventoForm from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/EventForm";
 import TicketLotsForm from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/LotesEntrada";
 import { FiChevronLeft } from "react-icons/fi";
 import { useCrearEventoForm } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/useCrearEventoForm";
-import { useSelectedEventStore } from "./store/useSelectedEventStore";
+import EventosTable from "@/components/Dashboard/GestionEventos/CrearEventos/UI/EventosTable";
 
 const CrearEventos: React.FC = () => {
   const navigate = useNavigate();
@@ -49,7 +47,13 @@ const CrearEventos: React.FC = () => {
     },
     {
       label: "Lotes de Entrada",
-      content: <TicketLotsForm />,
+      content: (
+        <TicketLotsForm
+          onClose={() => { }}
+          eventName={formik.values.name}
+          eventId={0}
+        />
+      ),
     },
     {
       label: "Revendedores",
@@ -57,91 +61,38 @@ const CrearEventos: React.FC = () => {
     },
   ];
 
-  const nextStep = () => setActive((p) => Math.min(p + 1, steps.length - 1));
+  const isFormValid = () => {
+    return (
+      formik.isValid &&
+      !formik.errors.name &&
+      !formik.errors.description &&
+      !formik.errors.startDate &&
+      !formik.errors.endDate &&
+      !formik.errors.latitud &&
+      !formik.errors.longitud &&
+      !formik.errors.category &&
+      sliderImage !== null
+    );
+  };
+
+  const nextStep = () => {
+    if (active === 0 && !isFormValid()) {
+      formik.handleSubmit();
+      return;
+    }
+    setActive((p) => Math.min(p + 1, steps.length - 1));
+  };
+
   const prevStep = () => setActive((p) => Math.max(p - 1, 0));
 
   // Vista de lista de eventos
   if (!isCreating) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="mb-8">
-          <button
-            onClick={() => navigate(-1)}
-            className="mb-4 flex items-center text-white hover:text-secondary"
-          >
-            <FaArrowLeft className="mr-2" />
-            Volver
-          </button>
-          <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-white">Eventos</h1>
-            <button
-              onClick={() => setIsCreating(true)}
-              className="flex items-center gap-2 rounded-xl bg-secondary px-6 py-3 font-semibold text-white transition hover:opacity-90"
-            >
-              <FaPlus />
-              Crear Evento
-            </button>
-          </div>
-        </div>
-
-        {/* Lista de eventos */}
-        <div className="overflow-x-auto rounded-lg bg-black/40">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-black text-gray-400">
-              <tr>
-                <th className="px-4 py-3 font-semibold">Nombre del Evento</th>
-                <th className="px-4 py-3 font-semibold">Fecha</th>
-                <th className="px-4 py-3 font-semibold">Categoría</th>
-                <th className="px-4 py-3 font-semibold">Ubicación</th>
-                <th className="px-4 py-3 font-semibold text-center">Estado</th>
-                <th className="px-4 py-3 font-semibold text-end">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {events.length === 0 && (
-                <tr>
-                  <td colSpan={6} className="p-6 text-center text-gray-500">
-                    No hay eventos disponibles
-                  </td>
-                </tr>
-              )}
-
-              {events.map((event) => (
-                <tr
-                  key={event.id}
-                  className="border-t border-gray-700 hover:bg-black/30"
-                >
-                  <td className="px-4 py-3">{event.nombre}</td>
-                  <td className="px-4 py-3">
-                    {format(new Date(event.fechaInicio), "PPP", { locale: es })}
-                  </td>
-                  <td className="px-4 py-3">{event.categoriaNombre}</td>
-                  <td className="px-4 py-3">
-                    {event.address.street}, {event.address.city}
-                  </td>
-                  <td className="px-4 py-3 text-center">
-                    <span
-                      className={`rounded-full px-3 py-1 text-sm ${
-                        event.estado === "ACTIVO"
-                          ? "bg-green-500/20 text-green-500"
-                          : "bg-red-500/20 text-red-500"
-                      }`}
-                    >
-                      {event.estado}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-end">
-                    <button className="rounded bg-secondary px-4 py-2 text-sm text-primary transition hover:bg-secondary/80">
-                      Editar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <EventosTable
+        events={events}
+        onNavigateBack={() => navigate(-1)}
+        onCreateEvent={() => setIsCreating(true)}
+      />
     );
   }
 
@@ -166,12 +117,17 @@ const CrearEventos: React.FC = () => {
           {steps.map(({ label }, idx) => (
             <button
               key={label}
-              onClick={() => setActive(idx)}
+              onClick={() => {
+                if (idx > 0 && !isFormValid()) {
+                  formik.handleSubmit();
+                  return;
+                }
+                setActive(idx);
+              }}
               className={`whitespace-nowrap rounded px-6 py-4 text-md font-semibold transition
-                ${
-                  active === idx
-                    ? "bg-secondary text-black font-bold"
-                    : "bg-black hover:bg-gray-800 font-normal"
+                ${active === idx
+                  ? "bg-secondary text-black font-bold"
+                  : "bg-black hover:bg-gray-800 font-normal"
                 }`}
             >
               {label}
