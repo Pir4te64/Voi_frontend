@@ -2,9 +2,7 @@ import React from "react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { FaPlus, FaArrowLeft, FaTrash } from "react-icons/fa";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { api_url } from "@/api/api";
+import { useDeleteEvento } from "../DetallesEvento/store/useDeleteEvento";
 
 interface Evento {
     id: number;
@@ -31,27 +29,7 @@ const EventosTable: React.FC<EventosTableProps> = ({
     onCreateEvent,
     onEventDeleted,
 }) => {
-    const handleDeleteEvent = async (eventId: number) => {
-        try {
-            await axios.delete(`${api_url.delete_evento}?eventoId=${eventId}`, {
-                headers: {
-                    Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken}`,
-                },
-            });
-
-            toast.success("Evento eliminado correctamente", {
-                position: "top-right",
-                autoClose: 3000,
-            });
-
-            onEventDeleted();
-        } catch (error: any) {
-            toast.error(
-                error.response?.data?.message || "Error al eliminar el evento",
-                { position: "top-right", autoClose: 3000 }
-            );
-        }
-    };
+    const { eventToDelete, setEventToDelete, deleteEvent } = useDeleteEvento();
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -127,7 +105,7 @@ const EventosTable: React.FC<EventosTableProps> = ({
                                             Editar
                                         </button>
                                         <button
-                                            onClick={() => handleDeleteEvent(event.id)}
+                                            onClick={() => setEventToDelete(event)}
                                             className="rounded bg-red-500 px-4 py-2 text-sm text-white transition hover:bg-red-600"
                                         >
                                             <FaTrash />
@@ -139,6 +117,34 @@ const EventosTable: React.FC<EventosTableProps> = ({
                     </tbody>
                 </table>
             </div>
+
+            {/* Modal de confirmación */}
+            {eventToDelete && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="w-full max-w-md rounded-lg bg-primary p-6">
+                        <h3 className="mb-4 text-xl font-bold text-white">
+                            ¿Eliminar evento?
+                        </h3>
+                        <p className="mb-6 text-gray-300">
+                            ¿Estás seguro que deseas eliminar el evento "{eventToDelete.nombre}"? Esta acción no se puede deshacer.
+                        </p>
+                        <div className="flex justify-end gap-4">
+                            <button
+                                onClick={() => setEventToDelete(null)}
+                                className="rounded bg-gray-600 px-4 py-2 text-white transition hover:bg-gray-700"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={() => deleteEvent(eventToDelete.id, onEventDeleted)}
+                                className="rounded bg-red-500 px-4 py-2 text-white transition hover:bg-red-600"
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
