@@ -8,6 +8,7 @@ export interface EventoFormProps {
   setEventImages: Dispatch<SetStateAction<File[]>>;
   formik: any;
   categories: { id: number; nombre: string }[];
+  onEventCreated?: (eventId: number) => void;
 }
 
 export interface MultiImageUploadProps {

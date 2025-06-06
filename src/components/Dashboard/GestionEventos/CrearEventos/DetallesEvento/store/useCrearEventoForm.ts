@@ -1,4 +1,4 @@
-// src/components/Dashboard/GestionEventos/CrearEventos/store/useCrearEventoForm.ts
+// src/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/useCrearEventoForm.ts
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -9,7 +9,7 @@ import {
   crearEventoValidationSchema,
 } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/crearEvento.schema";
 
-export const useCrearEventoForm = () => {
+export const useCrearEventoForm = (onEventCreated?: (eventId: number) => void) => {
   const [sliderImage, setSliderImage] = useState<File | null>(null);
   const [eventImages, setEventImages] = useState<File[]>([]);
   const [resetKey, setResetKey] = useState(0);
@@ -77,7 +77,7 @@ export const useCrearEventoForm = () => {
         formData.append("sliderImage", sliderImage);
         eventImages.forEach((file) => formData.append("galeria", file));
 
-        await axios.post(api_url.crear_evento, formData, {
+        const response = await axios.post(api_url.crear_evento, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken
@@ -89,6 +89,11 @@ export const useCrearEventoForm = () => {
           position: "top-right",
           autoClose: 3000,
         });
+
+        // Llamar al callback con el ID del evento creado
+        if (response.data?.id) {
+          onEventCreated?.(response.data.id);
+        }
 
         resetForm();
         setSliderImage(null);

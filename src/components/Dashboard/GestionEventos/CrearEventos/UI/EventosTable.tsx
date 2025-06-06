@@ -1,7 +1,10 @@
 import React from "react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { FaPlus, FaArrowLeft } from "react-icons/fa";
+import { FaPlus, FaArrowLeft, FaTrash } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { api_url } from "@/api/api";
 
 interface Evento {
     id: number;
@@ -19,13 +22,37 @@ interface EventosTableProps {
     events: Evento[];
     onNavigateBack: () => void;
     onCreateEvent: () => void;
+    onEventDeleted: () => void;
 }
 
 const EventosTable: React.FC<EventosTableProps> = ({
     events,
     onNavigateBack,
     onCreateEvent,
+    onEventDeleted,
 }) => {
+    const handleDeleteEvent = async (eventId: number) => {
+        try {
+            await axios.delete(`${api_url.delete_evento}?eventoId=${eventId}`, {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken}`,
+                },
+            });
+
+            toast.success("Evento eliminado correctamente", {
+                position: "top-right",
+                autoClose: 3000,
+            });
+
+            onEventDeleted();
+        } catch (error: any) {
+            toast.error(
+                error.response?.data?.message || "Error al eliminar el evento",
+                { position: "top-right", autoClose: 3000 }
+            );
+        }
+    };
+
     return (
         <div className="container mx-auto px-4 py-8">
             {/* Header */}
@@ -95,9 +122,17 @@ const EventosTable: React.FC<EventosTableProps> = ({
                                     </span>
                                 </td>
                                 <td className="px-4 py-3 text-end">
-                                    <button className="rounded bg-secondary px-4 py-2 text-sm text-primary transition hover:bg-secondary/80">
-                                        Editar
-                                    </button>
+                                    <div className="flex justify-end gap-2">
+                                        <button className="rounded bg-secondary px-4 py-2 text-sm text-primary transition hover:bg-secondary/80">
+                                            Editar
+                                        </button>
+                                        <button
+                                            onClick={() => handleDeleteEvent(event.id)}
+                                            className="rounded bg-red-500 px-4 py-2 text-sm text-white transition hover:bg-red-600"
+                                        >
+                                            <FaTrash />
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
