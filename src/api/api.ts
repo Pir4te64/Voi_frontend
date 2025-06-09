@@ -34,6 +34,7 @@ export const api_url = {
 
   // Endpoints de lotes
   crear_lote: `${baseUrl}/eventos/user/v1/lotes/eventos/lotes`,
+  get_lotes_evento: (eventoId: number) => `${baseUrl}/eventos/user/v1/lotes/evento?eventoId=${eventoId}`,
 
   // Nuevo endpoint para recuperar contraseña
   recuperar_password: `${baseUrl}/auth/public/v1/recover-password`,

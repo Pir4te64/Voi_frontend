@@ -18,8 +18,9 @@ import Index from "@/pages/Dashboard/Index";
 import CrearPerfil from "@/components/Dashboard/CrearPerfil/CrearPerfil";
 import Miperfil from "@/components/Dashboard/Sidebar/MiPerfil/Miperfil";
 import CrearEventos from "@/components/Dashboard/GestionEventos/ListarYCrearEventos";
-import ModificarEventos from "@/components/Dashboard/GestionEventos/ModificarEventos";
+import ModificarEventos from "@/components/Dashboard/GestionEventos/EditarEvento/ModificarEventos";
 import EditarEventoPage from "@/components/Dashboard/GestionEventos/EditarEvento/EditarEventoPage";
+import GestionLotes from "@/components/Dashboard/GestionEventos/GestionLotes/GestionLotes";
 import { MisVentas } from "@/components/Dashboard/Misventas/MisVentas";
 import Web from "@/components/Dashboard/Misventas/Web";
 import Revendedores from "@/components/Dashboard/Misventas/Revendedores";
@@ -54,6 +55,7 @@ function App() {
           <Route path="crearevento" element={<CrearEventos />} />
           <Route path="editarevento/:id" element={<EditarEventoPage />} />
           <Route path="modificarevento" element={<ModificarEventos />} />
+          <Route path="lotes" element={<GestionLotes />} />
           <Route path="misventas" element={<MisVentas />} />
           <Route path="misventas/web" element={<Web />} />
           <Route path="misventas/revendedores" element={<Revendedores />} />
