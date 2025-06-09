@@ -2,10 +2,10 @@
 import React, { ReactElement, isValidElement, cloneElement } from "react";
 
 export const FloatingField: React.FC<{
-    label: string;
+    label?: string;
     children: React.ReactNode;
     htmlFor?: string;
-}> = ({ label, children, htmlFor = "" }) => {
+}> = ({ label = "", children, htmlFor = "" }) => {
     // Añadimos clase peer al input para estilos, y placeholder para no mostrar texto
     let field = children;
     if (isValidElement(children)) {
