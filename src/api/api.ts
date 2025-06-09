@@ -23,6 +23,7 @@ export const api_url = {
   crear_evento: `${baseUrl}/eventos/user/v1/eventos`,
   get_eventos: `${baseUrl}/eventos/public/v1/eventos`,
   delete_evento: `${baseUrl}/eventos/user/v1/eventos`,
+  editar_evento: `${baseUrl}/eventos/user/v1/eventos`,
   // Endpoints de categorias
   get_categorias: `${baseUrl}/eventos/user/v1/categorias/get-all`,
 

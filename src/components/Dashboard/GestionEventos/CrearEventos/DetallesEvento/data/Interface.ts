@@ -9,6 +9,8 @@ export interface EventoFormProps {
   formik: any;
   categories: { id: number; nombre: string }[];
   onEventCreated?: (eventId: number) => void;
+  existingSliderUrl?: string;
+  existingGalleryUrls?: string[];
 }
 
 export interface MultiImageUploadProps {

@@ -5,9 +5,11 @@ import React from "react";
 export interface GalleryUploadProps {
     /** Callback global que recibe el índice y los datos de la imagen */
     onSlotChange: (index: number, file: File, preview: string) => void;
+    /** URLs de imágenes existentes */
+    existingImages?: string[];
 }
 
-const GalleryUpload: React.FC<GalleryUploadProps> = ({ onSlotChange }) => {
+const GalleryUpload: React.FC<GalleryUploadProps> = ({ onSlotChange, existingImages = [] }) => {
     const boxes = Array.from({ length: 4 });
 
     return (
@@ -19,6 +21,7 @@ const GalleryUpload: React.FC<GalleryUploadProps> = ({ onSlotChange }) => {
                     maxImageSize={10 * 1024 * 1024}
                     description="PNG, JPG (hasta 10 MB) - Opc. de Formato 4:3 · 16:9 · 1:1."
                     onFileSelect={(file, preview) => onSlotChange(i, file, preview)}
+                    existingImageUrl={existingImages[i]}
                 />
             ))}
         </div>

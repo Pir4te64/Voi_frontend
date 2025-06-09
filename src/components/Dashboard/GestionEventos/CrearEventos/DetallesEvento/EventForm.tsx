@@ -6,6 +6,7 @@ import { EventoFormProps } from "@/components/Dashboard/GestionEventos/CrearEven
 import LoaderOverlay from "@/components/Dashboard/ComponentesReutilizables/LoaderOverlay";
 import GalleryUpload from "@/components/Dashboard/GestionEventos/CrearEventos/UI/MultiImageUpload";
 import MapPickerModal from "@/components/Dashboard/ComponentesReutilizables/MapPickerModal";
+import { toast } from "react-toastify";
 
 const MAX_DESC = 200;
 
@@ -15,6 +16,8 @@ const EventoForm: React.FC<EventoFormProps> = ({
   setEventImages,
   formik,
   categories,
+  existingSliderUrl,
+  existingGalleryUrls,
 }) => {
   const {
     values,
@@ -128,7 +131,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
               value={
                 locationLabel ||
                 (values.latitud && values.longitud
-                  ? `${values.latitud.toFixed(5)}, ${values.longitud.toFixed(
+                  ? `${Number(values.latitud).toFixed(5)}, ${Number(values.longitud).toFixed(
                     5
                   )}`
                   : "")
@@ -215,17 +218,23 @@ const EventoForm: React.FC<EventoFormProps> = ({
           maxImageSize={10 * 1024 * 1024}
           onFileSelect={setSliderImage}
           required
+          existingImageUrl={existingSliderUrl}
         />
 
         <GalleryUpload
-          onSlotChange={(_, file) => {
+          onSlotChange={(index: number, file: File) => {
             setEventImages((prev: File[]) => {
-              if (prev.length >= 4) return prev;
-              return [...prev, file];
+              const newImages = [...prev];
+              if (newImages.length >= 4) {
+                toast.warning('Solo se permiten 4 imágenes en la galería');
+                return prev;
+              }
+              newImages[index] = file;
+              return newImages;
             });
           }}
+          existingImages={existingGalleryUrls}
         />
-
       </div>
 
       {/* ---------- Botón Guardar ---------- */}

@@ -18,6 +18,7 @@ import CrearPerfil from "@/components/Dashboard/CrearPerfil/CrearPerfil";
 import Miperfil from "@/components/Dashboard/Sidebar/MiPerfil/Miperfil";
 import CrearEventos from "@/components/Dashboard/GestionEventos/ListarYCrearEventos";
 import ModificarEventos from "@/components/Dashboard/GestionEventos/ModificarEventos";
+import EditarEventoPage from "@/components/Dashboard/GestionEventos/EditarEvento/EditarEventoPage";
 import { MisVentas } from "@/components/Dashboard/Misventas/MisVentas";
 import Web from "@/components/Dashboard/Misventas/Web";
 import Revendedores from "@/components/Dashboard/Misventas/Revendedores";
@@ -49,6 +50,7 @@ function App() {
           <Route path="crearperfil" element={<CrearPerfil />} />
           <Route path="miperfil" element={<Miperfil />} />
           <Route path="crearevento" element={<CrearEventos />} />
+          <Route path="editarevento/:id" element={<EditarEventoPage />} />
           <Route path="modificarevento" element={<ModificarEventos />} />
           <Route path="misventas" element={<MisVentas />} />
           <Route path="misventas/web" element={<Web />} />

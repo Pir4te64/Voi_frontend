@@ -226,7 +226,7 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
         }
         {
           success && (
-            <div className="mb-4 flex items-center justify-end gap-2 text-sm text-green-400">
+            <div className="mt-4 flex items-center justify-end gap-2 text-sm text-green-400">
               <FaCheckCircle /> Lote creado con éxito
             </div>
           )

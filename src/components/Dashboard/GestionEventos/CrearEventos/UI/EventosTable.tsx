@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { FaPlus, FaArrowLeft, FaTrash } from "react-icons/fa";
 import { useDeleteEvento } from "../DetallesEvento/store/useDeleteEvento";
+import { useNavigate } from "react-router-dom";
 
 interface Evento {
     id: number;
@@ -30,6 +31,14 @@ const EventosTable: React.FC<EventosTableProps> = ({
     onEventDeleted,
 }) => {
     const { eventToDelete, setEventToDelete, deleteEvent } = useDeleteEvento();
+    const navigate = useNavigate();
+
+    const handleEditEvent = (event: Evento) => {
+        console.log('Evento a editar:', event);
+        navigate(`/dashboard/editarevento/${event.id}`, {
+            state: { eventoData: event }
+        });
+    };
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -101,7 +110,10 @@ const EventosTable: React.FC<EventosTableProps> = ({
                                 </td>
                                 <td className="px-4 py-3 text-end">
                                     <div className="flex justify-end gap-2">
-                                        <button className="rounded bg-secondary px-4 py-2 text-sm text-primary transition hover:bg-secondary/80">
+                                        <button
+                                            onClick={() => handleEditEvent(event)}
+                                            className="rounded bg-secondary px-4 py-2 text-sm text-primary transition hover:bg-secondary/80"
+                                        >
                                             Editar
                                         </button>
                                         <button

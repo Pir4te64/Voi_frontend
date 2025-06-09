@@ -1,5 +1,5 @@
 // src/components/Common/ImageUpload.tsx
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import agregarImgIcon from "@/assets/agregarimg.svg";
 
@@ -14,6 +14,8 @@ export interface ImageUploadProps {
     maxImageSize?: number;
     /** Indica si el campo es requerido */
     required?: boolean;
+    /** URL de la imagen existente (opcional) */
+    existingImageUrl?: string;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
@@ -22,9 +24,17 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     description,
     maxImageSize = 10 * 1024 * 1024, // 10 MB por defecto
     required = false,
+    existingImageUrl,
 }) => {
     const [preview, setPreview] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        // Si hay una URL de imagen existente, la usamos como preview
+        if (existingImageUrl) {
+            setPreview(existingImageUrl);
+        }
+    }, [existingImageUrl]);
 
     /* ---------- Handlers ---------- */
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
