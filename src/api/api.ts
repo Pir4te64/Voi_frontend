@@ -22,6 +22,7 @@ export const api_url = {
   admin_solicitudes_put: `${baseUrl}/auth/admin/v1/productoras/status`,
   crear_evento: `${baseUrl}/eventos/user/v1/eventos`,
   get_eventos: `${baseUrl}/eventos/public/v1/eventos`,
+  get_eventos_productora: `${baseUrl}/eventos/user/v1/productora/listar-eventos`,
   delete_evento: `${baseUrl}/eventos/user/v1/eventos`,
   editar_evento: `${baseUrl}/eventos/user/v1/eventos`,
   // Endpoints de categorias

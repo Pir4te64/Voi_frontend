@@ -117,7 +117,7 @@ const ListarYCrearEventos: React.FC = () => {
   const loadEvents = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(api_url.get_eventos, {
+      const response = await axios.get(api_url.get_eventos_productora, {
         headers: {
           Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken}`,
         },
