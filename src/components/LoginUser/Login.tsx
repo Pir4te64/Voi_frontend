@@ -80,6 +80,13 @@ const Login: React.FC = () => {
             )}
           </FloatingField>
 
+          {/* Link para recuperar contraseña */}
+          <div className="text-center">
+            <Link to="/recuperar-password" className="text-secondary hover:underline">
+              ¿Has olvidado tu contraseña?
+            </Link>
+          </div>
+
           {/* Botón Iniciar */}
           <button
             type="submit"

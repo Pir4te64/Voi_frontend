@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import EventoForm from '../CrearEventos/DetallesEvento/EventForm';
+import EventoForm from '@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/EventForm';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
@@ -8,10 +8,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { api_url } from '@/api/api';
 import axios from 'axios';
 
-interface Category {
-    id: number;
-    nombre: string;
-}
+
 
 interface Address {
     id: number;
@@ -70,7 +67,7 @@ const EditarEventoPage: React.FC = () => {
 
     const [sliderImage, setSliderImage] = useState<File | null>(null);
     const [eventImages, setEventImages] = useState<File[]>([]);
-    const [resetKey, setResetKey] = useState<number>(0);
+    const [resetKey, _] = useState<number>(0);
 
     // Si no hay datos en la navegación, redirigimos al listado
     useEffect(() => {

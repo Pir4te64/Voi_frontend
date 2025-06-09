@@ -2,7 +2,7 @@ import React from "react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { FaPlus, FaArrowLeft, FaTrash } from "react-icons/fa";
-import { useDeleteEvento } from "../DetallesEvento/store/useDeleteEvento";
+import { useDeleteEvento } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/useDeleteEvento";
 import { useNavigate } from "react-router-dom";
 
 interface Evento {

@@ -11,6 +11,7 @@ import EventosPage from "@/pages/Eventos/Eventos";
 import DetallesPage from "@/pages/Eventos/Detalles";
 import GraciasProductoraPage from "@/pages/GraciasProductora";
 import ErrorNotFound from "@/pages/404";
+import RecuperarPassword from '@/components/LoginUser/RecuperarPassword'
 
 import DashboardLayout from "@/pages/Dashboard/DashboardLayout";
 import Index from "@/pages/Dashboard/Index";
@@ -37,6 +38,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/recuperar-password" element={<RecuperarPassword />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/sobre-voi" element={<QuienesSomosPage />} />
         <Route path="/eventos" element={<EventosPage />} />

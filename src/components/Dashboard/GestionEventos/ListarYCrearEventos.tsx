@@ -48,17 +48,6 @@ const ListarYCrearEventos: React.FC = () => {
     resetKey,
   } = useCrearEventoForm(handleEventCreated);
 
-  const handleEdit = (eventId: number) => {
-    // Implementar lógica de edición
-  };
-
-  const handleDelete = (eventId: number) => {
-    // Implementar lógica de eliminación
-  };
-
-  const handleStatusChange = (eventId: number, newStatus: string) => {
-    // Implementar lógica de cambio de estado
-  };
 
   const createSteps = () => [
     {

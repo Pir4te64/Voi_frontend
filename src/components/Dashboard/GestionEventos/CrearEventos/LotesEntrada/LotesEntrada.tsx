@@ -7,9 +7,9 @@ import {
   FaPercent,
   FaTicketAlt,
 } from "react-icons/fa";
-import { useLoteForm } from "./store/useLoteForm";
+import { useLoteForm } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/store/useLoteForm";
 import { useFormik } from "formik";
-import { initialSchema, validationSchema } from "./data/lotesEntrada.data";
+import { initialSchema, validationSchema } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/data/lotesEntrada.data";
 import FloatingField from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 
 interface GestionarLoteUIProps {
