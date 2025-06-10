@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaArrowLeft, FaTicketAlt, FaEdit, FaPencilAlt } from "react-icons/fa";
+import { FaArrowLeft, FaTicketAlt, FaEdit, FaPencilAlt, FaTrash } from "react-icons/fa";
 import axios from "axios";
 import { api_url } from "@/api/api";
 import CrearLoteUI from "./CrearLote/CrearLoteUI";
+import EditarLoteUI from "./EditarLote/EditarLoteUI";
 
 interface Evento {
     id: number;
@@ -39,7 +40,9 @@ const GestionLotes: React.FC = () => {
     const [selectedEvent, setSelectedEvent] = useState<Evento | null>(null);
     const [lotes, setLotes] = useState<Lote[]>([]);
     const [loadingLotes, setLoadingLotes] = useState(false);
-    const [currentView, setCurrentView] = useState<"events" | "lotes" | "crear">("events");
+    const [currentView, setCurrentView] = useState<"events" | "lotes" | "crear" | "editar">("events");
+    const [loteToDelete, setLoteToDelete] = useState<Lote | null>(null);
+    const [loteToEdit, setLoteToEdit] = useState<Lote | null>(null);
 
     const loadEvents = async () => {
         try {
@@ -104,6 +107,78 @@ const GestionLotes: React.FC = () => {
         if (selectedEvent) {
             loadLotes(selectedEvent.id);
             setCurrentView("lotes");
+        }
+    };
+
+    const handleEditLote = (lote: Lote) => {
+        console.log("Editar lote:", lote);
+        setLoteToEdit(lote);
+        setCurrentView("editar");
+    };
+
+    const handleLoteUpdated = () => {
+        // Recargar lotes después de actualizar uno
+        if (selectedEvent) {
+            loadLotes(selectedEvent.id);
+            setCurrentView("lotes");
+            setLoteToEdit(null);
+        }
+    };
+
+    const deleteLote = async (loteId: number) => {
+        if (!selectedEvent) return;
+
+        try {
+            await axios.delete(api_url.eliminar_lote(selectedEvent.id, loteId), {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken}`,
+                },
+            });
+
+            // Recargar la lista de lotes
+            loadLotes(selectedEvent.id);
+            setLoteToDelete(null);
+
+            // Opcional: mostrar notificación de éxito
+            console.log("Lote eliminado correctamente");
+        } catch (error: any) {
+            console.error("Error al eliminar lote:", error);
+            setLoteToDelete(null);
+        }
+    };
+
+    const cambiarEstadoLote = async (loteId: number, nuevoEstado: string) => {
+        if (!selectedEvent) return;
+
+        try {
+            let endpoint: string;
+
+            switch (nuevoEstado) {
+                case 'ACTIVO':
+                    endpoint = api_url.activar_lote(loteId);
+                    break;
+                case 'PAUSADO':
+                    endpoint = api_url.pausar_lote(loteId);
+                    break;
+                case 'CANCELADO':
+                    endpoint = api_url.cancelar_lote(loteId);
+                    break;
+                default:
+                    console.error("Estado no válido:", nuevoEstado);
+                    return;
+            }
+
+            await axios.put(endpoint, {}, {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken}`,
+                },
+            });
+
+            // Recargar la lista de lotes
+            loadLotes(selectedEvent.id);
+            console.log(`Estado del lote cambiado a: ${nuevoEstado}`);
+        } catch (error: any) {
+            console.error("Error al cambiar estado del lote:", error);
         }
     };
 
@@ -317,26 +392,35 @@ const GestionLotes: React.FC = () => {
                                                     </div>
                                                 </td>
                                                 <td className="px-4 py-3 text-center">
-                                                    <span
-                                                        className={`rounded-full px-3 py-1 text-sm ${lote.estado === "ACTIVO"
+                                                    <select
+                                                        value={lote.estado}
+                                                        onChange={(e) => cambiarEstadoLote(lote.id, e.target.value)}
+                                                        className={`rounded-full border-none px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-secondary ${lote.estado === "ACTIVO"
                                                             ? "bg-green-500/20 text-green-500"
-                                                            : "bg-red-500/20 text-red-500"
+                                                            : lote.estado === "PAUSADO"
+                                                                ? "bg-yellow-500/20 text-yellow-500"
+                                                                : "bg-red-500/20 text-red-500"
                                                             }`}
                                                     >
-                                                        {lote.estado}
-                                                    </span>
+                                                        <option value="ACTIVO" className="bg-gray-800 text-green-500">ACTIVO</option>
+                                                        <option value="PAUSADO" className="bg-gray-800 text-yellow-500">PAUSADO</option>
+                                                        <option value="CANCELADO" className="bg-gray-800 text-red-500">CANCELADO</option>
+                                                    </select>
                                                 </td>
                                                 <td className="px-4 py-3 text-end">
                                                     <div className="flex justify-end gap-2">
                                                         <button
-                                                            onClick={() => {
-                                                                // Aquí se implementaría la edición del lote
-                                                                console.log("Editar lote:", lote.id);
-                                                            }}
+                                                            onClick={() => handleEditLote(lote)}
                                                             className="flex items-center gap-1 rounded bg-secondary px-4 py-2 text-sm text-primary transition hover:bg-secondary/80"
                                                         >
                                                             <FaPencilAlt />
                                                             Editar Lotes
+                                                        </button>
+                                                        <button
+                                                            onClick={() => setLoteToDelete(lote)}
+                                                            className="rounded bg-red-500 px-4 py-2 text-sm text-white transition hover:bg-red-600"
+                                                        >
+                                                            <FaTrash />
                                                         </button>
                                                     </div>
                                                 </td>
@@ -357,6 +441,44 @@ const GestionLotes: React.FC = () => {
                     onBack={handleBackToLotes}
                     onLoteCreated={handleLoteCreated}
                 />
+            )}
+
+            {currentView === "editar" && selectedEvent && loteToEdit && (
+                <EditarLoteUI
+                    eventId={selectedEvent.id}
+                    eventName={selectedEvent.nombre}
+                    lote={loteToEdit}
+                    onBack={handleBackToLotes}
+                    onLoteUpdated={handleLoteUpdated}
+                />
+            )}
+
+            {/* Modal de confirmación para eliminar lote */}
+            {loteToDelete && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="w-full max-w-md rounded-lg bg-primary p-6">
+                        <h3 className="mb-4 text-xl font-bold text-white">
+                            ¿Eliminar lote?
+                        </h3>
+                        <p className="mb-6 text-gray-300">
+                            ¿Estás seguro que deseas eliminar el lote "{loteToDelete.nombre}"? Esta acción no se puede deshacer.
+                        </p>
+                        <div className="flex justify-end gap-4">
+                            <button
+                                onClick={() => setLoteToDelete(null)}
+                                className="rounded bg-gray-600 px-4 py-2 text-white transition hover:bg-gray-700"
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={() => deleteLote(loteToDelete.id)}
+                                className="rounded bg-red-500 px-4 py-2 text-white transition hover:bg-red-600"
+                            >
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

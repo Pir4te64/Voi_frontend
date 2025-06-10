@@ -35,6 +35,13 @@ export const api_url = {
   // Endpoints de lotes
   crear_lote: `${baseUrl}/eventos/user/v1/lotes/eventos/lotes`,
   get_lotes_evento: (eventoId: number) => `${baseUrl}/eventos/user/v1/lotes/evento?eventoId=${eventoId}`,
+  eliminar_lote: (eventoId: number, loteId: number) => `${baseUrl}/eventos/user/v1/lotes/eventos/lotes?eventoId=${eventoId}&loteId=${loteId}`,
+  actualizar_tickets_disponibles: (loteId: number, nuevaCantidad: number) => `${baseUrl}/eventos/user/v1/lotes/tickets-disponibles?loteId=${loteId}&nuevaCantidad=${nuevaCantidad}`,
+
+  // Endpoints para cambiar estado de lotes
+  pausar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/pausar?loteId=${loteId}`,
+  cancelar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/cancelar?loteId=${loteId}`,
+  activar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/activar?loteId=${loteId}`,
 
   // Nuevo endpoint para recuperar contraseña
   recuperar_password: `${baseUrl}/auth/public/v1/recover-password`,
