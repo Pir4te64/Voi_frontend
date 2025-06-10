@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaTicketAlt, FaEdit, FaPencilAlt } from "react-icons/fa";
 import axios from "axios";
 import { api_url } from "@/api/api";
+import CrearLoteUI from "./CrearLote/CrearLoteUI";
 
 interface Evento {
     id: number;
@@ -38,7 +39,7 @@ const GestionLotes: React.FC = () => {
     const [selectedEvent, setSelectedEvent] = useState<Evento | null>(null);
     const [lotes, setLotes] = useState<Lote[]>([]);
     const [loadingLotes, setLoadingLotes] = useState(false);
-    const [currentView, setCurrentView] = useState<"events" | "lotes">("events");
+    const [currentView, setCurrentView] = useState<"events" | "lotes" | "crear">("events");
 
     const loadEvents = async () => {
         try {
@@ -88,6 +89,22 @@ const GestionLotes: React.FC = () => {
         setCurrentView("events");
         setSelectedEvent(null);
         setLotes([]);
+    };
+
+    const handleCreateLote = () => {
+        setCurrentView("crear");
+    };
+
+    const handleBackToLotes = () => {
+        setCurrentView("lotes");
+    };
+
+    const handleLoteCreated = () => {
+        // Recargar lotes después de crear uno nuevo
+        if (selectedEvent) {
+            loadLotes(selectedEvent.id);
+            setCurrentView("lotes");
+        }
     };
 
     const formatDate = (dateString: string) => {
@@ -234,10 +251,7 @@ const GestionLotes: React.FC = () => {
                                 Lotes de Entrada
                             </h2>
                             <button
-                                onClick={() => {
-                                    // Aquí se podría implementar la creación de nuevos lotes
-                                    console.log("Crear nuevo lote");
-                                }}
+                                onClick={handleCreateLote}
                                 className="rounded bg-secondary px-4 py-2 text-white hover:bg-secondary/80"
                             >
                                 Crear Nuevo Lote
@@ -334,6 +348,15 @@ const GestionLotes: React.FC = () => {
                         )}
                     </div>
                 </div>
+            )}
+
+            {currentView === "crear" && selectedEvent && (
+                <CrearLoteUI
+                    eventId={selectedEvent.id}
+                    eventName={selectedEvent.nombre}
+                    onBack={handleBackToLotes}
+                    onLoteCreated={handleLoteCreated}
+                />
             )}
         </div>
     );
