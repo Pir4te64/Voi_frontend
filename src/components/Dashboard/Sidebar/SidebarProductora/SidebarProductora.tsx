@@ -39,7 +39,7 @@ const SidebarProductora = () => {
 
   const renderNavItem = (item: any) => {
     const isExpanded = expandedItems.includes(item.to);
-    const hasChildren = item.children && item.children.length > 0;
+    const hasChildren = item.subItems && item.subItems.length > 0;
     const isActive = item.end
       ? location.pathname === item.to
       : location.pathname.startsWith(item.to);
@@ -47,16 +47,15 @@ const SidebarProductora = () => {
     return (
       <div key={item.to} className="space-y-1">
         <div
-          className={`flex items-center justify-between w-full p-2 rounded transition-colors ${
-            isActive
-              ? "bg-secondary text-white font-semibold"
-              : "text-white hover:text-secondary"
-          }`}
+          className={`flex items-center justify-between w-full p-2 rounded transition-colors ${isActive
+            ? "bg-secondary text-white font-semibold"
+            : "text-white hover:text-secondary"
+            }`}
         >
           <NavLink
             to={item.to}
             end={item.end}
-            className="flex items-center flex-1"
+            className="flex flex-1 items-center"
             onClick={() => setIsOpen(false)}
           >
             <item.Icon className="mr-3 h-4 w-4" />
@@ -77,15 +76,14 @@ const SidebarProductora = () => {
         </div>
         {hasChildren && isExpanded && (
           <div className="ml-6 space-y-1">
-            {item.children.map((child: any) => (
+            {item.subItems.map((child: any) => (
               <NavLink
                 key={child.to}
                 to={child.to}
                 className={({ isActive }) =>
-                  `flex items-center w-full p-2 rounded transition-colors ${
-                    isActive
-                      ? "bg-secondary text-white font-semibold"
-                      : "text-white hover:text-secondary"
+                  `flex items-center w-full p-2 rounded transition-colors ${isActive
+                    ? "bg-secondary text-white font-semibold"
+                    : "text-white hover:text-secondary"
                   }`
                 }
                 onClick={() => setIsOpen(false)}
@@ -125,9 +123,8 @@ const SidebarProductora = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex min-h-screen w-64 flex-col bg-black p-6 text-white shadow-lg transform transition-transform duration-200 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:static`}
+        className={`fixed inset-y-0 left-0 z-50 flex min-h-screen w-64 flex-col bg-black p-6 text-white shadow-lg transform transition-transform duration-200 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0 md:static`}
         aria-hidden={!isOpen && window.innerWidth < 768}
       >
         {/* Botón cerrar (mobile) */}

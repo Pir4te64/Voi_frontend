@@ -226,13 +226,6 @@ const GestionLotes: React.FC = () => {
             {currentView === "events" && (
                 <div className="container mx-auto px-4 py-8">
                     <div className="mb-8">
-                        <button
-                            onClick={() => navigate("/dashboard")}
-                            className="mb-4 flex items-center text-white hover:text-secondary"
-                        >
-                            <FaArrowLeft className="mr-2" />
-                            Volver al Dashboard
-                        </button>
                         <h1 className="text-3xl font-bold text-white">Gestión de Lotes</h1>
                         <p className="mt-2 text-gray-400">
                             Selecciona un evento para gestionar sus lotes de entrada

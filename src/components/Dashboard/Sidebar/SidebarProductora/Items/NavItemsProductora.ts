@@ -1,5 +1,5 @@
 // NavItemsProductora.js
-import { FaWallet, FaCog, FaCalendarPlus } from "react-icons/fa";
+import { FaWallet, FaCog, FaCalendarPlus, FaRegDotCircle } from "react-icons/fa";
 import { MdGroup } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
 import { LuUser } from "react-icons/lu";
@@ -9,9 +9,13 @@ export const navItemsProductora = [
   { to: "/dashboard", label: "Dashboard", Icon: IoHomeOutline, end: true },
   { to: "/dashboard/miperfil", label: "Mi Perfil", Icon: LuUser },
   {
-    to: "/dashboard/crearevento",
+    to: "/dashboard/eventos",
     label: "Eventos",
     Icon: FaCalendarPlus,
+    subItems: [
+      { to: "/dashboard/crearevento", label: "Crear Evento", Icon: FaRegDotCircle },
+      { to: "/dashboard/editarevento", label: "Editar Evento", Icon: FaRegDotCircle },
+    ],
   },
   { to: "/dashboard/lotes", label: "Lotes de Entrada", Icon: FaWallet },
   { to: "/dashboard/mis-ventas", label: "Mis Ventas", Icon: BiBarChartAlt2 },

@@ -44,13 +44,6 @@ const EventosTable: React.FC<EventosTableProps> = ({
         <div className="container mx-auto px-4 py-8">
             {/* Header */}
             <div className="mb-8">
-                <button
-                    onClick={onNavigateBack}
-                    className="mb-4 flex items-center text-white hover:text-secondary"
-                >
-                    <FaArrowLeft className="mr-2" />
-                    Volver
-                </button>
                 <div className="flex items-center justify-between">
                     <h1 className="text-3xl font-bold text-white">Eventos</h1>
                     <button
