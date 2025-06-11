@@ -31,6 +31,22 @@ const SidebarProductora = () => {
     setIsOpen(false);
   }, [location.pathname]);
 
+  /* Expandir automáticamente los submenús cuando la URL coincida con uno de sus elementos hijo */
+  useEffect(() => {
+    const currentPath = location.pathname;
+
+    // Encontrar los items padre que tienen el subitem que coincide con la ruta actual
+    const itemsToExpand = navItemsProductora
+      .filter((item) =>
+        item.subItems?.some((subItem) => currentPath === subItem.to)
+      )
+      .map((item) => item.to);
+
+    if (itemsToExpand.length > 0) {
+      setExpandedItems((prev) => [...new Set([...prev, ...itemsToExpand])]);
+    }
+  }, [location.pathname]);
+
   const toggleSubmenu = (to: string) => {
     setExpandedItems((prev) =>
       prev.includes(to) ? prev.filter((item) => item !== to) : [...prev, to]
@@ -47,10 +63,11 @@ const SidebarProductora = () => {
     return (
       <div key={item.to} className="space-y-1">
         <div
-          className={`flex items-center justify-between w-full p-2 rounded transition-colors ${isActive
-            ? "bg-secondary text-white font-semibold"
-            : "text-white hover:text-secondary"
-            }`}
+          className={`flex items-center justify-between w-full p-2 rounded transition-colors ${
+            isActive
+              ? "bg-secondary text-white font-semibold"
+              : "text-white hover:text-secondary"
+          }`}
         >
           <NavLink
             to={item.to}
@@ -81,9 +98,10 @@ const SidebarProductora = () => {
                 key={child.to}
                 to={child.to}
                 className={({ isActive }) =>
-                  `flex items-center w-full p-2 rounded transition-colors ${isActive
-                    ? "bg-secondary text-white font-semibold"
-                    : "text-white hover:text-secondary"
+                  `flex items-center w-full p-2 rounded transition-colors ${
+                    isActive
+                      ? "bg-secondary text-white font-semibold"
+                      : "text-white hover:text-secondary"
                   }`
                 }
                 onClick={() => setIsOpen(false)}
@@ -123,8 +141,9 @@ const SidebarProductora = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex min-h-screen w-64 flex-col bg-black p-6 text-white shadow-lg transform transition-transform duration-200 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 md:static`}
+        className={`fixed inset-y-0 left-0 z-50 flex min-h-screen w-64 flex-col bg-black p-6 text-white shadow-lg transform transition-transform duration-200 ease-in-out ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 md:static`}
         aria-hidden={!isOpen && window.innerWidth < 768}
       >
         {/* Botón cerrar (mobile) */}

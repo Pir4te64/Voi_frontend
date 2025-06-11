@@ -8,9 +8,9 @@ import {
     FaTicketAlt,
     FaArrowLeft,
 } from "react-icons/fa";
-import { useCrearLoteForm } from "./store/useCrearLoteForm";
+import { useCrearLoteForm } from "@/components/Dashboard/GestionEventos/GestionLotes/CrearLote/store/useCrearLoteForm";
 import { useFormik } from "formik";
-import { initialSchema, validationSchema } from "./data/crearLote.data";
+import { initialSchema, validationSchema } from "@/components/Dashboard/GestionEventos/GestionLotes/CrearLote/data/crearLote.data";
 import FloatingField from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 
 interface CrearLoteUIProps {

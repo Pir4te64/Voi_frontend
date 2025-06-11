@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { api_url } from "@/api/api";
-import { EditarLoteFormData } from "../data/editarLote.data";
+import { EditarLoteFormData } from "@/components/Dashboard/GestionEventos/GestionLotes/EditarLote/data/editarLote.data";
 
 interface EditarLoteFormStore {
     success: boolean;

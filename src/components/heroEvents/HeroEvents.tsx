@@ -33,7 +33,6 @@ interface APIEvent {
   };
 }
 
-
 const HeroEvents: React.FC = () => {
   const swiperRef = useRef<any>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -46,12 +45,9 @@ const HeroEvents: React.FC = () => {
   }, [fetchEvents]);
 
   // Si la petición no ha traído nada, usamos los estáticos
-  const dataSource = remoteEvents
+  const dataSource = remoteEvents;
   return (
-    <section
-      className="relative overflow-hidden bg-primary p-8 md:px-16 md:pb-14"
-      style={{ height: "calc(100vh - 100px)" }}
-    >
+    <section className="relative h-[calc(65vh-100px)] overflow-hidden bg-primary p-8 md:h-[calc(100vh-100px)] md:px-16 md:pb-14">
       <Swiper
         modules={[A11y]}
         onSwiper={(swiper) => {
@@ -61,7 +57,7 @@ const HeroEvents: React.FC = () => {
         spaceBetween={0}
         slidesPerView={1}
         loop
-        className="h-[60vh] rounded-md md:h-[80vh]"
+        className="h-[40vh] rounded-md md:h-[80vh]"
       >
         {dataSource.map((ev) => {
           const [year, monthNum, dayStr] = ev.fechaInicio.split("-");
@@ -109,8 +105,9 @@ const HeroEvents: React.FC = () => {
           <button
             key={idx}
             onClick={() => swiperRef.current?.slideToLoop(idx)}
-            className={`w-2 h-2 rounded-full transition-colors ${activeIndex === idx ? "bg-white" : "bg-white/50"
-              }`}
+            className={`w-2 h-2 rounded-full transition-colors ${
+              activeIndex === idx ? "bg-white" : "bg-white/50"
+            }`}
           />
         ))}
       </div>

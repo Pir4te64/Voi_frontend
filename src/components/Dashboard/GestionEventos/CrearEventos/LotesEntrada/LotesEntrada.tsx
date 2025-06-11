@@ -9,7 +9,10 @@ import {
 } from "react-icons/fa";
 import { useLoteForm } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/store/useLoteForm";
 import { useFormik } from "formik";
-import { initialSchema, validationSchema } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/data/lotesEntrada.data";
+import {
+  initialSchema,
+  validationSchema,
+} from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/data/lotesEntrada.data";
 import FloatingField from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 
 interface GestionarLoteUIProps {
@@ -24,7 +27,7 @@ interface GestionarLoteUIProps {
 const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
   eventId,
   /*  eventName, */
-  nextStep,
+  //nextStep,
 }) => {
   const { createLote, success } = useLoteForm();
   const dateInputRef = useRef<HTMLInputElement>(null);
@@ -36,7 +39,7 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
       try {
         await createLote(values, eventId);
         resetForm();
-        nextStep();
+        // nextStep();
       } catch (error) {
         // El error ya se maneja en el store con notificación toast
       }
@@ -48,10 +51,15 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
   };
 
   return (
-    <form onSubmit={formik.handleSubmit} className="relative w-full rounded-2xl bg-back p-8 shadow-lg">
+    <form
+      onSubmit={formik.handleSubmit}
+      className="relative w-full rounded-2xl bg-back p-8 shadow-lg"
+    >
       {/* Mensaje de éxito */}
       <div className="mb-4">
-        <h1 className="text-xxl font-light text-white">Crea diferentes lotes de tickets con precios y disponibilidad únicos.</h1>
+        <h1 className="text-xxl font-light text-white">
+          Crea diferentes lotes de tickets con precios y disponibilidad únicos.
+        </h1>
       </div>
       {/* Nombre del Lote */}
       <div className="mb-4">
@@ -60,10 +68,11 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
             id="nombreLote"
             name="nombre"
             type="text"
-            className={`w-full rounded-lg border ${formik.touched.nombre && formik.errors.nombre
-              ? "border-red-500"
-              : "border-gray-700"
-              } bg-back px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+            className={`w-full rounded-lg border ${
+              formik.touched.nombre && formik.errors.nombre
+                ? "border-red-500"
+                : "border-gray-700"
+            } bg-back px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
             value={formik.values.nombre}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -71,7 +80,9 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
           <FaEdit className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
         </FloatingField>
         {formik.touched.nombre && formik.errors.nombre && (
-          <div className="mt-1 text-sm text-red-500">{formik.errors.nombre}</div>
+          <div className="mt-1 text-sm text-red-500">
+            {formik.errors.nombre}
+          </div>
         )}
       </div>
       {/* Precio y Fecha */}
@@ -83,10 +94,11 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
               id="precio"
               name="precio"
               type="number"
-              className={`w-full rounded-lg border ${formik.touched.precio && formik.errors.precio
-                ? "border-red-500"
-                : "border-gray-700"
-                } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+              className={`w-full rounded-lg border ${
+                formik.touched.precio && formik.errors.precio
+                  ? "border-red-500"
+                  : "border-gray-700"
+              } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
               value={formik.values.precio || ""}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -95,7 +107,9 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
             <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
           </FloatingField>
           {formik.touched.precio && formik.errors.precio && (
-            <div className="mt-1 text-sm text-red-500">{formik.errors.precio}</div>
+            <div className="mt-1 text-sm text-red-500">
+              {formik.errors.precio}
+            </div>
           )}
         </div>
         <div className="flex-1">
@@ -106,11 +120,12 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
               id="fechaValidez"
               name="fechaValidez"
               type="date"
-              min={new Date().toISOString().split('T')[0]}
-              className={`w-full rounded-lg border ${formik.touched.fechaValidez && formik.errors.fechaValidez
-                ? "border-red-500"
-                : "border-gray-700"
-                } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+              min={new Date().toISOString().split("T")[0]}
+              className={`w-full rounded-lg border ${
+                formik.touched.fechaValidez && formik.errors.fechaValidez
+                  ? "border-red-500"
+                  : "border-gray-700"
+              } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
               value={formik.values.fechaValidez}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -124,7 +139,9 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
             </button>
           </FloatingField>
           {formik.touched.fechaValidez && formik.errors.fechaValidez && (
-            <div className="mt-1 text-sm text-red-500">{formik.errors.fechaValidez}</div>
+            <div className="mt-1 text-sm text-red-500">
+              {formik.errors.fechaValidez}
+            </div>
           )}
         </div>
       </div>
@@ -151,10 +168,11 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
                   id="montoFijo"
                   name="montoFijo"
                   type="number"
-                  className={`w-full rounded-lg border ${formik.touched.montoFijo && formik.errors.montoFijo
-                    ? "border-red-500"
-                    : "border-gray-700"
-                    } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                  className={`w-full rounded-lg border ${
+                    formik.touched.montoFijo && formik.errors.montoFijo
+                      ? "border-red-500"
+                      : "border-gray-700"
+                  } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                   value={formik.values.montoFijo || ""}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -166,7 +184,9 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
             </div>
           </label>
           {formik.touched.montoFijo && formik.errors.montoFijo && (
-            <div className="mt-1 text-sm text-red-500">{formik.errors.montoFijo}</div>
+            <div className="mt-1 text-sm text-red-500">
+              {formik.errors.montoFijo}
+            </div>
           )}
           <label className="mt-2 flex items-center gap-2">
             <input
@@ -185,10 +205,11 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
                   id="porcentaje"
                   name="porcentaje"
                   type="number"
-                  className={`w-full rounded-lg border ${formik.touched.porcentaje && formik.errors.porcentaje
-                    ? "border-red-500"
-                    : "border-gray-700"
-                    } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                  className={`w-full rounded-lg border ${
+                    formik.touched.porcentaje && formik.errors.porcentaje
+                      ? "border-red-500"
+                      : "border-gray-700"
+                  } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                   value={formik.values.porcentaje || ""}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -200,22 +221,25 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
             </div>
           </label>
           {formik.touched.porcentaje && formik.errors.porcentaje && (
-            <div className="mt-1 text-sm text-red-500">{formik.errors.porcentaje}</div>
+            <div className="mt-1 text-sm text-red-500">
+              {formik.errors.porcentaje}
+            </div>
           )}
         </div>
-      </div >
+      </div>
       {/* Cantidad de Tickets */}
-      < div className="mb-4" >
+      <div className="mb-4">
         <FloatingField label="Cantidad de Tickets" htmlFor="cantidadTickets">
           <FaTicketAlt className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
           <input
             id="cantidadTickets"
             name="cantidadTickets"
             type="number"
-            className={`w-full rounded-lg border ${formik.touched.cantidadTickets && formik.errors.cantidadTickets
-              ? "border-red-500"
-              : "border-gray-700"
-              } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+            className={`w-full rounded-lg border ${
+              formik.touched.cantidadTickets && formik.errors.cantidadTickets
+                ? "border-red-500"
+                : "border-gray-700"
+            } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
             value={formik.values.cantidadTickets || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -223,27 +247,25 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
           />
           <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
         </FloatingField>
-        {
-          formik.touched.cantidadTickets && formik.errors.cantidadTickets && (
-            <div className="mt-1 text-sm text-red-500">{formik.errors.cantidadTickets}</div>
-          )
-        }
-        {
-          success && (
-            <div className="mt-4 flex items-center justify-end gap-2 text-sm text-green-400">
-              <FaCheckCircle /> Lote creado con éxito
-            </div>
-          )
-        }
-      </div >
+        {formik.touched.cantidadTickets && formik.errors.cantidadTickets && (
+          <div className="mt-1 text-sm text-red-500">
+            {formik.errors.cantidadTickets}
+          </div>
+        )}
+        {success && (
+          <div className="mt-4 flex items-center justify-end gap-2 text-sm text-green-400">
+            <FaCheckCircle /> Lote creado con éxito
+          </div>
+        )}
+      </div>
       {/* Botón Agregar Lote */}
-      < button
+      <button
         type="submit"
         className="mt-2 w-full rounded-lg bg-secondary py-3 text-lg font-semibold text-white transition hover:opacity-90"
       >
         Agregar Lote
-      </button >
-    </form >
+      </button>
+    </form>
   );
 };
 

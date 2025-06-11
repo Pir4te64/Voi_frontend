@@ -47,6 +47,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
           <input
             id="name"
             name="name"
+            maxLength={25}
             value={values.name}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -131,9 +132,9 @@ const EventoForm: React.FC<EventoFormProps> = ({
               value={
                 locationLabel ||
                 (values.latitud && values.longitud
-                  ? `${Number(values.latitud).toFixed(5)}, ${Number(values.longitud).toFixed(
-                    5
-                  )}`
+                  ? `${Number(values.latitud).toFixed(5)}, ${Number(
+                      values.longitud
+                    ).toFixed(5)}`
                   : "")
               }
               placeholder=" "
@@ -226,7 +227,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
             setEventImages((prev: File[]) => {
               const newImages = [...prev];
               if (newImages.length >= 4) {
-                toast.warning('Solo se permiten 4 imágenes en la galería');
+                toast.warning("Solo se permiten 4 imágenes en la galería");
                 return prev;
               }
               newImages[index] = file;

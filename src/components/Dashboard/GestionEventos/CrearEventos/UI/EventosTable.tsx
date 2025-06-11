@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { FaPlus, FaRegTrashAlt, FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useDeleteEvento } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/useDeleteEvento";
-import ModalConfirmacionEliminar from "./ModalConfirmacionEliminar";
+import ModalConfirmacionEliminar from "@/components/Dashboard/GestionEventos/CrearEventos/UI/ModalConfirmacionEliminar";
 
 interface Evento {
     id: number;

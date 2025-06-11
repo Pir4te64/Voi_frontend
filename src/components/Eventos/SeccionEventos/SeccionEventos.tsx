@@ -36,6 +36,8 @@ const SeccionEventos: React.FC = () => {
   const [order, setOrder] = useState("Aleatorio");
   const [province, setProvince] = useState("");
   const [city, setCity] = useState("");
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+  const [randomSeed] = useState(() => Math.random());
 
   /* swiper */
   const swiperRef = useRef<any>(null);
@@ -63,6 +65,27 @@ const SeccionEventos: React.FC = () => {
     };
   });
 
+  /* Precargar imágenes */
+  useEffect(() => {
+    if (mappedEvents.length > 0 && !imagesLoaded) {
+      const imagePromises = mappedEvents.map((event) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = event.image;
+        });
+      });
+
+      Promise.all(imagePromises)
+        .then(() => setImagesLoaded(true))
+        .catch((error) => {
+          console.error("Error precargando imágenes:", error);
+          setImagesLoaded(true); // Continuamos aunque haya errores
+        });
+    }
+  }, [mappedEvents, imagesLoaded]);
+
   /* categorías dinámicas */
   const categoriesList = useMemo(() => {
     const cats = Array.from(new Set(mappedEvents.map((ev) => ev.category)));
@@ -88,14 +111,18 @@ const SeccionEventos: React.FC = () => {
       );
 
     if (order === "Aleatorio") {
-      evts.sort(() => Math.random() - 0.5);
+      // Usar un algoritmo de shuffle determinístico basado en el seed
+      evts.sort((a, b) => {
+        const hash = ((a.id + b.id) * randomSeed) % 1;
+        return hash - 0.5;
+      });
     } else if (order === "Últimos Eventos Publicados") {
       evts.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     } else {
       evts.sort((a, b) => a.createdAt.localeCompare(b.createdAt));
     }
     return evts;
-  }, [search, category, order, province, city, mappedEvents]);
+  }, [search, category, order, province, city, mappedEvents, randomSeed]);
 
   return (
     <GlowWrapper reverse intensity={52}>
@@ -116,7 +143,11 @@ const SeccionEventos: React.FC = () => {
         />
 
         <div className="min-w-0 flex-1">
-          {events.length === 0 ? (
+          {!imagesLoaded ? (
+            <div className="flex h-full items-center justify-center">
+              <div className="h-32 w-32 animate-spin rounded-full border-4 border-secondary border-t-transparent"></div>
+            </div>
+          ) : events.length === 0 ? (
             <p className="text-center text-gray-400">
               No se encontraron eventos 🤷‍♂️
             </p>
@@ -128,6 +159,10 @@ const SeccionEventos: React.FC = () => {
                 onSlideChange={(s) => setActiveIdx(s.realIndex)}
                 slidesPerView={1}
                 spaceBetween={40}
+                speed={500}
+                watchSlidesProgress={true}
+                observer={true}
+                observeParents={true}
                 breakpoints={{
                   640: { slidesPerView: 1 },
                   768: { slidesPerView: 2 },
@@ -136,16 +171,23 @@ const SeccionEventos: React.FC = () => {
                 className="mb-6 overflow-hidden"
               >
                 {events.map((ev) => (
-                  <SwiperSlide key={ev.id}>
-                    <EventCard {...ev} />
+                  <SwiperSlide
+                    key={`event-${ev.id}-${ev.title}`}
+                    className="opacity-0 transition-opacity duration-300"
+                    style={{ opacity: imagesLoaded ? 1 : 0 }}
+                    data-event-id={ev.id}
+                  >
+                    <div className="h-full w-full">
+                      <EventCard {...ev} />
+                    </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
 
               <div className="flex justify-center gap-2">
-                {events.map((_, idx) => (
+                {events.map((ev, idx) => (
                   <button
-                    key={idx}
+                    key={`dot-${ev.id}`}
                     onClick={() => swiperRef.current?.slideToLoop(idx)}
                     className={`
                       w-2 h-2 rounded-full transition-colors

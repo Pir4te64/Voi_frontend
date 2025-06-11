@@ -57,7 +57,10 @@ const EventsSection: React.FC = () => {
   });
 
   // Obtener categorías únicas de los eventos
-  const categories = ["Todos", ...Array.from(new Set(mappedEvents.map((ev) => ev.category)))];
+  const categories = [
+    "Todos",
+    ...Array.from(new Set(mappedEvents.map((ev) => ev.category))),
+  ];
 
   // Filtrar según categoría activa
   const filtered =
@@ -79,9 +82,10 @@ const EventsSection: React.FC = () => {
                 onClick={() => setActiveCat(cat)}
                 className={`
                   px-4 py-2 text-md rounded-2xl transition uppercase
-                  ${activeCat === cat
-                    ? "bg-secondary text-primary"
-                    : "bg-back text-white hover:bg-white/30"
+                  ${
+                    activeCat === cat
+                      ? "bg-secondary text-primary"
+                      : "bg-back text-white hover:bg-white/30"
                   }
                 `}
               >
@@ -123,13 +127,14 @@ const EventsSection: React.FC = () => {
         <EventsNav swiperRef={swiperRef} />
 
         {/* Dots mobile */}
-        <div className="mt-20 flex justify-center space-x-2 sm:hidden">
+        <div className=" flex justify-center space-x-2 sm:hidden">
           {filtered.map((_, idx) => (
             <button
               key={idx}
               onClick={() => swiperRef.current?.slideToLoop(idx)}
-              className={`w-2 h-2 rounded-full transition-colors ${activeIndex === idx ? "bg-white" : "bg-white/50"
-                }`}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                activeIndex === idx ? "bg-white" : "bg-white/50"
+              }`}
             />
           ))}
         </div>

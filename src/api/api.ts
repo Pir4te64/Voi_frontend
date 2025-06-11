@@ -31,20 +31,26 @@ export const api_url = {
   //Endpoint actualizar perfil
   update_profile: `${baseUrl}/auth/user/v1/profile/update`,
 
-
   // Endpoints de lotes
   crear_lote: `${baseUrl}/eventos/user/v1/lotes/eventos/lotes`,
-  get_lotes_evento: (eventoId: number) => `${baseUrl}/eventos/user/v1/lotes/evento?eventoId=${eventoId}`,
-  eliminar_lote: (eventoId: number, loteId: number) => `${baseUrl}/eventos/user/v1/lotes/eventos/lotes?eventoId=${eventoId}&loteId=${loteId}`,
-  actualizar_tickets_disponibles: (loteId: number, nuevaCantidad: number) => `${baseUrl}/eventos/user/v1/lotes/tickets-disponibles?loteId=${loteId}&nuevaCantidad=${nuevaCantidad}`,
+  get_lotes_evento: (eventoId: number) =>
+    `${baseUrl}/eventos/user/v1/lotes/evento?eventoId=${eventoId}`,
+  eliminar_lote: (eventoId: number, loteId: number) =>
+    `${baseUrl}/eventos/user/v1/lotes/eventos/lotes?eventoId=${eventoId}&loteId=${loteId}`,
+  actualizar_tickets_disponibles: (loteId: number, nuevaCantidad: number) =>
+    `${baseUrl}/eventos/user/v1/lotes/tickets-disponibles?loteId=${loteId}&nuevaCantidad=${nuevaCantidad}`,
 
   // Endpoints para cambiar estado de lotes
-  pausar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/pausar?loteId=${loteId}`,
-  cancelar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/cancelar?loteId=${loteId}`,
-  activar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/reactivar?loteId=${loteId}`,
+  pausar_lote: (loteId: number) =>
+    `${baseUrl}/eventos/user/v1/lotes/pausar?loteId=${loteId}`,
+  cancelar_lote: (loteId: number) =>
+    `${baseUrl}/eventos/user/v1/lotes/cancelar?loteId=${loteId}`,
+  activar_lote: (loteId: number) =>
+    `${baseUrl}/eventos/user/v1/lotes/reactivar?loteId=${loteId}`,
 
   // Nuevo endpoint para recuperar contraseña
   recuperar_password: `${baseUrl}/auth/public/v1/recover-password`,
+  request_retrieve: `${baseUrl}/auth/public/v1/request-retrieve`,
 };
 
 /**
@@ -54,12 +60,12 @@ export const api_url = {
  */
 export const GETME = async () => {
   // Obtiene el token de autenticación del localStorage
-  const token = localStorage.getItem('auth')
-    ? JSON.parse(localStorage.getItem('auth')!).accessToken
+  const token = localStorage.getItem("auth")
+    ? JSON.parse(localStorage.getItem("auth")!).accessToken
     : null;
 
   if (!token) {
-    throw new Error('No hay token de autenticación');
+    throw new Error("No hay token de autenticación");
   }
 
   // Realiza la petición GET con el token en los headers
@@ -68,7 +74,7 @@ export const GETME = async () => {
   });
 
   // Guardar en localStorage para mantener sincronizado
-  localStorage.setItem('me', JSON.stringify(response.data));
+  localStorage.setItem("me", JSON.stringify(response.data));
 
   return response;
 };
