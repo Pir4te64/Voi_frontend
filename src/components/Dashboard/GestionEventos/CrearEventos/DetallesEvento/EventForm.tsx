@@ -223,7 +223,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
         />
 
         <GalleryUpload
-          onSlotChange={(index: number, file: File, preview: string) => {
+          onSlotChange={(index: number, file: File) => {
             setEventImages((prev: File[]) => {
               const newImages = [...prev];
 
