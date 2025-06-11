@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaArrowLeft, FaTicketAlt, FaEdit, FaPencilAlt, FaTrash } from "react-icons/fa";
+import { FaArrowLeft, FaTicketAlt, FaEdit, FaPencilAlt, FaTrash, FaRegTrashAlt } from "react-icons/fa";
 import axios from "axios";
 import { api_url } from "@/api/api";
 import CrearLoteUI from "./CrearLote/CrearLoteUI";
@@ -280,9 +280,8 @@ const GestionLotes: React.FC = () => {
                                             <div className="flex justify-end gap-2">
                                                 <button
                                                     onClick={() => handleEventSelect(event)}
-                                                    className="flex items-center gap-1 rounded bg-secondary px-4 py-2 text-sm text-primary transition hover:bg-secondary/80"
+                                                    className="flex items-center gap-1 rounded px-4 py-2 text-sm text-white hover:bg-secondary/80"
                                                 >
-                                                    <FaTicketAlt />
                                                     Ver Lotes
                                                 </button>
                                             </div>
@@ -303,7 +302,7 @@ const GestionLotes: React.FC = () => {
                             className="mb-4 flex items-center text-white hover:text-secondary"
                         >
                             <FaArrowLeft className="mr-2" />
-                            Volver a Eventos
+                            Volver a Gestión
                         </button>
                         <h1 className="text-3xl font-bold text-white">
                             Lotes de {selectedEvent.nombre}
@@ -388,7 +387,7 @@ const GestionLotes: React.FC = () => {
                                                     <select
                                                         value={lote.estado}
                                                         onChange={(e) => cambiarEstadoLote(lote.id, e.target.value)}
-                                                        className={`rounded-full border-none px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-secondary ${lote.estado === "ACTIVO"
+                                                        className={`rounded-md border-none px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-secondary ${lote.estado === "ACTIVO"
                                                             ? "bg-green-500/20 text-green-500"
                                                             : lote.estado === "PAUSADO"
                                                                 ? "bg-yellow-500/20 text-yellow-500"
@@ -404,16 +403,15 @@ const GestionLotes: React.FC = () => {
                                                     <div className="flex justify-end gap-2">
                                                         <button
                                                             onClick={() => handleEditLote(lote)}
-                                                            className="flex items-center gap-1 rounded bg-secondary px-4 py-2 text-sm text-primary transition hover:bg-secondary/80"
+                                                            className="rounded px-4 py-2 text-sm text-white hover:bg-red-500"
                                                         >
                                                             <FaPencilAlt />
-                                                            Editar Lotes
                                                         </button>
                                                         <button
                                                             onClick={() => setLoteToDelete(lote)}
-                                                            className="rounded bg-red-500 px-4 py-2 text-sm text-white transition hover:bg-red-600"
+                                                            className="rounded px-4 py-2 text-sm text-white hover:bg-red-500"
                                                         >
-                                                            <FaTrash />
+                                                            <FaRegTrashAlt className="h-4 w-4" />
                                                         </button>
                                                     </div>
                                                 </td>

@@ -41,7 +41,7 @@ export const api_url = {
   // Endpoints para cambiar estado de lotes
   pausar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/pausar?loteId=${loteId}`,
   cancelar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/cancelar?loteId=${loteId}`,
-  activar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/activar?loteId=${loteId}`,
+  activar_lote: (loteId: number) => `${baseUrl}/eventos/user/v1/lotes/reactivar?loteId=${loteId}`,
 
   // Nuevo endpoint para recuperar contraseña
   recuperar_password: `${baseUrl}/auth/public/v1/recover-password`,

@@ -86,10 +86,11 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
               className={`w-full rounded-lg border ${formik.touched.precio && formik.errors.precio
                 ? "border-red-500"
                 : "border-gray-700"
-                } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+                } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
               value={formik.values.precio || ""}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              onWheel={(e) => e.currentTarget.blur()}
             />
             <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
           </FloatingField>
@@ -153,10 +154,11 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
                   className={`w-full rounded-lg border ${formik.touched.montoFijo && formik.errors.montoFijo
                     ? "border-red-500"
                     : "border-gray-700"
-                    } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+                    } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                   value={formik.values.montoFijo || ""}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  onWheel={(e) => e.currentTarget.blur()}
                   disabled={formik.values.tipoComision !== "MONTO_FIJO"}
                 />
                 <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
@@ -186,10 +188,11 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
                   className={`w-full rounded-lg border ${formik.touched.porcentaje && formik.errors.porcentaje
                     ? "border-red-500"
                     : "border-gray-700"
-                    } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+                    } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                   value={formik.values.porcentaje || ""}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  onWheel={(e) => e.currentTarget.blur()}
                   disabled={formik.values.tipoComision !== "PORCENTAJE"}
                 />
                 <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
@@ -212,10 +215,11 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
             className={`w-full rounded-lg border ${formik.touched.cantidadTickets && formik.errors.cantidadTickets
               ? "border-red-500"
               : "border-gray-700"
-              } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+              } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
             value={formik.values.cantidadTickets || ""}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            onWheel={(e) => e.currentTarget.blur()}
           />
           <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
         </FloatingField>

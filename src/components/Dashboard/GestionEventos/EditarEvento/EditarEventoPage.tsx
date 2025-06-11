@@ -182,7 +182,7 @@ const EditarEventoPage: React.FC = () => {
                     position: "top-right",
                     autoClose: 3000
                 });
-                navigate('/dashboard/crearevento');
+                navigate('/dashboard/editareventos');
             } catch (error) {
                 console.error('Error al actualizar el evento:', error);
                 if (axios.isAxiosError(error)) {

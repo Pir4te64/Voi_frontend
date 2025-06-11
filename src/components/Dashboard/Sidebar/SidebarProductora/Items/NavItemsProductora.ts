@@ -14,7 +14,7 @@ export const navItemsProductora = [
     Icon: FaCalendarPlus,
     subItems: [
       { to: "/dashboard/crearevento", label: "Crear Evento", Icon: FaRegDotCircle },
-      { to: "/dashboard/editarevento", label: "Editar Evento", Icon: FaRegDotCircle },
+      { to: "/dashboard/editareventos", label: "Editar Evento", Icon: FaRegDotCircle },
     ],
   },
   { to: "/dashboard/lotes", label: "Lotes de Entrada", Icon: FaWallet },
