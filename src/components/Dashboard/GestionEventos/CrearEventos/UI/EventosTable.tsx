@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { useDeleteEvento } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/useDeleteEvento";
+import ModalConfirmacionEliminar from "./ModalConfirmacionEliminar";
 
 interface Evento {
     id: number;
@@ -37,10 +38,10 @@ const EventosTable: React.FC<EventosTableProps> = ({
             {/* Header */}
             <div className="mb-8">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-3xl font-bold text-white">Eventos</h1>
+                    <h1 className="text-3xl font-bold text-secondary">Eventos</h1>
                     <button
                         onClick={onCreateEvent}
-                        className="flex items-center gap-2 rounded-xl bg-secondary px-6 py-3 font-semibold text-white transition hover:opacity-90"
+                        className="flex items-center gap-2 rounded-md bg-secondary px-6 py-3 font-semibold text-white transition hover:opacity-90"
                     >
                         <FaPlus />
                         Crear Evento
@@ -53,18 +54,19 @@ const EventosTable: React.FC<EventosTableProps> = ({
                 <table className="w-full text-left text-sm">
                     <thead className="bg-black text-gray-400">
                         <tr>
-                            <th className="px-4 py-3 font-semibold">Nombre del Evento</th>
+                            <th className="px-4 py-3 font-semibold">Evento</th>
                             <th className="px-4 py-3 font-semibold">Fecha</th>
+                            <th className="px-4 py-3 font-semibold">Locación</th>
                             <th className="px-4 py-3 font-semibold">Categoría</th>
-                            <th className="px-4 py-3 font-semibold">Ubicación</th>
                             <th className="px-4 py-3 text-center font-semibold">Estado</th>
+                            <th className="px-4 py-3 text-center font-semibold">Revendedores</th>
                             <th className="px-4 py-3 text-end font-semibold">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {events.length === 0 && (
                             <tr>
-                                <td colSpan={6} className="p-6 text-center text-gray-500">
+                                <td colSpan={7} className="p-6 text-center text-gray-500">
                                     No hay eventos disponibles
                                 </td>
                             </tr>
@@ -79,10 +81,10 @@ const EventosTable: React.FC<EventosTableProps> = ({
                                 <td className="px-4 py-3">
                                     {format(new Date(event.fechaInicio), "PPP", { locale: es })}
                                 </td>
-                                <td className="px-4 py-3">{event.categoriaNombre}</td>
                                 <td className="px-4 py-3">
                                     {event.address.street}, {event.address.city}
                                 </td>
+                                <td className="px-4 py-3">{event.categoriaNombre}</td>
                                 <td className="px-4 py-3 text-center">
                                     <span
                                         className={`rounded-full px-3 py-1 text-sm ${event.estado === "ACTIVO"
@@ -92,6 +94,9 @@ const EventosTable: React.FC<EventosTableProps> = ({
                                     >
                                         {event.estado}
                                     </span>
+                                </td>
+                                <td className="px-4 py-3 text-center">
+                                    <span className="text-gray-400">-</span>
                                 </td>
                                 <td className="px-4 py-3 text-end">
                                     <div className="flex justify-end gap-2">
@@ -110,32 +115,12 @@ const EventosTable: React.FC<EventosTableProps> = ({
             </div>
 
             {/* Modal de confirmación */}
-            {eventToDelete && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-                    <div className="w-full max-w-md rounded-lg bg-primary p-6">
-                        <h3 className="mb-4 text-xl font-bold text-white">
-                            ¿Eliminar evento?
-                        </h3>
-                        <p className="mb-6 text-gray-300">
-                            ¿Estás seguro que deseas eliminar el evento "{eventToDelete.nombre}"? Esta acción no se puede deshacer.
-                        </p>
-                        <div className="flex justify-end gap-4">
-                            <button
-                                onClick={() => setEventToDelete(null)}
-                                className="rounded bg-gray-600 px-4 py-2 text-white transition hover:bg-gray-700"
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={() => deleteEvent(eventToDelete.id, onEventDeleted)}
-                                className="rounded bg-red-500 px-4 py-2 text-white transition hover:bg-red-600"
-                            >
-                                Eliminar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <ModalConfirmacionEliminar
+                eventToDelete={eventToDelete}
+                setEventToDelete={setEventToDelete}
+                deleteEvent={deleteEvent}
+                onEventDeleted={onEventDeleted}
+            />
         </div>
     );
 };
