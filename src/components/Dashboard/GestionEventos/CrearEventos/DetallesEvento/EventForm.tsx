@@ -223,13 +223,26 @@ const EventoForm: React.FC<EventoFormProps> = ({
         />
 
         <GalleryUpload
-          onSlotChange={(index: number, file: File) => {
+          onSlotChange={(index: number, file: File, preview: string) => {
             setEventImages((prev: File[]) => {
               const newImages = [...prev];
-              if (newImages.length >= 4) {
+
+              // Si el slot ya tiene una imagen, la reemplazamos
+              if (newImages[index]) {
+                newImages[index] = file;
+                return newImages;
+              }
+
+              // Si no tiene imagen en ese slot, verificamos que no excedamos el límite
+              const currentFilledSlots = newImages.filter(
+                (img) => img instanceof File
+              ).length;
+              if (currentFilledSlots >= 4) {
                 toast.warning("Solo se permiten 4 imágenes en la galería");
                 return prev;
               }
+
+              // Asignamos la nueva imagen al slot
               newImages[index] = file;
               return newImages;
             });
