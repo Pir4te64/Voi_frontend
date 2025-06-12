@@ -1,6 +1,6 @@
 import React from "react";
 import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
-import { Lote } from "../types/lote.types";
+import { Lote } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/types/lote.types";
 
 interface TablaLotesProps {
     lotes: Lote[];

@@ -2,8 +2,8 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { api_url } from "@/api/api";
-import { LoteFormData } from "../data/lotesEntrada.data";
-import { Lote } from "../types/lote.types";
+import { LoteFormData } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/data/lotesEntrada.data";
+import { Lote } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/types/lote.types";
 
 interface LotesState {
     lotes: Lote[];

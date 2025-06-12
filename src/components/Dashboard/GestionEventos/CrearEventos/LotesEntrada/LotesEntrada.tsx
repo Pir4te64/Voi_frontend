@@ -5,7 +5,6 @@ import {
   FaDollarSign,
   FaPencilAlt,
   FaPercent,
-  FaRegTrashAlt,
   FaTicketAlt,
 } from "react-icons/fa";
 import { useFormik } from "formik";
@@ -15,11 +14,11 @@ import {
   LoteFormData,
 } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/data/lotesEntrada.data";
 import FloatingField from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
-import { GestionarLoteUIProps } from "./data/ticketLots.data";
-import { useLotesStore } from "./store/useLotesStore";
-import TablaLotes from "./components/TablaLotes";
-import { Lote } from "./types/lote.types";
-import { formatCurrency, formatDate } from "./utils/format.utils";
+import { GestionarLoteUIProps } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/data/ticketLots.data";
+import { useLotesStore } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/store/useLotesStore";
+import TablaLotes from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/components/TablaLotes";
+import { Lote } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/types/lote.types";
+import { formatCurrency, formatDate } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/utils/format.utils";
 
 const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
   eventId,
