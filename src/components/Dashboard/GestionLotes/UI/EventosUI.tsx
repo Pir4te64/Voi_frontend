@@ -4,7 +4,7 @@ import {
     FaChevronLeft,
     FaChevronRight,
 } from "react-icons/fa";
-import { Evento } from "../EditarLote/data/interfaces";
+import { Evento } from "@/components/Dashboard/GestionLotes/EditarLote/data/interfaces";
 
 interface EventosUIProps {
     events: Evento[];

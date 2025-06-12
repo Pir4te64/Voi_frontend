@@ -1,5 +1,5 @@
 import React from "react";
-import { Lote } from "../EditarLote/data/interfaces";
+import { Lote } from "@/components/Dashboard/GestionLotes/EditarLote/data/interfaces";
 
 interface DeleteLoteModalProps {
     loteToDelete: Lote | null;

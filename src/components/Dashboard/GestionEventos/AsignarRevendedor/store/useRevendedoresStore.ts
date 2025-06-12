@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { api_url } from "@/api/api";
-import { Revendedor } from "../types/revendedor.types";
+import { Revendedor } from "@/components/Dashboard/GestionEventos/AsignarRevendedor/types/revendedor.types";
 
 interface RevendedoresState {
     revendedores: Revendedor[];

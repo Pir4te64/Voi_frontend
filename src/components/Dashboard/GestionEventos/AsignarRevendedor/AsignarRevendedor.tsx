@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useRevendedoresStore } from './store/useRevendedoresStore';
+import { useRevendedoresStore } from '@/components/Dashboard/GestionEventos/AsignarRevendedor/store/useRevendedoresStore';
 import { FaUserPlus } from 'react-icons/fa';
 
 interface AsignarRevendedorProps {

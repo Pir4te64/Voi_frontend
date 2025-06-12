@@ -1,6 +1,6 @@
 import React from "react";
 import { FaArrowLeft, FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
-import { Evento, Lote } from "../EditarLote/data/interfaces";
+import { Evento, Lote } from "@/components/Dashboard/GestionLotes/EditarLote/data/interfaces";
 
 interface LotesUIProps {
     selectedEvent: Evento;
