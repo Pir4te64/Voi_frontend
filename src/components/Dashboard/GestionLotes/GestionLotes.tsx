@@ -152,6 +152,9 @@ const GestionLotes: React.FC = () => {
         case "CANCELADO":
           endpoint = api_url.cancelar_lote(loteId);
           break;
+        case "AGOTADO":
+          endpoint = api_url.sold_out_lote(loteId);
+          break;
         default:
           console.error("Estado no válido:", nuevoEstado);
           return;

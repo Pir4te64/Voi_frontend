@@ -133,7 +133,9 @@ const LotesUI: React.FC<LotesUIProps> = ({
                                                     ? "bg-green-500/20 text-green-500"
                                                     : lote.estado === "PAUSADO"
                                                         ? "bg-yellow-500/20 text-yellow-500"
-                                                        : "bg-red-500/20 text-red-500"
+                                                        : lote.estado === "AGOTADO"
+                                                            ? "bg-purple-500/20 text-purple-500"
+                                                            : "bg-red-500/20 text-red-500"
                                                     }`}
                                             >
                                                 <option
@@ -153,6 +155,12 @@ const LotesUI: React.FC<LotesUIProps> = ({
                                                     className="bg-gray-800 text-red-500"
                                                 >
                                                     CANCELADO
+                                                </option>
+                                                <option
+                                                    value="AGOTADO"
+                                                    className="bg-gray-800 text-purple-500"
+                                                >
+                                                    AGOTADO
                                                 </option>
                                             </select>
                                         </td>

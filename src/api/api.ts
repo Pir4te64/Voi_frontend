@@ -48,6 +48,8 @@ export const api_url = {
     `${baseUrl}/eventos/user/v1/lotes/cancelar?loteId=${loteId}`,
   activar_lote: (loteId: number) =>
     `${baseUrl}/eventos/user/v1/lotes/reactivar?loteId=${loteId}`,
+  sold_out_lote: (loteId: number) =>
+    `${baseUrl}/eventos/user/v1/lotes/sold-out?loteId=${loteId}`,
 
   // Nuevo endpoint para recuperar contraseña
   recuperar_password: `${baseUrl}/auth/public/v1/recover-password`,
