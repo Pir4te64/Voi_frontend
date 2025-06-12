@@ -30,6 +30,7 @@ export const useLoginUsuarioRegular = () => {
                     firstName: values.name,
                     lastName: values.apellido,
                     termsAndConditions: values.termsAccepted,
+                    dni: values.dni,
                 };
                 await axios.post(api_url.register_user, payload);
 

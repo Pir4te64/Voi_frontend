@@ -81,6 +81,22 @@ const UsuarioForm: React.FC<UsuarioFormProps> = ({ onBack }) => {
                         )}
                     </FloatingField>
 
+                    {/* DNI */}
+                    <FloatingField label="DNI*" htmlFor="dni">
+                        <input
+                            id="dni"
+                            name="dni"
+                            value={values.dni}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            maxLength={8}
+                            className="w-full rounded-xl border border-gray-600 bg-back px-4 py-3 focus:border-secondary focus:ring-1 focus:ring-secondary"
+                        />
+                        {touched.dni && errors.dni && (
+                            <p className="mt-1 text-sm text-red-400">{errors.dni}</p>
+                        )}
+                    </FloatingField>
+
                     {/* Email */}
                     <FloatingField label="Email*" htmlFor="email">
                         <input

@@ -31,7 +31,6 @@ const CrearEvento: React.FC = () => {
 
   const handleEventCreated = (eventId: number) => {
     setCreatedEventId(eventId);
-    nextStep();
   };
 
   const {
@@ -102,9 +101,8 @@ const CrearEvento: React.FC = () => {
     try {
       const response = await axios.get(api_url.get_eventos_productora, {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("auth")!).accessToken
-          }`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken
+            }`,
         },
       });
       setEvents(response.data);
@@ -117,19 +115,7 @@ const CrearEvento: React.FC = () => {
     loadEvents();
   }, []);
 
-  const isFormValid = () => {
-    return (
-      formik.isValid &&
-      !formik.errors.name &&
-      !formik.errors.description &&
-      !formik.errors.startDate &&
-      !formik.errors.endDate &&
-      !formik.errors.latitud &&
-      !formik.errors.longitud &&
-      !formik.errors.category &&
-      sliderImage !== null
-    );
-  };
+
 
   return (
     <div className="min-h-screen bg-primary">
@@ -145,17 +131,16 @@ const CrearEvento: React.FC = () => {
               <button
                 key={label}
                 onClick={() => {
-                  if (idx > 0 && !isFormValid()) {
+                  if (idx > 0 && !formik.isValid) {
                     formik.handleSubmit();
                     return;
                   }
                   setActive(idx);
                 }}
                 className={`whitespace-nowrap rounded px-6 py-4 text-md font-semibold transition
-                  ${
-                    active === idx
-                      ? "bg-secondary text-black font-bold"
-                      : "bg-black hover:bg-gray-800 font-normal"
+                  ${active === idx
+                    ? "bg-secondary text-black font-bold"
+                    : "bg-black hover:bg-gray-800 font-normal"
                   }`}
               >
                 {label}

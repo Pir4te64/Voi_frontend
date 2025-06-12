@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import {
     FaEdit,
     FaDollarSign,
@@ -10,15 +10,9 @@ import {
 } from "react-icons/fa";
 import { useCrearLoteForm } from "@/components/Dashboard/GestionEventos/GestionLotes/CrearLote/store/useCrearLoteForm";
 import { useFormik } from "formik";
-import { initialSchema, validationSchema } from "@/components/Dashboard/GestionEventos/GestionLotes/CrearLote/data/crearLote.data";
+import { CrearLoteUIProps, initialSchema, validationSchema } from "@/components/Dashboard/GestionEventos/GestionLotes/CrearLote/data/crearLote.data";
 import FloatingField from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
 
-interface CrearLoteUIProps {
-    eventName: string;
-    eventId: number;
-    onBack: () => void;
-    onLoteCreated: () => void;
-}
 
 const CrearLoteUI: React.FC<CrearLoteUIProps> = ({
     eventId,
@@ -26,8 +20,17 @@ const CrearLoteUI: React.FC<CrearLoteUIProps> = ({
     onBack,
     onLoteCreated,
 }) => {
-    const { createLote, success } = useCrearLoteForm();
+    const { createLote, success, setSuccess } = useCrearLoteForm();
     const dateInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (success) {
+            const timer = setTimeout(() => {
+                setSuccess(false);
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [success, setSuccess]);
 
     const formik = useFormik({
         initialValues: initialSchema,
@@ -38,7 +41,7 @@ const CrearLoteUI: React.FC<CrearLoteUIProps> = ({
                 resetForm();
                 onLoteCreated();
             } catch (error) {
-                // El error ya se maneja en el store con notificación toast
+                console.error("Error al crear el lote:", error);
             }
         },
     });

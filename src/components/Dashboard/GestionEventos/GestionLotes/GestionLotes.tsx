@@ -59,9 +59,8 @@ const GestionLotes: React.FC = () => {
       setLoading(true);
       const response = await axios.get(api_url.get_eventos_productora, {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("auth")!).accessToken
-          }`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken
+            }`,
         },
       });
       setEvents(response.data);
@@ -78,9 +77,8 @@ const GestionLotes: React.FC = () => {
       setLoadingLotes(true);
       const response = await axios.get(api_url.get_lotes_evento(eventId), {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("auth")!).accessToken
-          }`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken
+            }`,
         },
       });
       setLotes(response.data);
@@ -145,9 +143,8 @@ const GestionLotes: React.FC = () => {
     try {
       await axios.delete(api_url.eliminar_lote(selectedEvent.id, loteId), {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("auth")!).accessToken
-          }`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken
+            }`,
         },
       });
 
@@ -189,9 +186,8 @@ const GestionLotes: React.FC = () => {
         {},
         {
           headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("auth")!).accessToken
-            }`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken
+              }`,
           },
         }
       );
@@ -330,11 +326,10 @@ const GestionLotes: React.FC = () => {
                     </td>
                     <td className="px-4 py-3 text-center">
                       <span
-                        className={`rounded-full px-3 py-1 text-sm ${
-                          event.estado === "ACTIVO"
+                        className={`rounded-full px-3 py-1 text-sm ${event.estado === "ACTIVO"
                             ? "bg-green-500/20 text-green-500"
                             : "bg-red-500/20 text-red-500"
-                        }`}
+                          }`}
                       >
                         {event.estado}
                       </span>
@@ -362,11 +357,10 @@ const GestionLotes: React.FC = () => {
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className={`flex h-10 w-16 items-center justify-center rounded-lg border transition ${
-                  currentPage === 1
+                className={`flex h-10 w-16 items-center justify-center rounded-lg border transition ${currentPage === 1
                     ? "cursor-not-allowed border-gray-600 text-gray-600"
                     : "border-gray-600 text-white hover:border-secondary hover:bg-secondary"
-                }`}
+                  }`}
               >
                 <FaChevronLeft className="h-3 w-3" />
               </button>
@@ -378,11 +372,10 @@ const GestionLotes: React.FC = () => {
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`flex h-10 w-10 items-center justify-center rounded-lg transition ${
-                        currentPage === pageNum
+                      className={`flex h-10 w-10 items-center justify-center rounded-lg transition ${currentPage === pageNum
                           ? "text-white"
                           : "text-gray-400 hover:text-white"
-                      }`}
+                        }`}
                     >
                       {pageNum}
                     </button>
@@ -396,11 +389,10 @@ const GestionLotes: React.FC = () => {
                   setCurrentPage(Math.min(totalPages, currentPage + 1))
                 }
                 disabled={currentPage === totalPages}
-                className={`flex h-10 w-16 items-center justify-center rounded-lg border transition ${
-                  currentPage === totalPages
+                className={`flex h-10 w-16 items-center justify-center rounded-lg border transition ${currentPage === totalPages
                     ? "cursor-not-allowed border-gray-600 text-gray-600"
                     : "border-gray-600 text-white hover:border-secondary hover:bg-secondary"
-                }`}
+                  }`}
               >
                 <FaChevronRight className="h-3 w-3" />
               </button>
@@ -511,13 +503,12 @@ const GestionLotes: React.FC = () => {
                             onChange={(e) =>
                               cambiarEstadoLote(lote.id, e.target.value)
                             }
-                            className={`rounded-md border-none px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-secondary ${
-                              lote.estado === "ACTIVO"
+                            className={`rounded-md border-none px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-secondary ${lote.estado === "ACTIVO"
                                 ? "bg-green-500/20 text-green-500"
                                 : lote.estado === "PAUSADO"
-                                ? "bg-yellow-500/20 text-yellow-500"
-                                : "bg-red-500/20 text-red-500"
-                            }`}
+                                  ? "bg-yellow-500/20 text-yellow-500"
+                                  : "bg-red-500/20 text-red-500"
+                              }`}
                           >
                             <option
                               value="ACTIVO"

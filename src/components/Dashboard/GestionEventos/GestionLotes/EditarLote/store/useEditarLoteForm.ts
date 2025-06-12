@@ -13,15 +13,9 @@ interface EditarLoteFormStore {
 export const useEditarLoteForm = create<EditarLoteFormStore>((set) => ({
     success: false,
     setSuccess: (value) => set({ success: value }),
-    updateLote: async (values, eventoId, loteId) => {
+    updateLote: async (values, loteId) => {
         try {
-            // Console.log para ver los parámetros enviados
-            console.log("=== ACTUALIZANDO TICKETS DISPONIBLES ===");
-            console.log("LoteId:", loteId);
-            console.log("Nueva cantidad:", values.cantidadTickets);
-            console.log("EventoId (referencia):", eventoId);
-            console.log("URL completa:", api_url.actualizar_tickets_disponibles(loteId, values.cantidadTickets));
-            console.log("Valores completos del form:", values);
+
 
             // Solo enviamos la nueva cantidad de tickets disponibles
             await axios.put(api_url.actualizar_tickets_disponibles(loteId, values.cantidadTickets), {}, {
@@ -40,10 +34,6 @@ export const useEditarLoteForm = create<EditarLoteFormStore>((set) => ({
             set({ success: true });
             return Promise.resolve();
         } catch (error: any) {
-            console.log("❌ Error en la actualización:");
-            console.log("Error completo:", error);
-            console.log("Respuesta del servidor:", error.response?.data);
-            console.log("Status:", error.response?.status);
 
             toast.error(
                 error.response?.data?.message || "Error al actualizar la cantidad de tickets",

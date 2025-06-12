@@ -9,6 +9,12 @@ export interface LoteFormData {
     porcentaje: number;
     cantidadTickets: number;
 }
+export interface CrearLoteUIProps {
+    eventName: string;
+    eventId: number;
+    onBack: () => void;
+    onLoteCreated: () => void;
+}
 
 export const initialSchema: LoteFormData = {
     nombre: "",

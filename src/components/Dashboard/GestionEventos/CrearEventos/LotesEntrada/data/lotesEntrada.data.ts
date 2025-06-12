@@ -1,6 +1,7 @@
 import * as Yup from "yup";
 
 export interface LoteFormData {
+  id?: number;
   nombre: string;
   precio: number;
   fechaValidez: string;

@@ -12,4 +12,10 @@
   html {
     font-family: "Poppins", sans-serif;
   }
+
+  /* Estilos para el input de tipo date */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(80%) sepia(10%) saturate(70%) hue-rotate(180deg);
+    cursor: pointer;
+  }
 }

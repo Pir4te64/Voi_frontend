@@ -9,6 +9,7 @@ export const initialValues = {
     password: "",
     repeatPassword: "",
     termsAccepted: false,
+    dni: "",
 };
 
 // Esquema de validación con Yup
@@ -22,6 +23,9 @@ export const validationSchema = Yup.object({
     email: Yup.string()
         .required("El email es obligatorio")
         .email("Formato de email inválido"),
+    dni: Yup.string()
+        .required("El DNI es obligatorio")
+        .matches(/^\d{8}$/, "El DNI debe tener 8 dígitos"),
     password: Yup.string()
         .required("La contraseña es obligatoria")
         .min(8, "Mínimo 8 caracteres"),

@@ -1,5 +1,12 @@
 import * as Yup from "yup";
-
+export interface GestionarLoteUIProps {
+  eventName: string;
+  eventId: number;
+  prevStep: () => void;
+  nextStep: () => void;
+  active: number;
+  stepsLength: number;
+}
 export const ticketLotInitialValues = {
   name: "",
   price: 0,
