@@ -95,6 +95,11 @@ const GestionLotes: React.FC = () => {
 
   const handleEditLote = (lote: Lote) => {
     console.log("Editar lote:", lote);
+    console.log("ID del lote:", lote.id);
+    if (!lote.id) {
+      toast.error("Error: El lote no tiene un ID válido");
+      return;
+    }
     setLoteToEdit(lote);
     setCurrentView("editar");
   };

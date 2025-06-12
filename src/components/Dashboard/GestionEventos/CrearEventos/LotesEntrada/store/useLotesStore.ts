@@ -37,6 +37,7 @@ export const useLotesStore = create<LotesState>((set, get) => ({
     setLoteToDelete: (lote) => set({ loteToDelete: lote }),
 
     cargarLotes: async (eventId) => {
+        console.log(eventId);
         set({ loadingLotes: true });
         try {
             const response = await axios.get(api_url.get_lotes_evento(eventId), {
@@ -47,7 +48,7 @@ export const useLotesStore = create<LotesState>((set, get) => ({
             set({ lotes: response.data });
         } catch (error) {
             console.error("Error al cargar lotes:", error);
-            toast.error("Error al cargar los lotes");
+            //toast.error("Error al cargar los lotes");
         } finally {
             set({ loadingLotes: false });
         }
@@ -86,12 +87,23 @@ export const useLotesStore = create<LotesState>((set, get) => ({
 
     updateLote: async (values: LoteFormData & { id: number }, eventId: number) => {
         try {
-            await axios.put(api_url.actualizar_tickets_disponibles(values.id, values.cantidadTickets), {}, {
+            const payload = {
+                nombre: values.nombre,
+                precio: values.precio,
+                fechaValidez: values.fechaValidez,
+                tipoComision: values.tipoComision,
+                montoComision: values.tipoComision === "MONTO_FIJO" ? values.montoFijo : values.porcentaje,
+                cantidadTickets: values.cantidadTickets
+            };
+
+            await axios.put(api_url.editar_lote(values.id), payload, {
                 headers: {
                     Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken}`,
+                    'Content-Type': 'application/json'
                 },
             });
-            toast.success("Cantidad de tickets actualizada correctamente");
+
+            toast.success("Lote actualizado correctamente");
             set({ isEditing: false, success: true });
             get().cargarLotes(eventId);
 
@@ -122,13 +134,13 @@ export const useLotesStore = create<LotesState>((set, get) => ({
 
     cambiarEstadoLote: async (loteId: number, nuevoEstado: string) => {
         const lote = get().lotes.find(l => l.id === loteId);
-        if (!lote?.eventoId) {
-            toast.error("Error: No se pudo encontrar el evento asociado al lote");
+        if (!lote) {
+            toast.error("Error: No se pudo encontrar el lote");
             return;
         }
 
-        // Guardamos el estado anterior por si hay error
-        const estadoAnterior = lote.estado;
+        // Guardamos el estado anterior
+        const estadoAnterior = lote.estado || "ACTIVO";
 
         // Optimistic update
         set((state) => ({

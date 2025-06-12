@@ -27,12 +27,13 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
     formatCurrency,
     formatDate,
 }) => {
+    console.log(lotes);
     return (
         <>
             {/* Lista de Lotes */}
-            <div className="rounded-lg bg-black/40 p-6">
+            <div className="rounded-lg bg-back p-6">
                 <h2 className="mb-6 text-xl font-semibold text-white">
-                    Lotes de Entrada
+                    Lotes Agregados al Evento
                 </h2>
 
                 {loadingLotes ? (
@@ -42,12 +43,12 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left text-sm">
-                            <thead className="bg-black text-gray-400">
+                            <thead className="rounded-md bg-[#1C1C1E] text-gray-400">
                                 <tr>
-                                    <th className="px-4 py-3">Nombre</th>
+                                    <th className="px-4 py-3">Nombre del Lote</th>
                                     <th className="px-4 py-3">Precio</th>
                                     <th className="px-4 py-3">Válido hasta</th>
-                                    <th className="px-4 py-3">Tickets Disponibles</th>
+                                    <th className="px-4 py-3">Monto Comision</th>
                                     <th className="px-4 py-3">Estado</th>
                                     <th className="px-4 py-3">Acciones</th>
                                 </tr>
@@ -63,7 +64,9 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
                                             {formatDate(lote.fechaValidez)}
                                         </td>
                                         <td className="px-4 py-3 text-white">
-                                            {lote.ticketsDisponibles}/{lote.cantidadTickets}
+                                            {lote.tipoComision === "MONTO_FIJO"
+                                                ? formatCurrency(lote.montoComision)
+                                                : `${lote.montoComision}%`}
                                         </td>
                                         <td className="px-4 py-3">
                                             <select
