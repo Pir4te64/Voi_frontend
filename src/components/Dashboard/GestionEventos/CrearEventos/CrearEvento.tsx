@@ -7,6 +7,7 @@ import GestionarLoteUI from "@/components/Dashboard/GestionEventos/CrearEventos/
 import { useCrearEventoForm } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/useCrearEventoForm";
 import axios from "axios";
 import { api_url } from "@/api/api";
+import AsignarRevendedor from "@/components/Dashboard/GestionEventos/AsignarRevendedor/AsignarRevendedor";
 
 interface Evento {
   id: number;
@@ -75,22 +76,10 @@ const CrearEvento: React.FC = () => {
     {
       label: "Revendedores",
       content: createdEventId ? (
-        <div className="rounded-lg bg-black/80 p-8">
-          <h2 className="mb-2 text-lg font-semibold text-white">
-            Gestionar Revendedores para:{" "}
-            <span className="text-secondary">
-              {events.find((e) => e.id === createdEventId)?.nombre || ""}
-            </span>
-          </h2>
-          <p className="mb-6 text-gray-400">
-            ID del evento: <span className="font-mono">{createdEventId}</span>
-          </p>
-          <div className="rounded-lg bg-black/60 p-4">
-            <p className="text-center text-gray-400">
-              Aquí irá la gestión de revendedores para el evento
-            </p>
-          </div>
-        </div>
+        <AsignarRevendedor
+          eventId={createdEventId}
+          eventName={events.find((e) => e.id === createdEventId)?.nombre || ""}
+        />
       ) : null,
     },
   ];

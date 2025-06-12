@@ -27,7 +27,6 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
     formatCurrency,
     formatDate,
 }) => {
-    console.log(lotes);
     return (
         <>
             {/* Lista de Lotes */}

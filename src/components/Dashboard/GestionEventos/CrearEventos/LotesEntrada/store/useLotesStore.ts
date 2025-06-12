@@ -37,7 +37,6 @@ export const useLotesStore = create<LotesState>((set, get) => ({
     setLoteToDelete: (lote) => set({ loteToDelete: lote }),
 
     cargarLotes: async (eventId) => {
-        console.log(eventId);
         set({ loadingLotes: true });
         try {
             const response = await axios.get(api_url.get_lotes_evento(eventId), {

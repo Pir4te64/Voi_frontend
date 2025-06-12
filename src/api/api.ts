@@ -52,6 +52,10 @@ export const api_url = {
   // Nuevo endpoint para recuperar contraseña
   recuperar_password: `${baseUrl}/auth/public/v1/recover-password`,
   request_retrieve: `${baseUrl}/auth/public/v1/request-retrieve`,
+
+  // Endpoints de revendedores
+  get_revendedores: `${baseUrl}/eventos/user/v1/revendedores`,
+  asignar_revendedor: `${baseUrl}/eventos/user/v1/eventos/revendedor`,
 };
 
 /**
