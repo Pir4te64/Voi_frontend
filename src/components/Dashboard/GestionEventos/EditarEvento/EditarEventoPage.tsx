@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { FaArrowLeft } from "react-icons/fa";
 import EventoForm from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/EventForm";
+import GestionarLoteUI from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/LotesEntrada";
+import AsignarRevendedor from "@/components/Dashboard/GestionEventos/AsignarRevendedor/AsignarRevendedor";
 import { useEditarEventoStore } from "./store/useEditarEventoStore";
 import { editarEventoSchema } from "./validations/editarEvento.validation";
 import { EventoData, FormValues } from "./interfaces/editarEvento.interface";
@@ -13,6 +15,7 @@ const EditarEventoPage: React.FC = () => {
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
   const eventoData = location.state?.eventoData as EventoData;
+  const [active, setActive] = useState(0);
 
   const {
     sliderImage,
@@ -49,7 +52,7 @@ const EditarEventoPage: React.FC = () => {
     onSubmit: async (values) => {
       const success = await updateEvento(values, id!, eventoData);
       if (success) {
-        navigate("/dashboard/editareventos");
+        setActive(1); // Avanzar a la siguiente pestaña después de guardar
       }
     },
   });
@@ -57,6 +60,51 @@ const EditarEventoPage: React.FC = () => {
   if (!eventoData) {
     return null;
   }
+
+  const createSteps = () => [
+    {
+      label: "Detalles del Evento",
+      content: (
+        <EventoForm
+          resetKey={resetKey}
+          sliderImage={sliderImage}
+          setSliderImage={setSliderImage}
+          eventImages={eventImages}
+          setEventImages={setEventImages}
+          formik={formik}
+          categories={[
+            { id: eventoData.categoriaId, nombre: eventoData.categoriaNombre },
+          ]}
+          existingSliderUrl={eventoData?.sliderImageUrl}
+          existingGalleryUrls={eventoData?.galeriaUrls}
+        />
+      ),
+    },
+    {
+      label: "Lotes de Entrada",
+      content: (
+        <GestionarLoteUI
+          eventId={Number(id)}
+          eventName={eventoData.nombre}
+          prevStep={() => setActive(0)}
+          nextStep={() => setActive(2)}
+          active={active}
+          stepsLength={3}
+        />
+      ),
+    },
+    {
+      label: "Revendedores",
+      content: (
+        <AsignarRevendedor
+          eventId={Number(id)}
+          eventName={eventoData.nombre}
+        />
+      ),
+    },
+  ];
+
+  const steps = createSteps();
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -70,19 +118,33 @@ const EditarEventoPage: React.FC = () => {
 
       <h1 className="mb-8 text-3xl font-bold text-secondary">Editar Evento</h1>
 
-      <EventoForm
-        resetKey={resetKey}
-        sliderImage={sliderImage}
-        setSliderImage={setSliderImage}
-        eventImages={eventImages}
-        setEventImages={setEventImages}
-        formik={formik}
-        categories={[
-          { id: eventoData.categoriaId, nombre: eventoData.categoriaNombre },
-        ]}
-        existingSliderUrl={eventoData?.sliderImageUrl}
-        existingGalleryUrls={eventoData?.galeriaUrls}
-      />
+      {/* Pestañas de navegación */}
+      <div className="mb-8 flex gap-4 rounded-lg bg-black/40 p-2">
+        {steps.map(({ label }, idx) => (
+          <button
+            key={label}
+            onClick={() => {
+              if (idx > 0 && !formik.isValid && active === 0) {
+                formik.handleSubmit();
+                return;
+              }
+              setActive(idx);
+            }}
+            className={`whitespace-nowrap rounded px-6 py-4 text-md font-semibold transition
+              ${active === idx
+                ? "bg-secondary text-black font-bold"
+                : "bg-black hover:bg-gray-800 font-normal"
+              }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Contenido de la pestaña activa */}
+      <div className="grid grid-cols-1 gap-6">
+        {steps[active].content}
+      </div>
     </div>
   );
 };

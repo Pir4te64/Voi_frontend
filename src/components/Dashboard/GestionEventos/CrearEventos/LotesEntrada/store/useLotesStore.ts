@@ -160,6 +160,9 @@ export const useLotesStore = create<LotesState>((set, get) => ({
                 case "CANCELADO":
                     endpoint = api_url.cancelar_lote(loteId);
                     break;
+                case "AGOTADO":
+                    endpoint = api_url.sold_out_lote(loteId);
+                    break;
                 default:
                     throw new Error("Estado no válido");
             }
@@ -173,14 +176,27 @@ export const useLotesStore = create<LotesState>((set, get) => ({
             // Recargamos los datos para asegurar consistencia
             await get().cargarLotes(lote.eventoId);
             toast.success(`Estado del lote cambiado a: ${nuevoEstado}`);
-        } catch (error) {
+        } catch (error: any) {
             // Revertimos el cambio si hay error
             set((state) => ({
                 lotes: state.lotes.map((l) =>
                     l.id === loteId ? { ...l, estado: estadoAnterior } : l
                 )
             }));
-            toast.error("Error al cambiar el estado del lote");
+
+            // Mostrar mensaje de error específico del backend
+            const errorMessage = error.response?.data?.error?.description?.[0] ||
+                error.response?.data?.message ||
+                "Error al cambiar el estado del lote";
+
+            toast.error(errorMessage, {
+                position: "top-right",
+                autoClose: 5000, // Aumentamos el tiempo para que el usuario pueda leer mejor el mensaje
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
             console.error("Error al cambiar estado del lote:", error);
         }
     },
