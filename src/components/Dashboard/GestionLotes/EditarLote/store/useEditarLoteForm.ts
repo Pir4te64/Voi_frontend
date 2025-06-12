@@ -7,7 +7,7 @@ import { EditarLoteFormData } from "@/components/Dashboard/GestionLotes/EditarLo
 interface EditarLoteFormStore {
     success: boolean;
     setSuccess: (value: boolean) => void;
-    updateLote: (values: EditarLoteFormData, eventoId: number, loteId: number) => Promise<void>;
+    updateLote: (values: EditarLoteFormData, loteId: number) => Promise<void>;
 }
 
 export const useEditarLoteForm = create<EditarLoteFormStore>((set) => ({
@@ -15,18 +15,25 @@ export const useEditarLoteForm = create<EditarLoteFormStore>((set) => ({
     setSuccess: (value) => set({ success: value }),
     updateLote: async (values, loteId) => {
         try {
+            const payload = {
+                nombre: values.nombre,
+                precio: values.precio,
+                fechaValidez: values.fechaValidez,
+                tipoComision: values.tipoComision,
+                montoComision: values.tipoComision === "MONTO_FIJO" ? values.montoFijo : values.porcentaje,
+                cantidadTickets: values.cantidadTickets
+            };
 
 
-            // Solo enviamos la nueva cantidad de tickets disponibles
-            await axios.put(api_url.actualizar_tickets_disponibles(loteId, values.cantidadTickets), {}, {
+            await axios.put(api_url.editar_lote(loteId), payload, {
                 headers: {
                     Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken}`,
+                    'Content-Type': 'application/json'
                 },
             });
 
-            console.log("✅ Actualización exitosa!");
 
-            toast.success("Cantidad de tickets actualizada correctamente", {
+            toast.success("Lote actualizado correctamente", {
                 position: "top-right",
                 autoClose: 3000,
             });
@@ -34,9 +41,8 @@ export const useEditarLoteForm = create<EditarLoteFormStore>((set) => ({
             set({ success: true });
             return Promise.resolve();
         } catch (error: any) {
-
             toast.error(
-                error.response?.data?.message || "Error al actualizar la cantidad de tickets",
+                error.response?.data?.message || "Error al actualizar el lote",
                 { position: "top-right", autoClose: 3000 }
             );
             set({ success: false });

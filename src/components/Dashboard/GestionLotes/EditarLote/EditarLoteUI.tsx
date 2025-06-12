@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import {
   FaEdit,
   FaDollarSign,
@@ -15,14 +15,22 @@ import FloatingField from "@/components/Dashboard/ComponentesReutilizables/Float
 import { EditarLoteUIProps } from "@/components/Dashboard/GestionLotes/EditarLote/data/interfaces";
 
 const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
-  eventId,
   //eventName,
   lote,
   onBack,
   onLoteUpdated,
 }) => {
-  const { updateLote, success } = useEditarLoteForm();
+  const { updateLote, success, setSuccess } = useEditarLoteForm();
   const dateInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (success) {
+      const timer = setTimeout(() => {
+        setSuccess(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [success, setSuccess]);
 
   const formik = useFormik({
     initialValues: {
@@ -37,10 +45,10 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
     validationSchema: editarValidationSchema,
     onSubmit: async (values) => {
       try {
-        await updateLote(values, eventId, lote.id);
+        await updateLote(values, lote.id);
         onLoteUpdated();
       } catch (error) {
-        // El error ya se maneja en el store con notificación toast
+        console.error("Error al actualizar:", error);
       }
     },
   });
@@ -261,18 +269,6 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                   {formik.errors.cantidadTickets}
                 </div>
               )}
-            <div className="mt-2 text-sm text-gray-400">
-              <p>
-                • Tickets vendidos:{" "}
-                {lote.cantidadTickets - lote.ticketsDisponibles}
-              </p>
-              <p>• Tickets disponibles actuales: {lote.ticketsDisponibles}</p>
-              <p>
-                • Mínimo permitido:{" "}
-                {lote.cantidadTickets - lote.ticketsDisponibles} (no puedes
-                reducir por debajo de los vendidos)
-              </p>
-            </div>
           </div>
 
           {/* Mensaje de éxito */}
@@ -293,8 +289,7 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
             </button>
             <button
               type="submit"
-              className="flex-1 rounded-lg bg-secondary py-3 text-white transition hover:opacity-90"
-              disabled={!formik.isValid}
+              className="flex-1 cursor-pointer rounded-lg bg-secondary py-3 text-white transition hover:opacity-90"
             >
               Guardar Cambios
             </button>

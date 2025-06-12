@@ -13,7 +13,6 @@ export interface Lote {
 
 export interface EditarLoteUIProps {
   eventName: string;
-  eventId: number;
   lote: Lote;
   onBack: () => void;
   onLoteUpdated: () => void;

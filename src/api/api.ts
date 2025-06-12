@@ -39,7 +39,8 @@ export const api_url = {
     `${baseUrl}/eventos/user/v1/lotes/eventos/lotes?eventoId=${eventoId}&loteId=${loteId}`,
   actualizar_tickets_disponibles: (loteId: number, nuevaCantidad: number) =>
     `${baseUrl}/eventos/user/v1/lotes/tickets-disponibles?loteId=${loteId}&nuevaCantidad=${nuevaCantidad}`,
-
+  editar_lote: (loteId: number) =>
+    `${baseUrl}/eventos/user/v1/lotes/editar?loteId=${loteId}`,
   // Endpoints para cambiar estado de lotes
   pausar_lote: (loteId: number) =>
     `${baseUrl}/eventos/user/v1/lotes/pausar?loteId=${loteId}`,
