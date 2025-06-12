@@ -43,7 +43,6 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
   useEffect(() => {
     cargarLotes(eventId);
   }, [eventId, cargarLotes]);
-
   const formik = useFormik({
     initialValues: initialSchema,
     validationSchema,

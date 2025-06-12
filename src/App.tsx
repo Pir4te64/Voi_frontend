@@ -17,7 +17,6 @@ import DashboardLayout from "@/pages/Dashboard/DashboardLayout";
 import Index from "@/pages/Dashboard/Index";
 import CrearPerfil from "@/components/Dashboard/CrearPerfil/CrearPerfil";
 import Miperfil from "@/components/Dashboard/Sidebar/MiPerfil/Miperfil";
-import ModificarEventos from "@/components/Dashboard/GestionEventos/EditarEvento/ModificarEventos";
 import EditarEventoPage from "@/components/Dashboard/GestionEventos/EditarEvento/EditarEventoPage";
 import GestionLotes from "@/components/Dashboard/GestionLotes/GestionLotes";
 import { MisVentas } from "@/components/Dashboard/Misventas/MisVentas";
@@ -59,7 +58,6 @@ function App() {
           <Route path="crearevento" element={<CrearEvento />} />
           <Route path="editareventos" element={<ListarEventosParaEditar />} />
           <Route path="editarevento/:id" element={<EditarEventoPage />} />
-          <Route path="modificarevento" element={<ModificarEventos />} />
           <Route path="lotes" element={<GestionLotes />} />
           <Route path="misventas" element={<MisVentas />} />
           <Route path="misventas/web" element={<Web />} />

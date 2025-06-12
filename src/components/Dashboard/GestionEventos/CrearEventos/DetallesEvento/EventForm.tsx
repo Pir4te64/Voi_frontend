@@ -133,8 +133,8 @@ const EventoForm: React.FC<EventoFormProps> = ({
                 locationLabel ||
                 (values.latitud && values.longitud
                   ? `${Number(values.latitud).toFixed(5)}, ${Number(
-                      values.longitud
-                    ).toFixed(5)}`
+                    values.longitud
+                  ).toFixed(5)}`
                   : "")
               }
               placeholder=" "
@@ -223,6 +223,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
         />
 
         <GalleryUpload
+          key={`gallery-${resetKey}`}
           onSlotChange={(index: number, file: File) => {
             setEventImages((prev: File[]) => {
               const newImages = [...prev];

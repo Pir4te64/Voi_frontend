@@ -36,7 +36,12 @@ export const useLotesStore = create<LotesState>((set, get) => ({
     setIsEditing: (value) => set({ isEditing: value }),
     setLoteToDelete: (lote) => set({ loteToDelete: lote }),
 
-    cargarLotes: async (eventId) => {
+    cargarLotes: async (eventId: number) => {
+        if (!eventId) {
+            console.error("Error: eventId es requerido para cargar lotes");
+            return;
+        }
+
         set({ loadingLotes: true });
         try {
             const response = await axios.get(api_url.get_lotes_evento(eventId), {
@@ -44,7 +49,12 @@ export const useLotesStore = create<LotesState>((set, get) => ({
                     Authorization: `Bearer ${JSON.parse(localStorage.getItem("auth")!).accessToken}`,
                 },
             });
-            set({ lotes: response.data });
+            // Aseguramos que cada lote tenga el eventoId
+            const lotesConEventoId = response.data.map((lote: Lote) => ({
+                ...lote,
+                eventoId: eventId
+            }));
+            set({ lotes: lotesConEventoId });
         } catch (error) {
             console.error("Error al cargar lotes:", error);
             //toast.error("Error al cargar los lotes");
@@ -174,6 +184,11 @@ export const useLotesStore = create<LotesState>((set, get) => ({
             });
 
             // Recargamos los datos para asegurar consistencia
+            // Aseguramos que el eventoId esté disponible desde el lote
+            if (!lote.eventoId) {
+                console.error("Error: No se encontró el ID del evento en el lote");
+                return;
+            }
             await get().cargarLotes(lote.eventoId);
             toast.success(`Estado del lote cambiado a: ${nuevoEstado}`);
         } catch (error: any) {
@@ -191,7 +206,7 @@ export const useLotesStore = create<LotesState>((set, get) => ({
 
             toast.error(errorMessage, {
                 position: "top-right",
-                autoClose: 5000, // Aumentamos el tiempo para que el usuario pueda leer mejor el mensaje
+                autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,

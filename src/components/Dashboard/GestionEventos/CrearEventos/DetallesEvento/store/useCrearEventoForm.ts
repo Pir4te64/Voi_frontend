@@ -97,6 +97,7 @@ export const useCrearEventoForm = (onEventCreated?: (eventId: number) => void) =
 
         resetForm();
         setSliderImage(null);
+
         setEventImages([]);
         setResetKey((k) => k + 1);
       } catch (error: any) {
