@@ -68,7 +68,7 @@ const CrearLoteUI: React.FC<CrearLoteUIProps> = ({
                 </p>
             </div>
 
-            <div className="rounded-lg bg-black/40 p-8">
+            <div className="rounded-lg bg-back p-8">
                 <form onSubmit={formik.handleSubmit} className="space-y-6">
                     {/* Nombre del Lote */}
                     <div>

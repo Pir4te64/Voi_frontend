@@ -114,7 +114,6 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                   value={formik.values.precio || ""}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  onWheel={(e) => e.currentTarget.blur()}
                 />
                 <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
               </FloatingField>
@@ -187,7 +186,6 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                       value={formik.values.montoFijo || ""}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      onWheel={(e) => e.currentTarget.blur()}
                       disabled={formik.values.tipoComision !== "MONTO_FIJO"}
                     />
                     <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
@@ -224,7 +222,6 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                       value={formik.values.porcentaje || ""}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      onWheel={(e) => e.currentTarget.blur()}
                       disabled={formik.values.tipoComision !== "PORCENTAJE"}
                     />
                     <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
@@ -259,7 +256,6 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 min={lote.cantidadTickets - lote.ticketsDisponibles}
-                onWheel={(e) => e.currentTarget.blur()}
               />
               <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
             </FloatingField>

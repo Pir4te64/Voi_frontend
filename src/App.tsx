@@ -33,6 +33,7 @@ import AgregarComision from "@/components/Dashboard/Revendedores/AgregarComision
 import ListarEventos from "@/components/Dashboard/GestionEventos/ListaEventos/ListarEventos";
 import CrearEvento from "@/components/Dashboard/GestionEventos/CrearEventos/CrearEvento";
 import ListarEventosParaEditar from "@/components/Dashboard/GestionEventos/EditarEvento/ListarEventosParaEditar";
+import SolicitudAlta from "@/components/Dashboard/Admin/SolicitudAlta/SolicitudAlta";
 
 function App() {
   return (
@@ -82,6 +83,7 @@ function App() {
             path="revendedores/agregar-comision-por-lotes"
             element={<AgregarComision />}
           />
+          <Route path="productoras" element={<SolicitudAlta />} />
         </Route>
       </Routes>
     </AuthProvider>
