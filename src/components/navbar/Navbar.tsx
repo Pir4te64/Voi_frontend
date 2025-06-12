@@ -1,7 +1,7 @@
 // src/components/Navbar.tsx
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa';
 import logo from '@/assets/Logo.svg';
 import MobileMenu from '@/components/navbar/MobileMenu';
 import { useAuth } from '@/context/AuthContext';
@@ -54,12 +54,19 @@ const Navbar: React.FC = () => {
               >
                 Dashboard
               </NavLink>
+             
               <button
                 onClick={logout}
                 className="rounded-lg bg-secondary px-4 py-2 text-white transition hover:bg-secondary/90"
               >
                 Cerrar sesión
               </button>
+              <NavLink
+                to="#"
+                className="flex items-center gap-2 text-white hover:text-secondary"
+              >
+                <FaShoppingCart className="text-xl" />
+              </NavLink>
             </>
           ) : (
             <>
@@ -74,6 +81,12 @@ const Navbar: React.FC = () => {
                 }
               >
                 Registrarse
+              </NavLink>
+              <NavLink
+                to="/carrito"
+                className="flex items-center gap-2 text-white hover:text-secondary"
+              >
+                <FaShoppingCart className="text-xl" />
               </NavLink>
             </>
           )}
