@@ -1,43 +1,71 @@
 import React, { useEffect, useState } from 'react';
 import { api_url } from '@/api/api';
 import { ProductoraPendiente } from './types';
-import { FaEdit } from 'react-icons/fa';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const SolicitudAlta: React.FC = () => {
     const [productoras, setProductoras] = useState<ProductoraPendiente[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [updating, setUpdating] = useState<number | null>(null);
+
+    const fetchProductoras = async () => {
+        try {
+            const token = localStorage.getItem("auth")
+                ? JSON.parse(localStorage.getItem("auth")!).accessToken
+                : null;
+
+            if (!token) {
+                throw new Error("No hay token de autenticación");
+            }
+
+            const response = await axios.get(api_url.admin_solicitudes_get, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            setProductoras(Array.isArray(response.data) ? response.data : [response.data]);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Error desconocido');
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchProductoras = async () => {
-            try {
-                const token = localStorage.getItem("auth")
-                    ? JSON.parse(localStorage.getItem("auth")!).accessToken
-                    : null;
-
-                if (!token) {
-                    throw new Error("No hay token de autenticación");
-                }
-
-                const response = await axios.get(api_url.admin_solicitudes_get, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-
-                setProductoras(Array.isArray(response.data) ? response.data : [response.data]);
-            } catch (err) {
-                setError(err instanceof Error ? err.message : 'Error desconocido');
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchProductoras();
     }, []);
 
-    const handleEdit = (id: number) => {
-        // Implementar la lógica de edición aquí
-        console.log('Editar productora:', id);
+    const handleStatusChange = async (productoraId: number, newStatus: string) => {
+        try {
+            setUpdating(productoraId);
+            const token = localStorage.getItem("auth")
+                ? JSON.parse(localStorage.getItem("auth")!).accessToken
+                : null;
+
+            if (!token) {
+                throw new Error("No hay token de autenticación");
+            }
+
+            await axios.put(
+                api_url.admin_solicitudes_put,
+                {
+                    productoraId,
+                    status: newStatus
+                },
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+
+            toast.success('Estado actualizado correctamente');
+            await fetchProductoras(); // Recargar la lista
+        } catch (err) {
+            toast.error('Error al actualizar el estado');
+            console.error('Error:', err);
+        } finally {
+            setUpdating(null);
+        }
     };
 
     if (loading) {
@@ -68,13 +96,12 @@ const SolicitudAlta: React.FC = () => {
                             <th className="px-4 py-3 font-semibold">Email</th>
                             <th className="px-4 py-3 font-semibold">Dirección</th>
                             <th className="px-4 py-3 text-center font-semibold">Estado</th>
-                            <th className="px-4 py-3 text-end font-semibold">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {productoras.length === 0 ? (
                             <tr>
-                                <td colSpan={7} className="p-6 text-center text-gray-500">
+                                <td colSpan={6} className="p-6 text-center text-gray-500">
                                     No hay solicitudes pendientes
                                 </td>
                             </tr>
@@ -87,26 +114,22 @@ const SolicitudAlta: React.FC = () => {
                                     <td className="px-4 py-3">{productora.email}</td>
                                     <td className="px-4 py-3">{productora.direccion}</td>
                                     <td className="px-4 py-3 text-center">
-                                        <span
-                                            className={`rounded-full px-3 py-1 text-sm ${productora.status === "PENDING"
+                                        <select
+                                            value={productora.status}
+                                            onChange={(e) => handleStatusChange(productora.id, e.target.value)}
+                                            disabled={updating === productora.id}
+                                            className={`rounded-md border-none px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-secondary ${productora.status === "PENDING"
                                                 ? "bg-yellow-500/20 text-yellow-500"
-                                                : productora.status === "APPROVED"
-                                                    ? "bg-green-500/20 text-green-500"
-                                                    : "bg-red-500/20 text-red-500"
+                                                : "bg-green-500/20 text-green-500"
                                                 }`}
                                         >
-                                            {productora.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-4 py-3 text-end">
-                                        <div className="flex justify-end gap-2">
-                                            <button
-                                                onClick={() => handleEdit(productora.id)}
-                                                className="rounded px-4 py-2 text-sm text-white hover:bg-secondary/80"
-                                            >
-                                                <FaEdit className="h-4 w-4" />
-                                            </button>
-                                        </div>
+                                            <option value="PENDING" className="bg-gray-800 text-yellow-500">
+                                                PENDING
+                                            </option>
+                                            <option value="APPROVED" className="bg-gray-800 text-green-500">
+                                                APPROVED
+                                            </option>
+                                        </select>
                                     </td>
                                 </tr>
                             ))

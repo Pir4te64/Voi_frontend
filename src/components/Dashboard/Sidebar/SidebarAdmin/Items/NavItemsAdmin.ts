@@ -1,5 +1,4 @@
 import {
-    FaInbox,
     FaCalendarAlt,
 } from "react-icons/fa";
 import { MdGroup } from "react-icons/md";
@@ -19,14 +18,6 @@ export const navItemsAdmin = [
         to: "/dashboard/productoras",
         label: "Productoras",
         Icon: MdGroup,
-        children: [
-            {
-                to: "/dashboard/productoras/solicitudes",
-                label: "Solicitudes",
-                Icon: FaInbox,
-                badge: 19, // reemplaza por tu contador dinámico
-            },
-        ],
     },
     {
         to: "/dashboard/eventos",
