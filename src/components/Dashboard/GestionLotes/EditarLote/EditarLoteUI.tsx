@@ -8,11 +8,11 @@ import {
   FaTicketAlt,
   FaArrowLeft,
 } from "react-icons/fa";
-import { useEditarLoteForm } from "@/components/Dashboard/GestionEventos/GestionLotes/EditarLote/store/useEditarLoteForm";
+import { useEditarLoteForm } from "@/components/Dashboard/GestionLotes/EditarLote/store/useEditarLoteForm";
 import { useFormik } from "formik";
-import { editarValidationSchema } from "@/components/Dashboard/GestionEventos/GestionLotes/EditarLote/data/editarLote.data";
+import { editarValidationSchema } from "@/components/Dashboard/GestionLotes/EditarLote/data/editarLote.data";
 import FloatingField from "@/components/Dashboard/ComponentesReutilizables/FloatingField";
-import { EditarLoteUIProps } from "@/components/Dashboard/GestionEventos/GestionLotes/EditarLote/data/interfaces";
+import { EditarLoteUIProps } from "@/components/Dashboard/GestionLotes/EditarLote/data/interfaces";
 
 const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
   eventId,
@@ -73,11 +73,10 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                 id="nombreLote"
                 name="nombre"
                 type="text"
-                className={`w-full rounded-lg border ${
-                  formik.touched.nombre && formik.errors.nombre
-                    ? "border-red-500"
-                    : "border-gray-700"
-                } bg-back px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+                className={`w-full rounded-lg border ${formik.touched.nombre && formik.errors.nombre
+                  ? "border-red-500"
+                  : "border-gray-700"
+                  } bg-back px-4 py-3 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
                 value={formik.values.nombre}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -100,11 +99,10 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                   id="precio"
                   name="precio"
                   type="number"
-                  className={`w-full rounded-lg border ${
-                    formik.touched.precio && formik.errors.precio
-                      ? "border-red-500"
-                      : "border-gray-700"
-                  } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                  className={`w-full rounded-lg border ${formik.touched.precio && formik.errors.precio
+                    ? "border-red-500"
+                    : "border-gray-700"
+                    } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                   value={formik.values.precio || ""}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -127,11 +125,10 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                   name="fechaValidez"
                   type="date"
                   min={new Date().toISOString().split("T")[0]}
-                  className={`w-full rounded-lg border ${
-                    formik.touched.fechaValidez && formik.errors.fechaValidez
-                      ? "border-red-500"
-                      : "border-gray-700"
-                  } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
+                  className={`w-full rounded-lg border ${formik.touched.fechaValidez && formik.errors.fechaValidez
+                    ? "border-red-500"
+                    : "border-gray-700"
+                    } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none`}
                   value={formik.values.fechaValidez}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -175,11 +172,10 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                       id="montoFijo"
                       name="montoFijo"
                       type="number"
-                      className={`w-full rounded-lg border ${
-                        formik.touched.montoFijo && formik.errors.montoFijo
-                          ? "border-red-500"
-                          : "border-gray-700"
-                      } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                      className={`w-full rounded-lg border ${formik.touched.montoFijo && formik.errors.montoFijo
+                        ? "border-red-500"
+                        : "border-gray-700"
+                        } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                       value={formik.values.montoFijo || ""}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -213,11 +209,10 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                       id="porcentaje"
                       name="porcentaje"
                       type="number"
-                      className={`w-full rounded-lg border ${
-                        formik.touched.porcentaje && formik.errors.porcentaje
-                          ? "border-red-500"
-                          : "border-gray-700"
-                      } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                      className={`w-full rounded-lg border ${formik.touched.porcentaje && formik.errors.porcentaje
+                        ? "border-red-500"
+                        : "border-gray-700"
+                        } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                       value={formik.values.porcentaje || ""}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
@@ -247,12 +242,11 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                 id="cantidadTickets"
                 name="cantidadTickets"
                 type="number"
-                className={`w-full rounded-lg border ${
-                  formik.touched.cantidadTickets &&
+                className={`w-full rounded-lg border ${formik.touched.cantidadTickets &&
                   formik.errors.cantidadTickets
-                    ? "border-red-500"
-                    : "border-gray-700"
-                } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
+                  ? "border-red-500"
+                  : "border-gray-700"
+                  } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                 value={formik.values.cantidadTickets || ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

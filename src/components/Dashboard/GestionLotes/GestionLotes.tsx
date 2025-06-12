@@ -9,34 +9,10 @@ import {
 } from "react-icons/fa";
 import axios from "axios";
 import { api_url } from "@/api/api";
-import CrearLoteUI from "@/components/Dashboard/GestionEventos/GestionLotes/CrearLote/CrearLoteUI";
-import EditarLoteUI from "@/components/Dashboard/GestionEventos/GestionLotes/EditarLote/EditarLoteUI";
-
-interface Evento {
-  id: number;
-  nombre: string;
-  fechaInicio: string;
-  fechaFin: string;
-  categoriaNombre: string;
-  address: {
-    street: string | null;
-    city: string;
-  };
-  estado: string;
-}
-
-interface Lote {
-  id: number;
-  nombre: string;
-  precio: number;
-  fechaValidez: string;
-  tipoComision: string;
-  montoComision: number;
-  estado: string;
-  cantidadTickets: number;
-  ticketsDisponibles: number;
-  tickets: any[];
-}
+import { toast } from "react-toastify";
+import CrearLoteUI from "@/components/Dashboard/GestionLotes/CrearLote/CrearLoteUI";
+import EditarLoteUI from "@/components/Dashboard/GestionLotes/EditarLote/EditarLoteUI";
+import { Evento, Lote } from "@/components/Dashboard/GestionLotes/EditarLote/data/interfaces";
 
 const GestionLotes: React.FC = () => {
   const [events, setEvents] = useState<Evento[]>([]);
@@ -197,6 +173,10 @@ const GestionLotes: React.FC = () => {
       console.log(`Estado del lote cambiado a: ${nuevoEstado}`);
     } catch (error: any) {
       console.error("Error al cambiar estado del lote:", error);
+      toast.error(
+        error.response?.data?.error?.description?.[0] || "Error al cambiar el estado del lote",
+        { position: "top-right", autoClose: 3000 }
+      );
     }
   };
 
@@ -327,8 +307,8 @@ const GestionLotes: React.FC = () => {
                     <td className="px-4 py-3 text-center">
                       <span
                         className={`rounded-full px-3 py-1 text-sm ${event.estado === "ACTIVO"
-                            ? "bg-green-500/20 text-green-500"
-                            : "bg-red-500/20 text-red-500"
+                          ? "bg-green-500/20 text-green-500"
+                          : "bg-red-500/20 text-red-500"
                           }`}
                       >
                         {event.estado}
@@ -358,8 +338,8 @@ const GestionLotes: React.FC = () => {
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
                 className={`flex h-10 w-16 items-center justify-center rounded-lg border transition ${currentPage === 1
-                    ? "cursor-not-allowed border-gray-600 text-gray-600"
-                    : "border-gray-600 text-white hover:border-secondary hover:bg-secondary"
+                  ? "cursor-not-allowed border-gray-600 text-gray-600"
+                  : "border-gray-600 text-white hover:border-secondary hover:bg-secondary"
                   }`}
               >
                 <FaChevronLeft className="h-3 w-3" />
@@ -373,8 +353,8 @@ const GestionLotes: React.FC = () => {
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
                       className={`flex h-10 w-10 items-center justify-center rounded-lg transition ${currentPage === pageNum
-                          ? "text-white"
-                          : "text-gray-400 hover:text-white"
+                        ? "text-white"
+                        : "text-gray-400 hover:text-white"
                         }`}
                     >
                       {pageNum}
@@ -390,8 +370,8 @@ const GestionLotes: React.FC = () => {
                 }
                 disabled={currentPage === totalPages}
                 className={`flex h-10 w-16 items-center justify-center rounded-lg border transition ${currentPage === totalPages
-                    ? "cursor-not-allowed border-gray-600 text-gray-600"
-                    : "border-gray-600 text-white hover:border-secondary hover:bg-secondary"
+                  ? "cursor-not-allowed border-gray-600 text-gray-600"
+                  : "border-gray-600 text-white hover:border-secondary hover:bg-secondary"
                   }`}
               >
                 <FaChevronRight className="h-3 w-3" />
@@ -504,10 +484,10 @@ const GestionLotes: React.FC = () => {
                               cambiarEstadoLote(lote.id, e.target.value)
                             }
                             className={`rounded-md border-none px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-secondary ${lote.estado === "ACTIVO"
-                                ? "bg-green-500/20 text-green-500"
-                                : lote.estado === "PAUSADO"
-                                  ? "bg-yellow-500/20 text-yellow-500"
-                                  : "bg-red-500/20 text-red-500"
+                              ? "bg-green-500/20 text-green-500"
+                              : lote.estado === "PAUSADO"
+                                ? "bg-yellow-500/20 text-yellow-500"
+                                : "bg-red-500/20 text-red-500"
                               }`}
                           >
                             <option

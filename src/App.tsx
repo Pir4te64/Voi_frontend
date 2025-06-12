@@ -19,7 +19,7 @@ import CrearPerfil from "@/components/Dashboard/CrearPerfil/CrearPerfil";
 import Miperfil from "@/components/Dashboard/Sidebar/MiPerfil/Miperfil";
 import ModificarEventos from "@/components/Dashboard/GestionEventos/EditarEvento/ModificarEventos";
 import EditarEventoPage from "@/components/Dashboard/GestionEventos/EditarEvento/EditarEventoPage";
-import GestionLotes from "@/components/Dashboard/GestionEventos/GestionLotes/GestionLotes";
+import GestionLotes from "@/components/Dashboard/GestionLotes/GestionLotes";
 import { MisVentas } from "@/components/Dashboard/Misventas/MisVentas";
 import Web from "@/components/Dashboard/Misventas/Web";
 import Revendedores from "@/components/Dashboard/Misventas/Revendedores";
