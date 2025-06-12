@@ -19,7 +19,7 @@ const RequestCodeForm: React.FC<RequestCodeFormProps> = ({ formik }) => {
       {/* Back button */}
       <Link
         to="/login"
-        className="absolute -top-5 left-4 flex h-8 w-8 items-center justify-center rounded-full border border-white text-white transition hover:bg-white/10 md:-top-64 md:left-6 md:h-10 md:w-10 lg:-top-28 lg:left-8 lg:h-8 lg:w-8"
+        className="absolute -top-10 left-4 flex h-8 w-8 items-center justify-center rounded-full border border-white text-white transition hover:bg-white/10 md:-top-64 md:left-6 md:h-10 md:w-10 lg:-top-10 lg:left-8 lg:h-8 lg:w-8"
       >
         <FaArrowLeft className="text-lg md:text-xl lg:text-xl" />
       </Link>
@@ -29,7 +29,7 @@ const RequestCodeForm: React.FC<RequestCodeFormProps> = ({ formik }) => {
       </h2>
 
       <p className="text-center text-gray-300">
-        Ingresa tu correo electrónico y te enviaremos un código de verificación
+      Introducí tu correo y te enviaremos instrucciones para restablecer tu contraseña.
       </p>
 
       {/* Email */}
@@ -56,7 +56,7 @@ const RequestCodeForm: React.FC<RequestCodeFormProps> = ({ formik }) => {
 
       <div className="text-center">
         <Link to="/login">
-          ¿Recordaste tu contraseña?{" "}
+          Volver a {" "}
           <strong className="text-secondary underline">Iniciar Sesión</strong>
         </Link>
       </div>

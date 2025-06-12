@@ -18,8 +18,20 @@ const RecuperarPassword: React.FC = () => {
   } = useRecuperarPassword();
 
   return (
-    <div className="flex min-h-screen flex-col-reverse bg-primary text-white md:flex-row">
+    <div className="flex min-h-screen flex-col-reverse overflow-x-hidden bg-primary text-white md:flex-row">
       <ToastContainer />
+      {/* Columna del logo grande */}
+      <div className="hidden h-screen md:flex md:w-1/2 md:items-center md:justify-center">
+        <div className="relative w-full max-w-lg p-8">
+          <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-secondary opacity-20 blur-3xl filter"></div>
+          <img
+            src={logoGrande}
+            alt="Logo Grande"
+            className="relative z-10 w-full"
+          />
+        </div>
+      </div>
+
       {/* Columna del formulario */}
       <div className="flex h-screen w-full items-center justify-center md:w-1/2">
         <div className="relative w-full px-6 py-8 md:px-8">
@@ -46,18 +58,6 @@ const RecuperarPassword: React.FC = () => {
               onBack={() => setStep("request")}
             />
           )}
-        </div>
-      </div>
-
-      {/* Columna del logo grande */}
-      <div className="hidden h-screen md:flex md:w-1/2 md:items-center md:justify-center">
-        <div className="relative w-full max-w-lg p-8">
-          <div className="absolute left-1/2 top-1/2 h-96 w-96 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-secondary opacity-20 blur-3xl filter"></div>
-          <img
-            src={logoGrande}
-            alt="Logo Grande"
-            className="relative z-10 w-full"
-          />
         </div>
       </div>
     </div>

@@ -30,18 +30,14 @@ const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = ({
       <button
         type="button"
         onClick={onBack}
-        className="absolute -top-5 left-4 flex h-8 w-8 items-center justify-center rounded-full border border-white text-white transition hover:bg-white/10 md:-top-64 md:left-6 md:h-10 md:w-10 lg:-top-28 lg:left-8 lg:h-8 lg:w-8"
+        className="absolute -top-10 left-4 flex h-8 w-8 items-center justify-center rounded-full border border-white text-white transition hover:bg-white/10 md:-top-64 md:left-6 md:h-10 md:w-10 lg:-top-28 lg:left-8 lg:h-8 lg:w-8"
       >
         <FaArrowLeft className="text-lg md:text-xl lg:text-xl" />
       </button>
 
-      <h2 className="text-center text-3xl font-bold text-secondary md:text-5xl">
+      <h2 className="text-left text-2xl font-bold text-white md:text-5xl">
         Cambiar Contraseña
       </h2>
-
-      <p className="text-center text-gray-300">
-        Ingresa tus datos y el código de verificación para cambiar tu contraseña
-      </p>
 
       {/* Email */}
       <FloatingField label="Email*">
