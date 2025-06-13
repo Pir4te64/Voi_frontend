@@ -1,5 +1,5 @@
 import React from "react";
-import { Evento } from "../store/interfaces";
+import { Evento } from "@/components/Dashboard/GestionEventos/EditarEvento/store/interfaces";
 
 interface DeleteEventoModalProps {
     eventoToDelete: Evento | null;

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 import { api_url } from "@/api/api";
-import { Evento, ListarEventosState } from "./interfaces";
+import { Evento, ListarEventosState } from "@/components/Dashboard/GestionEventos/EditarEvento/store/interfaces";
 import { toast } from "react-toastify";
 
 interface ListarEventosStore extends ListarEventosState {

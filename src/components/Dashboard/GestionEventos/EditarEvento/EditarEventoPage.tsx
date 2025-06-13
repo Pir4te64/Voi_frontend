@@ -6,9 +6,9 @@ import { FaArrowLeft } from "react-icons/fa";
 import EventoForm from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/EventForm";
 import GestionarLoteUI from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/LotesEntrada";
 import AsignarRevendedor from "@/components/Dashboard/GestionEventos/AsignarRevendedor/AsignarRevendedor";
-import { useEditarEventoStore } from "./store/useEditarEventoStore";
-import { editarEventoSchema } from "./validations/editarEvento.validation";
-import { EventoData, FormValues } from "./interfaces/editarEvento.interface";
+import { useEditarEventoStore } from "@/components/Dashboard/GestionEventos/EditarEvento/store/useEditarEventoStore";
+import { editarEventoSchema } from "@/components/Dashboard/GestionEventos/EditarEvento/validations/editarEvento.validation";
+import { EventoData, FormValues } from "@/components/Dashboard/GestionEventos/EditarEvento/interfaces/editarEvento.interface";
 
 const EditarEventoPage: React.FC = () => {
   const navigate = useNavigate();
@@ -117,9 +117,9 @@ const EditarEventoPage: React.FC = () => {
       </button>
 
       <h1 className="mb-8 text-3xl font-bold text-secondary">Editar Evento</h1>
-
+<div className="rounded-lg bg-back p-4 text-white">
       {/* Pestañas de navegación */}
-      <div className="mb-8 flex gap-4 rounded-lg bg-black/40 p-2">
+      <div className="mb-8 flex gap-4 rounded-xl bg-black p-2">
         {steps.map(({ label }, idx) => (
           <button
             key={label}
@@ -133,7 +133,7 @@ const EditarEventoPage: React.FC = () => {
             className={`whitespace-nowrap rounded px-6 py-4 text-md font-semibold transition
               ${active === idx
                 ? "bg-secondary text-black font-bold"
-                : "bg-black hover:bg-gray-800 font-normal"
+                : "bg-[#1c1c1c] hover:bg-gray-800 font-normal"
               }`}
           >
             {label}
@@ -144,6 +144,7 @@ const EditarEventoPage: React.FC = () => {
       {/* Contenido de la pestaña activa */}
       <div className="grid grid-cols-1 gap-6">
         {steps[active].content}
+      </div>
       </div>
     </div>
   );

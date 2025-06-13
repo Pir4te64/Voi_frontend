@@ -58,6 +58,10 @@ export const api_url = {
   // Endpoints de revendedores
   get_revendedores: `${baseUrl}/eventos/user/v1/revendedores`,
   asignar_revendedor: `${baseUrl}/eventos/user/v1/eventos/revendedor`,
+  get_revendedores_evento: (eventoId: number) =>
+    `${baseUrl}/eventos/user/v1/revendedores/evento?eventoId=${eventoId}`,
+  eliminar_revendedor: (eventoId: number, revendedorId: number) =>
+    `${baseUrl}/eventos/user/v1/revendedores/delete?eventoId=${eventoId}&revendedorId=${revendedorId}`,
 };
 
 /**

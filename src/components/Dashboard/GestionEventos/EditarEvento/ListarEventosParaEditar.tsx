@@ -9,10 +9,10 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
-import { useListarEventosStore } from "./store/useListarEventosStore";
-import { Evento } from "./store/interfaces";
-import Buscador from "./UI/Buscador";
-import DeleteEventoModal from "./UI/DeleteEventoModal";
+import { useListarEventosStore } from "@/components/Dashboard/GestionEventos/EditarEvento/store/useListarEventosStore";
+import { Evento } from "@/components/Dashboard/GestionEventos/EditarEvento/store/interfaces";
+import Buscador from "@/components/Dashboard/GestionEventos/EditarEvento/UI/Buscador";
+import DeleteEventoModal from "@/components/Dashboard/GestionEventos/EditarEvento/UI/DeleteEventoModal";
 
 const ListarEventosParaEditar: React.FC = () => {
   const navigate = useNavigate();

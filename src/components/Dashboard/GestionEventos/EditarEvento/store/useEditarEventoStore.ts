@@ -2,7 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { api_url } from "@/api/api";
-import { EventoData, FormValues } from "../interfaces/editarEvento.interface";
+import { EventoData, FormValues } from "@/components/Dashboard/GestionEventos/EditarEvento/interfaces/editarEvento.interface";
 import { Dispatch, SetStateAction } from "react";
 
 interface EditarEventoState {
