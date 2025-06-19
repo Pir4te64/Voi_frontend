@@ -128,7 +128,9 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
 
                     {/* Botón de Continuar */}
                     <button
-                        onClick={() => navigate('/')}
+                        onClick={() => {
+                            console.log({ orderId: ordenCompra.id });
+                        }}
                         className="w-full rounded-lg bg-secondary py-3 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
                     >
                         Continuar Pago
