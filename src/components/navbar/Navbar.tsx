@@ -1,5 +1,5 @@
 // src/components/Navbar.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBars, FaTimes, FaShoppingCart } from 'react-icons/fa';
 import logo from '@/assets/Logo.svg';
@@ -10,15 +10,27 @@ import { useSidebarComprasStore } from '@/components/SidebarCompras/store/useSid
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const { toggleSidebar } = useSidebarComprasStore();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `transition-colors ${isActive ? 'text-white' : 'text-neutral'} hover:text-secondary`;
 
   return (
     <>
-      <nav className="relative z-20 bg-primary text-white">
+      <nav className={`fixed left-0 right-0 top-0 z-[999] bg-primary text-white transition-shadow duration-300 ${isScrolled ? 'shadow-lg shadow-black/20' : ''
+        }`}>
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           {/* Logo */}
           <NavLink to="/" className="flex items-center">
@@ -106,6 +118,8 @@ const Navbar: React.FC = () => {
         {/* Mobile full-screen menu */}
         <MobileMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
       </nav>
+      {/* Spacer para compensar el navbar fijo */}
+      <div className="h-[60px]" />
       <SidebarCompras />
     </>
   );

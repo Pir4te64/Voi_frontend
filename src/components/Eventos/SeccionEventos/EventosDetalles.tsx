@@ -1,41 +1,27 @@
 // src/components/Eventos/EventDetail.tsx
-import React, { useRef, useState, useMemo, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import { staticEvents } from "@/components/Eventos/SeccionEventos/EventosEstaticos";
 import { useEventsStore } from "@/components/heroEvents/store/useEventsStore";
-import { useCarritoStore } from "@/components/SidebarCompras/store/useCarritoStore";
-import { FaMapMarkerAlt, FaMinus, FaPlus } from "react-icons/fa";
-import { toast } from 'react-toastify';
+import { FaMapMarkerAlt } from "react-icons/fa";
 import {
   RemoteEvent,
   StaticEventDetail,
-  TicketType,
 } from "@/components/Eventos/SeccionEventos/data/Interfaces";
+import EventoDetallesComprar from "./EventoDetallesComprar";
 
 // Nombres de meses para formateo
 const monthNames = [
-  "Ene",
-  "Feb",
-  "Mar",
-  "Abr",
-  "May",
-  "Jun",
-  "Jul",
-  "Ago",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dic",
+  "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+  "Jul", "Ago", "Sep", "Oct", "Nov", "Dic",
 ];
 
 const EventDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const numericId = parseInt(id!, 10);
-  const { addToCart, isAuthenticated, getItemQuantity, updateQuantity } = useCarritoStore();
 
   // Slider
   const swiperRef = useRef<any>(null);
@@ -46,7 +32,7 @@ const EventDetail: React.FC = () => {
   const remoteEvents = useEventsStore((s) => s.events) as RemoteEvent[];
   const fetchEvents = useEventsStore((s) => s.fetchEvents);
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchEvents();
   }, [fetchEvents]);
 
@@ -72,7 +58,7 @@ const EventDetail: React.FC = () => {
       })(),
       gallery: raw.galeriaUrls,
       ticketTypes: raw.lotes.length > 0
-        ? raw.lotes.map((lote): TicketType => ({
+        ? raw.lotes.map((lote) => ({
           type: lote.nombre,
           price: lote.precio,
           available: lote.ticketsDisponibles > 0
@@ -86,95 +72,15 @@ const EventDetail: React.FC = () => {
     : undefined;
 
   // Elegir datos: remoto o estático
-  const event = mappedRemote ?? staticEvents.find((e) => e.id === numericId);
-
-  // Estado de ticket seleccionado - movido antes de la condición
-  const [selectedTicket, setSelectedTicket] = useState<string>(() => {
-    if (!event) return "";
-    return event.defaultTicket || event.ticketTypes[0]?.type || "";
-  });
-
-  // Inicializar quantity con la cantidad del carrito si existe
-  const [quantity, setQuantity] = useState(() => {
-    if (!event) return 1;
-    const defaultTicket = event.defaultTicket || event.ticketTypes[0]?.type;
-    if (!defaultTicket) return 1;
-    return getItemQuantity(event.id, defaultTicket) || 1;
-  });
-
-  // Actualizar quantity cuando cambia el tipo de ticket
-  useEffect(() => {
-    if (!event) return;
-    setQuantity(getItemQuantity(event.id, selectedTicket) || 1);
-  }, [selectedTicket, event]);
-
-  // Función para actualizar la cantidad
-  const handleQuantityChange = (newQuantity: number) => {
-    setQuantity(newQuantity);
-
-    if (!event) return;
-
-    // Si el usuario está autenticado, actualizar el carrito en tiempo real
-    if (isAuthenticated()) {
-      const selectedTicketType = event.ticketTypes.find(t => t.type === selectedTicket);
-      if (!selectedTicketType) return;
-
-      if (newQuantity > 0) {
-        updateQuantity(event.id, selectedTicket, newQuantity);
-      }
-    }
-  };
-
-  // Calcular total
-  const total = useMemo(() => {
-    if (!event) return 0;
-    const ticket = event.ticketTypes.find((t) => t.type === selectedTicket);
-    return (ticket?.price ?? 0) * quantity;
-  }, [selectedTicket, quantity, event]);
+  const event = (mappedRemote ?? staticEvents.find((e) => e.id === numericId)) as StaticEventDetail;
 
   // URL para el iframe de mapa
-  const mapSrc = useMemo(() => {
+  const mapSrc = React.useMemo(() => {
     if (!event) return "";
     return `https://www.google.com/maps?q=${encodeURIComponent(
       event.mapUrl ?? event.address
     )}&output=embed`;
   }, [event]);
-
-  const handleAddToCart = () => {
-    if (!isAuthenticated()) {
-      toast.error('Debes iniciar sesión para agregar items al carrito');
-      return;
-    }
-
-    if (!event) {
-      toast.error('Error al agregar al carrito: Evento no encontrado');
-      return;
-    }
-
-    const selectedTicketType = event.ticketTypes.find(t => t.type === selectedTicket);
-    if (!selectedTicketType) {
-      toast.error('Error al agregar al carrito: Tipo de entrada no encontrado');
-      return;
-    }
-
-    addToCart({
-      eventId: event.id,
-      title: event.title,
-      ticketType: selectedTicket,
-      quantity,
-      price: selectedTicketType.price
-    });
-  };
-
-  const handleBuyNow = () => {
-    if (!isAuthenticated()) {
-      toast.error('Debes iniciar sesión para realizar la compra');
-      return;
-    }
-
-    handleAddToCart();
-    navigate('/checkout');
-  };
 
   if (!event) {
     return (
@@ -273,77 +179,8 @@ const EventDetail: React.FC = () => {
               )}
             </section>
 
-            {/* Entrada y Cantidad */}
-            <section className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
-              <div className="w-full space-y-2">
-                <h2 className="text-sm font-semibold uppercase text-secondary">
-                  Tipo de Entrada
-                </h2>
-                <select
-                  value={selectedTicket}
-                  onChange={(e) => setSelectedTicket(e.target.value)}
-                  className="w-full rounded-lg border border-gray-600 bg-primary px-3 py-2 text-sm text-white md:px-4 md:text-base"
-                >
-                  {event.ticketTypes.map((t) => (
-                    <option key={t.type} value={t.type} disabled={!t.available}>
-                      {t.type}
-                      {t.available ? "" : " (SOLD OUT)"} — $
-                      {t.price.toLocaleString()}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div className="w-full space-y-2">
-                <h2 className="text-sm font-semibold uppercase text-secondary">
-                  Cantidad
-                </h2>
-                <div className="inline-flex items-center overflow-hidden rounded-lg border border-gray-600">
-                  <button
-                    className="px-3 py-2 text-white md:px-4"
-                    onClick={() => handleQuantityChange(Math.max(1, quantity - 1))}
-                  >
-                    <FaMinus />
-                  </button>
-                  <input
-                    type="text"
-                    readOnly
-                    value={quantity}
-                    className="w-10 bg-primary px-2 py-2 text-center text-sm text-white focus:outline-none md:w-12 md:px-4 md:text-base"
-                  />
-                  <button
-                    className="px-3 py-2 text-white md:px-4"
-                    onClick={() => handleQuantityChange(quantity + 1)}
-                  >
-                    <FaPlus />
-                  </button>
-                </div>
-              </div>
-            </section>
-
-            {/* Total */}
-            <div className="mt-4">
-              <p className="text-sm font-semibold uppercase">Total</p>
-              <p className="text-3xl font-bold text-white md:text-4xl">
-                ${total.toLocaleString()}
-              </p>
-            </div>
-
-            {/* Botones */}
-            <div className="mt-4 flex flex-col gap-3 md:gap-4">
-              <button
-                onClick={handleAddToCart}
-                className="w-full rounded-xl bg-secondary px-4 py-2.5 text-sm font-semibold text-primary transition hover:text-white md:py-3 md:text-base"
-              >
-                Añadir al Carrito
-              </button>
-              <button
-                onClick={handleBuyNow}
-                className="w-full rounded-xl border border-secondary px-4 py-2.5 text-sm font-semibold text-secondary transition hover:text-white md:py-3 md:text-base"
-              >
-                Comprar Ahora
-              </button>
-            </div>
+            {/* Sección de compra */}
+            <EventoDetallesComprar event={event} />
           </div>
         </div>
       </div>
