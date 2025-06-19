@@ -1,12 +1,14 @@
 // src/components/Eventos/EventDetail.tsx
 import React, { useRef, useState, useMemo, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import { staticEvents } from "@/components/Eventos/SeccionEventos/EventosEstaticos";
 import { useEventsStore } from "@/components/heroEvents/store/useEventsStore";
+import { useCarritoStore } from "@/components/SidebarCompras/store/useCarritoStore";
 import { FaMapMarkerAlt, FaMinus, FaPlus } from "react-icons/fa";
+import { toast } from 'react-toastify';
 import {
   RemoteEvent,
   StaticEventDetail,
@@ -31,13 +33,14 @@ const monthNames = [
 
 const EventDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const numericId = parseInt(id!, 10);
+  const { addToCart, isAuthenticated, getItemQuantity, updateQuantity } = useCarritoStore();
 
   // Slider
   const swiperRef = useRef<any>(null);
   const [activeIdx, setActiveIdx] = useState(0);
   const [showMap, setShowMap] = useState(false);
-  const [quantity, setQuantity] = useState(1);
 
   // Fetch remoto
   const remoteEvents = useEventsStore((s) => s.events) as RemoteEvent[];
@@ -91,6 +94,37 @@ const EventDetail: React.FC = () => {
     return event.defaultTicket || event.ticketTypes[0]?.type || "";
   });
 
+  // Inicializar quantity con la cantidad del carrito si existe
+  const [quantity, setQuantity] = useState(() => {
+    if (!event) return 1;
+    const defaultTicket = event.defaultTicket || event.ticketTypes[0]?.type;
+    if (!defaultTicket) return 1;
+    return getItemQuantity(event.id, defaultTicket) || 1;
+  });
+
+  // Actualizar quantity cuando cambia el tipo de ticket
+  useEffect(() => {
+    if (!event) return;
+    setQuantity(getItemQuantity(event.id, selectedTicket) || 1);
+  }, [selectedTicket, event]);
+
+  // Función para actualizar la cantidad
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
+
+    if (!event) return;
+
+    // Si el usuario está autenticado, actualizar el carrito en tiempo real
+    if (isAuthenticated()) {
+      const selectedTicketType = event.ticketTypes.find(t => t.type === selectedTicket);
+      if (!selectedTicketType) return;
+
+      if (newQuantity > 0) {
+        updateQuantity(event.id, selectedTicket, newQuantity);
+      }
+    }
+  };
+
   // Calcular total
   const total = useMemo(() => {
     if (!event) return 0;
@@ -105,6 +139,42 @@ const EventDetail: React.FC = () => {
       event.mapUrl ?? event.address
     )}&output=embed`;
   }, [event]);
+
+  const handleAddToCart = () => {
+    if (!isAuthenticated()) {
+      toast.error('Debes iniciar sesión para agregar items al carrito');
+      return;
+    }
+
+    if (!event) {
+      toast.error('Error al agregar al carrito: Evento no encontrado');
+      return;
+    }
+
+    const selectedTicketType = event.ticketTypes.find(t => t.type === selectedTicket);
+    if (!selectedTicketType) {
+      toast.error('Error al agregar al carrito: Tipo de entrada no encontrado');
+      return;
+    }
+
+    addToCart({
+      eventId: event.id,
+      title: event.title,
+      ticketType: selectedTicket,
+      quantity,
+      price: selectedTicketType.price
+    });
+  };
+
+  const handleBuyNow = () => {
+    if (!isAuthenticated()) {
+      toast.error('Debes iniciar sesión para realizar la compra');
+      return;
+    }
+
+    handleAddToCart();
+    navigate('/checkout');
+  };
 
   if (!event) {
     return (
@@ -231,7 +301,7 @@ const EventDetail: React.FC = () => {
                 <div className="inline-flex items-center overflow-hidden rounded-lg border border-gray-600">
                   <button
                     className="px-3 py-2 text-white md:px-4"
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    onClick={() => handleQuantityChange(Math.max(1, quantity - 1))}
                   >
                     <FaMinus />
                   </button>
@@ -243,7 +313,7 @@ const EventDetail: React.FC = () => {
                   />
                   <button
                     className="px-3 py-2 text-white md:px-4"
-                    onClick={() => setQuantity((q) => q + 1)}
+                    onClick={() => handleQuantityChange(quantity + 1)}
                   >
                     <FaPlus />
                   </button>
@@ -261,10 +331,16 @@ const EventDetail: React.FC = () => {
 
             {/* Botones */}
             <div className="mt-4 flex flex-col gap-3 md:gap-4">
-              <button className="w-full rounded-xl bg-secondary px-4 py-2.5 text-sm font-semibold text-primary transition hover:text-white md:py-3 md:text-base">
+              <button
+                onClick={handleAddToCart}
+                className="w-full rounded-xl bg-secondary px-4 py-2.5 text-sm font-semibold text-primary transition hover:text-white md:py-3 md:text-base"
+              >
                 Añadir al Carrito
               </button>
-              <button className="w-full rounded-xl border border-secondary px-4 py-2.5 text-sm font-semibold text-secondary transition hover:text-white md:py-3 md:text-base">
+              <button
+                onClick={handleBuyNow}
+                className="w-full rounded-xl border border-secondary px-4 py-2.5 text-sm font-semibold text-secondary transition hover:text-white md:py-3 md:text-base"
+              >
                 Comprar Ahora
               </button>
             </div>
