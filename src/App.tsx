@@ -12,6 +12,7 @@ import DetallesPage from "@/pages/Eventos/Detalles";
 import GraciasProductoraPage from "@/pages/GraciasProductora";
 import ErrorNotFound from "@/pages/404";
 import RecuperarPassword from '@/components/LoginUser/RecuperarPassword'
+import CompraRealizada from '@/pages/CompraRealizada/CompraRealizada';
 
 import DashboardLayout from "@/pages/Dashboard/DashboardLayout";
 import Index from "@/pages/Dashboard/Index";
@@ -47,6 +48,7 @@ function App() {
         <Route path="/eventos" element={<EventosPage />} />
         <Route path="/eventos/:id" element={<DetallesPage />} />
         <Route path="/gracias-productora" element={<GraciasProductoraPage />} />
+        <Route path="/compra-realizada" element={<CompraRealizada />} />
         <Route path="*" element={<ErrorNotFound />} />
 
         {/* Rutas protegidas de Dashboard */}

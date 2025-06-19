@@ -2,6 +2,9 @@ import { FaTimes, FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 import { useSidebarComprasStore } from './store/useSidebarComprasStore';
 import { useCarritoStore } from './store/useCarritoStore';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { api_url } from '@/api/api';
+import { toast } from 'react-toastify';
 
 const SidebarCompras = () => {
     const { isOpen, closeSidebar } = useSidebarComprasStore();
@@ -15,14 +18,46 @@ const SidebarCompras = () => {
         updateQuantity(eventId, ticketType, newQuantity);
     };
 
-    const handleCheckout = () => {
+    const handleCheckout = async () => {
         if (!isAuthenticated()) {
             closeSidebar();
             navigate('/login');
             return;
         }
-        closeSidebar();
-        navigate('/checkout');
+
+        const ticketsData = {
+            tickets: items.map(item => ({
+                loteId: item.eventId,
+                cantidad: item.quantity
+            }))
+        };
+
+        try {
+            const token = localStorage.getItem("auth")
+                ? JSON.parse(localStorage.getItem("auth")!).accessToken
+                : null;
+
+            if (!token) {
+                toast.error('No hay token de autenticación');
+                return;
+            }
+
+            const response = await axios.post(
+                api_url.comprar_tickets,
+                ticketsData,
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+
+            console.log('Respuesta de compra:', response.data);
+            toast.success('Compra realizada con éxito');
+            closeSidebar();
+            navigate('/compra-realizada', { state: { ordenCompra: response.data } });
+        } catch (error: any) {
+            console.error('Error al realizar la compra:', error);
+            toast.error(error.response?.data?.message || 'Error al realizar la compra');
+        }
     };
 
     return (
