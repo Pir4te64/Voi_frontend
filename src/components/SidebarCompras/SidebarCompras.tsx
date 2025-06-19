@@ -64,35 +64,33 @@ const SidebarCompras = () => {
                         ) : (
                             items.map((item) => (
                                 <div key={`${item.eventId}-${item.ticketType}`} className="flex flex-col gap-2 rounded-lg bg-[#252525] p-3">
-                                    <div className="flex items-start justify-between">
-                                        <div>
-                                            <h3 className="font-medium text-white">{item.title}</h3>
-                                            <p className="text-sm text-gray-400">{item.ticketType}</p>
-                                        </div>
+                                    <div className="flex items-center justify-between">
+                                        <h3 className="font-normal text-white">{item.title}</h3>
                                         <button
                                             onClick={() => removeFromCart(item.eventId, item.ticketType)}
                                             className="text-gray-400 transition-colors hover:text-red-500"
                                         >
-                                            <FaTrash className="h-4 w-4" />
+                                            <FaTimes className="h-4 w-4" />
                                         </button>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <div className="flex items-center space-x-2">
-                                            <button
-                                                onClick={() => handleQuantityChange(item.eventId, item.ticketType, item.quantity, -1)}
-                                                className="p-1 text-white transition-colors hover:text-secondary"
-                                            >
-                                                <FaMinus className="h-4 w-4" />
-                                            </button>
-                                            <span className="w-8 text-center text-white">{item.quantity}</span>
-                                            <button
-                                                onClick={() => handleQuantityChange(item.eventId, item.ticketType, item.quantity, 1)}
-                                                className="p-1 text-white transition-colors hover:text-secondary"
-                                            >
-                                                <FaPlus className="h-4 w-4" />
-                                            </button>
-                                        </div>
-                                        <span className="text-white">${(item.price * item.quantity).toLocaleString()}</span>
+                                        <p className="text-sm text-gray-400">{item.ticketType}</p>
+                                        <p className="text-sm text-gray-400">${item.price.toLocaleString()}</p>
+                                    </div>
+                                    <div className="flex w-full items-center justify-between gap-2">
+                                        <button
+                                            onClick={() => handleQuantityChange(item.eventId, item.ticketType, item.quantity, -1)}
+                                            className="flex h-8 w-[20%] items-center justify-center rounded-md border border-secondary bg-secondary text-white transition-colors hover:text-secondary"
+                                        >
+                                            <FaMinus className="h-3 w-3" />
+                                        </button>
+                                        <p className="flex h-8 w-[60%] items-center justify-center rounded-md border border-white text-base font-semibold text-white">{item.quantity}</p>
+                                        <button
+                                            onClick={() => handleQuantityChange(item.eventId, item.ticketType, item.quantity, 1)}
+                                            className="flex h-8 w-[20%] items-center justify-center rounded-md border border-secondary bg-secondary text-white transition-colors hover:text-secondary"
+                                        >
+                                            <FaPlus className="h-3 w-3" />
+                                        </button>
                                     </div>
                                 </div>
                             ))
