@@ -11,7 +11,7 @@ import {
   RemoteEvent,
   StaticEventDetail,
 } from "@/components/Eventos/SeccionEventos/data/Interfaces";
-import EventoDetallesComprar from "./EventoDetallesComprar";
+import EventoDetallesComprar from "@/components/Eventos/SeccionEventos/EventoDetallesComprar";
 
 // Nombres de meses para formateo
 const monthNames = [

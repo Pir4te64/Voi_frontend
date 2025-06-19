@@ -52,9 +52,8 @@ const SidebarAdmin = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex min-h-screen w-64 flex-col bg-black p-6 text-white shadow-lg transform transition-transform duration-200 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:static`}
+        className={`fixed inset-y-0 left-0 z-50 flex min-h-screen w-64 flex-col bg-black p-6 text-white shadow-lg transform transition-transform duration-200 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          } md:translate-x-0 md:static`}
         aria-hidden={!isOpen && window.innerWidth < 768}
       >
         {/* Botón cerrar (mobile) */}
@@ -87,16 +86,15 @@ const SidebarAdmin = () => {
 
         {/* Navegación */}
         <nav className="flex-1 space-y-2 overflow-y-auto">
-          {navItemsAdmin.map(({ to, label, Icon, end, children }) => (
+          {navItemsAdmin.map(({ to, label, Icon, end, children }: any) => (
             <div key={to}>
               <NavLink
                 to={to}
                 end={end}
                 className={({ isActive }) =>
-                  `flex items-center w-full p-2 rounded transition-colors ${
-                    isActive
-                      ? "bg-secondary text-white font-semibold"
-                      : "text-white hover:text-secondary"
+                  `flex items-center w-full p-2 rounded transition-colors ${isActive
+                    ? "bg-secondary text-white font-semibold"
+                    : "text-white hover:text-secondary"
                   }`
                 }
                 onClick={() => setIsOpen(false)}
@@ -118,15 +116,14 @@ const SidebarAdmin = () => {
                       label: subLabel,
                       Icon: SubIcon,
                       badge: subBadge,
-                    }) => (
+                    }: any) => (
                       <NavLink
                         key={subTo}
                         to={subTo}
                         className={({ isActive }) =>
-                          `flex items-center w-full p-1 rounded text-sm transition-colors ${
-                            isActive
-                              ? "text-secondary font-semibold"
-                              : "text-white hover:text-secondary"
+                          `flex items-center w-full p-1 rounded text-sm transition-colors ${isActive
+                            ? "text-secondary font-semibold"
+                            : "text-white hover:text-secondary"
                           }`
                         }
                         onClick={() => setIsOpen(false)}

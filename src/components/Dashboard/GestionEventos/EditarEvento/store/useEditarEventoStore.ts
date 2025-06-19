@@ -33,7 +33,7 @@ export const useEditarEventoStore = create<EditarEventoState>((set, get) => ({
         };
     },
 
-    updateEvento: async (values, id, eventoData) => {
+    updateEvento: async (values, id,) => {
         try {
             const formData = new FormData();
 

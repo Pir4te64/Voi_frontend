@@ -1,6 +1,6 @@
-import { FaTimes, FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
-import { useSidebarComprasStore } from './store/useSidebarComprasStore';
-import { useCarritoStore } from './store/useCarritoStore';
+import { FaTimes, FaMinus, FaPlus } from 'react-icons/fa';
+import { useSidebarComprasStore } from '@/components/SidebarCompras/store/useSidebarComprasStore';
+import { useCarritoStore } from '@/components/SidebarCompras/store/useCarritoStore';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { api_url } from '@/api/api';

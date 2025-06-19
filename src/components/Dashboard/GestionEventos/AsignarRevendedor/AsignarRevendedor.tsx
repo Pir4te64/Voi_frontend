@@ -18,7 +18,7 @@ interface Revendedor {
     email: string;
 }
 
-const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId, eventName }) => {
+const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
     const { user } = useAuth();
     const [revendedores, setRevendedores] = useState<Revendedor[]>([]);
     const [revendedoresAsignados, setRevendedoresAsignados] = useState<Revendedor[]>([]);
@@ -79,9 +79,9 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId, eventNam
                     Authorization: `Bearer ${user?.accessToken}`
                 }
             });
-            
+
             toast.success("Revendedor asignado correctamente");
-            
+
             // Recargar ambas listas después de asignar
             await Promise.all([
                 cargarRevendedores(),
@@ -100,9 +100,9 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId, eventNam
                     Authorization: `Bearer ${user?.accessToken}`
                 }
             });
-            
+
             toast.success("Revendedor eliminado correctamente");
-            
+
             // Recargar ambas listas después de eliminar
             await Promise.all([
                 cargarRevendedores(),
@@ -116,7 +116,7 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId, eventNam
 
     return (
         <div className="space-y-6 rounded-lg bg-back">
-          
+
             {/* Sección de Revendedores Disponibles */}
             <div>
                 <h3 className="mb-4 text-lg font-semibold text-white">Revendedores Disponibles</h3>

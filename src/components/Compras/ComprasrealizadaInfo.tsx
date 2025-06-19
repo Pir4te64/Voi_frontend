@@ -1,5 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 
 interface OrdenCompra {
@@ -22,7 +21,7 @@ interface ComprasRealizadaInfoProps {
 }
 
 const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra }) => {
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
     const [isResumenOpen, setIsResumenOpen] = React.useState(true);
 
     return (

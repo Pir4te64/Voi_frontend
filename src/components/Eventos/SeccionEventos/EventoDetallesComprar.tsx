@@ -3,7 +3,7 @@ import { FaMinus, FaPlus } from 'react-icons/fa';
 import { useCarritoStore } from '@/components/SidebarCompras/store/useCarritoStore';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { StaticEventDetail } from './data/Interfaces';
+import { StaticEventDetail } from '@/components/Eventos/SeccionEventos/data/Interfaces';
 import axios from 'axios';
 import { api_url } from '@/api/api';
 
