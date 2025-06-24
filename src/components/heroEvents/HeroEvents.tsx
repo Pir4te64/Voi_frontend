@@ -56,7 +56,6 @@ const HeroEvents: React.FC = () => {
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
         spaceBetween={0}
         slidesPerView={1}
-        loop
         className="h-[40vh] rounded-md md:h-[80vh]"
       >
         {dataSource.map((ev) => {
@@ -105,9 +104,8 @@ const HeroEvents: React.FC = () => {
           <button
             key={idx}
             onClick={() => swiperRef.current?.slideToLoop(idx)}
-            className={`w-2 h-2 rounded-full transition-colors ${
-              activeIndex === idx ? "bg-white" : "bg-white/50"
-            }`}
+            className={`w-2 h-2 rounded-full transition-colors ${activeIndex === idx ? "bg-white" : "bg-white/50"
+              }`}
           />
         ))}
       </div>

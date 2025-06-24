@@ -7,12 +7,16 @@ import MobileMenu from '@/components/navbar/MobileMenu';
 import { useAuth } from '@/context/AuthContext';
 import SidebarCompras from '@/components/SidebarCompras/SidebarCompras';
 import { useSidebarComprasStore } from '@/components/SidebarCompras/store/useSidebarComprasStore';
+import { useCarritoStore } from '@/components/SidebarCompras/store/useCarritoStore';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const { toggleSidebar } = useSidebarComprasStore();
+  const { items } = useCarritoStore();
+
+  const totalItems = items.length;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +30,17 @@ const Navbar: React.FC = () => {
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `transition-colors ${isActive ? 'text-white' : 'text-neutral'} hover:text-secondary`;
+
+  const CartIcon = ({ className = "h-6 w-6" }: { className?: string }) => (
+    <div className="relative">
+      <FaShoppingCart className={className} />
+      {totalItems > 0 && (
+        <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-secondary text-xs font-bold text-black">
+          {totalItems}
+        </span>
+      )}
+    </div>
+  );
 
   return (
     <>
@@ -50,7 +65,7 @@ const Navbar: React.FC = () => {
               onClick={toggleSidebar}
               className="flex items-center gap-2 text-white hover:text-secondary"
             >
-              <FaShoppingCart className="h-6 w-6" />
+              <CartIcon />
             </button>
             <button onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? (
@@ -87,7 +102,7 @@ const Navbar: React.FC = () => {
                   onClick={toggleSidebar}
                   className="flex items-center gap-2 text-white hover:text-secondary"
                 >
-                  <FaShoppingCart className="text-xl" />
+                  <CartIcon className="text-xl" />
                 </button>
               </>
             ) : (
@@ -108,7 +123,7 @@ const Navbar: React.FC = () => {
                   onClick={toggleSidebar}
                   className="flex items-center gap-2 text-white hover:text-secondary"
                 >
-                  <FaShoppingCart className="text-xl" />
+                  <CartIcon className="text-xl" />
                 </button>
               </>
             )}
