@@ -65,7 +65,7 @@ export const api_url = {
 
   // Endpoints de compras
   comprar_tickets: `${baseUrl}/pagos/user/v1/crear-orden`,
-
+  crear_orden_pago: `${baseUrl}/pagos/user/v1/crear-pago`,
 };
 
 /**

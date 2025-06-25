@@ -1,5 +1,7 @@
 import React from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import axios from 'axios';
+import { api_url } from '../../api/api';
 
 interface OrdenCompra {
     id: number;
@@ -8,6 +10,7 @@ interface OrdenCompra {
     estado: string;
     montoTotal: number;
     cantidadTickets: number;
+    recargo: number;
     tickets: {
         id: number;
         ticketId: number;
@@ -23,6 +26,32 @@ interface ComprasRealizadaInfoProps {
 const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra }) => {
     //const navigate = useNavigate();
     const [isResumenOpen, setIsResumenOpen] = React.useState(true);
+
+    const handleContinuarPago = async () => {
+        try {
+            // Obtener el token del localStorage
+            const token = localStorage.getItem("auth")
+                ? JSON.parse(localStorage.getItem("auth")!).accessToken
+                : null;
+
+            if (!token) {
+                console.error("No hay token de autenticación");
+                return;
+            }
+            console.log(token);
+
+            // Hacer la petición al endpoint
+            const response = await axios.post(`${api_url.crear_orden_pago}?ordenId=${ordenCompra.id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            // Imprimir el resultado en consola
+            console.log("Respuesta del endpoint:", response.data);
+
+        } catch (error) {
+            console.error("Error al hacer la petición:", error);
+        }
+    };
 
     return (
         <div className="flex min-h-screen">
@@ -61,7 +90,7 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                         open={isResumenOpen}
                         onToggle={(e) => setIsResumenOpen(e.currentTarget.open)}
                     >
-                        <summary className="mb-6 flex cursor-pointer items-center gap-2 text-xl font-semibold text-secondary transition-colors hover:text-white">
+                        <summary className="mb-6 flex cursor-pointer items-center gap-2 text-xl font-semibold text-white transition-colors hover:text-secondary hover:underline">
                             {isResumenOpen ? <FaChevronDown className="text-sm" /> : <FaChevronRight className="text-sm" />}
                             Resumen de Compra
                         </summary>
@@ -82,7 +111,7 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                             <div className="space-y-2 border-gray-700 pt-4">
                                 <div className="flex justify-between">
                                     <span className="text-gray-400">Cargo por servicio</span>
-                                    <span className="font-semibold text-white">${(ordenCompra.montoTotal * 0.1).toLocaleString()}</span>
+                                    <span className="font-semibold text-white">${ordenCompra.recargo.toLocaleString()}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="text-lg font-bold text-white">TOTAL DEL CARRITO</span>
@@ -109,13 +138,7 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                         </div>
                     </details>
 
-                    {/* Sección 2: Datos del Comprador */}
-                    <div id="datos" className="mb-6 rounded-lg bg-[#252525] p-6">
-                        <h2 className="mb-6 text-xl font-semibold text-secondary">Datos del Comprador</h2>
-                        <div className="space-y-4">
-                            <p className="text-gray-400">Sección en desarrollo</p>
-                        </div>
-                    </div>
+
 
                     {/* Sección 3: Método de Pago */}
                     <div id="metodo" className="mb-6 rounded-lg bg-[#252525] p-6">
@@ -127,9 +150,7 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
 
                     {/* Botón de Continuar */}
                     <button
-                        onClick={() => {
-                            console.log({ orderId: ordenCompra.id });
-                        }}
+                        onClick={handleContinuarPago}
                         className="w-full rounded-lg bg-secondary py-3 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
                     >
                         Continuar Pago
