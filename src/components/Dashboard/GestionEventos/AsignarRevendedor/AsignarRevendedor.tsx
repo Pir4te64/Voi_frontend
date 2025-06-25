@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { FaUserPlus, FaTrash } from 'react-icons/fa';
-import { useRevendedoresStore } from './store/useRevendedoresStore';
+import { FaTrash } from 'react-icons/fa';
+import { useRevendedoresStore } from '@/components/Dashboard/GestionEventos/AsignarRevendedor/store/useRevendedoresStore';
 
 interface AsignarRevendedorProps {
     eventId: number;

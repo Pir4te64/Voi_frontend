@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
 import axios from 'axios';
-import { api_url } from '../../api/api';
+import { api_url } from '@/api/api';
 
 interface OrdenCompra {
     id: number;
