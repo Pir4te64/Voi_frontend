@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenido a VOI</title>
+  <style>
+    body {
+      background: #f3f3f3;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      color: #222;
+    }
+    .container {
+      max-width: 520px;
+      margin: 24px auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      overflow: hidden;
+      border: 1.5px solid #dedede;
+    }
+    .header {
+      background: #222;
+      padding: 24px 24px 16px 24px;
+      position: relative;
+    }
+    .header h1 {
+      color: #fff;
+      font-size: 2rem;
+      margin: 0 0 8px 0;
+      font-weight: 800;
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-row img {
+      height: 38px;
+    }
+    .logo-row .tag {
+      background: #FF6073;
+      color: #fff;
+      font-size: 0.95rem;
+      border-radius: 8px;
+      padding: 4px 12px;
+      font-weight: 600;
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .content {
+      padding: 24px;
+      font-size: 1rem;
+    }
+    .content strong {
+      font-weight: 700;
+    }
+    .features {
+      margin: 18px 0 24px 0;
+      padding: 0;
+      list-style: none;
+    }
+    .features li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+    .features img {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+    }
+    .cta-btn {
+      display: block;
+      width: fit-content;
+      margin: 24px auto 0 auto;
+      background: #FF6073;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 12px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(255,96,115,0.08);
+      transition: background 0.2s;
+    }
+    .cta-btn:hover {
+      background: #e85c7a;
+    }
+    .footer {
+      background: #f3f3f3;
+      padding: 20px 24px 12px 24px;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #444;
+      border-top: 1px solid #e0e0e0;
+    }
+    .footer .voi-logo {
+      height: 28px;
+      margin-bottom: 6px;
+    }
+    .footer .footer-box {
+      background: #e9e9e9;
+      border-radius: 8px;
+      padding: 16px 12px 10px 12px;
+      margin: 0 auto 10px auto;
+      max-width: 340px;
+      color: #222;
+    }
+    .footer .footer-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .footer .footer-box a {
+      color: #FF6073;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer .footer-icons {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+    .footer .footer-icons img {
+      width: 22px;
+      height: 22px;
+      opacity: 0.8;
+    }
+    .footer .footer-box-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+    .footer .legal {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header" style="padding:0; background:#222;">
+      <img src="header.png" alt="Header VOI" style="width:100%;display:block;">
+    </div>
+    <div class="content">
+      <p>Hola, <strong>[NOMBRE]</strong>,</p>
+      <p>¡Gracias por registrarte en VOI! Estamos emocionados de tenerte como parte de nuestra comunidad.</p>
+      <p style="margin-bottom: 8px;"><strong>CON TU CUENTA PODRÁS:</strong></p>
+      <ul class="features">
+        <li><img src="radio.png" alt="icono">Explorar eventos exclusivos</li>
+        <li><img src="radio.png" alt="icono">Comprar entradas de forma segura</li>
+        <li><img src="radio.png" alt="icono">Gestionar tus reservas</li>
+        <li><img src="radio.png" alt="icono">Recibir ofertas especiales</li>
+      </ul>
+      <a href="#" class="cta-btn">Ir a Mi Cuenta</a>
+    </div>
+    <div class="footer">
+      <div class="footer-box">
+        <div class="footer-box-content">
+          <img src="logo.png" alt="VOI logo" class="voi-logo">
+          <strong>El equipo de VOI</strong>
+        </div>
+        <div>Si tenés alguna pregunta, no dudes en contactarnos.<br>
+        Conocé más sobre nosotros en <a href="https://www.voi.com.ar">www.voi.com.ar</a></div>
+        <div class="footer-icons">
+          <img src="instagram.png" alt="Instagram">
+          <img src="what.png" alt="WhatsApp">
+        </div>
+      </div>
+      <div class="legal">
+        Este es un correo electrónico automático. Por favor, no respondas a este mensaje.<br>
+        © 2024 VOI. Todos los derechos reservados.
+      </div>
+    </div>
+  </div>
+</body>
+</html>
