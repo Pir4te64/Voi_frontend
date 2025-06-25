@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bienvenido a VOI</title>
+  <title>Código de validación</title>
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,700,800&display=swap" rel="stylesheet">
   <style>
     body {
@@ -14,7 +14,7 @@
       color: #222;
     }
     .container {
-      max-width: 520px;
+      max-width: 500px;
       margin: 24px auto;
       background: #fff;
       border-radius: 10px;
@@ -23,75 +23,65 @@
       border: 1.5px solid #dedede;
     }
     .header {
-      background: #222;
-      padding: 0;
-      position: relative;
+      padding: 32px 0 0 0;
+      text-align: center;
     }
     .header img {
-      width: 100%;
-      display: block;
+      height: 38px;
+      margin-bottom: 18px;
     }
-    .content {
-      padding: 24px;
-      font-size: 1rem;
-      color: #444;
+    .divider {
+      border-top: 2px solid #dedede;
+      margin: 0 auto 20px auto;
+      width: 80%;
+    }
+    .title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #222;
+      text-align: center;
+      margin: 0 0 14px 0;
       font-family: 'Montserrat', Arial, sans-serif;
     }
-    .content strong {
-      font-weight: 700;
-      color: #222;
-      font-size: 1.15rem;
+    .desc {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #444;
+      margin-bottom: 18px;
+      font-family: 'Montserrat', Arial, sans-serif;
     }
-    .content p:first-child {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: #222;
+    .code-boxes {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 0 0 18px 0;
     }
-    .content p {
-      margin: 0 0 12px 0;
-    }
-    .features {
-      margin: 18px 0 24px 0;
-      padding: 0;
-      list-style: none;
-    }
-    .features li {
+    .code-box {
+      width: 44px;
+      height: 44px;
+      background: #dedede;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      margin-bottom: 10px;
-      font-size: 1rem;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: 700;
       color: #444;
       font-family: 'Montserrat', Arial, sans-serif;
+      letter-spacing: 2px;
     }
-    .features img {
-      width: 18px;
-      height: 18px;
-      margin-right: 10px;
-    }
-    .cta-btn {
-      display: block;
-      width: fit-content;
-      margin: 24px auto 0 auto;
-      background: #FF6073;
-      color: #fff;
-      font-weight: 700;
-      font-size: 1rem;
-      padding: 12px 32px;
-      border-radius: 8px;
-      text-decoration: none;
+    .expire {
       text-align: center;
-      box-shadow: 0 2px 8px rgba(255,96,115,0.08);
-      transition: background 0.2s;
+      color: #888;
+      font-size: 0.92rem;
+      margin-bottom: 26px;
       font-family: 'Montserrat', Arial, sans-serif;
-    }
-    .cta-btn:hover {
-      background: #e85c7a;
     }
     .footer {
       background: #fff;
-      padding: 20px 24px 12px 24px;
+      padding: 18px 20px 24px 20px;
       text-align: center;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: #444;
       border-top: none;
       font-family: 'Montserrat', Arial, sans-serif;
@@ -99,8 +89,8 @@
     .footer .footer-box {
       background: #dedede;
       border-radius: 10px;
-      padding: 18px 16px 10px 16px;
-      margin: 0 auto 10px auto;
+      padding: 14px 12px 8px 12px;
+      margin: 0 auto 8px auto;
       max-width: 95%;
       color: #222;
       box-sizing: border-box;
@@ -112,15 +102,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      margin-bottom: 8px;
+      gap: 12px;
+      margin-bottom: 6px;
     }
     .footer .voi-logo {
-      height: 32px;
+      height: 28px;
       margin-bottom: 0;
     }
     .footer .footer-box-content strong {
-      font-size: 1.15rem;
+      font-size: 1rem;
       font-weight: 800;
       margin-bottom: 0;
       letter-spacing: 0.2px;
@@ -129,8 +119,8 @@
     }
     .footer .footer-contact {
       text-align: center;
-      font-size: 1rem;
-      margin-bottom: 10px;
+      font-size: 0.92rem;
+      margin-bottom: 8px;
       margin-top: 0;
       line-height: 1.4;
       color: #444;
@@ -147,40 +137,43 @@
       text-decoration: underline solid 2px #FF6073;
     }
     .footer .footer-icons {
-      margin-top: 6px;
+      margin-top: 4px;
       display: flex;
       justify-content: center;
-      gap: 22px;
+      gap: 16px;
     }
     .footer .footer-icons img {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       opacity: 0.85;
     }
     .footer .legal {
-      margin-top: 10px;
-      font-size: 0.85rem;
+      margin-top: 18px;
+      font-size: 0.8rem;
       color: #888;
       font-family: 'Montserrat', Arial, sans-serif;
+      line-height: 1.7;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="header" style="padding:0; background:#222;">
-      <img src="header.png" alt="Header VOI" style="width:100%;display:block;">
+    <div class="header">
+      <img src="logo-primary.svg" alt="VOI logo color">
     </div>
-    <div class="content">
-      <p>Hola, <strong>[NOMBRE]</strong>,</p>
-      <p>¡Gracias por registrarte en VOI! Estamos emocionados de tenerte como parte de nuestra comunidad.</p>
-      <p style="margin-bottom: 8px;"><strong>CON TU CUENTA PODRÁS:</strong></p>
-      <ul class="features">
-        <li><img src="radio.png" alt="icono">Explorar eventos exclusivos</li>
-        <li><img src="radio.png" alt="icono">Comprar entradas de forma segura</li>
-        <li><img src="radio.png" alt="icono">Gestionar tus reservas</li>
-        <li><img src="radio.png" alt="icono">Recibir ofertas especiales</li>
-      </ul>
-      <a href="#" class="cta-btn">Ir a Mi Cuenta</a>
+    <div class="divider"></div>
+    <div class="title">Código de validación</div>
+    <div class="desc">
+      Para completar tu registro, ingresá el siguiente código de validación:
+    </div>
+    <div class="code-boxes">
+      <div class="code-box">3</div>
+      <div class="code-box">7</div>
+      <div class="code-box">1</div>
+      <div class="code-box">5</div>
+    </div>
+    <div class="expire">
+      Este código expirará en 10 minutos por razones de seguridad.
     </div>
     <div class="footer">
       <div class="footer-box">
@@ -204,4 +197,4 @@
     </div>
   </div>
 </body>
-</html>
+</html> 
