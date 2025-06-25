@@ -41,7 +41,7 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
     };
 
     return (
-        <div className="space-y-6 rounded-lg bg-back">
+        <div className="space-y-6 rounded-lg">
 
             {/* Sección de Revendedores Asignados */}
             <div>
@@ -51,10 +51,10 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
                         <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
                     </div>
                 ) : (
-                    <div className="rounded-lg bg-back">
-                        <div className="overflow-x-auto rounded-lg">
+                    <div className="rounded-lg">
+                        <div className="overflow-x-auto">
                             <table className="w-full table-auto">
-                                <thead className="bg-black">
+                                <thead className="rounded-lg bg-[#131315]">
                                     <tr>
                                         <th className="px-4 py-2 text-left text-sm font-semibold text-white">Nombre</th>
                                         <th className="px-4 py-2 text-left text-sm font-semibold text-white">Apellido</th>
@@ -64,7 +64,7 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
                                 </thead>
                                 <tbody className="divide-y divide-gray-700">
                                     {revendedoresAsignados.map((revendedor) => (
-                                        <tr key={revendedor.id} className="hover:bg-gray-800/30">
+                                        <tr key={revendedor.id} className="">
                                             <td className="px-4 py-3 text-white">{revendedor.nombre}</td>
                                             <td className="px-4 py-3 text-white">{revendedor.apellido}</td>
                                             <td className="px-4 py-3 text-white">
@@ -106,7 +106,7 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
                     <div className="rounded-lg bg-back">
                         <div className="overflow-x-auto rounded-lg">
                             <table className="w-full table-auto">
-                                <thead className="bg-black">
+                                <thead className="bg-black/30">
                                     <tr>
                                         <th className="px-4 py-2 text-left text-sm font-semibold text-white">Nombre</th>
                                         <th className="px-4 py-2 text-left text-sm font-semibold text-white">Apellido</th>

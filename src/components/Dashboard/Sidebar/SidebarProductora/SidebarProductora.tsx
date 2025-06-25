@@ -72,7 +72,10 @@ const SidebarProductora = () => {
             to={item.to}
             end={item.end}
             className="flex flex-1 items-center"
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setIsOpen(false)
+              toggleSubmenu(item.to)
+            }}
           >
             <item.Icon className="mr-3 h-4 w-4" />
             {item.label}
@@ -139,7 +142,7 @@ const SidebarProductora = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex min-h-screen w-64 flex-col bg-black p-6 text-white shadow-lg transform transition-transform duration-200 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed inset-y-0 left-0 z-50 flex min-h-screen w-64 flex-col bg-primary p-6 text-white shadow-lg transform transition-transform duration-200 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
           } md:translate-x-0 md:static`}
         aria-hidden={!isOpen && window.innerWidth < 768}
       >

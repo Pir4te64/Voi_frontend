@@ -12,11 +12,16 @@ import { useCarritoStore } from '@/components/SidebarCompras/store/useCarritoSto
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, me } = useAuth();
   const { toggleSidebar } = useSidebarComprasStore();
   const { items } = useCarritoStore();
 
   const totalItems = items.length;
+
+  // Función para verificar si debe mostrar el carrito
+  const shouldShowCart = () => {
+    return isAuthenticated && me?.roles?.includes('ROLE_USUARIO');
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,12 +66,14 @@ const Navbar: React.FC = () => {
 
           {/* Mobile buttons */}
           <div className="flex items-center gap-4 md:hidden">
-            <button
-              onClick={toggleSidebar}
-              className="flex items-center gap-2 text-white hover:text-secondary"
-            >
-              <CartIcon />
-            </button>
+            {shouldShowCart() && (
+              <button
+                onClick={toggleSidebar}
+                className="flex items-center gap-2 text-white hover:text-secondary"
+              >
+                <CartIcon />
+              </button>
+            )}
             <button onClick={() => setIsOpen(!isOpen)}>
               {isOpen ? (
                 <FaTimes className="h-6 w-6 text-white" />
@@ -98,12 +105,14 @@ const Navbar: React.FC = () => {
                 >
                   Cerrar sesión
                 </button>
-                <button
-                  onClick={toggleSidebar}
-                  className="flex items-center gap-2 text-white hover:text-secondary"
-                >
-                  <CartIcon className="text-xl" />
-                </button>
+                {shouldShowCart() && (
+                  <button
+                    onClick={toggleSidebar}
+                    className="flex items-center gap-2 text-white hover:text-secondary"
+                  >
+                    <CartIcon className="text-xl" />
+                  </button>
+                )}
               </>
             ) : (
               <>
@@ -119,12 +128,14 @@ const Navbar: React.FC = () => {
                 >
                   Registrarse
                 </NavLink>
-                <button
-                  onClick={toggleSidebar}
-                  className="flex items-center gap-2 text-white hover:text-secondary"
-                >
-                  <CartIcon className="text-xl" />
-                </button>
+                {shouldShowCart() && (
+                  <button
+                    onClick={toggleSidebar}
+                    className="flex items-center gap-2 text-white hover:text-secondary"
+                  >
+                    <CartIcon className="text-xl" />
+                  </button>
+                )}
               </>
             )}
           </div>

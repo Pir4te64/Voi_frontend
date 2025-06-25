@@ -107,15 +107,15 @@ const CrearEvento: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-primary">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-black">
+      <div className="container mx-auto bg-black px-4 py-8">
         <div className="mb-8">
           <h1 className="ml-8 text-3xl font-bold text-white">Crear Evento</h1>
         </div>
 
         <div className="rounded-xl bg-primary p-6 text-white">
           {/* ---------- Pestañas ---------- */}
-          <div className="mb-8 flex gap-4 rounded-xl bg-black/40 p-2">
+          <div className="scrollbar-hide mb-8 flex gap-4 overflow-x-auto rounded-xl bg-black/40 p-2">
             {steps.map(({ label }, idx) => (
               <button
                 key={label}
@@ -126,7 +126,7 @@ const CrearEvento: React.FC = () => {
                   }
                   setActive(idx);
                 }}
-                className={`whitespace-nowrap rounded-xl px-6 py-4 text-md font-semibold transition
+                className={`whitespace-nowrap rounded-xl px-6 py-4 text-md font-semibold transition flex-shrink-0
                   ${active === idx
                     ? "bg-secondary text-black font-bold"
                     : "bg-black hover:bg-gray-800 font-normal"

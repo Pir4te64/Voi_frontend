@@ -117,34 +117,34 @@ const EditarEventoPage: React.FC = () => {
       </button>
 
       <h1 className="mb-8 text-3xl font-bold text-secondary">Editar Evento</h1>
-<div className="rounded-lg bg-back p-4 text-white">
-      {/* Pestañas de navegación */}
-      <div className="mb-8 flex gap-4 rounded-xl bg-black p-2">
-        {steps.map(({ label }, idx) => (
-          <button
-            key={label}
-            onClick={() => {
-              if (idx > 0 && !formik.isValid && active === 0) {
-                formik.handleSubmit();
-                return;
-              }
-              setActive(idx);
-            }}
-            className={`whitespace-nowrap rounded px-6 py-4 text-md font-semibold transition
+      <div className="rounded-lg bg-back p-4 text-white">
+        {/* Pestañas de navegación */}
+        <div className="scrollbar-hide mb-8 flex gap-4 overflow-x-auto rounded-xl bg-black/40 p-2">
+          {steps.map(({ label }, idx) => (
+            <button
+              key={label}
+              onClick={() => {
+                if (idx > 0 && !formik.isValid && active === 0) {
+                  formik.handleSubmit();
+                  return;
+                }
+                setActive(idx);
+              }}
+              className={`whitespace-nowrap rounded px-6 py-4 text-md font-semibold transition
               ${active === idx
-                ? "bg-secondary text-black font-bold"
-                : "bg-[#1c1c1c] hover:bg-gray-800 font-normal"
-              }`}
-          >
-            {label}
-          </button>
-        ))}
-      </div>
+                  ? "bg-secondary text-black font-bold"
+                  : "bg-[#1c1c1c] hover:bg-gray-800 font-normal"
+                }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
 
-      {/* Contenido de la pestaña activa */}
-      <div className="grid grid-cols-1 gap-6">
-        {steps[active].content}
-      </div>
+        {/* Contenido de la pestaña activa */}
+        <div className="grid grid-cols-1 gap-6">
+          {steps[active].content}
+        </div>
       </div>
     </div>
   );
