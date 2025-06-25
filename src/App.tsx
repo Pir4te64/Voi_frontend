@@ -20,11 +20,11 @@ import CrearPerfil from "@/components/Dashboard/CrearPerfil/CrearPerfil";
 import Miperfil from "@/components/Dashboard/Sidebar/MiPerfil/Miperfil";
 import EditarEventoPage from "@/components/Dashboard/GestionEventos/EditarEvento/EditarEventoPage";
 import GestionLotes from "@/components/Dashboard/GestionLotes/GestionLotes";
+import ProductoraRevendedores from "@/components/Dashboard/ProductoraRevendedores/ProductoraRevendedores";
 import { MisVentas } from "@/components/Dashboard/Misventas/MisVentas";
 import Web from "@/components/Dashboard/Misventas/Web";
 import Revendedores from "@/components/Dashboard/Misventas/Revendedores";
 import Lote from "@/components/Dashboard/Misventas/Lote";
-import RevendedoresR from "@/components/Dashboard/Revendedores/RevendedoresR";
 import RevenededoresEventos from "@/components/Dashboard/Revendedores/RevenededoresEventos";
 import AgregarRevendedor from "@/components/Dashboard/Revendedores/AgregarRevendedor";
 import RevendedorPerfiles from "@/components/Dashboard/Revendedores/RevendedorPerfiles";
@@ -56,11 +56,12 @@ function App() {
           <Route index element={<Index />} />
           <Route path="crearperfil" element={<CrearPerfil />} />
           <Route path="miperfil" element={<Miperfil />} />
-          {/*   <Route path="eventos" element={<ListarEventos />} /> */}
+          <Route path="eventos" element={<ListarEventos />} />
           <Route path="crearevento" element={<CrearEvento />} />
           <Route path="editareventos" element={<ListarEventosParaEditar />} />
           <Route path="editarevento/:id" element={<EditarEventoPage />} />
           <Route path="lotes" element={<GestionLotes />} />
+          <Route path="revendedores" element={<ProductoraRevendedores />} />
           <Route path="misventas" element={<MisVentas />} />
           <Route path="misventas/web" element={<Web />} />
           <Route path="misventas/revendedores" element={<Revendedores />} />
