@@ -56,7 +56,7 @@ function App() {
           <Route index element={<Index />} />
           <Route path="crearperfil" element={<CrearPerfil />} />
           <Route path="miperfil" element={<Miperfil />} />
-          <Route path="eventos" element={<ListarEventos />} />
+          {/*   <Route path="eventos" element={<ListarEventos />} /> */}
           <Route path="crearevento" element={<CrearEvento />} />
           <Route path="editareventos" element={<ListarEventosParaEditar />} />
           <Route path="editarevento/:id" element={<EditarEventoPage />} />
