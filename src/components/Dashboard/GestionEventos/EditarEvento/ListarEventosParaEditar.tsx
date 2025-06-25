@@ -8,10 +8,10 @@ import {
   FaTrashAlt,
   FaChevronLeft,
   FaChevronRight,
+  FaSearch,
 } from "react-icons/fa";
 import { useListarEventosStore } from "@/components/Dashboard/GestionEventos/EditarEvento/store/useListarEventosStore";
 import { Evento } from "@/components/Dashboard/GestionEventos/EditarEvento/store/interfaces";
-import Buscador from "@/components/Dashboard/GestionEventos/EditarEvento/UI/Buscador";
 import DeleteEventoModal from "@/components/Dashboard/GestionEventos/EditarEvento/UI/DeleteEventoModal";
 
 const ListarEventosParaEditar: React.FC = () => {
@@ -85,31 +85,42 @@ const ListarEventosParaEditar: React.FC = () => {
           <p className="mt-2 text-gray-400">
             Selecciona un evento para editarlo
           </p>
-
-          {/* Buscador */}
-          <Buscador
-            searchTerm={searchTerm}
-            onSearch={setSearchTerm}
-          />
         </div>
 
         {/* Lista de eventos */}
-        <div className="overflow-x-auto rounded-lg bg-black/40">
+        <div className="overflow-x-auto rounded-lg bg-[#1C1C1E]">
+          {/* Buscador */}
+          <div className="p-6">
+            <div className="relative max-w-md">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <FaSearch className="h-4 w-4 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Buscar nombre del evento..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full rounded-lg border border-gray-600 bg-[#1C1C1E] py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+              />
+            </div>
+          </div>
+
           <table className="w-full text-left text-sm">
-            <thead className="bg-black text-gray-400">
+            <thead className="bg-[#1C1C1E] text-gray-400">
               <tr>
-                <th className="px-4 py-3 font-semibold">Nombre del Evento</th>
-                <th className="px-4 py-3 font-semibold">Fecha</th>
-                <th className="px-4 py-3 font-semibold">Categoría</th>
-                <th className="px-4 py-3 font-semibold">Ubicación</th>
-                <th className="px-4 py-3 text-center font-semibold">Estado</th>
-                <th className="px-4 py-3 text-end font-semibold">Acciones</th>
+                <th className="px-4 py-3 font-semibold text-white">Nombre del Evento</th>
+                <th className="px-4 py-3 font-semibold text-white">Fecha</th>
+                <th className="px-4 py-3 font-semibold text-white">Categoría</th>
+                <th className="px-4 py-3 font-semibold text-white">Ubicación</th>
+                <th className="px-4 py-3 text-center font-semibold text-white">Estado</th>
+                <th className="px-4 py-3 text-center font-semibold text-white">RRPP</th>
+                <th className="px-4 py-3 text-end font-semibold text-white">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {currentEvents.length === 0 && filteredEvents.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="p-6 text-center text-gray-500">
+                  <td colSpan={7} className="p-6 text-center text-gray-500">
                     {searchTerm.trim()
                       ? `No se encontraron eventos que coincidan con "${searchTerm}"`
                       : "No hay eventos disponibles para editar"}
@@ -134,12 +145,17 @@ const ListarEventosParaEditar: React.FC = () => {
                   </td>
                   <td className="px-4 py-3 text-center">
                     <span
-                      className={`rounded-full px-3 py-1 text-sm ${event.estado === "ACTIVO"
-                        ? "bg-green-500/20 text-green-500"
-                        : "bg-red-500/20 text-red-500"
+                      className={`rounded px-3 py-1 text-sm ${event.estado === "ACTIVO"
+                        ? "bg-green-500 text-white"
+                        : "bg-red-500 text-white"
                         }`}
                     >
                       {event.estado}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-center">
+                    <span className="text-white">
+                      {event.revendedores ? event.revendedores.length : 0}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-end">

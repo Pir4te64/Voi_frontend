@@ -8,6 +8,13 @@ export interface Evento {
         city: string;
     };
     estado: string;
+    revendedores?: Array<{
+        id: number;
+        nombre: string;
+        apellido: string;
+        phoneNumber: string;
+        email: string;
+    }>;
 }
 
 export interface ListarEventosState {

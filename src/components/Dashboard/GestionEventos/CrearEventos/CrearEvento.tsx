@@ -113,9 +113,9 @@ const CrearEvento: React.FC = () => {
           <h1 className="ml-8 text-3xl font-bold text-white">Crear Evento</h1>
         </div>
 
-        <div className="rounded-lg bg-primary p-6 text-white">
+        <div className="rounded-xl bg-primary p-6 text-white">
           {/* ---------- Pestañas ---------- */}
-          <div className="mb-8 flex gap-4 rounded-lg bg-black/40 p-2">
+          <div className="mb-8 flex gap-4 rounded-xl bg-black/40 p-2">
             {steps.map(({ label }, idx) => (
               <button
                 key={label}
@@ -126,7 +126,7 @@ const CrearEvento: React.FC = () => {
                   }
                   setActive(idx);
                 }}
-                className={`whitespace-nowrap rounded px-6 py-4 text-md font-semibold transition
+                className={`whitespace-nowrap rounded-xl px-6 py-4 text-md font-semibold transition
                   ${active === idx
                     ? "bg-secondary text-black font-bold"
                     : "bg-black hover:bg-gray-800 font-normal"

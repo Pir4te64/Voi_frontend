@@ -1,116 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { FaUserPlus, FaTrash } from 'react-icons/fa';
-import axios from 'axios';
-import { api_url } from '@/api/api';
-import { useAuth } from '@/context/AuthContext';
-import { toast } from 'react-toastify';
+import { useRevendedoresStore } from './store/useRevendedoresStore';
 
 interface AsignarRevendedorProps {
     eventId: number;
     eventName: string;
 }
 
-interface Revendedor {
-    id: number;
-    nombre: string;
-    apellido: string;
-    phoneNumber: string;
-    email: string;
-}
-
 const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
-    const { user } = useAuth();
-    const [revendedores, setRevendedores] = useState<Revendedor[]>([]);
-    const [revendedoresAsignados, setRevendedoresAsignados] = useState<Revendedor[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [loadingAsignados, setLoadingAsignados] = useState(false);
-
-    // Cargar todos los revendedores disponibles
-    const cargarRevendedores = async () => {
-        try {
-            setLoading(true);
-            const response = await axios.get(api_url.get_revendedores, {
-                headers: {
-                    Authorization: `Bearer ${user?.accessToken}`
-                }
-            });
-            const data = Array.isArray(response.data) ? response.data : [];
-            setRevendedores(data);
-        } catch (error) {
-            console.error("Error al cargar revendedores:", error);
-            toast.error("Error al cargar la lista de revendedores");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Cargar revendedores asignados al evento
-    const cargarRevendedoresAsignados = async () => {
-        try {
-            setLoadingAsignados(true);
-            const response = await axios.get(api_url.get_revendedores_evento(eventId), {
-                headers: {
-                    Authorization: `Bearer ${user?.accessToken}`
-                }
-            });
-            const data = Array.isArray(response.data) ? response.data : [];
-            setRevendedoresAsignados(data);
-        } catch (error) {
-            console.error("Error al cargar revendedores asignados:", error);
-            toast.error("Error al cargar los revendedores asignados");
-        } finally {
-            setLoadingAsignados(false);
-        }
-    };
+    const {
+        revendedores,
+        revendedoresAsignados,
+        loading,
+        loadingAsignados,
+        cargarRevendedores,
+        cargarRevendedoresAsignados,
+        asignarRevendedor,
+        eliminarRevendedor
+    } = useRevendedoresStore();
 
     useEffect(() => {
         cargarRevendedores();
-        cargarRevendedoresAsignados();
+        cargarRevendedoresAsignados(eventId);
     }, [eventId]);
 
     const handleAsignarRevendedor = async (revendedorId: number) => {
         try {
-            // Llamar al endpoint de asignar revendedor
-            await axios.post(api_url.asignar_revendedor, {
-                eventoId: eventId,
-                revendedorId: revendedorId
-            }, {
-                headers: {
-                    Authorization: `Bearer ${user?.accessToken}`
-                }
-            });
-
-            toast.success("Revendedor asignado correctamente");
-
-            // Recargar ambas listas después de asignar
-            await Promise.all([
-                cargarRevendedores(),
-                cargarRevendedoresAsignados()
-            ]);
+            await asignarRevendedor(eventId, revendedorId);
         } catch (error) {
             console.error("Error al asignar revendedor:", error);
-            toast.error("Error al asignar el revendedor");
         }
     };
 
     const handleEliminarRevendedor = async (revendedorId: number) => {
         try {
-            await axios.delete(api_url.eliminar_revendedor(eventId, revendedorId), {
-                headers: {
-                    Authorization: `Bearer ${user?.accessToken}`
-                }
-            });
-
-            toast.success("Revendedor eliminado correctamente");
-
-            // Recargar ambas listas después de eliminar
-            await Promise.all([
-                cargarRevendedores(),
-                cargarRevendedoresAsignados()
-            ]);
+            await eliminarRevendedor(eventId, revendedorId);
         } catch (error) {
             console.error("Error al eliminar revendedor:", error);
-            toast.error("Error al eliminar el revendedor");
         }
     };
 

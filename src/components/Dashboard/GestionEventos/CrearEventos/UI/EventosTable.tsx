@@ -15,6 +15,13 @@ interface Evento {
         city: string;
     };
     estado: string;
+    revendedores?: Array<{
+        id: number;
+        nombre: string;
+        apellido: string;
+        phoneNumber: string;
+        email: string;
+    }>;
 }
 
 interface EventosTableProps {
@@ -59,46 +66,53 @@ const EventosTable: React.FC<EventosTableProps> = ({
         <div className="container mx-auto px-4 py-8">
             {/* Header */}
             <div className="mb-8">
-                <div className="flex items-center justify-between">
-                    <h1 className="text-3xl font-bold text-secondary">Eventos</h1>
-                    <button
-                        onClick={onCreateEvent}
-                        className="flex items-center gap-2 rounded-md bg-secondary px-6 py-3 font-semibold text-white transition hover:opacity-90"
-                    >
-                        <FaPlus />
-                        Crear Evento
-                    </button>
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex-1">
+                        <h1 className="mb-2 text-3xl font-bold text-secondary">Eventos</h1>
+                        <p className="max-w-2xl text-sm text-gray-400 lg:text-base">
+                            Lista informativa de eventos —en cursos y pasados— pertenecientes a la productora.
+                        </p>
+                    </div>
+                    <div className="flex-shrink-0">
+                        <button
+                            onClick={onCreateEvent}
+                            className="flex w-full items-center justify-center gap-2 rounded-md bg-secondary px-6 py-3 font-semibold text-white transition hover:opacity-90 lg:w-auto"
+                        >
+                            <FaPlus />
+                            Crear Evento
+                        </button>
+                    </div>
                 </div>
+            </div>
 
+            {/* Lista de eventos */}
+            <div className="overflow-x-auto rounded-lg bg-[#1C1C1E]">
                 {/* Buscador */}
-                <div className="mt-6">
+                <div className="p-6">
                     <div className="relative max-w-md">
                         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                             <FaSearch className="h-4 w-4 text-gray-400" />
                         </div>
                         <input
                             type="text"
-                            placeholder="Buscar por evento"
+                            placeholder="Buscar nombre del evento..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full rounded-lg border border-gray-600 bg-black/40 py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                            className="w-full rounded-lg border border-gray-600 bg-[#1C1C1E] py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
                         />
                     </div>
                 </div>
-            </div>
 
-            {/* Lista de eventos */}
-            <div className="overflow-x-auto rounded-lg bg-black/40">
                 <table className="w-full text-left text-sm">
-                    <thead className="bg-black text-gray-400">
+                    <thead className="bg-[#1C1C1E] text-gray-400">
                         <tr>
-                            <th className="px-4 py-3 font-semibold">Evento</th>
-                            <th className="px-4 py-3 font-semibold">Fecha</th>
-                            <th className="px-4 py-3 font-semibold">Locación</th>
-                            <th className="px-4 py-3 font-semibold">Categoría</th>
-                            <th className="px-4 py-3 text-center font-semibold">Estado</th>
-                            <th className="px-4 py-3 text-center font-semibold">Revendedores</th>
-                            <th className="px-4 py-3 text-end font-semibold">Acciones</th>
+                            <th className="px-4 py-3 font-semibold text-white">Evento</th>
+                            <th className="px-4 py-3 font-semibold text-white">Fecha</th>
+                            <th className="px-4 py-3 font-semibold text-white">Locación</th>
+                            <th className="px-4 py-3 font-semibold text-white">Categoría</th>
+                            <th className="px-4 py-3 text-center font-semibold text-white">Estado</th>
+                            <th className="px-4 py-3 text-center font-semibold text-white">RRPP</th>
+                            <th className="px-4 py-3 text-end font-semibold text-white">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -125,16 +139,18 @@ const EventosTable: React.FC<EventosTableProps> = ({
                                 <td className="px-4 py-3">{event.categoriaNombre}</td>
                                 <td className="px-4 py-3 text-center">
                                     <span
-                                        className={`rounded-full px-3 py-1 text-sm ${event.estado === "ACTIVO"
-                                            ? "bg-green-500/20 text-green-500"
-                                            : "bg-red-500/20 text-red-500"
+                                        className={`rounded px-3 py-1 text-sm ${event.estado === "ACTIVO"
+                                            ? "bg-green-500 text-white"
+                                            : "bg-red-500 text-white"
                                             }`}
                                     >
                                         {event.estado}
                                     </span>
                                 </td>
                                 <td className="px-4 py-3 text-center">
-                                    <span className="text-gray-400">-</span>
+                                    <span className="text-white">
+                                        {event.revendedores ? event.revendedores.length : 0}
+                                    </span>
                                 </td>
                                 <td className="px-4 py-3 text-end">
                                     <div className="flex justify-end gap-2">
