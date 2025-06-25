@@ -76,6 +76,7 @@ const CrearLoteUI: React.FC<CrearLoteUIProps> = ({
                             <input
                                 id="nombreLote"
                                 name="nombre"
+                                autoComplete="off"
                                 type="text"
                                 className={`w-full rounded-lg border ${formik.touched.nombre && formik.errors.nombre
                                     ? "border-red-500"

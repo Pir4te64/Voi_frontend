@@ -242,7 +242,7 @@ const GestionLotes: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-primary">
+    <div className="min-h-screen bg-black">
       {currentView === "events" && (
         <EventosUI
           events={events}

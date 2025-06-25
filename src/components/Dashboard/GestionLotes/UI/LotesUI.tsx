@@ -1,5 +1,5 @@
 import React from "react";
-import { FaArrowLeft, FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
+import { FaArrowLeft, FaPencilAlt, FaPlus, FaRegTrashAlt } from "react-icons/fa";
 import { Evento, Lote } from "@/components/Dashboard/GestionLotes/EditarLote/data/interfaces";
 
 interface LotesUIProps {
@@ -28,58 +28,58 @@ const LotesUI: React.FC<LotesUIProps> = ({
     formatDate,
 }) => {
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="mb-8">
-                <button
-                    onClick={handleBackToEvents}
-                    className="mb-4 flex items-center text-white hover:text-secondary"
-                >
-                    <FaArrowLeft className="mr-2" />
-                    Volver a Gestión
-                </button>
-                <h1 className="text-3xl font-bold text-white">
-                    Lotes de {selectedEvent.nombre}
-                </h1>
-                <p className="mt-2 text-gray-400">
-                    Gestiona los lotes de entrada para este evento
-                </p>
-            </div>
-
-            <div className="rounded-lg bg-black/40 p-6">
-                <div className="mb-6 flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-white">
-                        Lotes de Entrada
-                    </h2>
+        <div className="min-h-screen bg-black">
+            <div className="container mx-auto px-4 py-8">
+                {/* Header */}
+                <div className="mb-8">
                     <button
-                        onClick={handleCreateLote}
-                        className="rounded bg-secondary px-4 py-2 text-white hover:bg-secondary/80"
+                        onClick={handleBackToEvents}
+                        className="mb-4 flex items-center text-white hover:text-secondary"
                     >
-                        Crear Nuevo Lote
+                        <FaArrowLeft className="mr-2" />
+                        Volver a Gestión
                     </button>
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h1 className="text-3xl font-bold text-secondary">
+                                Lotes de {selectedEvent.nombre}
+                            </h1>
+                            <p className="mt-2 text-gray-400">
+                                Gestiona los lotes de entrada para este evento
+                            </p>
+                        </div>
+                        <button
+                            onClick={handleCreateLote}
+                            className="flex items-center rounded bg-secondary px-4 py-2 text-white hover:bg-secondary/80"
+                        >
+                            <FaPlus className="mr-2" /> Crear Lote
+                        </button>
+                    </div>
                 </div>
 
-                {loadingLotes ? (
-                    <div className="flex justify-center py-8">
-                        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
-                    </div>
-                ) : (
-                    <div className="overflow-x-auto rounded-lg bg-black/40">
+                {/* Lista de lotes */}
+                <div className="overflow-x-auto rounded-lg bg-[#1C1C1E]">
+                    {loadingLotes ? (
+                        <div className="flex justify-center py-8">
+                            <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
+                        </div>
+                    ) : (
                         <table className="w-full text-left text-sm">
-                            <thead className="bg-black text-gray-400">
+                            <thead className="bg-[#1C1C1E] text-gray-400">
                                 <tr>
-                                    <th className="px-4 py-3 font-semibold">
+                                    <th className="px-4 py-3 font-semibold text-white">
                                         Nombre del Lote
                                     </th>
-                                    <th className="px-4 py-3 font-semibold">Precio</th>
-                                    <th className="px-4 py-3 font-semibold">Total Tickets</th>
-                                    <th className="px-4 py-3 font-semibold">Vendidos</th>
-                                    <th className="px-4 py-3 font-semibold">Disponibles</th>
-                                    <th className="px-4 py-3 font-semibold">Comisión</th>
-                                    <th className="px-4 py-3 font-semibold">Validez</th>
-                                    <th className="px-4 py-3 text-center font-semibold">
+                                    <th className="px-4 py-3 font-semibold text-white">Precio</th>
+                                    <th className="px-4 py-3 font-semibold text-white">Total Tickets</th>
+                                    <th className="px-4 py-3 font-semibold text-white">Vendidos</th>
+                                    <th className="px-4 py-3 font-semibold text-white">Disponibles</th>
+                                    <th className="px-4 py-3 font-semibold text-white">Comisión</th>
+                                    <th className="px-4 py-3 font-semibold text-white">Validez</th>
+                                    <th className="px-4 py-3 text-center font-semibold text-white">
                                         Estado
                                     </th>
-                                    <th className="px-4 py-3 text-end font-semibold">
+                                    <th className="px-4 py-3 text-end font-semibold text-white">
                                         Acciones
                                     </th>
                                 </tr>
@@ -101,16 +101,16 @@ const LotesUI: React.FC<LotesUIProps> = ({
                                         key={lote.id}
                                         className="border-t border-gray-700 hover:bg-black/30"
                                     >
-                                        <td className="px-4 py-3">{lote.nombre}</td>
-                                        <td className="px-4 py-3">
+                                        <td className="px-4 py-3 text-white">{lote.nombre}</td>
+                                        <td className="px-4 py-3 text-white">
                                             {formatCurrency(lote.precio)}
                                         </td>
-                                        <td className="px-4 py-3">{lote.cantidadTickets}</td>
-                                        <td className="px-4 py-3">
+                                        <td className="px-4 py-3 text-white">{lote.cantidadTickets}</td>
+                                        <td className="px-4 py-3 text-white">
                                             {lote.cantidadTickets - lote.ticketsDisponibles}
                                         </td>
-                                        <td className="px-4 py-3">{lote.ticketsDisponibles}</td>
-                                        <td className="px-4 py-3">
+                                        <td className="px-4 py-3 text-white">{lote.ticketsDisponibles}</td>
+                                        <td className="px-4 py-3 text-white">
                                             <div className="text-sm">
                                                 <div>{lote.tipoComision}</div>
                                                 <div className="text-gray-400">
@@ -118,7 +118,7 @@ const LotesUI: React.FC<LotesUIProps> = ({
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-4 py-3">
+                                        <td className="px-4 py-3 text-white">
                                             <div className="text-sm">
                                                 {formatDate(lote.fechaValidez)}
                                             </div>
@@ -130,12 +130,12 @@ const LotesUI: React.FC<LotesUIProps> = ({
                                                     cambiarEstadoLote(lote.id, e.target.value)
                                                 }
                                                 className={`rounded-md border-none px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-secondary ${lote.estado === "ACTIVO"
-                                                    ? "bg-green-500/20 text-green-500"
+                                                    ? "bg-green-500 text-white"
                                                     : lote.estado === "PAUSADO"
-                                                        ? "bg-yellow-500/20 text-yellow-500"
+                                                        ? "bg-yellow-500 text-white"
                                                         : lote.estado === "AGOTADO"
-                                                            ? "bg-purple-500/20 text-purple-500"
-                                                            : "bg-red-500/20 text-red-500"
+                                                            ? "bg-purple-500 text-white"
+                                                            : "bg-red-500 text-white"
                                                     }`}
                                             >
                                                 <option
@@ -168,13 +168,15 @@ const LotesUI: React.FC<LotesUIProps> = ({
                                             <div className="flex justify-end gap-2">
                                                 <button
                                                     onClick={() => handleEditLote(lote)}
-                                                    className="rounded px-4 py-2 text-sm text-white hover:bg-red-500"
+                                                    className="rounded p-2 text-white hover:bg-secondary/80"
+                                                    title="Editar lote"
                                                 >
-                                                    <FaPencilAlt />
+                                                    <FaPencilAlt className="h-4 w-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => setLoteToDelete(lote)}
-                                                    className="rounded px-4 py-2 text-sm text-white hover:bg-red-500"
+                                                    className="rounded p-2 text-white hover:bg-red-500/80"
+                                                    title="Eliminar lote"
                                                 >
                                                     <FaRegTrashAlt className="h-4 w-4" />
                                                 </button>
@@ -184,8 +186,8 @@ const LotesUI: React.FC<LotesUIProps> = ({
                                 ))}
                             </tbody>
                         </table>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
         </div>
     );

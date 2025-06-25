@@ -65,7 +65,7 @@ function App() {
           <Route path="misventas/web" element={<Web />} />
           <Route path="misventas/revendedores" element={<Revendedores />} />
           <Route path="misventas/lote" element={<Lote />} />
-          <Route path="revendedores" element={<RevendedoresR />} />
+          {/* <Route path="revendedores" element={<RevendedoresR />} /> */}
           <Route
             path="revendedores/eventos"
             element={<RevenededoresEventos />}
