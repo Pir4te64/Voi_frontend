@@ -27,7 +27,7 @@ const SidebarCompras = () => {
 
         const ticketsData = {
             tickets: items.map(item => ({
-                loteId: item.eventId,
+                loteId: item.loteId,
                 cantidad: item.quantity
             }))
         };

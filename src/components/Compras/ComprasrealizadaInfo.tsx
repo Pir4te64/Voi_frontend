@@ -26,8 +26,12 @@ interface ComprasRealizadaInfoProps {
 const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra }) => {
     //const navigate = useNavigate();
     const [isResumenOpen, setIsResumenOpen] = React.useState(true);
+    const [loadingPago, setLoadingPago] = React.useState(false);
+    const [pagoData, setPagoData] = React.useState<any>(null);
 
     const handleContinuarPago = async () => {
+        setLoadingPago(true);
+        setPagoData(null);
         try {
             // Obtener el token del localStorage
             const token = localStorage.getItem("auth")
@@ -36,20 +40,24 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
 
             if (!token) {
                 console.error("No hay token de autenticación");
+                setLoadingPago(false);
                 return;
             }
             console.log(token);
 
             // Hacer la petición al endpoint
-            const response = await axios.post(`${api_url.crear_orden_pago}?ordenId=${ordenCompra.id}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-
-            // Imprimir el resultado en consola
-            console.log("Respuesta del endpoint:", response.data);
-
+            const response = await axios.post(
+                `${api_url.crear_orden_pago}?ordenId=${ordenCompra.id}`,
+                {}, // body vacío
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+            setPagoData(response.data.data); // Guardar los datos de pago
         } catch (error) {
             console.error("Error al hacer la petición:", error);
+        } finally {
+            setLoadingPago(false);
         }
     };
 
@@ -138,13 +146,40 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                         </div>
                     </details>
 
-
-
                     {/* Sección 3: Método de Pago */}
                     <div id="metodo" className="mb-6 rounded-lg bg-[#252525] p-6">
                         <h2 className="mb-6 text-xl font-semibold text-secondary">Método de Pago</h2>
                         <div className="space-y-4">
-                            <p className="text-gray-400">Sección en desarrollo</p>
+                            {loadingPago && (
+                                <div className="flex items-center justify-center">
+                                    <span className="text-white">Cargando opciones de pago...</span>
+                                </div>
+                            )}
+                            {!loadingPago && pagoData && (
+                                <div className="space-y-4">
+                                    <a
+                                        href={pagoData.checkout_url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block w-full rounded-lg bg-secondary py-2 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
+                                    >
+                                        Ir a Pagar
+                                    </a>
+                                    <div>
+                                        <span className="text-gray-400">Monto:</span>
+                                        <span className="ml-2 font-bold text-white">
+                                            {pagoData.amount.value} {pagoData.amount.currency}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <span className="text-gray-400">QR:</span>
+                                        <div className="break-all rounded bg-black/40 p-2 text-xs text-white">{pagoData.qr_data}</div>
+                                    </div>
+                                </div>
+                            )}
+                            {!loadingPago && !pagoData && (
+                                <p className="text-gray-400">Haz clic en "Continuar Pago" para ver las opciones.</p>
+                            )}
                         </div>
                     </div>
 

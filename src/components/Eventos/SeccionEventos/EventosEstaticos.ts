@@ -22,6 +22,7 @@ export interface Event extends Omit<EventCardProps, "onInfoClick"> {
     type: string;
     price: number;
     available: boolean;
+    loteId?: number; // ID del lote para la compra
   }>;
   // Ticket por defecto seleccionado
   defaultTicket?: string;
@@ -49,9 +50,9 @@ export const staticEvents: Event[] = [
     address: "Tambor de Tacuarí 8160, Posadas (Misiones)",
     mapUrl: "-27.368865959886943, -55.89753393427119",
     ticketTypes: [
-      { type: "Early Bird (sin límite de horario)", price: 10000, available: false },
-      { type: "General", price: 15000, available: true },
-      { type: "VIP", price: 25000, available: true },
+      { type: "Early Bird (sin límite de horario)", price: 10000, available: false, loteId: 1 },
+      { type: "General", price: 15000, available: true, loteId: 2 },
+      { type: "VIP", price: 25000, available: true, loteId: 3 },
     ],
     defaultTicket: "General",
     gallery: [
@@ -79,9 +80,9 @@ export const staticEvents: Event[] = [
     address: "Av. Costanera 1234, Posadas (Misiones)",
     mapUrl: "-27.368865959886943, -55.89753393427119",
     ticketTypes: [
-      { type: "Early Bird", price: 12000, available: true },
-      { type: "General", price: 18000, available: true },
-      { type: "VIP", price: 30000, available: true },
+      { type: "Early Bird", price: 12000, available: true, loteId: 4 },
+      { type: "General", price: 18000, available: true, loteId: 5 },
+      { type: "VIP", price: 30000, available: true, loteId: 6 },
     ],
     defaultTicket: "Early Bird",
     gallery: [
@@ -109,9 +110,9 @@ export const staticEvents: Event[] = [
     address: "Rivadavia 567, Posadas (Misiones)",
     mapUrl: "-27.368865959886943, -55.89753393427119",
     ticketTypes: [
-      { type: "Early Bird", price: 8000, available: true },
-      { type: "General", price: 12000, available: true },
-      { type: "VIP", price: 20000, available: true },
+      { type: "Early Bird", price: 8000, available: true, loteId: 7 },
+      { type: "General", price: 12000, available: true, loteId: 8 },
+      { type: "VIP", price: 20000, available: true, loteId: 9 },
     ],
     defaultTicket: "General",
     gallery: [
@@ -139,9 +140,9 @@ export const staticEvents: Event[] = [
     address: "Ruta 12 km 8, Posadas (Misiones)",
     mapUrl: "-27.368865959886943, -55.89753393427119",
     ticketTypes: [
-      { type: "Early Bird", price: 9000, available: true },
-      { type: "General", price: 14000, available: true },
-      { type: "VIP", price: 24000, available: true },
+      { type: "Early Bird", price: 9000, available: true, loteId: 10 },
+      { type: "General", price: 14000, available: true, loteId: 11 },
+      { type: "VIP", price: 24000, available: true, loteId: 12 },
     ],
     defaultTicket: "General",
     gallery: [

@@ -61,7 +61,8 @@ const EventDetail: React.FC = () => {
         ? raw.lotes.map((lote) => ({
           type: lote.nombre,
           price: lote.precio,
-          available: lote.ticketsDisponibles > 0
+          available: lote.ticketsDisponibles > 0,
+          loteId: lote.id
         }))
         : staticEvents[0].ticketTypes,
       defaultTicket: raw.lotes[0]?.nombre ?? staticEvents[0].defaultTicket,

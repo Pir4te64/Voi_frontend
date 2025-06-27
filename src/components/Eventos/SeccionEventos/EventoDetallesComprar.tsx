@@ -13,7 +13,7 @@ interface EventoDetallesComprarProps {
 
 const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) => {
     const navigate = useNavigate();
-    const { addToCart, isAuthenticated, getItemQuantity, updateQuantity } = useCarritoStore();
+    const { addToCart, isAuthenticated, getItemQuantity, updateQuantity, items } = useCarritoStore();
 
     // Estado para el ticket seleccionado
     const [selectedTicket, setSelectedTicket] = useState<string>(() => {
@@ -27,10 +27,11 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
         return getItemQuantity(event.id, defaultTicket) || 1;
     });
 
-    // Actualizar quantity cuando cambia el tipo de ticket
+    // Escuchar cambios en el carrito para este ticket
     useEffect(() => {
-        setQuantity(getItemQuantity(event.id, selectedTicket) || 1);
-    }, [selectedTicket, event.id, getItemQuantity]);
+        const nuevaCantidad = getItemQuantity(event.id, selectedTicket) || 1;
+        setQuantity(nuevaCantidad);
+    }, [items, selectedTicket, event.id, getItemQuantity]);
 
     // Calcular total
     const total = (() => {
@@ -65,12 +66,18 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
             return;
         }
 
+        if (!selectedTicketType.loteId) {
+            toast.error('Error: No se encontró el ID del lote');
+            return;
+        }
+
         addToCart({
             eventId: event.id,
             title: event.title,
             ticketType: selectedTicket,
             quantity,
-            price: selectedTicketType.price
+            price: selectedTicketType.price,
+            loteId: selectedTicketType.loteId
         });
     };
 
@@ -92,7 +99,8 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
             title: event.title,
             ticketType: selectedTicket,
             quantity,
-            price: selectedTicketType.price
+            price: selectedTicketType.price,
+            loteId: selectedTicketType.loteId!
         });
 
         // Obtenemos todos los items del carrito (incluido el que acabamos de agregar)
@@ -100,7 +108,7 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
 
         const ticketsData = {
             tickets: items.map(item => ({
-                loteId: item.eventId,
+                loteId: item.loteId,
                 cantidad: item.quantity
             }))
         };

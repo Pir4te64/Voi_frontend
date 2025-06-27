@@ -7,6 +7,7 @@ interface ItemCarrito {
     ticketType: string;
     quantity: number;
     price: number;
+    loteId: number; // ID del lote para la compra
 }
 
 interface CarritoStore {

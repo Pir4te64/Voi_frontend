@@ -5,6 +5,7 @@ export interface TicketType {
   type: string;
   price: number;
   available: boolean;
+  loteId?: number; // ID del lote para la compra
 }
 
 // Shape de un evento estático (usado como fallback y template)
