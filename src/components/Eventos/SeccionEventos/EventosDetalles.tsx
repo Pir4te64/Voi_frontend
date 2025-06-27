@@ -39,11 +39,6 @@ const EventDetail: React.FC = () => {
   // Mapear remoto a StaticEventDetail si existe
   const raw = remoteEvents.find((e) => e.id === numericId);
 
-  // Debug logs
-  console.log('Evento encontrado (raw):', raw);
-  console.log('ID buscado:', numericId);
-  console.log('Eventos remotos disponibles:', remoteEvents.map(e => ({ id: e.id, nombre: e.nombre })));
-
   const mappedRemote: StaticEventDetail | undefined = raw
     ? {
       id: raw.id,
@@ -76,8 +71,6 @@ const EventDetail: React.FC = () => {
         : undefined
     }
     : undefined;
-
-  console.log('Evento mapeado:', mappedRemote);
 
   // Elegir datos: remoto o estático
   const event = (mappedRemote ?? staticEvents.find((e) => e.id === numericId)) as StaticEventDetail;

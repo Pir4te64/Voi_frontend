@@ -15,11 +15,6 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
     const navigate = useNavigate();
     const { addToCart, isAuthenticated, getItemQuantity, updateQuantity, items } = useCarritoStore();
 
-    // Debug logs
-    console.log('EventoDetallesComprar - Evento recibido:', event);
-    console.log('EventoDetallesComprar - TicketTypes:', event.ticketTypes);
-    console.log('EventoDetallesComprar - DefaultTicket:', event.defaultTicket);
-
     // Estado para el ticket seleccionado
     const [selectedTicket, setSelectedTicket] = useState<string>(() => {
         const defaultTicket = event.defaultTicket || event.ticketTypes[0]?.type;
