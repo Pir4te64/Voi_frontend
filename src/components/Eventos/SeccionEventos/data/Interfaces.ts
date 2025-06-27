@@ -34,15 +34,17 @@ export interface RemoteEvent {
   fechaInicio: string;
   fechaFin: string;
   estado: string;
-  sliderImageUrl: string;
+  sliderImageUrl: string | null;
   galeriaUrls: string[];
   lotes: Array<{
     id: number;
     nombre: string;
-    tipoComision: string;
+    porcentajeComision: number;
+    montoComision: number;
     precio: number;
     cantidadTickets: number;
     ticketsDisponibles: number;
+    ticketsVendidos: number;
     estado: string;
   }>;
   revendedores: any[];

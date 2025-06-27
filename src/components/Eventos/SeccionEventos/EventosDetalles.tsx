@@ -38,9 +38,14 @@ const EventDetail: React.FC = () => {
 
   // Mapear remoto a StaticEventDetail si existe
   const raw = remoteEvents.find((e) => e.id === numericId);
+
+  // Debug logs
+  console.log('Evento encontrado (raw):', raw);
+  console.log('ID buscado:', numericId);
+  console.log('Eventos remotos disponibles:', remoteEvents.map(e => ({ id: e.id, nombre: e.nombre })));
+
   const mappedRemote: StaticEventDetail | undefined = raw
     ? {
-      ...staticEvents[0], // plantilla para campos faltantes
       id: raw.id,
       title: raw.nombre,
       description: raw.descripcion,
@@ -56,21 +61,23 @@ const EventDetail: React.FC = () => {
           mon2 = monthNames[parseInt(m2, 10) - 1];
         return `${day1} ${mon1} ${y1} – ${day2} ${mon2} ${y2}`;
       })(),
-      gallery: raw.galeriaUrls,
-      ticketTypes: raw.lotes.length > 0
+      gallery: raw.galeriaUrls || [],
+      ticketTypes: raw.lotes && raw.lotes.length > 0
         ? raw.lotes.map((lote) => ({
           type: lote.nombre,
           price: lote.precio,
-          available: lote.ticketsDisponibles > 0,
+          available: lote.ticketsDisponibles > 0 && lote.estado === "ACTIVO",
           loteId: lote.id
         }))
-        : staticEvents[0].ticketTypes,
-      defaultTicket: raw.lotes[0]?.nombre ?? staticEvents[0].defaultTicket,
+        : [], // Array vacío en lugar de datos estáticos
+      defaultTicket: raw.lotes && raw.lotes.length > 0 ? raw.lotes[0].nombre : "",
       mapUrl: raw.address.latitude && raw.address.longitude
         ? `${raw.address.latitude},${raw.address.longitude}`
         : undefined
     }
     : undefined;
+
+  console.log('Evento mapeado:', mappedRemote);
 
   // Elegir datos: remoto o estático
   const event = (mappedRemote ?? staticEvents.find((e) => e.id === numericId)) as StaticEventDetail;

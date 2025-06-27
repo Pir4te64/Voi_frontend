@@ -8,6 +8,7 @@ import EventsFiltersSidebar from "@/components/Eventos/SeccionEventos/EventsFilt
 import GlowWrapper from "@/components/GlowWrapper";
 import { useEventsStore } from "@/components/heroEvents/store/useEventsStore";
 import { CardData } from "@/components/Eventos/SeccionEventos/data/Interfaces";
+import defaultEventImage from "@/assets/SliderEvent/Slider.png";
 
 const ordersList = [
   "Aleatorio",
@@ -55,7 +56,7 @@ const SeccionEventos: React.FC = () => {
     const [y, m, d] = ev.fechaInicio.split("-");
     return {
       id: ev.id,
-      image: ev.sliderImageUrl,
+      image: ev.sliderImageUrl || defaultEventImage,
       category: ev.categoriaNombre,
       date: `${parseInt(d, 10)} ${monthNames[parseInt(m, 10) - 1]} ${y}`,
       title: ev.nombre,

@@ -15,32 +15,52 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
     const navigate = useNavigate();
     const { addToCart, isAuthenticated, getItemQuantity, updateQuantity, items } = useCarritoStore();
 
+    // Debug logs
+    console.log('EventoDetallesComprar - Evento recibido:', event);
+    console.log('EventoDetallesComprar - TicketTypes:', event.ticketTypes);
+    console.log('EventoDetallesComprar - DefaultTicket:', event.defaultTicket);
+
     // Estado para el ticket seleccionado
     const [selectedTicket, setSelectedTicket] = useState<string>(() => {
-        return event.defaultTicket || event.ticketTypes[0]?.type || "";
+        const defaultTicket = event.defaultTicket || event.ticketTypes[0]?.type;
+        if (!defaultTicket) {
+            console.warn('No se encontró un ticket por defecto para el evento:', event.id);
+            return "";
+        }
+        return defaultTicket;
     });
+
+    // Verificar si hay lotes disponibles
+    const hasAvailableTickets = event.ticketTypes && event.ticketTypes.length > 0;
 
     // Inicializar quantity con la cantidad del carrito si existe
     const [quantity, setQuantity] = useState(() => {
+        if (!hasAvailableTickets) return 0;
+
         const defaultTicket = event.defaultTicket || event.ticketTypes[0]?.type;
-        if (!defaultTicket) return 1;
+        if (!defaultTicket) return 0;
         return getItemQuantity(event.id, defaultTicket) || 1;
     });
 
     // Escuchar cambios en el carrito para este ticket
     useEffect(() => {
+        if (!hasAvailableTickets || !selectedTicket) return;
+
         const nuevaCantidad = getItemQuantity(event.id, selectedTicket) || 1;
         setQuantity(nuevaCantidad);
-    }, [items, selectedTicket, event.id, getItemQuantity]);
+    }, [items, selectedTicket, event.id, getItemQuantity, hasAvailableTickets]);
 
     // Calcular total
     const total = (() => {
+        if (!selectedTicket || !hasAvailableTickets) return 0;
         const ticket = event.ticketTypes.find((t) => t.type === selectedTicket);
         return (ticket?.price ?? 0) * quantity;
     })();
 
     // Función para actualizar la cantidad
     const handleQuantityChange = (newQuantity: number) => {
+        if (!hasAvailableTickets || !selectedTicket) return;
+
         setQuantity(newQuantity);
 
         // Si el usuario está autenticado, actualizar el carrito en tiempo real
@@ -57,6 +77,11 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
     const handleAddToCart = () => {
         if (!isAuthenticated()) {
             toast.error('Debes iniciar sesión para agregar items al carrito');
+            return;
+        }
+
+        if (!hasAvailableTickets || !selectedTicket) {
+            toast.error('No hay entradas disponibles para agregar al carrito');
             return;
         }
 
@@ -84,6 +109,11 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
     const handleBuyNow = async () => {
         if (!isAuthenticated()) {
             toast.error('Debes iniciar sesión para realizar la compra');
+            return;
+        }
+
+        if (!hasAvailableTickets || !selectedTicket) {
+            toast.error('No hay entradas disponibles para comprar');
             return;
         }
 
@@ -142,77 +172,90 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
 
     return (
         <div className="space-y-4">
-            {/* Entrada y Cantidad */}
-            <section className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
-                <div className="w-full space-y-2">
-                    <h2 className="text-sm font-semibold uppercase text-secondary">
-                        Tipo de Entrada
+            {!hasAvailableTickets ? (
+                <div className="py-8 text-center">
+                    <h2 className="mb-2 text-lg font-semibold text-secondary">
+                        No hay entradas disponibles
                     </h2>
-                    <select
-                        value={selectedTicket}
-                        onChange={(e) => setSelectedTicket(e.target.value)}
-                        className="w-full rounded-lg border border-gray-600 bg-primary px-3 py-2 text-sm text-white md:px-4 md:text-base"
-                    >
-                        {event.ticketTypes.map((t) => (
-                            <option key={t.type} value={t.type} disabled={!t.available}>
-                                {t.type}
-                                {t.available ? "" : " (SOLD OUT)"} — $
-                                {t.price.toLocaleString()}
-                            </option>
-                        ))}
-                    </select>
+                    <p className="text-sm text-gray-300">
+                        Este evento no tiene lotes de entradas configurados o todos los lotes están agotados.
+                    </p>
                 </div>
+            ) : (
+                <>
+                    {/* Entrada y Cantidad */}
+                    <section className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
+                        <div className="w-full space-y-2">
+                            <h2 className="text-sm font-semibold uppercase text-secondary">
+                                Tipo de Entrada
+                            </h2>
+                            <select
+                                value={selectedTicket}
+                                onChange={(e) => setSelectedTicket(e.target.value)}
+                                className="w-full rounded-lg border border-gray-600 bg-primary px-3 py-2 text-sm text-white md:px-4 md:text-base"
+                            >
+                                {event.ticketTypes.map((t) => (
+                                    <option key={t.type} value={t.type} disabled={!t.available}>
+                                        {t.type}
+                                        {t.available ? "" : " (SOLD OUT)"} — $
+                                        {t.price.toLocaleString()}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                <div className="w-full space-y-2">
-                    <h2 className="text-sm font-semibold uppercase text-secondary">
-                        Cantidad
-                    </h2>
-                    <div className="inline-flex items-center overflow-hidden rounded-lg border border-gray-600">
+                        <div className="w-full space-y-2">
+                            <h2 className="text-sm font-semibold uppercase text-secondary">
+                                Cantidad
+                            </h2>
+                            <div className="inline-flex items-center overflow-hidden rounded-lg border border-gray-600">
+                                <button
+                                    className="px-3 py-2 text-white md:px-4"
+                                    onClick={() => handleQuantityChange(Math.max(1, quantity - 1))}
+                                >
+                                    <FaMinus />
+                                </button>
+                                <input
+                                    type="text"
+                                    readOnly
+                                    value={quantity}
+                                    className="w-10 bg-primary px-2 py-2 text-center text-sm text-white focus:outline-none md:w-12 md:px-4 md:text-base"
+                                />
+                                <button
+                                    className="px-3 py-2 text-white md:px-4"
+                                    onClick={() => handleQuantityChange(quantity + 1)}
+                                >
+                                    <FaPlus />
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Total */}
+                    <div className="mt-4">
+                        <p className="text-sm font-semibold uppercase">Total</p>
+                        <p className="text-3xl font-bold text-white md:text-4xl">
+                            ${total.toLocaleString()}
+                        </p>
+                    </div>
+
+                    {/* Botones */}
+                    <div className="mt-4 flex flex-col gap-3 md:gap-4">
                         <button
-                            className="px-3 py-2 text-white md:px-4"
-                            onClick={() => handleQuantityChange(Math.max(1, quantity - 1))}
+                            onClick={handleAddToCart}
+                            className="w-full rounded-xl bg-secondary px-4 py-2.5 text-sm font-semibold text-primary transition hover:text-white md:py-3 md:text-base"
                         >
-                            <FaMinus />
+                            Añadir al Carrito
                         </button>
-                        <input
-                            type="text"
-                            readOnly
-                            value={quantity}
-                            className="w-10 bg-primary px-2 py-2 text-center text-sm text-white focus:outline-none md:w-12 md:px-4 md:text-base"
-                        />
                         <button
-                            className="px-3 py-2 text-white md:px-4"
-                            onClick={() => handleQuantityChange(quantity + 1)}
+                            onClick={handleBuyNow}
+                            className="w-full rounded-xl border border-secondary px-4 py-2.5 text-sm font-semibold text-secondary transition hover:text-white md:py-3 md:text-base"
                         >
-                            <FaPlus />
+                            Comprar Ahora
                         </button>
                     </div>
-                </div>
-            </section>
-
-            {/* Total */}
-            <div className="mt-4">
-                <p className="text-sm font-semibold uppercase">Total</p>
-                <p className="text-3xl font-bold text-white md:text-4xl">
-                    ${total.toLocaleString()}
-                </p>
-            </div>
-
-            {/* Botones */}
-            <div className="mt-4 flex flex-col gap-3 md:gap-4">
-                <button
-                    onClick={handleAddToCart}
-                    className="w-full rounded-xl bg-secondary px-4 py-2.5 text-sm font-semibold text-primary transition hover:text-white md:py-3 md:text-base"
-                >
-                    Añadir al Carrito
-                </button>
-                <button
-                    onClick={handleBuyNow}
-                    className="w-full rounded-xl border border-secondary px-4 py-2.5 text-sm font-semibold text-secondary transition hover:text-white md:py-3 md:text-base"
-                >
-                    Comprar Ahora
-                </button>
-            </div>
+                </>
+            )}
         </div>
     );
 };

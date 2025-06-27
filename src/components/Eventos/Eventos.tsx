@@ -10,6 +10,7 @@ import GlowWrapper from "@/components/GlowWrapper";
 import EventsNav from "@/components/Eventos/EventsNav";
 import { useEventsStore } from "@/components/heroEvents/store/useEventsStore";
 import { Link } from "react-router-dom";
+import defaultEventImage from "@/assets/SliderEvent/Slider.png";
 
 const monthNames = [
   "Ene",
@@ -47,7 +48,7 @@ const EventsSection: React.FC = () => {
     const month = monthNames[parseInt(monthNum, 10) - 1];
     return {
       id: ev.id,
-      image: ev.sliderImageUrl,
+      image: ev.sliderImageUrl || defaultEventImage,
       category: ev.categoriaNombre,
       date: `${day} ${month} ${year}`,
       title: ev.nombre,
@@ -82,10 +83,9 @@ const EventsSection: React.FC = () => {
                 onClick={() => setActiveCat(cat)}
                 className={`
                   px-4 py-2 text-md rounded-2xl transition uppercase
-                  ${
-                    activeCat === cat
-                      ? "bg-secondary text-primary"
-                      : "bg-back text-white hover:bg-white/30"
+                  ${activeCat === cat
+                    ? "bg-secondary text-primary"
+                    : "bg-back text-white hover:bg-white/30"
                   }
                 `}
               >
@@ -127,14 +127,13 @@ const EventsSection: React.FC = () => {
         <EventsNav swiperRef={swiperRef} />
 
         {/* Dots mobile */}
-        <div className=" flex justify-center space-x-2 sm:hidden">
+        <div className="flex justify-center space-x-2 sm:hidden">
           {filtered.map((_, idx) => (
             <button
               key={idx}
               onClick={() => swiperRef.current?.slideToLoop(idx)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                activeIndex === idx ? "bg-white" : "bg-white/50"
-              }`}
+              className={`w-2 h-2 rounded-full transition-colors ${activeIndex === idx ? "bg-white" : "bg-white/50"
+                }`}
             />
           ))}
         </div>

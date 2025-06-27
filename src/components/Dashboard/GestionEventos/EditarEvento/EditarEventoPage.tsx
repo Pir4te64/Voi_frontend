@@ -107,7 +107,7 @@ const EditarEventoPage: React.FC = () => {
   const steps = createSteps();
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto bg-black px-4 py-8">
       <button
         onClick={() => navigate(-1)}
         className="mb-8 flex items-center text-white hover:text-secondary"
