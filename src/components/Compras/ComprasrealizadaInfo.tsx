@@ -1,5 +1,7 @@
 import React from 'react';
 import { FaChevronDown, FaChevronRight, FaSpinner } from 'react-icons/fa';
+import { QRCodeSVG } from 'qrcode.react';
+import { toast } from 'react-toastify';
 import axios from 'axios';
 import { api_url } from '@/api/api';
 import { useNavigate } from 'react-router-dom';
@@ -31,22 +33,20 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
     const [isResumenOpen, setIsResumenOpen] = React.useState(true);
     const [loadingPago, setLoadingPago] = React.useState(false);
     const [pagoData, setPagoData] = React.useState<any>(null);
-    const [isMetodoPagoActive, setIsMetodoPagoActive] = React.useState(false);
+    const [isMetodoPagoActive, _] = React.useState(false);
     const [showCancelModal, setShowCancelModal] = React.useState(false);
+    const [peticionExitosa, setPeticionExitosa] = React.useState(false);
 
     const handleCancelarPago = () => {
         clearCart();
         navigate('/');
     };
 
-    const handlePagoCompletado = () => {
-        clearCart();
-        navigate('/gracias-compra');
-    };
 
     const handleContinuarPago = async () => {
         setLoadingPago(true);
         setPagoData(null);
+        setPeticionExitosa(false);
         try {
             // Obtener el token del localStorage
             const token = localStorage.getItem("auth")
@@ -54,11 +54,10 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                 : null;
 
             if (!token) {
-                console.error("No hay token de autenticación");
+                toast.error("No hay token de autenticación. Por favor, inicia sesión nuevamente.");
                 setLoadingPago(false);
                 return;
             }
-            console.log(token);
 
             // Hacer la petición al endpoint
             const response = await axios.post(
@@ -68,9 +67,15 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                     headers: { Authorization: `Bearer ${token}` },
                 }
             );
+
             setPagoData(response.data.data); // Guardar los datos de pago
-        } catch (error) {
+            setPeticionExitosa(true);
+            toast.success("Orden de pago creada exitosamente");
+        } catch (error: any) {
             console.error("Error al hacer la petición:", error);
+            const errorMessage = error.response?.data?.message || "Error al crear la orden de pago. Inténtalo nuevamente.";
+            toast.error(errorMessage);
+            setPeticionExitosa(false);
         } finally {
             setLoadingPago(false);
         }
@@ -132,24 +137,6 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                                     <span className="text-lg font-bold text-white">${ordenCompra.montoTotal.toLocaleString()}</span>
                                 </div>
                             </div>
-
-                            <div className="pt-4">
-                                <button
-                                    onClick={() => {
-                                        setIsResumenOpen(false);
-                                        setIsMetodoPagoActive(true);
-                                        setTimeout(() => {
-                                            document.getElementById('datos')?.scrollIntoView({
-                                                behavior: 'smooth',
-                                                block: 'start'
-                                            });
-                                        }, 100);
-                                    }}
-                                    className="mx-auto block w-48 rounded-lg bg-secondary py-2 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
-                                >
-                                    Continuar Pedido
-                                </button>
-                            </div>
                         </div>
                     </details>
 
@@ -164,20 +151,6 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                             )}
                             {!loadingPago && pagoData && (
                                 <div className="space-y-4">
-                                    <a
-                                        href={pagoData.checkout_url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="block w-full rounded-lg bg-secondary py-2 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
-                                    >
-                                        Ir a Pagar
-                                    </a>
-                                    <button
-                                        onClick={handlePagoCompletado}
-                                        className="block w-full rounded-lg border border-secondary bg-transparent py-2 text-center font-semibold text-secondary transition-colors hover:bg-secondary hover:text-white"
-                                    >
-                                        Completar Pago
-                                    </button>
                                     <div>
                                         <span className="text-gray-400">Monto:</span>
                                         <span className="ml-2 font-bold text-white">
@@ -185,8 +158,18 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                                         </span>
                                     </div>
                                     <div>
-                                        <span className="text-gray-400">QR:</span>
-                                        <div className="break-all rounded bg-black/40 p-2 text-xs text-white">{pagoData.qr_data}</div>
+                                        <span className="text-gray-400">Código QR para pago:</span>
+                                        <div className="mt-2 flex justify-center rounded bg-white p-4">
+                                            <QRCodeSVG
+                                                value={pagoData.checkout_url}
+                                                size={200}
+                                                level="M"
+                                                includeMargin={true}
+                                            />
+                                        </div>
+                                        <p className="mt-2 text-center text-xs text-gray-400">
+                                            Escanea este código QR con tu aplicación de pagos móvil
+                                        </p>
                                     </div>
                                 </div>
                             )}
@@ -198,12 +181,27 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
 
                     {/* Botones de Continuar y Cancelar */}
                     <div className="flex gap-4">
-                        <button
-                            onClick={handleContinuarPago}
-                            className="flex-1 rounded-lg bg-secondary py-3 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
-                        >
-                            Continuar Pago
-                        </button>
+                        {!peticionExitosa && (
+                            <button
+                                onClick={handleContinuarPago}
+                                disabled={loadingPago}
+                                className="flex-1 rounded-lg bg-secondary py-3 text-center font-semibold text-white transition-colors hover:bg-secondary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                                Continuar Pago
+                            </button>
+                        )}
+
+                        {peticionExitosa && pagoData && (
+                            <a
+                                href={pagoData.checkout_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex-1 rounded-lg bg-secondary py-3 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
+                            >
+                                Ir a Pagar
+                            </a>
+                        )}
+
                         <button
                             onClick={() => setShowCancelModal(true)}
                             className="flex-1 rounded-lg border border-red-500 bg-transparent py-3 text-center font-semibold text-red-500 transition-colors hover:bg-red-500 hover:text-white"

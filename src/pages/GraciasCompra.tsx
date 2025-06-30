@@ -50,10 +50,7 @@ const GraciasCompra: React.FC = () => {
                                 <span className="mt-1 text-secondary">•</span>
                                 <span>Puedes revisar tus tickets en tu perfil</span>
                             </li>
-                            <li className="flex items-start gap-2">
-                                <span className="mt-1 text-secondary">•</span>
-                                <span>Lleva tu ticket al evento</span>
-                            </li>
+
                         </ul>
                     </div>
 
@@ -66,10 +63,6 @@ const GraciasCompra: React.FC = () => {
                         Ir al Inicio
                     </button>
 
-                    {/* Mensaje adicional */}
-                    <p className="mt-6 text-sm text-neutral">
-                        ¿Tienes alguna pregunta? Contacta nuestro soporte
-                    </p>
                 </div>
             </div>
         </Layout>
