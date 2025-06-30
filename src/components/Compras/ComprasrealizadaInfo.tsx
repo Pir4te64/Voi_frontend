@@ -194,7 +194,6 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                         {peticionExitosa && pagoData && (
                             <a
                                 href={pagoData.checkout_url}
-                                target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex-1 rounded-lg bg-secondary py-3 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
                             >

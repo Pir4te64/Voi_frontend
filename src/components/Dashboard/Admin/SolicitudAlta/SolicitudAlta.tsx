@@ -1,142 +1,118 @@
-import React, { useEffect, useState } from 'react';
-import { api_url } from '@/api/api';
-import { ProductoraPendiente } from '@/components/Dashboard/Admin/SolicitudAlta/types';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import React, { useEffect } from 'react';
+import { useSolicitudAltaStore } from './store/useSolicitudAltaStore';
+import { FiEye, FiSearch } from 'react-icons/fi';
 
 const SolicitudAlta: React.FC = () => {
-    const [productoras, setProductoras] = useState<ProductoraPendiente[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [updating, setUpdating] = useState<number | null>(null);
-
-    const fetchProductoras = async () => {
-        try {
-            const token = localStorage.getItem("auth")
-                ? JSON.parse(localStorage.getItem("auth")!).accessToken
-                : null;
-
-            if (!token) {
-                throw new Error("No hay token de autenticación");
-            }
-
-            const response = await axios.get(api_url.admin_solicitudes_get, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-
-            setProductoras(Array.isArray(response.data) ? response.data : [response.data]);
-        } catch (err) {
-            setError(err instanceof Error ? err.message : 'Error desconocido');
-        } finally {
-            setLoading(false);
-        }
-    };
+    const {
+        productoras,
+        loading,
+        error,
+        updating,
+        fetchProductoras,
+        updateProductoraStatus
+    } = useSolicitudAltaStore();
 
     useEffect(() => {
         fetchProductoras();
-    }, []);
+    }, [fetchProductoras]);
 
     const handleStatusChange = async (productoraId: number, newStatus: string) => {
-        try {
-            setUpdating(productoraId);
-            const token = localStorage.getItem("auth")
-                ? JSON.parse(localStorage.getItem("auth")!).accessToken
-                : null;
-
-            if (!token) {
-                throw new Error("No hay token de autenticación");
-            }
-
-            await axios.put(
-                api_url.admin_solicitudes_put,
-                {
-                    productoraId,
-                    status: newStatus
-                },
-                {
-                    headers: { Authorization: `Bearer ${token}` }
-                }
-            );
-
-            toast.success('Estado actualizado correctamente');
-            await fetchProductoras(); // Recargar la lista
-        } catch (err) {
-            toast.error('Error al actualizar el estado');
-            console.error('Error:', err);
-        } finally {
-            setUpdating(null);
-        }
+        await updateProductoraStatus(productoraId, newStatus);
     };
-
-    if (loading) {
-        return (
-            <div className="flex justify-center py-8">
-                <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return <div className="rounded-lg bg-red-500/10 p-4 text-center text-red-500">{error}</div>;
-    }
 
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-secondary">Solicitudes de Alta de Productoras</h1>
+                <h1 className="mb-6 text-3xl font-bold text-secondary">Solicitudes de productoras</h1>
+                {/* Barra de búsqueda visual */}
+                <div className="relative mb-8 max-w-xl">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        <FiSearch size={20} />
+                    </span>
+                    <input
+                        type="text"
+                        className="w-full rounded-md bg-black/60 py-3 pl-10 pr-4 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary"
+                        placeholder="Buscar solicitud por nombre de la productora o email..."
+                        disabled
+                    />
+                </div>
             </div>
 
-            <div className="overflow-x-auto rounded-lg bg-black/40">
-                <table className="w-full text-left text-sm">
-                    <thead className="bg-black text-gray-400">
-                        <tr>
-                            <th className="px-4 py-3 font-semibold">Razón Social</th>
-                            <th className="px-4 py-3 font-semibold">CUIT</th>
-                            <th className="px-4 py-3 font-semibold">DNI</th>
-                            <th className="px-4 py-3 font-semibold">Email</th>
-                            <th className="px-4 py-3 font-semibold">Dirección</th>
-                            <th className="px-4 py-3 text-center font-semibold">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {productoras.length === 0 ? (
-                            <tr>
-                                <td colSpan={6} className="p-6 text-center text-gray-500">
-                                    No hay solicitudes pendientes
-                                </td>
-                            </tr>
-                        ) : (
-                            productoras.map((productora) => (
-                                <tr key={productora.id} className="border-t border-gray-700 hover:bg-black/30">
-                                    <td className="px-4 py-3">{productora.razonSocial}</td>
-                                    <td className="px-4 py-3">{productora.cuit}</td>
-                                    <td className="px-4 py-3">{productora.dni}</td>
-                                    <td className="px-4 py-3">{productora.email}</td>
-                                    <td className="px-4 py-3">{productora.direccion}</td>
-                                    <td className="px-4 py-3 text-center">
-                                        <select
-                                            value={productora.status}
-                                            onChange={(e) => handleStatusChange(productora.id, e.target.value)}
-                                            disabled={updating === productora.id}
-                                            className={`rounded-md border-none px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-secondary ${productora.status === "PENDING"
-                                                ? "bg-yellow-500/20 text-yellow-500"
-                                                : "bg-green-500/20 text-green-500"
-                                                }`}
-                                        >
-                                            <option value="PENDING" className="bg-gray-800 text-yellow-500">
-                                                PENDING
-                                            </option>
-                                            <option value="APPROVED" className="bg-gray-800 text-green-500">
-                                                APPROVED
-                                            </option>
-                                        </select>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
-            </div>
+            {loading ? (
+                <div className="flex justify-center py-8">
+                    <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
+                </div>
+            ) : error ? (
+                <div className="rounded-lg bg-red-500/10 p-4 text-center text-red-500">{error}</div>
+            ) : (
+                <div className="space-y-6">
+                    {productoras.length === 0 ? (
+                        <div className="rounded-lg bg-black/40 p-8 text-center text-gray-500">
+                            No hay solicitudes pendientes
+                        </div>
+                    ) : (
+                        productoras.map((productora) => (
+                            <div
+                                key={productora.id}
+                                className="flex flex-col rounded-xl border border-black/30 bg-black/60 p-6 shadow-lg md:flex-row md:items-center md:justify-between"
+                            >
+                                <div className="min-w-0 flex-1">
+                                    <div className="mb-2 flex items-center gap-3">
+                                        <span className="text-xl font-bold text-white">{productora.razonSocial || 'Nombre de Productora'}</span>
+                                        {productora.status === 'PENDING' && (
+                                            <span className="rounded-md bg-yellow-500/90 px-3 py-1 text-xs font-semibold text-black">Solicitud Pendiente</span>
+                                        )}
+                                    </div>
+                                    <div className="mb-1 text-sm text-gray-300">{productora.email}</div>
+                                    <div className="mb-2 text-sm text-gray-400">
+                                        Ej: "Organizador de festivales de música a gran escala especializado en eventos de música electrónica y rock."
+                                    </div>
+                                    <div className="mb-2 flex flex-wrap gap-8 text-xs text-gray-400">
+                                        <div>
+                                            <span className="block font-semibold text-gray-300">Fecha de solicitud</span>
+                                            <span>dd/mm/aaaa</span>
+                                        </div>
+                                        <div>
+                                            <span className="block font-semibold text-gray-300">Tipo/s de evento/s</span>
+                                            <span>Ej: "Sociales"</span>
+                                        </div>
+                                    </div>
+                                    <button
+                                        className="mt-2 flex items-center gap-2 text-sm font-semibold text-red-500 hover:underline"
+                                        type="button"
+                                        tabIndex={-1}
+                                    >
+                                        <FiEye /> Ver Documentos presentados
+                                    </button>
+                                </div>
+                                <div className="mt-6 flex min-w-[180px] flex-col gap-3 md:ml-8 md:mt-0">
+                                    <button
+                                        className="rounded-md bg-green-500 py-2 font-bold text-white transition hover:bg-green-600 disabled:opacity-60"
+                                        disabled={updating === productora.id || productora.status === 'APPROVED'}
+                                        onClick={() => handleStatusChange(productora.id, 'APPROVED')}
+                                    >
+                                        Aceptar
+                                    </button>
+                                    <button
+                                        className="rounded-md bg-red-500 py-2 font-bold text-white transition hover:bg-red-600 disabled:opacity-60"
+                                        disabled={updating === productora.id || productora.status === 'REJECTED'}
+                                        onClick={() => handleStatusChange(productora.id, 'REJECTED')}
+                                    >
+                                        Rechazar
+                                    </button>
+                                    <button
+                                        className="flex items-center justify-center gap-2 rounded-md border border-gray-600 bg-gray-800 py-2 font-semibold text-gray-200 hover:bg-gray-700"
+                                        type="button"
+                                        tabIndex={-1}
+                                    >
+                                        <span>Solicitar Más Info</span>
+                                    </button>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+            )}
         </div>
     );
 };
