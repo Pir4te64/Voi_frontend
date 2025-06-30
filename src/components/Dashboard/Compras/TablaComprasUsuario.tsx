@@ -26,7 +26,7 @@ const TablaComprasUsuario: React.FC = () => {
                 ? JSON.parse(localStorage.getItem('auth')!).accessToken
                 : null;
             if (!token) throw new Error('No autenticado');
-            const res = await axios.get(`${api_url.get_tickets}?pageNumber=${pageNumber}&pageSize=10&sortDirection=DESC`, {
+            const res = await axios.get(`${api_url.get_tickets}?pageNumber=${pageNumber}&pageSize=10&sortDirection=DESC&estado=PAGADO`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const content = Array.isArray(res.data?.content) ? res.data.content : [];
