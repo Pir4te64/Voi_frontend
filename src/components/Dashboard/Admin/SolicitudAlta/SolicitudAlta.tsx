@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSolicitudAltaStore } from './store/useSolicitudAltaStore';
 import { FiEye, FiSearch } from 'react-icons/fi';
 import { FaCheckCircle, FaTimesCircle, FaMinusCircle } from 'react-icons/fa';
@@ -13,6 +13,8 @@ const SolicitudAlta: React.FC = () => {
         updateProductoraStatus
     } = useSolicitudAltaStore();
 
+    const [search, setSearch] = useState('');
+
     useEffect(() => {
         fetchProductoras();
     }, [fetchProductoras]);
@@ -21,11 +23,16 @@ const SolicitudAlta: React.FC = () => {
         await updateProductoraStatus(productoraId, newStatus);
     };
 
+    // Filtrar productoras por nombre (razonSocial)
+    const filteredProductoras = productoras.filter((p) =>
+        p.razonSocial.toLowerCase().includes(search.toLowerCase())
+    );
+
     return (
         <div className="container mx-auto px-4 py-8">
             <div className="mb-8 bg-[#131315]">
                 <h1 className="mb-6 text-3xl font-bold text-secondary">Solicitudes de productoras</h1>
-                {/* Barra de búsqueda visual */}
+                {/* Barra de búsqueda funcional */}
                 <div className="relative mb-8 max-w-xl">
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                         <FiSearch size={20} />
@@ -33,8 +40,9 @@ const SolicitudAlta: React.FC = () => {
                     <input
                         type="text"
                         className="w-full rounded-md bg-[#1C1C1E] py-3 pl-10 pr-4 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary"
-                        placeholder="Buscar solicitud por nombre de la productora o email..."
-                        disabled
+                        placeholder="Buscar solicitud por nombre de la productora..."
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
                     />
                 </div>
             </div>
@@ -47,12 +55,12 @@ const SolicitudAlta: React.FC = () => {
                 <div className="rounded-lg bg-red-500/10 p-4 text-center text-red-500">{error}</div>
             ) : (
                 <div className="space-y-6 bg-[#131315]">
-                    {productoras.length === 0 ? (
+                    {filteredProductoras.length === 0 ? (
                         <div className="rounded-lg bg-[#1C1C1E] p-8 text-center text-gray-500">
                             No hay solicitudes pendientes
                         </div>
                     ) : (
-                        productoras.map((productora) => (
+                        filteredProductoras.map((productora) => (
                             <div
                                 key={productora.id}
                                 className="flex flex-col rounded-xl border border-[#1C1C1E] bg-[#1C1C1E] p-6 shadow-lg md:flex-row md:items-center md:justify-between"
@@ -62,6 +70,12 @@ const SolicitudAlta: React.FC = () => {
                                         <span className="text-xl font-bold text-white">{productora.razonSocial || 'Nombre de Productora'}</span>
                                         {productora.status === 'PENDING' && (
                                             <span className="rounded-md bg-yellow-500/90 px-3 py-1 text-xs font-semibold text-black">Solicitud Pendiente</span>
+                                        )}
+                                        {productora.status === 'APPROVED' && (
+                                            <span className="rounded-md bg-green-500 px-3 py-1 text-xs font-semibold text-white">Solicitud Aprobada</span>
+                                        )}
+                                        {productora.status === 'REJECTED' && (
+                                            <span className="rounded-md bg-red-500 px-3 py-1 text-xs font-semibold text-white">Solicitud Rechazada</span>
                                         )}
                                     </div>
                                     <div className="mb-1 text-sm text-gray-300">{productora.email}</div>
