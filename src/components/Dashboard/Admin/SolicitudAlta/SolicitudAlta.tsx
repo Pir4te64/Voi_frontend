@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSolicitudAltaStore } from './store/useSolicitudAltaStore';
 import { FiEye, FiSearch } from 'react-icons/fi';
+import { FaCheckCircle, FaTimesCircle, FaMinusCircle } from 'react-icons/fa';
 
 const SolicitudAlta: React.FC = () => {
     const {
@@ -22,7 +23,7 @@ const SolicitudAlta: React.FC = () => {
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <div className="mb-8">
+            <div className="mb-8 bg-[#131315]">
                 <h1 className="mb-6 text-3xl font-bold text-secondary">Solicitudes de productoras</h1>
                 {/* Barra de búsqueda visual */}
                 <div className="relative mb-8 max-w-xl">
@@ -31,7 +32,7 @@ const SolicitudAlta: React.FC = () => {
                     </span>
                     <input
                         type="text"
-                        className="w-full rounded-md bg-black/60 py-3 pl-10 pr-4 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary"
+                        className="w-full rounded-md bg-[#1C1C1E] py-3 pl-10 pr-4 text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary"
                         placeholder="Buscar solicitud por nombre de la productora o email..."
                         disabled
                     />
@@ -45,16 +46,16 @@ const SolicitudAlta: React.FC = () => {
             ) : error ? (
                 <div className="rounded-lg bg-red-500/10 p-4 text-center text-red-500">{error}</div>
             ) : (
-                <div className="space-y-6">
+                <div className="space-y-6 bg-[#131315]">
                     {productoras.length === 0 ? (
-                        <div className="rounded-lg bg-black/40 p-8 text-center text-gray-500">
+                        <div className="rounded-lg bg-[#1C1C1E] p-8 text-center text-gray-500">
                             No hay solicitudes pendientes
                         </div>
                     ) : (
                         productoras.map((productora) => (
                             <div
                                 key={productora.id}
-                                className="flex flex-col rounded-xl border border-black/30 bg-black/60 p-6 shadow-lg md:flex-row md:items-center md:justify-between"
+                                className="flex flex-col rounded-xl border border-[#1C1C1E] bg-[#1C1C1E] p-6 shadow-lg md:flex-row md:items-center md:justify-between"
                             >
                                 <div className="min-w-0 flex-1">
                                     <div className="mb-2 flex items-center gap-3">
@@ -77,6 +78,7 @@ const SolicitudAlta: React.FC = () => {
                                             <span>Ej: "Sociales"</span>
                                         </div>
                                     </div>
+                                    <div className='my-4 w-96 border-t border-gray-600'></div>
                                     <button
                                         className="mt-2 flex items-center gap-2 text-sm font-semibold text-red-500 hover:underline"
                                         type="button"
@@ -87,25 +89,25 @@ const SolicitudAlta: React.FC = () => {
                                 </div>
                                 <div className="mt-6 flex min-w-[180px] flex-col gap-3 md:ml-8 md:mt-0">
                                     <button
-                                        className="rounded-md bg-green-500 py-2 font-bold text-white transition hover:bg-green-600 disabled:opacity-60"
+                                        className="flex items-center justify-center gap-2 rounded-md bg-green-500 py-2 text-white transition hover:bg-green-600 disabled:opacity-60"
                                         disabled={updating === productora.id || productora.status === 'APPROVED'}
                                         onClick={() => handleStatusChange(productora.id, 'APPROVED')}
                                     >
-                                        Aceptar
+                                        <FaCheckCircle className="text-white" /> Aceptar
                                     </button>
                                     <button
-                                        className="rounded-md bg-red-500 py-2 font-bold text-white transition hover:bg-red-600 disabled:opacity-60"
+                                        className="flex items-center justify-center gap-2 rounded-md bg-red-500 py-2 text-white transition hover:bg-red-600 disabled:opacity-60"
                                         disabled={updating === productora.id || productora.status === 'REJECTED'}
                                         onClick={() => handleStatusChange(productora.id, 'REJECTED')}
                                     >
-                                        Rechazar
+                                        <FaTimesCircle className="text-white" /> Rechazar
                                     </button>
                                     <button
-                                        className="flex items-center justify-center gap-2 rounded-md border border-gray-600 bg-gray-800 py-2 font-semibold text-gray-200 hover:bg-gray-700"
+                                        className="flex items-center justify-center gap-2 rounded-md border border-white bg-transparent py-2 text-white transition hover:bg-white/10"
                                         type="button"
                                         tabIndex={-1}
                                     >
-                                        <span>Solicitar Más Info</span>
+                                        <FaMinusCircle className="text-white" /> Solicitar Más Info
                                     </button>
                                 </div>
                             </div>
