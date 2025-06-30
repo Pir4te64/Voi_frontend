@@ -35,6 +35,7 @@ import ListarEventos from "@/components/Dashboard/GestionEventos/ListaEventos/Li
 import CrearEvento from "@/components/Dashboard/GestionEventos/CrearEventos/CrearEvento";
 import ListarEventosParaEditar from "@/components/Dashboard/GestionEventos/EditarEvento/ListarEventosParaEditar";
 import SolicitudAlta from "@/components/Dashboard/Admin/SolicitudAlta/SolicitudAlta";
+import MisCompras from "@/pages/MisCompras/MisCompras";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
           <Route index element={<Index />} />
           <Route path="crearperfil" element={<CrearPerfil />} />
           <Route path="miperfil" element={<Miperfil />} />
+          <Route path="miscompras" element={<MisCompras />} />
           <Route path="eventos" element={<ListarEventos />} />
           <Route path="crearevento" element={<CrearEvento />} />
           <Route path="editareventos" element={<ListarEventosParaEditar />} />
