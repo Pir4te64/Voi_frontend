@@ -99,7 +99,7 @@ const Miperfil: React.FC = () => {
     return (
         <div className="rounded-lg bg-primary p-6 text-white">
             <h2 className="mb-6 text-2xl font-semibold text-secondary">
-                Mi Perfil ({userType})
+                Mi Perfil
             </h2>
             <form className="space-y-6" onSubmit={handleSubmit}>
                 {fieldsConfig[userType].map(({ name, label, type }) => (
