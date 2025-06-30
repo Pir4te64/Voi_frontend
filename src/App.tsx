@@ -10,6 +10,7 @@ import QuienesSomosPage from "@/pages/QuienesSomos/QuienesSomos";
 import EventosPage from "@/pages/Eventos/Eventos";
 import DetallesPage from "@/pages/Eventos/Detalles";
 import GraciasProductoraPage from "@/pages/GraciasProductora";
+import GraciasCompra from "@/pages/GraciasCompra";
 import ErrorNotFound from "@/pages/404";
 import RecuperarPassword from '@/components/LoginUser/RecuperarPassword'
 import CompraRealizada from '@/pages/CompraRealizada/CompraRealizada';
@@ -48,6 +49,7 @@ function App() {
         <Route path="/eventos" element={<EventosPage />} />
         <Route path="/eventos/:id" element={<DetallesPage />} />
         <Route path="/gracias-productora" element={<GraciasProductoraPage />} />
+        <Route path="/gracias-compra" element={<GraciasCompra />} />
         <Route path="/compra-realizada" element={<CompraRealizada />} />
         <Route path="*" element={<ErrorNotFound />} />
 

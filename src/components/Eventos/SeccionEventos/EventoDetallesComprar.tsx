@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { StaticEventDetail } from '@/components/Eventos/SeccionEventos/data/Interfaces';
 import axios from 'axios';
 import { api_url } from '@/api/api';
+import { useAuth } from '@/context/AuthContext';
 
 interface EventoDetallesComprarProps {
     event: StaticEventDetail;
@@ -14,6 +15,12 @@ interface EventoDetallesComprarProps {
 const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) => {
     const navigate = useNavigate();
     const { addToCart, isAuthenticated, getItemQuantity, updateQuantity, items } = useCarritoStore();
+    const { me } = useAuth();
+
+    // Función para verificar si el usuario puede comprar (solo usuarios normales)
+    const canUserBuy = () => {
+        return isAuthenticated() && me?.roles?.includes('ROLE_USUARIO');
+    };
 
     // Estado para el ticket seleccionado
     const [selectedTicket, setSelectedTicket] = useState<string>(() => {
@@ -34,15 +41,23 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
 
         const defaultTicket = event.defaultTicket || event.ticketTypes[0]?.type;
         if (!defaultTicket) return 0;
-        return getItemQuantity(event.id, defaultTicket) || 1;
+
+        // Solo considerar el carrito si el usuario puede comprar
+        if (isAuthenticated() && canUserBuy()) {
+            return getItemQuantity(event.id, defaultTicket) || 1;
+        }
+        return 1;
     });
 
     // Escuchar cambios en el carrito para este ticket
     useEffect(() => {
         if (!hasAvailableTickets || !selectedTicket) return;
 
-        const nuevaCantidad = getItemQuantity(event.id, selectedTicket) || 1;
-        setQuantity(nuevaCantidad);
+        // Solo actualizar si el usuario puede comprar
+        if (isAuthenticated() && canUserBuy()) {
+            const nuevaCantidad = getItemQuantity(event.id, selectedTicket) || 1;
+            setQuantity(nuevaCantidad);
+        }
     }, [items, selectedTicket, event.id, getItemQuantity, hasAvailableTickets]);
 
     // Calcular total
@@ -58,8 +73,8 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
 
         setQuantity(newQuantity);
 
-        // Si el usuario está autenticado, actualizar el carrito en tiempo real
-        if (isAuthenticated()) {
+        // Si el usuario está autenticado y puede comprar, actualizar el carrito en tiempo real
+        if (isAuthenticated() && canUserBuy()) {
             const selectedTicketType = event.ticketTypes.find(t => t.type === selectedTicket);
             if (!selectedTicketType) return;
 
@@ -72,6 +87,11 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
     const handleAddToCart = () => {
         if (!isAuthenticated()) {
             toast.error('Debes iniciar sesión para agregar items al carrito');
+            return;
+        }
+
+        if (!canUserBuy()) {
+            toast.error('Solo los usuarios unicos pueden agregar items al carrito');
             return;
         }
 
@@ -104,6 +124,11 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
     const handleBuyNow = async () => {
         if (!isAuthenticated()) {
             toast.error('Debes iniciar sesión para realizar la compra');
+            return;
+        }
+
+        if (!canUserBuy()) {
+            toast.error('Solo los usuarios unicos pueden realizar compras');
             return;
         }
 

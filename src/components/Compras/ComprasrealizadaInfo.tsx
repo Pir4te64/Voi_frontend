@@ -1,7 +1,9 @@
 import React from 'react';
-import { FaChevronDown, FaChevronRight } from 'react-icons/fa';
+import { FaChevronDown, FaChevronRight, FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 import { api_url } from '@/api/api';
+import { useNavigate } from 'react-router-dom';
+import { useCarritoStore } from '@/components/SidebarCompras/store/useCarritoStore';
 
 interface OrdenCompra {
     id: number;
@@ -24,10 +26,23 @@ interface ComprasRealizadaInfoProps {
 }
 
 const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra }) => {
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { clearCart } = useCarritoStore();
     const [isResumenOpen, setIsResumenOpen] = React.useState(true);
     const [loadingPago, setLoadingPago] = React.useState(false);
     const [pagoData, setPagoData] = React.useState<any>(null);
+    const [isMetodoPagoActive, setIsMetodoPagoActive] = React.useState(false);
+    const [showCancelModal, setShowCancelModal] = React.useState(false);
+
+    const handleCancelarPago = () => {
+        clearCart();
+        navigate('/');
+    };
+
+    const handlePagoCompletado = () => {
+        clearCart();
+        navigate('/gracias-compra');
+    };
 
     const handleContinuarPago = async () => {
         setLoadingPago(true);
@@ -70,20 +85,11 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                 <div className="space-y-4">
                     <h2 className="text-lg font-semibold text-white">Tabla de contenidos</h2>
                     <ul className="space-y-2">
-                        <li>
-                            <a href="#resumen" className="text-secondary hover:text-white">
-                                Resumen de Compra
-                            </a>
+                        <li className="text-secondary hover:text-white">
+                            Resumen de Compra
                         </li>
-                        <li>
-                            <a href="#datos" className="text-gray-400 hover:text-white">
-                                Datos del Comprador
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#metodo" className="text-gray-400 hover:text-white">
-                                Método de Pago
-                            </a>
+                        <li className={`${isMetodoPagoActive ? 'text-secondary' : 'text-gray-400'} hover:text-white transition-colors`}>
+                            Método de Pago
                         </li>
                     </ul>
                 </div>
@@ -131,6 +137,7 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                                 <button
                                     onClick={() => {
                                         setIsResumenOpen(false);
+                                        setIsMetodoPagoActive(true);
                                         setTimeout(() => {
                                             document.getElementById('datos')?.scrollIntoView({
                                                 behavior: 'smooth',
@@ -152,7 +159,7 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                         <div className="space-y-4">
                             {loadingPago && (
                                 <div className="flex items-center justify-center">
-                                    <span className="text-white">Cargando opciones de pago...</span>
+                                    <FaSpinner className="animate-spin text-2xl text-secondary" />
                                 </div>
                             )}
                             {!loadingPago && pagoData && (
@@ -165,6 +172,12 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                                     >
                                         Ir a Pagar
                                     </a>
+                                    <button
+                                        onClick={handlePagoCompletado}
+                                        className="block w-full rounded-lg border border-secondary bg-transparent py-2 text-center font-semibold text-secondary transition-colors hover:bg-secondary hover:text-white"
+                                    >
+                                        Completar Pago
+                                    </button>
                                     <div>
                                         <span className="text-gray-400">Monto:</span>
                                         <span className="ml-2 font-bold text-white">
@@ -183,15 +196,51 @@ const ComprasRealizadaInfo: React.FC<ComprasRealizadaInfoProps> = ({ ordenCompra
                         </div>
                     </div>
 
-                    {/* Botón de Continuar */}
-                    <button
-                        onClick={handleContinuarPago}
-                        className="w-full rounded-lg bg-secondary py-3 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
-                    >
-                        Continuar Pago
-                    </button>
+                    {/* Botones de Continuar y Cancelar */}
+                    <div className="flex gap-4">
+                        <button
+                            onClick={handleContinuarPago}
+                            className="flex-1 rounded-lg bg-secondary py-3 text-center font-semibold text-white transition-colors hover:bg-secondary/90"
+                        >
+                            Continuar Pago
+                        </button>
+                        <button
+                            onClick={() => setShowCancelModal(true)}
+                            className="flex-1 rounded-lg border border-red-500 bg-transparent py-3 text-center font-semibold text-red-500 transition-colors hover:bg-red-500 hover:text-white"
+                        >
+                            Cancelar Pago
+                        </button>
+                    </div>
                 </div>
             </div>
+
+            {/* Modal de Confirmación para Cancelar */}
+            {showCancelModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+                    <div className="mx-4 w-full max-w-md rounded-lg bg-[#252525] p-6">
+                        <h3 className="mb-4 text-xl font-semibold text-white">
+                            ¿Cancelar Pago?
+                        </h3>
+                        <p className="mb-6 text-gray-300">
+                            ¿Estás seguro de que deseas cancelar el pago? Esta acción limpiará tu carrito y te llevará al inicio.
+                        </p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setShowCancelModal(false)}
+                                className="flex-1 rounded-lg border border-gray-600 bg-transparent py-2 text-center font-semibold text-gray-300 transition-colors hover:bg-gray-600 hover:text-white"
+                            >
+                                No, Continuar
+                            </button>
+                            <button
+                                onClick={handleCancelarPago}
+                                className="flex-1 rounded-lg bg-red-500 py-2 text-center font-semibold text-white transition-colors hover:bg-red-600"
+                            >
+                                Sí, Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
