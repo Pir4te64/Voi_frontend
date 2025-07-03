@@ -153,7 +153,7 @@ const ListarEventos: React.FC = () => {
                             <div className="flex flex-1 flex-col justify-between gap-2 md:pl-2">
                                 <div className="flex flex-col gap-1 md:flex-row md:items-center md:justify-between">
                                     <span className="text-xl font-bold text-white">{evento.nombre}</span>
-                                    <span className={`mt-1 md:mt-0 md:ml-2 rounded px-2 py-1 text-xs font-semibold ${estadoColor} md:self-end`}>{estadoTexto}</span>
+                                    <span className={`mt-1 md:mt-0 md:ml-2 rounded px-2 py-1 text-xs font-semibold ${estadoColor} md:self-end inline-block w-auto`}>{estadoTexto}</span>
                                 </div>
                                 <div className="text-sm text-gray-400">
                                     Por <span className="font-semibold text-white">Productora Desconocida</span>
@@ -185,9 +185,6 @@ const ListarEventos: React.FC = () => {
                             <div className="flex flex-row items-center justify-center gap-2 md:flex-col md:items-end md:justify-start md:pl-4">
                                 <button className="flex items-center gap-2 rounded border border-gray-400 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-700/30">
                                     <FaEye className="text-base" /> Ver Detalles
-                                </button>
-                                <button className="flex items-center gap-2 rounded border border-red-600 px-4 py-2 text-xs font-semibold text-red-500 hover:bg-red-600/10">
-                                    <FaTrashAlt className="text-base" /> Eliminar Evento
                                 </button>
                             </div>
                         </div>
