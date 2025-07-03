@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useEventosStore } from "./store/useEventosStore";
-import { FaTicketAlt, FaMoneyBillWave, FaEye, FaTrashAlt } from "react-icons/fa";
+import { FaTicketAlt, FaMoneyBillWave, FaEye, FaTrashAlt, FaWallet } from "react-icons/fa";
+import { BiSolidDollarCircle } from "react-icons/bi";
 
 function formatFechaCompleta(fechaStr: string) {
     const fecha = new Date(fechaStr);
@@ -137,7 +138,7 @@ const ListarEventos: React.FC = () => {
                     return (
                         <div
                             key={evento.id}
-                            className="flex flex-col gap-4 rounded-xl bg-[#1C1C1E] p-6 shadow-lg md:flex-row"
+                            className="grid grid-cols-1 gap-4 rounded-xl bg-[#1C1C1E] p-6 shadow-lg md:grid-cols-[auto_1fr_auto]"
                         >
                             {/* Fecha grande */}
                             <div className="flex w-28 min-w-[7rem] flex-col items-center justify-center rounded-lg bg-white p-2 text-center">
@@ -147,20 +148,10 @@ const ListarEventos: React.FC = () => {
                                 <span className="text-xs leading-none text-black">{anio}</span>
                             </div>
                             {/* Info evento */}
-                            <div className="flex flex-1 flex-col justify-between gap-2">
+                            <div className="flex flex-1 flex-col justify-between gap-2 md:pl-2">
                                 <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-xl font-bold text-white">{evento.nombre}</span>
-                                        <span className={`ml-2 rounded px-2 py-1 text-xs font-semibold ${estadoColor}`}>{estadoTexto}</span>
-                                    </div>
-                                    <div className="mt-2 flex flex-col gap-2 md:mt-0">
-                                        <button className="flex items-center gap-2 rounded border border-gray-400 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-700/30">
-                                            <FaEye className="text-base" /> Ver Detalles
-                                        </button>
-                                        <button className="flex items-center gap-2 rounded border border-red-600 px-4 py-2 text-xs font-semibold text-red-500 hover:bg-red-600/10">
-                                            <FaTrashAlt className="text-base" /> Eliminar Evento
-                                        </button>
-                                    </div>
+                                    <span className="text-xl font-bold text-white">{evento.nombre}</span>
+                                    <span className={`ml-0 md:ml-2 rounded px-2 py-1 text-xs font-semibold ${estadoColor} md:self-end`}>{estadoTexto}</span>
                                 </div>
                                 <div className="text-sm text-gray-400">
                                     Por <span className="font-semibold text-white">Productora Desconocida</span>
@@ -169,22 +160,33 @@ const ListarEventos: React.FC = () => {
                                     <span>📍 {evento.address?.city || "Ciudad"}</span>
                                     <span>🎫 {evento.categoriaNombre}</span>
                                 </div>
-                                <div className="mt-2 flex flex-wrap gap-8 text-xs">
-                                    <div className="flex items-center gap-2">
-                                        <FaTicketAlt className="text-red-500" />
-                                        <div className="flex flex-col">
-                                            <span className="text-gray-400">TICKETS VENDIDOS</span>
-                                            <span className="text-lg font-bold text-red-500">{ticketsVendidos.toLocaleString("es-AR", { minimumFractionDigits: 2 })}</span>
+                                <div className="mt-2 flex flex-col divide-y divide-gray-700">
+                                    {/* Tickets Vendidos */}
+                                    <div className="flex items-center justify-between py-2">
+                                        <div className="flex items-center gap-2">
+                                            <FaWallet className="text-red-500" />
+                                            <span className="text-xs font-bold uppercase text-red-400">TICKETS VENDIDOS</span>
                                         </div>
+                                        <span className="text-lg font-bold text-red-400">{ticketsVendidos.toLocaleString("es-AR", { minimumFractionDigits: 2 })}</span>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                        <FaMoneyBillWave className="text-green-500" />
-                                        <div className="flex flex-col">
-                                            <span className="text-gray-400">GANANCIAS</span>
-                                            <span className="text-lg font-bold text-green-500">${ganancias.toLocaleString("es-AR", { minimumFractionDigits: 3 })}</span>
+                                    {/* Ganancias */}
+                                    <div className="flex items-center justify-between py-2">
+                                        <div className="flex items-center gap-2">
+                                            <BiSolidDollarCircle className="text-green-500" />
+                                            <span className="text-xs font-bold uppercase text-green-400">GANANCIAS</span>
                                         </div>
+                                        <span className="text-lg font-bold text-green-400">${ganancias.toLocaleString("es-AR", { minimumFractionDigits: 3 })}</span>
                                     </div>
                                 </div>
+                            </div>
+                            {/* Columna de botones */}
+                            <div className="flex flex-col items-end justify-start gap-2 md:justify-start md:pl-4">
+                                <button className="flex items-center gap-2 rounded border border-gray-400 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-700/30">
+                                    <FaEye className="text-base" /> Ver Detalles
+                                </button>
+                                <button className="flex items-center gap-2 rounded border border-red-600 px-4 py-2 text-xs font-semibold text-red-500 hover:bg-red-600/10">
+                                    <FaTrashAlt className="text-base" /> Eliminar Evento
+                                </button>
                             </div>
                         </div>
                     );
