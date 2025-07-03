@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { toast } from 'react-toastify';
-import { ProductoraPendiente } from '../types';
-import { solicitudAltaService } from './solicitudAltaService';
+import { ProductoraPendiente } from '@/components/Dashboard/Admin/SolicitudAlta/types';
+import { solicitudAltaService } from '@/components/Dashboard/Admin/SolicitudAlta/store/solicitudAltaService';
 
 interface SolicitudAltaState {
     productoras: ProductoraPendiente[];

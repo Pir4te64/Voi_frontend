@@ -1,2 +1,2 @@
-export { useSolicitudAltaStore } from './useSolicitudAltaStore';
-export { solicitudAltaService } from './solicitudAltaService'; 
+export { useSolicitudAltaStore } from '@/components/Dashboard/Admin/SolicitudAlta/store/useSolicitudAltaStore';
+export { solicitudAltaService } from '@/components/Dashboard/Admin/SolicitudAlta/store/solicitudAltaService'; 

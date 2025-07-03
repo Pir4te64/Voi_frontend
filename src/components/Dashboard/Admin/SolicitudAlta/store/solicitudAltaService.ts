@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { api_url } from '@/api/api';
-import { ProductoraPendiente } from '../types';
+import { ProductoraPendiente } from '@/components/Dashboard/Admin/SolicitudAlta/types';
 
 const getAuthToken = (): string | null => {
     const auth = localStorage.getItem("auth");

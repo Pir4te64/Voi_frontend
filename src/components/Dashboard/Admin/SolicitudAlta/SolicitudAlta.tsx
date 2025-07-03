@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSolicitudAltaStore } from './store/useSolicitudAltaStore';
+import { useSolicitudAltaStore } from '@/components/Dashboard/Admin/SolicitudAlta/store/useSolicitudAltaStore';
 import { FiEye, FiSearch } from 'react-icons/fi';
 import { FaCheckCircle, FaTimesCircle, FaMinusCircle } from 'react-icons/fa';
 
