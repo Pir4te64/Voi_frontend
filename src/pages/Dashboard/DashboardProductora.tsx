@@ -1,90 +1,56 @@
-import { FaCalendarAlt, FaTicketAlt, FaQrcode } from "react-icons/fa";
-import { MdGroup } from "react-icons/md";
-import { BiBarChartAlt2 } from "react-icons/bi";
+import { FaTicketAlt, FaEye } from "react-icons/fa";
+import { MdGroup, MdEventAvailable } from "react-icons/md";
 
 const DashboardProductora = () => {
     return (
-        <div className="mx-auto w-full max-w-7xl px-4 py-8">
-            <h1 className="mb-1 text-3xl font-bold text-secondary">Dashboard Productora</h1>
-            <p className="mb-6 text-gray-300">Panel de control para gestión de eventos y ventas.</p>
-
-            <div className="w-full overflow-hidden rounded-xl bg-secondary p-0">
-                <div className="grid grid-cols-1 divide-y divide-black/30 md:grid-cols-2 md:divide-x md:divide-y-0">
-                    {/* Columna izquierda */}
-                    <div className="flex flex-col divide-y divide-black/30">
-                        {/* Eventos Activos */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaCalendarAlt className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">EVENTOS ACTIVOS</div>
-                                    <div className="text-xs font-normal text-black/60">En curso</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
-                        </div>
-                        {/* Lotes de Entrada */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaTicketAlt className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">LOTES DE ENTRADA</div>
-                                    <div className="text-xs font-normal text-black/60">Disponibles</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
-                        </div>
-                        {/* Revendedores */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <MdGroup className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">REVENDEDORES</div>
-                                    <div className="text-xs font-normal text-black/60">Activos</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full flex-col items-end justify-center">
-                                <div className="text-3xl font-bold text-black">00</div>
-                            </div>
-                        </div>
+        <div className="mx-auto w-full max-w-5xl px-4 py-8">
+            <h1 className="mb-6 text-3xl font-bold text-secondary">Dashboard</h1>
+            <div className="flex flex-col rounded-2xl bg-secondary p-8 shadow-lg md:flex-row md:items-center md:justify-start">
+                {/* Ingreso total */}
+                <div className="mb-8 mr-12 flex min-w-[260px] flex-col justify-center md:mb-0">
+                    <div className="mb-2 text-base font-bold uppercase text-white">INGRESO TOTAL</div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-4xl font-extrabold tracking-wider text-white md:text-5xl">$ 000.000</span>
+                        <FaEye className="text-lg text-white opacity-80" />
                     </div>
-                    {/* Columna derecha */}
-                    <div className="flex flex-col divide-y divide-black/30">
-                        {/* Ventas Totales */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <BiBarChartAlt2 className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">VENTAS TOTALES</div>
-                                    <div className="text-xs font-normal text-black/60">Este mes</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full flex-col items-end justify-center">
-                                <div className="text-3xl font-bold text-black">$0</div>
-                            </div>
-                        </div>
-                        {/* Tickets Escaneados */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaQrcode className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">TICKETS ESCANEADOS</div>
-                                    <div className="text-xs font-normal text-black/60">Hoy</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
-                        </div>
-                        {/* Espacio vacío para alinear visualmente */}
-                        <div className="min-h-[80px] px-6 py-6" />
-                    </div>
+                    <div className="mt-2 text-sm font-medium text-white/80">+12% con respecto al mes pasado</div>
                 </div>
-            </div>
-
-            {/* Actividad reciente */}
-            <div className="mt-10">
-                <h2 className="mb-4 rounded-t bg-black/60 px-4 py-2 text-xl font-bold text-white">Actividad reciente</h2>
-                <div className="rounded-b bg-black/30 p-4">
-                    <p className="text-gray-300">No hay actividad reciente para mostrar.</p>
+                {/* Métricas */}
+                <div className="flex flex-1 flex-col justify-center divide-y divide-black/20 bg-transparent">
+                    {/* Tickets vendidos */}
+                    <div className="flex flex-row items-center gap-4 py-3">
+                        <FaTicketAlt className="mr-2 text-xl text-black" />
+                        <div className="flex-1">
+                            <div className="text-xs font-bold uppercase text-black">TICKETS VENDIDOS</div>
+                            <div className="text-xs text-gray-700">En todas los eventos</div>
+                        </div>
+                        <div className="flex min-w-[90px] flex-col items-end">
+                            <span className="text-base font-bold text-black">00.000</span>
+                            <span className="text-xs font-medium text-gray-700">+8% con respecto al mes pasado</span>
+                        </div>
+                    </div>
+                    {/* Eventos activos */}
+                    <div className="flex flex-row items-center gap-4 py-3">
+                        <MdEventAvailable className="mr-2 text-xl text-black" />
+                        <div className="flex-1">
+                            <div className="text-xs font-bold uppercase text-black">EVENTOS ACTIVOS</div>
+                        </div>
+                        <div className="flex min-w-[90px] flex-col items-end">
+                            <span className="text-base font-bold text-black">7</span>
+                        </div>
+                    </div>
+                    {/* Revendedores */}
+                    <div className="flex flex-row items-center gap-4 py-3">
+                        <MdGroup className="mr-2 text-xl text-black" />
+                        <div className="flex-1">
+                            <div className="text-xs font-bold uppercase text-black">REVENDEDORES</div>
+                            <div className="text-xs text-gray-700">Total</div>
+                        </div>
+                        <div className="flex min-w-[90px] flex-col items-end">
+                            <span className="text-base font-bold text-black">6</span>
+                            <span className="text-xs font-medium text-gray-700">1 nuevo este mes</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
