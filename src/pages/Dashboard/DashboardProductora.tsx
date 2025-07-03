@@ -1,4 +1,4 @@
-import { FaCalendarAlt, FaTicketAlt, FaUsers, FaChartLine, FaQrcode } from "react-icons/fa";
+import { FaCalendarAlt, FaTicketAlt, FaQrcode } from "react-icons/fa";
 import { MdGroup } from "react-icons/md";
 import { BiBarChartAlt2 } from "react-icons/bi";
 
