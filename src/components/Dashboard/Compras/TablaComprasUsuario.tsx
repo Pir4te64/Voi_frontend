@@ -48,7 +48,27 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
             setTotalPages(res.data?.totalPages || 1);
         } catch (err: any) {
             setTickets([]);
-            setError(err.message || `Error al cargar las ${tipo === 'ventas' ? 'ventas' : 'compras'}`);
+
+            // Manejar diferentes tipos de errores
+            let errorMessage = `Error al cargar las ${tipo === 'ventas' ? 'ventas' : 'compras'}`;
+
+            if (err.response?.data?.error) {
+                // Error con formato específico de la API
+                const apiError = err.response.data.error;
+                if (apiError.description && Array.isArray(apiError.description)) {
+                    errorMessage = apiError.description.join(', ');
+                } else if (apiError.description) {
+                    errorMessage = apiError.description;
+                }
+            } else if (err.response?.data?.message) {
+                // Error con mensaje directo
+                errorMessage = err.response.data.message;
+            } else if (err.message) {
+                // Error general
+                errorMessage = err.message;
+            }
+
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }

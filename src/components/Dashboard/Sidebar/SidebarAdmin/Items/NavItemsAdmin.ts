@@ -3,6 +3,7 @@ import {
     FaRegDotCircle,
 } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
+import { BiBarChartAlt2 } from "react-icons/bi";
 
 /**
  * Opciones de navegación para ADMIN.
@@ -27,5 +28,10 @@ export const navItemsAdmin = [
         to: "/dashboard/eventos",
         label: "Eventos",
         Icon: FaCalendarAlt,
+    },
+    {
+        to: "/dashboard/misventas",
+        label: "Mis Ventas",
+        Icon: BiBarChartAlt2,
     },
 ];

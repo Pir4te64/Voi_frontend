@@ -43,7 +43,7 @@ export const navItemsRevendedor = [
         ],
     },
     {
-        to: "/dashboard/ventas",
+        to: "/dashboard/misventas",
         label: "Mis Ventas",
         Icon: FaShoppingCart,
         children: [
@@ -86,4 +86,5 @@ export const navItemsRevendedor = [
             },
         ],
     },
+
 ];
