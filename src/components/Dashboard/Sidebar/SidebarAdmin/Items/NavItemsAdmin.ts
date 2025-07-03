@@ -1,8 +1,9 @@
 import {
     FaCalendarAlt,
+    FaRegDotCircle,
 } from "react-icons/fa";
-import { MdGroup } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
+
 /**
  * Opciones de navegación para ADMIN.
  * `badge` es opcional y se muestra como círculo a la derecha.
@@ -10,19 +11,21 @@ import { IoHomeOutline } from "react-icons/io5";
 export const navItemsAdmin = [
     {
         to: "/dashboard",
-        label: "Inicio",
+        label: "Dashboard",
         Icon: IoHomeOutline,
         end: true,
-    },
-    {
-        to: "/dashboard/productoras",
-        label: "Productoras",
-        Icon: MdGroup,
+        children: [
+            {
+                to: "/dashboard/solicitudes-alta",
+                label: "Solicitudes (ALTA)",
+                Icon: FaRegDotCircle,
+                badge: null, // El badge se llenará dinámicamente en el Sidebar
+            },
+        ],
     },
     {
         to: "/dashboard/eventos",
         label: "Eventos",
         Icon: FaCalendarAlt,
     },
-
 ];

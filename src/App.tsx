@@ -88,7 +88,7 @@ function App() {
             path="revendedores/agregar-comision-por-lotes"
             element={<AgregarComision />}
           />
-          <Route path="productoras" element={<SolicitudAlta />} />
+          <Route path="solicitudes-alta" element={<SolicitudAlta />} />
         </Route>
       </Routes>
     </AuthProvider>

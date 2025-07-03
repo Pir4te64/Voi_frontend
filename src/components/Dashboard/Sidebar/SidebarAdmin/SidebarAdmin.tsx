@@ -11,6 +11,7 @@ import { useUserInfo } from "@/context/useUserInfo";
 import { useAuth } from "@/context/AuthContext";
 import { navItemsAdmin } from "@/components/Dashboard/Sidebar/SidebarAdmin/Items/NavItemsAdmin";
 import { BiLogOut } from "react-icons/bi";
+import { useSolicitudAltaStore } from "@/components/Dashboard/Admin/SolicitudAlta/store/useSolicitudAltaStore";
 
 /**
  * Sidebar para usuarios con rol ADMIN.
@@ -22,6 +23,8 @@ const SidebarAdmin = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { email, allUser } = useUserInfo();
   const { logout } = useAuth();
+  const { productoras } = useSolicitudAltaStore();
+  const solicitudesPendientes = productoras.filter((p) => p.status === "PENDING").length;
 
   useEffect(() => {
     setIsOpen(false);
@@ -101,11 +104,6 @@ const SidebarAdmin = () => {
               >
                 <Icon className="mr-3 h-6 w-6" />
                 {label}
-                {children && (
-                  <span className="ml-auto rounded-full bg-secondary px-2 text-xs font-bold text-black">
-                    {children.length}
-                  </span>
-                )}
               </NavLink>
 
               {children && (
@@ -116,27 +114,30 @@ const SidebarAdmin = () => {
                       label: subLabel,
                       Icon: SubIcon,
                       badge: subBadge,
-                    }: any) => (
-                      <NavLink
-                        key={subTo}
-                        to={subTo}
-                        className={({ isActive }) =>
-                          `flex items-center w-full p-1 rounded text-sm transition-colors ${isActive
-                            ? "text-secondary font-semibold"
-                            : "text-white hover:text-secondary"
-                          }`
-                        }
-                        onClick={() => setIsOpen(false)}
-                      >
-                        <SubIcon className="mr-2 h-3 w-3" />
-                        {subLabel}
-                        {subBadge !== undefined && (
-                          <span className="ml-auto rounded-full bg-secondary px-2 text-[10px] font-bold text-black">
-                            {subBadge}
-                          </span>
-                        )}
-                      </NavLink>
-                    )
+                    }: any) => {
+                      const isSolicitudesAlta = subTo === "/dashboard/solicitudes-alta";
+                      return (
+                        <NavLink
+                          key={subTo}
+                          to={subTo}
+                          className={({ isActive }) =>
+                            `flex items-center w-full p-1 rounded text-sm transition-colors ${isActive
+                              ? "text-secondary font-semibold"
+                              : "text-white hover:text-secondary"
+                            }`
+                          }
+                          onClick={() => setIsOpen(false)}
+                        >
+                          <SubIcon className="mr-2 h-3 w-3" />
+                          {subLabel}
+                          {isSolicitudesAlta && solicitudesPendientes > 0 && (
+                            <span className="ml-auto rounded-full bg-secondary px-2 text-[10px] font-bold text-black">
+                              +{solicitudesPendientes}
+                            </span>
+                          )}
+                        </NavLink>
+                      );
+                    }
                   )}
                 </div>
               )}
