@@ -8,6 +8,8 @@ import {
   FaChevronDown,
   FaChevronRight,
 } from "react-icons/fa";
+import { Scanner } from '@yudiel/react-qr-scanner';
+import { BsQrCode } from "react-icons/bs";
 
 import { navItemsProductora } from "@/components/Dashboard/Sidebar/SidebarProductora/Items/NavItemsProductora";
 import { useUserInfo } from "@/context/useUserInfo";
@@ -25,6 +27,8 @@ const SidebarProductora = () => {
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const { email, allUser } = useUserInfo();
   const { logout } = useAuth();
+  const [showQrModal, setShowQrModal] = useState(false);
+  const [qrResult, setQrResult] = useState<string | null>(null);
 
   /* Cerrar automáticamente al cambiar de ruta (mobile) */
   useEffect(() => {
@@ -54,6 +58,21 @@ const SidebarProductora = () => {
   };
 
   const renderNavItem = (item: any) => {
+    // Si es el ítem de escanear QRs, abrir el modal
+    if (item.label === "Escanear QRs") {
+      return (
+        <button
+          key={item.to}
+          className="flex w-full items-center rounded p-2 text-white transition-colors hover:text-secondary"
+          onClick={() => setShowQrModal(true)}
+          type="button"
+        >
+          <item.Icon className="mr-3 h-4 w-4" />
+          {item.label}
+        </button>
+      );
+    }
+    // Resto de ítems normales
     const isExpanded = expandedItems.includes(item.to);
     const hasChildren = item.subItems && item.subItems.length > 0;
     const isActive = item.end
@@ -188,6 +207,37 @@ const SidebarProductora = () => {
           Cerrar sesión
         </button>
       </aside>
+
+      {/* Modal para escanear QR */}
+      {showQrModal && (
+        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-70">
+          <div className="relative w-[90vw] max-w-md rounded-lg bg-primary p-6 shadow-lg">
+            <button
+              className="absolute right-2 top-2 text-white hover:text-secondary"
+              onClick={() => setShowQrModal(false)}
+            >
+              <FaTimes className="h-6 w-6" />
+            </button>
+            <h2 className="mb-4 flex items-center text-lg font-semibold text-secondary">
+              <BsQrCode className="mr-2 h-5 w-5" /> Escanear QRs
+            </h2>
+            <Scanner
+              onScan={(codes) => {
+                if (codes.length > 0 && codes[0].rawValue) {
+                  setQrResult(codes[0].rawValue);
+                  setShowQrModal(false);
+                }
+              }}
+              onError={() => setQrResult('Error al acceder a la cámara')}
+            />
+            {qrResult && (
+              <div className="mt-4 text-white">
+                <strong>Resultado:</strong> {qrResult}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 };

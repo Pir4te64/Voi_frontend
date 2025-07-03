@@ -4,10 +4,12 @@ import { MdGroup } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
 import { LuUser } from "react-icons/lu";
 import { BiBarChartAlt2 } from "react-icons/bi";
+import { BsQrCode } from "react-icons/bs";
 
 export const navItemsProductora = [
   { to: "/dashboard", label: "Dashboard", Icon: IoHomeOutline, end: true },
   { to: "/dashboard/miperfil", label: "Mi Perfil", Icon: LuUser },
+  { to: "/dashboard/escanear-qrs", label: "Escanear QRs", Icon: BsQrCode },
   {
     /*  to: "/dashboard/eventos", */
     label: "Eventos",
