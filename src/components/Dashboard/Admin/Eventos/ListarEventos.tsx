@@ -1,28 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { api_url } from "@/api/api";
-import { FaTicketAlt, FaMoneyBillWave } from "react-icons/fa";
-
-interface Evento {
-    id: number;
-    nombre: string;
-    fechaInicio: string;
-    estado: string;
-    categoriaNombre: string;
-    productora?: string;
-    address?: {
-        street: string | null;
-        city: string;
-    };
-    lotes?: Array<{
-        ticketsVendidos: number;
-        precio: number;
-    }>;
-    ganancias?: number;
-}
-
-const estados = ["Todos los Estados", "En Curso", "Pasado"];
-const categorias = ["Todas las Categoría", "Concierto", "Festival"];
+import React, { useEffect, useState, useMemo } from "react";
+import { useEventosStore } from "./store/useEventosStore";
+import { FaTicketAlt, FaMoneyBillWave, FaEye, FaTrashAlt } from "react-icons/fa";
 
 function formatFechaCompleta(fechaStr: string) {
     const fecha = new Date(fechaStr);
@@ -34,51 +12,98 @@ function formatFechaCompleta(fechaStr: string) {
 }
 
 const ListarEventos: React.FC = () => {
-    const [eventos, setEventos] = useState<Evento[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const { eventos, loading, error, fetchEventos } = useEventosStore();
+    const [search, setSearch] = useState("");
+    const [estadoFiltro, setEstadoFiltro] = useState("Todos");
+    const [categoriaFiltro, setCategoriaFiltro] = useState("Todos");
+    const [orden, setOrden] = useState("Reciente");
 
     useEffect(() => {
-        const fetchEventos = async () => {
-            try {
-                setLoading(true);
-                const response = await axios.get(api_url.get_eventos);
-                setEventos(response.data);
-            } catch (err) {
-                setError("Error al cargar los eventos");
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchEventos();
-    }, []);
+    }, [fetchEventos]);
+
+    // Obtener valores únicos para los filtros
+    const estadosUnicos = useMemo(() => {
+        const setEstados = new Set(eventos.map(e => e.estado === "ACTIVO" ? "En Curso" : (e.estado === "PASADO" ? "Pasado" : e.estado)));
+        return ["Todos", ...Array.from(setEstados)];
+    }, [eventos]);
+    const categoriasUnicas = useMemo(() => {
+        const setCategorias = new Set(eventos.map(e => e.categoriaNombre).filter(Boolean));
+        return ["Todos", ...Array.from(setCategorias)];
+    }, [eventos]);
+
+    // Filtrar eventos
+    const eventosFiltrados = useMemo(() => {
+        let filtrados = eventos;
+        // Filtro de búsqueda
+        if (search.trim()) {
+            const s = search.trim().toLowerCase();
+            filtrados = filtrados.filter(e =>
+                e.nombre.toLowerCase().includes(s) ||
+                (e.categoriaNombre && e.categoriaNombre.toLowerCase().includes(s)) ||
+                (e.address?.city && e.address.city.toLowerCase().includes(s))
+            );
+        }
+        // Filtro de estado
+        if (estadoFiltro !== "Todos") {
+            filtrados = filtrados.filter(e => {
+                const estado = e.estado === "ACTIVO" ? "En Curso" : (e.estado === "PASADO" ? "Pasado" : e.estado);
+                return estado === estadoFiltro;
+            });
+        }
+        // Filtro de categoría
+        if (categoriaFiltro !== "Todos") {
+            filtrados = filtrados.filter(e => e.categoriaNombre === categoriaFiltro);
+        }
+        // Orden
+        filtrados = filtrados.slice().sort((a, b) => {
+            const fa = new Date(a.fechaInicio).getTime();
+            const fb = new Date(b.fechaInicio).getTime();
+            return orden === "Reciente" ? fb - fa : fa - fb;
+        });
+        return filtrados;
+    }, [eventos, search, estadoFiltro, categoriaFiltro, orden]);
 
     return (
-        <div className="mx-auto w-full max-w-7xl px-4 py-8">
+        <div className="bg-blackpx-4 mx-auto w-full max-w-7xl py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Resumen de Eventos</h1>
             <p className="mb-6 text-gray-300">Supervisión de todos los eventos en la plataforma.</p>
 
             {/* Filtros y buscador */}
-            <div className="mb-6 flex flex-col gap-4 rounded-xl bg-[#18181b] p-4 shadow">
+            <div className="mb-6 flex flex-col gap-4 rounded-xl bg-[#1C1C1E] p-4 shadow">
                 <input
                     type="text"
                     placeholder="Buscar evento por título, productora, ubicación..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
                     className="w-full rounded-md bg-[#232326] px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary"
                 />
                 <div className="flex flex-col items-center gap-3 md:flex-row">
-                    <select className="rounded bg-[#232326] px-4 py-2 text-white">
-                        {estados.map((e) => (
+                    <select
+                        className="rounded bg-[#232326] px-4 py-2 text-white"
+                        value={estadoFiltro}
+                        onChange={e => setEstadoFiltro(e.target.value)}
+                    >
+                        {estadosUnicos.map((e) => (
                             <option key={e}>{e}</option>
                         ))}
                     </select>
-                    <select className="rounded bg-[#232326] px-4 py-2 text-white">
-                        {categorias.map((c) => (
+                    <select
+                        className="rounded bg-[#232326] px-4 py-2 text-white"
+                        value={categoriaFiltro}
+                        onChange={e => setCategoriaFiltro(e.target.value)}
+                    >
+                        {categoriasUnicas.map((c) => (
                             <option key={c}>{c}</option>
                         ))}
                     </select>
-                    <select className="ml-auto rounded bg-[#232326] px-4 py-2 text-white">
-                        <option>Reciente</option>
-                        <option>Antiguo</option>
+                    <select
+                        className="ml-auto rounded bg-[#232326] px-4 py-2 text-white"
+                        value={orden}
+                        onChange={e => setOrden(e.target.value)}
+                    >
+                        <option value="Reciente">Reciente</option>
+                        <option value="Antiguo">Antiguo</option>
                     </select>
                 </div>
             </div>
@@ -95,7 +120,7 @@ const ListarEventos: React.FC = () => {
 
             {/* Cards de eventos */}
             <div className="flex flex-col gap-6">
-                {eventos.map((evento) => {
+                {eventosFiltrados.map((evento) => {
                     const { dia, mes, anio, diaSemana } = formatFechaCompleta(evento.fechaInicio);
                     const ticketsVendidos = evento.lotes?.reduce((acc, lote) => acc + (lote.ticketsVendidos || 0), 0) ?? 0;
                     const ganancias = evento.lotes?.reduce((acc, lote) => acc + ((lote.ticketsVendidos || 0) * (lote.precio || 0)), 0) ?? 0;
@@ -112,14 +137,14 @@ const ListarEventos: React.FC = () => {
                     return (
                         <div
                             key={evento.id}
-                            className="flex flex-col gap-4 rounded-xl bg-[#18181b] p-6 shadow-lg md:flex-row"
+                            className="flex flex-col gap-4 rounded-xl bg-[#1C1C1E] p-6 shadow-lg md:flex-row"
                         >
                             {/* Fecha grande */}
-                            <div className="flex w-28 min-w-[7rem] flex-col items-center justify-center rounded-lg bg-[#232326] p-2 text-center">
-                                <span className="mb-1 text-xs font-semibold capitalize text-white">{diaSemana}</span>
-                                <span className="text-3xl font-bold leading-none text-white">{dia}</span>
-                                <span className="text-xs uppercase leading-none text-gray-300">{mes}</span>
-                                <span className="text-xs leading-none text-gray-400">{anio}</span>
+                            <div className="flex w-28 min-w-[7rem] flex-col items-center justify-center rounded-lg bg-white p-2 text-center">
+                                <span className="mb-1 text-xs font-semibold capitalize text-black">{diaSemana}</span>
+                                <span className="text-3xl font-bold leading-none text-black">{dia}</span>
+                                <span className="text-xs uppercase leading-none text-black">{mes}</span>
+                                <span className="text-xs leading-none text-black">{anio}</span>
                             </div>
                             {/* Info evento */}
                             <div className="flex flex-1 flex-col justify-between gap-2">
@@ -128,9 +153,13 @@ const ListarEventos: React.FC = () => {
                                         <span className="text-xl font-bold text-white">{evento.nombre}</span>
                                         <span className={`ml-2 rounded px-2 py-1 text-xs font-semibold ${estadoColor}`}>{estadoTexto}</span>
                                     </div>
-                                    <div className="mt-2 flex gap-2 md:mt-0">
-                                        <button className="rounded border border-gray-400 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-700/30">Ver Detalles</button>
-                                        <button className="flex items-center gap-2 rounded border border-red-600 px-4 py-2 text-xs font-semibold text-red-500 hover:bg-red-600/10"><span className="text-lg"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg></span>Eliminar Evento</button>
+                                    <div className="mt-2 flex flex-col gap-2 md:mt-0">
+                                        <button className="flex items-center gap-2 rounded border border-gray-400 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-700/30">
+                                            <FaEye className="text-base" /> Ver Detalles
+                                        </button>
+                                        <button className="flex items-center gap-2 rounded border border-red-600 px-4 py-2 text-xs font-semibold text-red-500 hover:bg-red-600/10">
+                                            <FaTrashAlt className="text-base" /> Eliminar Evento
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="text-sm text-gray-400">
