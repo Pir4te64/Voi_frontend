@@ -8,8 +8,7 @@ import {
   FaChevronDown,
   FaChevronRight,
 } from "react-icons/fa";
-import { Scanner } from '@yudiel/react-qr-scanner';
-import { BsQrCode } from "react-icons/bs";
+import QRScannerModal from '@/components/Dashboard/QR/QRScannerModal';
 
 import { navItemsProductora } from "@/components/Dashboard/Sidebar/SidebarProductora/Items/NavItemsProductora";
 import { useUserInfo } from "@/context/useUserInfo";
@@ -209,35 +208,11 @@ const SidebarProductora = () => {
       </aside>
 
       {/* Modal para escanear QR */}
-      {showQrModal && (
-        <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-70">
-          <div className="relative w-[90vw] max-w-md rounded-lg bg-primary p-6 shadow-lg">
-            <button
-              className="absolute right-2 top-2 text-white hover:text-secondary"
-              onClick={() => setShowQrModal(false)}
-            >
-              <FaTimes className="h-6 w-6" />
-            </button>
-            <h2 className="mb-4 flex items-center text-lg font-semibold text-secondary">
-              <BsQrCode className="mr-2 h-5 w-5" /> Escanear QRs
-            </h2>
-            <Scanner
-              onScan={(codes) => {
-                if (codes.length > 0 && codes[0].rawValue) {
-                  setQrResult(codes[0].rawValue);
-                  setShowQrModal(false);
-                }
-              }}
-              onError={() => setQrResult('Error al acceder a la cámara')}
-            />
-            {qrResult && (
-              <div className="mt-4 text-white">
-                <strong>Resultado:</strong> {qrResult}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      <QRScannerModal
+        open={showQrModal}
+        onClose={() => setShowQrModal(false)}
+        onResult={setQrResult}
+      />
     </>
   );
 };
