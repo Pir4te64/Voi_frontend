@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { api_url } from "@/api/api";
+import { FaTicketAlt, FaMoneyBillWave } from "react-icons/fa";
 
 interface Evento {
     id: number;
@@ -23,12 +24,13 @@ interface Evento {
 const estados = ["Todos los Estados", "En Curso", "Pasado"];
 const categorias = ["Todas las Categoría", "Concierto", "Festival"];
 
-function formatFecha(fechaStr: string) {
+function formatFechaCompleta(fechaStr: string) {
     const fecha = new Date(fechaStr);
     const dia = fecha.getDate().toString().padStart(2, "0");
     const mes = fecha.toLocaleString("es-ES", { month: "short" });
     const anio = fecha.getFullYear();
-    return { dia, mes, anio };
+    const diaSemana = fecha.toLocaleString("es-ES", { weekday: "long" });
+    return { dia, mes, anio, diaSemana };
 }
 
 const ListarEventos: React.FC = () => {
@@ -94,18 +96,28 @@ const ListarEventos: React.FC = () => {
             {/* Cards de eventos */}
             <div className="flex flex-col gap-6">
                 {eventos.map((evento) => {
-                    const { dia, mes, anio } = formatFecha(evento.fechaInicio);
-                    // Tickets vendidos y ganancias (sumar de lotes si existen)
+                    const { dia, mes, anio, diaSemana } = formatFechaCompleta(evento.fechaInicio);
                     const ticketsVendidos = evento.lotes?.reduce((acc, lote) => acc + (lote.ticketsVendidos || 0), 0) ?? 0;
                     const ganancias = evento.lotes?.reduce((acc, lote) => acc + ((lote.ticketsVendidos || 0) * (lote.precio || 0)), 0) ?? 0;
+                    // Estado visual
+                    let estadoColor = "bg-gray-600 text-white";
+                    let estadoTexto = evento.estado;
+                    if (evento.estado === "ACTIVO") {
+                        estadoColor = "bg-green-600 text-white";
+                        estadoTexto = "En Curso";
+                    } else if (evento.estado === "PASADO" || evento.estado === "Pasado") {
+                        estadoColor = "bg-gray-600 text-white";
+                        estadoTexto = "Pasado";
+                    }
                     return (
                         <div
                             key={evento.id}
                             className="flex flex-col gap-4 rounded-xl bg-[#18181b] p-6 shadow-lg md:flex-row"
                         >
                             {/* Fecha grande */}
-                            <div className="flex w-24 min-w-[6rem] flex-col items-center justify-center rounded-lg bg-[#232326] p-2 text-center">
-                                <span className="text-2xl font-bold leading-none text-white">{dia}</span>
+                            <div className="flex w-28 min-w-[7rem] flex-col items-center justify-center rounded-lg bg-[#232326] p-2 text-center">
+                                <span className="mb-1 text-xs font-semibold capitalize text-white">{diaSemana}</span>
+                                <span className="text-3xl font-bold leading-none text-white">{dia}</span>
                                 <span className="text-xs uppercase leading-none text-gray-300">{mes}</span>
                                 <span className="text-xs leading-none text-gray-400">{anio}</span>
                             </div>
@@ -113,12 +125,12 @@ const ListarEventos: React.FC = () => {
                             <div className="flex flex-1 flex-col justify-between gap-2">
                                 <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                                     <div className="flex items-center gap-2">
-                                        <span className="text-lg font-bold text-white">{evento.nombre}</span>
-                                        <span className="ml-2 rounded bg-green-600 px-2 py-1 text-xs font-semibold text-white">{evento.estado === "ACTIVO" ? "En Curso" : evento.estado}</span>
+                                        <span className="text-xl font-bold text-white">{evento.nombre}</span>
+                                        <span className={`ml-2 rounded px-2 py-1 text-xs font-semibold ${estadoColor}`}>{estadoTexto}</span>
                                     </div>
                                     <div className="mt-2 flex gap-2 md:mt-0">
-                                        <button className="rounded bg-secondary px-4 py-2 text-xs font-semibold text-white hover:bg-secondary/80">Ver Detalles</button>
-                                        <button className="rounded bg-red-600 px-4 py-2 text-xs font-semibold text-white hover:bg-red-700">Eliminar Evento</button>
+                                        <button className="rounded border border-gray-400 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-700/30">Ver Detalles</button>
+                                        <button className="flex items-center gap-2 rounded border border-red-600 px-4 py-2 text-xs font-semibold text-red-500 hover:bg-red-600/10"><span className="text-lg"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg></span>Eliminar Evento</button>
                                     </div>
                                 </div>
                                 <div className="text-sm text-gray-400">
@@ -129,13 +141,19 @@ const ListarEventos: React.FC = () => {
                                     <span>🎫 {evento.categoriaNombre}</span>
                                 </div>
                                 <div className="mt-2 flex flex-wrap gap-8 text-xs">
-                                    <div className="flex flex-col">
-                                        <span className="text-gray-400">TICKETS VENDIDOS</span>
-                                        <span className="text-lg font-bold text-red-500">{ticketsVendidos.toLocaleString("es-AR", { minimumFractionDigits: 2 })}</span>
+                                    <div className="flex items-center gap-2">
+                                        <FaTicketAlt className="text-red-500" />
+                                        <div className="flex flex-col">
+                                            <span className="text-gray-400">TICKETS VENDIDOS</span>
+                                            <span className="text-lg font-bold text-red-500">{ticketsVendidos.toLocaleString("es-AR", { minimumFractionDigits: 2 })}</span>
+                                        </div>
                                     </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-gray-400">GANANCIAS</span>
-                                        <span className="text-lg font-bold text-green-500">${ganancias.toLocaleString("es-AR", { minimumFractionDigits: 3 })}</span>
+                                    <div className="flex items-center gap-2">
+                                        <FaMoneyBillWave className="text-green-500" />
+                                        <div className="flex flex-col">
+                                            <span className="text-gray-400">GANANCIAS</span>
+                                            <span className="text-lg font-bold text-green-500">${ganancias.toLocaleString("es-AR", { minimumFractionDigits: 3 })}</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
