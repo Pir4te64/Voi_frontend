@@ -113,7 +113,6 @@ const SidebarAdmin = () => {
                       to: subTo,
                       label: subLabel,
                       Icon: SubIcon,
-                      badge: subBadge,
                     }: any) => {
                       const isSolicitudesAlta = subTo === "/dashboard/solicitudes-alta";
                       return (

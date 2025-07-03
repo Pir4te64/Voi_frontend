@@ -31,7 +31,7 @@ import AgregarRevendedor from "@/components/Dashboard/Revendedores/AgregarRevend
 import RevendedorPerfiles from "@/components/Dashboard/Revendedores/RevendedorPerfiles";
 import RevendedoresLotes from "@/components/Dashboard/Revendedores/RevendedoresLotes";
 import AgregarComision from "@/components/Dashboard/Revendedores/AgregarComision";
-import ListarEventos from "@/components/Dashboard/GestionEventos/ListaEventos/ListarEventos";
+import ListarEventos from "@/components/Dashboard/Admin/Eventos/ListarEventos";
 import CrearEvento from "@/components/Dashboard/GestionEventos/CrearEventos/CrearEvento";
 import ListarEventosParaEditar from "@/components/Dashboard/GestionEventos/EditarEvento/ListarEventosParaEditar";
 import SolicitudAlta from "@/components/Dashboard/Admin/SolicitudAlta/SolicitudAlta";
