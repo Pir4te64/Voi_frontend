@@ -25,6 +25,15 @@ interface EventosState {
     loading: boolean;
     error: string | null;
     fetchEventos: () => Promise<void>;
+    // Filtros y búsqueda
+    search: string;
+    setSearch: (s: string) => void;
+    estadoFiltro: string;
+    setEstadoFiltro: (e: string) => void;
+    categoriaFiltro: string;
+    setCategoriaFiltro: (c: string) => void;
+    orden: string;
+    setOrden: (o: string) => void;
 }
 
 export const useEventosStore = create<EventosState>((set) => ({
@@ -40,4 +49,13 @@ export const useEventosStore = create<EventosState>((set) => ({
             set({ error: "Error al cargar los eventos", loading: false });
         }
     },
+    // Filtros y búsqueda
+    search: "",
+    setSearch: (s) => set({ search: s }),
+    estadoFiltro: "Todos",
+    setEstadoFiltro: (e) => set({ estadoFiltro: e }),
+    categoriaFiltro: "Todos",
+    setCategoriaFiltro: (c) => set({ categoriaFiltro: c }),
+    orden: "Reciente",
+    setOrden: (o) => set({ orden: o }),
 })); 

@@ -13,11 +13,13 @@ function formatFechaCompleta(fechaStr: string) {
 }
 
 const ListarEventos: React.FC = () => {
-    const { eventos, loading, error, fetchEventos } = useEventosStore();
-    const [search, setSearch] = useState("");
-    const [estadoFiltro, setEstadoFiltro] = useState("Todos");
-    const [categoriaFiltro, setCategoriaFiltro] = useState("Todos");
-    const [orden, setOrden] = useState("Reciente");
+    const {
+        eventos, loading, error, fetchEventos,
+        search, setSearch,
+        estadoFiltro, setEstadoFiltro,
+        categoriaFiltro, setCategoriaFiltro,
+        orden, setOrden
+    } = useEventosStore();
 
     useEffect(() => {
         fetchEventos();
