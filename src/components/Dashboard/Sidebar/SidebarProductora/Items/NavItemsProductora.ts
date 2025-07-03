@@ -20,7 +20,7 @@ export const navItemsProductora = [
     ],
   },
   { to: "/dashboard/lotes", label: "Lotes de Entrada", Icon: FaWallet },
-  { to: "/dashboard/mis-ventas", label: "Mis Ventas", Icon: BiBarChartAlt2 },
+  { to: "/dashboard/misventas", label: "Mis Ventas", Icon: BiBarChartAlt2 },
   { to: "/dashboard/revendedores", label: "Revendedores", Icon: MdGroup },
   { to: "/dashboard/configuraciones", label: "Configuraciones", Icon: FaCog },
 ];

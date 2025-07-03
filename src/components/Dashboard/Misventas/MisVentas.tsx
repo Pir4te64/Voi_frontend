@@ -1,6 +1,10 @@
+import TablaComprasUsuario from '@/components/Dashboard/Compras/TablaComprasUsuario';
 
 export const MisVentas = () => {
     return (
-        <div>MisVentas</div>
-    )
-}
+        <TablaComprasUsuario
+            titulo="Mis Ventas"
+            tipo="ventas"
+        />
+    );
+};

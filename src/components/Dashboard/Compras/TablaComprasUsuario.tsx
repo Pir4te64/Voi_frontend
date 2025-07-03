@@ -10,7 +10,15 @@ const estadoColors: Record<string, string> = {
     CANCELADO: 'bg-red-500/20 text-red-500',
 };
 
-const TablaComprasUsuario: React.FC = () => {
+interface TablaComprasUsuarioProps {
+    titulo?: string;
+    tipo?: 'compras' | 'ventas';
+}
+
+const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
+    titulo = "Mis Compras",
+    tipo = 'compras'
+}) => {
     const [tickets, setTickets] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -26,7 +34,13 @@ const TablaComprasUsuario: React.FC = () => {
                 ? JSON.parse(localStorage.getItem('auth')!).accessToken
                 : null;
             if (!token) throw new Error('No autenticado');
-            const res = await axios.get(`${api_url.get_tickets}?pageNumber=${pageNumber}&pageSize=10&sortDirection=DESC&estado=PAGADO`, {
+
+            // URL base para obtener tickets
+            const baseUrl = tipo === 'ventas'
+                ? `${api_url.get_tickets}?pageNumber=${pageNumber}&pageSize=10&sortDirection=DESC&estado=PAGADO&tipo=VENTAS`
+                : `${api_url.get_tickets}?pageNumber=${pageNumber}&pageSize=10&sortDirection=DESC&estado=PAGADO`;
+
+            const res = await axios.get(baseUrl, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const content = Array.isArray(res.data?.content) ? res.data.content : [];
@@ -34,7 +48,7 @@ const TablaComprasUsuario: React.FC = () => {
             setTotalPages(res.data?.totalPages || 1);
         } catch (err: any) {
             setTickets([]);
-            setError(err.message || 'Error al cargar las compras');
+            setError(err.message || `Error al cargar las ${tipo === 'ventas' ? 'ventas' : 'compras'}`);
         } finally {
             setLoading(false);
         }
@@ -53,7 +67,7 @@ const TablaComprasUsuario: React.FC = () => {
 
     return (
         <div className="container mx-auto bg-[#131315] px-4 py-8">
-            <h1 className="mb-6 text-2xl font-bold text-secondary">Mis Compras</h1>
+            <h1 className="mb-6 text-2xl font-bold text-secondary">{titulo}</h1>
             {loading ? (
                 <div className="flex justify-center py-8">
                     <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
@@ -61,7 +75,9 @@ const TablaComprasUsuario: React.FC = () => {
             ) : error ? (
                 <div className="rounded-lg bg-red-500/10 p-8 text-center text-red-500">{error}</div>
             ) : safeTickets.length === 0 ? (
-                <div className="rounded-lg bg-black/40 p-8 text-center text-gray-500">No tienes compras registradas.</div>
+                <div className="rounded-lg bg-black/40 p-8 text-center text-gray-500">
+                    {tipo === 'ventas' ? 'No tienes ventas registradas.' : 'No tienes compras registradas.'}
+                </div>
             ) : (
                 <div className="overflow-x-auto rounded-lg bg-[#1C1C1E] p-1">
                     <table className="w-full text-left text-sm">
@@ -70,7 +86,7 @@ const TablaComprasUsuario: React.FC = () => {
                                 <th className="px-4 py-3 font-semibold">Evento</th>
                                 <th className="px-4 py-3 font-semibold">Estado</th>
                                 <th className="px-4 py-3 font-semibold">Fecha del evento</th>
-                                <th className="px-4 py-3 font-semibold">Fecha de compra</th>
+                                <th className="px-4 py-3 font-semibold">Fecha de {tipo === 'ventas' ? 'venta' : 'compra'}</th>
                                 <th className="px-4 py-3 font-semibold">QR</th>
                             </tr>
                         </thead>
