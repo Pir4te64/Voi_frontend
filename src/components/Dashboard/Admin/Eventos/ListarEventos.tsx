@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useEventosStore } from "@/components/Dashboard/Admin/Eventos/store/useEventosStore";
-import { FaEye, FaTrashAlt, FaWallet, FaMapMarkerAlt, FaTag } from "react-icons/fa";
+import { FaEye, FaWallet, FaMapMarkerAlt, FaTag } from "react-icons/fa";
 import { BiSolidDollarCircle } from "react-icons/bi";
 
 function formatFechaCompleta(fechaStr: string) {

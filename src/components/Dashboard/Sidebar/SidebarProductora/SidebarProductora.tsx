@@ -27,7 +27,7 @@ const SidebarProductora = () => {
   const { email, allUser } = useUserInfo();
   const { logout } = useAuth();
   const [showQrModal, setShowQrModal] = useState(false);
-  const [qrResult, setQrResult] = useState<string | null>(null);
+  const [_, setQrResult] = useState<string | null>(null);
 
   /* Cerrar automáticamente al cambiar de ruta (mobile) */
   useEffect(() => {
