@@ -7,7 +7,7 @@ import { IoHomeOutline } from "react-icons/io5";
 export const navItemsUsuario = [
     {
         to: "/dashboard",
-        label: "Inicio",
+        label: "Dashboard",
         Icon: IoHomeOutline,
         end: true,          // 👈  solo match exacto
     },
@@ -15,7 +15,6 @@ export const navItemsUsuario = [
         to: "/dashboard/miperfil",
         label: "Mi Perfil",
         Icon: LuUser,
-        end: true,
     },
     {
         to: "/dashboard/miscompras",

@@ -16,7 +16,7 @@ import RecuperarPassword from '@/components/LoginUser/RecuperarPassword'
 import CompraRealizada from '@/pages/CompraRealizada/CompraRealizada';
 
 import DashboardLayout from "@/pages/Dashboard/DashboardLayout";
-import Index from "@/pages/Dashboard/Index";
+import DashboardRouter from "@/pages/Dashboard/DashboardRouter";
 import CrearPerfil from "@/components/Dashboard/CrearPerfil/CrearPerfil";
 import Miperfil from "@/components/Dashboard/Sidebar/MiPerfil/Miperfil";
 import EditarEventoPage from "@/components/Dashboard/GestionEventos/EditarEvento/EditarEventoPage";
@@ -56,7 +56,7 @@ function App() {
 
         {/* Rutas protegidas de Dashboard */}
         <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<Index />} />
+          <Route index element={<DashboardRouter />} />
           <Route path="crearperfil" element={<CrearPerfil />} />
           <Route path="miperfil" element={<Miperfil />} />
           <Route path="miscompras" element={<MisCompras />} />

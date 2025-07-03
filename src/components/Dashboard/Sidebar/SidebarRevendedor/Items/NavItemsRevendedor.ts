@@ -14,10 +14,15 @@ import {
  */
 export const navItemsRevendedor = [
     {
+        to: "/dashboard",
+        label: "Dashboard",
+        Icon: FaUser,
+        end: true,
+    },
+    {
         to: "/dashboard/miperfil",
         label: "Perfil Profesional",
         Icon: FaUser,
-        end: true,
     },
     {
         to: "/dashboard/notificaciones",

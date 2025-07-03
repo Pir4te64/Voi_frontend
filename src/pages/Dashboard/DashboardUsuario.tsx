@@ -1,45 +1,45 @@
-import { FaUsers, FaCalendarAlt, FaRegClock, FaUserTie } from "react-icons/fa";
-import { MdGroup } from "react-icons/md";
+import { FaCalendarAlt, FaTicketAlt, FaHeart, FaHistory } from "react-icons/fa";
+import { CgShoppingCart } from "react-icons/cg";
 
-const Index = () => {
+const DashboardUsuario = () => {
     return (
         <div className="mx-auto w-full max-w-7xl px-4 py-8">
-            <h1 className="mb-1 text-3xl font-bold text-secondary">Dashboard Admin</h1>
-            <p className="mb-6 text-gray-300">Panel de administración y monitoreo de la plataforma.</p>
+            <h1 className="mb-1 text-3xl font-bold text-secondary">Mi Dashboard</h1>
+            <p className="mb-6 text-gray-300">Panel personal para gestionar tus eventos y compras.</p>
 
             <div className="w-full overflow-hidden rounded-xl bg-secondary p-0">
                 <div className="grid grid-cols-1 divide-y divide-black/30 md:grid-cols-2 md:divide-x md:divide-y-0">
                     {/* Columna izquierda */}
                     <div className="flex flex-col divide-y divide-black/30">
-                        {/* Productoras */}
+                        {/* Mis Compras */}
                         <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
                             <div className="flex items-center gap-3">
-                                <MdGroup className="text-2xl text-black" />
+                                <CgShoppingCart className="text-2xl text-black" />
                                 <div>
-                                    <div className="text-base font-bold text-black">PRODUCTORAS</div>
-                                    <div className="text-xs font-normal text-black/60">Registradas</div>
+                                    <div className="text-base font-bold text-black">MIS COMPRAS</div>
+                                    <div className="text-xs font-normal text-black/60">Total</div>
                                 </div>
                             </div>
                             <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
                         </div>
-                        {/* Eventos Activos */}
+                        {/* Mis Eventos */}
                         <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
                             <div className="flex items-center gap-3">
                                 <FaCalendarAlt className="text-2xl text-black" />
                                 <div>
-                                    <div className="text-base font-bold text-black">EVENTOS ACTIVOS</div>
-                                    <div className="text-xs font-normal text-black/60">En curso</div>
+                                    <div className="text-base font-bold text-black">MIS EVENTOS</div>
+                                    <div className="text-xs font-normal text-black/60">Próximos</div>
                                 </div>
                             </div>
                             <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
                         </div>
-                        {/* Revendedores */}
+                        {/* Tickets Activos */}
                         <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
                             <div className="flex items-center gap-3">
-                                <FaUserTie className="text-2xl text-black" />
+                                <FaTicketAlt className="text-2xl text-black" />
                                 <div>
-                                    <div className="text-base font-bold text-black">REVENDEDORES</div>
-                                    <div className="text-xs font-normal text-black/60">Registrados</div>
+                                    <div className="text-base font-bold text-black">TICKETS ACTIVOS</div>
+                                    <div className="text-xs font-normal text-black/60">Válidos</div>
                                 </div>
                             </div>
                             <div className="flex h-full flex-col items-end justify-center">
@@ -49,26 +49,26 @@ const Index = () => {
                     </div>
                     {/* Columna derecha */}
                     <div className="flex flex-col divide-y divide-black/30">
-                        {/* Usuarios Particulares */}
+                        {/* Eventos Favoritos */}
                         <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
                             <div className="flex items-center gap-3">
-                                <FaUsers className="text-2xl text-black" />
+                                <FaHeart className="text-2xl text-black" />
                                 <div>
-                                    <div className="text-base font-bold text-black">USUARIOS PARTICULARES</div>
-                                    <div className="text-xs font-normal text-black/60">Registrados</div>
+                                    <div className="text-base font-bold text-black">FAVORITOS</div>
+                                    <div className="text-xs font-normal text-black/60">Guardados</div>
                                 </div>
                             </div>
                             <div className="flex h-full flex-col items-end justify-center">
-                                <div className="text-3xl font-bold text-black">000</div>
+                                <div className="text-3xl font-bold text-black">00</div>
                             </div>
                         </div>
-                        {/* Solicitudes Pendientes */}
+                        {/* Historial */}
                         <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
                             <div className="flex items-center gap-3">
-                                <FaRegClock className="text-2xl text-black" />
+                                <FaHistory className="text-2xl text-black" />
                                 <div>
-                                    <div className="text-base font-bold text-black">SOLICITUDES PENDIENTES</div>
-                                    <div className="text-xs font-normal text-black/60">En revisión</div>
+                                    <div className="text-base font-bold text-black">HISTORIAL</div>
+                                    <div className="text-xs font-normal text-black/60">Eventos pasados</div>
                                 </div>
                             </div>
                             <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
@@ -79,13 +79,15 @@ const Index = () => {
                 </div>
             </div>
 
-            {/* Actividad reciente (solo título, visual) */}
+            {/* Próximos eventos */}
             <div className="mt-10">
-                <h2 className="mb-4 rounded-t bg-black/60 px-4 py-2 text-xl font-bold text-white">Actividad reciente</h2>
-                {/* Aquí iría la lista de actividad reciente, solo visual por ahora */}
+                <h2 className="mb-4 rounded-t bg-black/60 px-4 py-2 text-xl font-bold text-white">Próximos eventos</h2>
+                <div className="rounded-b bg-black/30 p-4">
+                    <p className="text-gray-300">No tienes eventos próximos programados.</p>
+                </div>
             </div>
         </div>
     );
 };
 
-export default Index;
+export default DashboardUsuario; 
