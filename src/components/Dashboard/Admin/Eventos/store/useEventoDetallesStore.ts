@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 import { api_url } from "@/api/api";
-import { EventoDetalle } from "../types/evento.types";
+import { EventoDetalle } from "@/components/Dashboard/Admin/Eventos/types/evento.types";
 
 interface EventoDetallesState {
     evento: EventoDetalle | null;

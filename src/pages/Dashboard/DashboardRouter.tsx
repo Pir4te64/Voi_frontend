@@ -1,8 +1,8 @@
 import { useUserInfo } from "@/context/useUserInfo";
-import DashboardProductora from "./DashboardProductora";
-import DashboardRevendedor from "./DashboardRevendedor";
-import DashboardUsuario from "./DashboardUsuario";
-import Index from "./Index"; // Dashboard Admin (ya existente)
+import DashboardProductora from "@/pages/Dashboard/DashboardProductora";
+import DashboardRevendedor from "@/pages/Dashboard/DashboardRevendedor";
+import DashboardUsuario from "@/pages/Dashboard/DashboardUsuario";
+import Index from "@/pages/Dashboard/Index"; // Dashboard Admin (ya existente)
 
 const DashboardRouter = () => {
     const { userType } = useUserInfo();

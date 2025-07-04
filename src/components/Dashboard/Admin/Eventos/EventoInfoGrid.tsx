@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
-import LoteCard from "./LoteCard";
-import { Lote } from "./types/evento.types";
+import LoteCard from "@/components/Dashboard/Admin/Eventos/LoteCard";
+import { Lote } from "@/components/Dashboard/Admin/Eventos/types/evento.types";
 
 interface EventoInfoGridProps {
     lotes: Lote[];

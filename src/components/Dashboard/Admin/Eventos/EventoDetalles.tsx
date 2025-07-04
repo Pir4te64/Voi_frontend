@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useEventoDetallesStore } from "./store/useEventoDetallesStore";
+import { useEventoDetallesStore } from "@/components/Dashboard/Admin/Eventos/store/useEventoDetallesStore";
 import { FaArrowLeft, FaMapMarkerAlt } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
-import { MdEventSeat } from "react-icons/md";
-import { FaCalendarAlt, FaClock } from "react-icons/fa";
-import LoteCard from "./LoteCard";
-import EventoInfoGrid from "./EventoInfoGrid";
+import EventoInfoGrid from "@/components/Dashboard/Admin/Eventos/EventoInfoGrid";
 
 function formatFechaCompleta(fechaStr: string) {
     const fecha = new Date(fechaStr);
