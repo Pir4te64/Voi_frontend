@@ -3,7 +3,7 @@ import { MdGroup, MdEventAvailable } from "react-icons/md";
 
 const DashboardProductora = () => {
     return (
-        <div className="mx-auto w-full max-w-5xl px-4 py-8">
+        <div className="container mx-auto w-full px-4 py-8">
             <h1 className="mb-6 text-3xl font-bold text-secondary">Dashboard</h1>
             <div className="flex flex-col rounded-2xl bg-secondary p-8 shadow-lg md:flex-row md:items-center md:justify-start">
                 {/* Ingreso total */}

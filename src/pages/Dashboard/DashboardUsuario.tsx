@@ -3,7 +3,7 @@ import { CgShoppingCart } from "react-icons/cg";
 
 const DashboardUsuario = () => {
     return (
-        <div className="mx-auto w-full max-w-7xl px-4 py-8">
+        <div className="container mx-auto w-full px-4 py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Mi Dashboard</h1>
             <p className="mb-6 text-gray-300">Panel personal para gestionar tus eventos y compras.</p>
 

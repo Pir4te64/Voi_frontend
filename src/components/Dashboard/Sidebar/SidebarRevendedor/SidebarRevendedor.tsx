@@ -5,6 +5,8 @@ import {
     FaRegArrowAltCircleLeft,
     FaRegArrowAltCircleRight,
     FaTimes,
+    FaChevronDown,
+    FaChevronRight,
 } from "react-icons/fa";
 
 import { navItemsRevendedor } from "@/components/Dashboard/Sidebar/SidebarRevendedor/Items/NavItemsRevendedor";
@@ -19,6 +21,7 @@ const SidebarRevendedor = () => {
     const location = useLocation();
 
     const [isOpen, setIsOpen] = useState(false);
+    const [expandedItems, setExpandedItems] = useState<string[]>([]);
     const { email, allUser } = useUserInfo();
     const { logout } = useAuth();
 
@@ -26,6 +29,28 @@ const SidebarRevendedor = () => {
     useEffect(() => {
         setIsOpen(false);
     }, [location.pathname]);
+
+    /* Expandir automáticamente los submenús cuando la URL coincida con uno de sus elementos hijo */
+    useEffect(() => {
+        const currentPath = location.pathname;
+
+        // Encontrar los items padre que tienen el subitem que coincide con la ruta actual
+        const itemsToExpand = navItemsRevendedor
+            .filter((item) =>
+                item.subItems?.some((subItem) => currentPath === subItem.to)
+            )
+            .map((item) => item.to);
+
+        if (itemsToExpand.length > 0) {
+            setExpandedItems((prev) => [...new Set([...prev, ...itemsToExpand.filter((item): item is string => Boolean(item))])]);
+        }
+    }, [location.pathname]);
+
+    const toggleSubmenu = (to: string) => {
+        setExpandedItems((prev) =>
+            prev.includes(to) ? prev.filter((item) => item !== to) : [...prev, to]
+        );
+    };
 
     return (
         <>
@@ -80,27 +105,73 @@ const SidebarRevendedor = () => {
                     <p className="max-w-[12rem] truncate text-sm">{email}</p>
                 </div>
 
-                <h4 className="mb-4 text-lg font-semibold text-secondary">Productora</h4>
+                <h4 className="mb-4 text-lg font-semibold text-secondary">Revendedor</h4>
 
                 {/* Navegación */}
                 <nav className="flex-1 space-y-2 overflow-y-auto">
-                    {navItemsRevendedor.map(({ to, label, Icon, end }) => (
-                        <NavLink
-                            key={to}
-                            to={to}
-                            end={end}
-                            className={({ isActive }) =>
-                                `flex items-center w-full p-2 rounded transition-colors ${isActive
-                                    ? "bg-secondary text-white font-semibold"
-                                    : "text-white hover:text-secondary"
-                                }`
-                            }
-                            onClick={() => setIsOpen(false)}
-                        >
-                            <Icon className="mr-3 h-4 w-4" />
-                            {label}
-                        </NavLink>
-                    ))}
+                    {navItemsRevendedor.map((item) => {
+                        const isExpanded = expandedItems.includes(item.to);
+                        const hasChildren = item.subItems && item.subItems.length > 0;
+                        const isActive = item.end
+                            ? location.pathname === item.to
+                            : location.pathname.startsWith(item.to);
+
+                        return (
+                            <div key={item.to} className="space-y-1">
+                                <div
+                                    className={`flex items-center justify-between w-full p-2 rounded transition-colors ${isActive
+                                        ? "bg-secondary text-white font-semibold"
+                                        : "text-white hover:text-secondary"
+                                        }`}
+                                >
+                                    <NavLink
+                                        to={item.to}
+                                        end={item.end}
+                                        className="flex flex-1 items-center"
+                                        onClick={() => {
+                                            setIsOpen(false)
+                                            toggleSubmenu(item.to)
+                                        }}
+                                    >
+                                        <item.Icon className="mr-3 h-4 w-4" />
+                                        {item.label}
+                                    </NavLink>
+                                    {hasChildren && (
+                                        <button
+                                            onClick={() => toggleSubmenu(item.to)}
+                                            className="p-1 hover:text-secondary"
+                                        >
+                                            {isExpanded ? (
+                                                <FaChevronDown className="h-3 w-3" />
+                                            ) : (
+                                                <FaChevronRight className="h-3 w-3" />
+                                            )}
+                                        </button>
+                                    )}
+                                </div>
+                                {hasChildren && isExpanded && (
+                                    <div className="ml-6 space-y-1">
+                                        {item.subItems.map((child) => (
+                                            <NavLink
+                                                key={child.to}
+                                                to={child.to}
+                                                className={({ isActive }) =>
+                                                    `flex items-center w-full p-2 rounded transition-colors ${isActive
+                                                        ? "bg-secondary text-white font-semibold"
+                                                        : "text-white hover:text-secondary"
+                                                    }`
+                                                }
+                                                onClick={() => setIsOpen(false)}
+                                            >
+                                                <child.Icon className="mr-3 h-4 w-4" />
+                                                {child.label}
+                                            </NavLink>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
                 </nav>
 
                 {/* Botón cerrar sesión */}

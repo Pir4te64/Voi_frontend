@@ -1,12 +1,12 @@
 import {
-    FaUser,
-    FaBell,
-    FaTicketAlt,
-    FaShoppingCart,
     FaChartLine,
-    FaRegArrowAltCircleRight,
+    FaCalendarAlt,
 } from "react-icons/fa";
-
+import { IoHomeOutline } from "react-icons/io5";
+import { FiUser } from "react-icons/fi";
+import { FaRegBell } from "react-icons/fa";
+import { BsBarChart } from "react-icons/bs";
+import { IoMdRadioButtonOn } from "react-icons/io";
 /**
  * Opciones de navegación para usuarios con rol REVENDEDOR.
  * - `end: true` → coincidencia exacta para la ruta.
@@ -16,61 +16,34 @@ export const navItemsRevendedor = [
     {
         to: "/dashboard",
         label: "Dashboard",
-        Icon: FaUser,
+        Icon: IoHomeOutline,
         end: true,
     },
     {
         to: "/dashboard/miperfil",
         label: "Perfil Profesional",
-        Icon: FaUser,
+        Icon: FiUser,
     },
     {
         to: "/dashboard/notificaciones",
         label: "Notificaciones",
-        Icon: FaBell,
+        Icon: FaRegBell,
         badge: 9, // ← reemplaza por tu contador dinámico
     },
     {
-        to: "/dashboard/ticket",
-        label: "Enviar ticket",
-        Icon: FaTicketAlt,
-        children: [
-            {
-                to: "/dashboard/ticket/evento",
-                label: "Evento",
-                Icon: FaRegArrowAltCircleRight,
-            },
-            {
-                to: "/dashboard/ticket/lote",
-                label: "Lote",
-                Icon: FaRegArrowAltCircleRight,
-            },
-        ],
+        to: "/dashboard/ticket/evento",
+        label: "Mis Eventos",
+        Icon: FaCalendarAlt,
     },
     {
         to: "/dashboard/misventas",
         label: "Mis Ventas",
-        Icon: FaShoppingCart,
-        children: [
+        Icon: BsBarChart,
+        subItems: [
             {
-                to: "/dashboard/ventas/total",
-                label: "Total",
-                Icon: FaRegArrowAltCircleRight,
-            },
-            {
-                to: "/dashboard/ventas/eventos",
-                label: "Eventos",
-                Icon: FaRegArrowAltCircleRight,
-            },
-            {
-                to: "/dashboard/ventas/lotes",
-                label: "Lotes",
-                Icon: FaRegArrowAltCircleRight,
-            },
-            {
-                to: "/dashboard/ventas/comisiones",
-                label: "Comisiones generadas (por lotes)",
-                Icon: FaRegArrowAltCircleRight,
+                to: "/dashboard/ticket",
+                label: "Enviar ticket",
+                Icon: IoMdRadioButtonOn,
             },
         ],
     },
@@ -78,18 +51,7 @@ export const navItemsRevendedor = [
         to: "/dashboard/recursos",
         label: "Recursos",
         Icon: FaChartLine,
-        children: [
-            {
-                to: "/dashboard/recursos/marketing",
-                label: "Material de marketing",
-                Icon: FaRegArrowAltCircleRight,
-            },
-            {
-                to: "/dashboard/recursos/qr",
-                label: "Código QR personalizado",
-                Icon: FaRegArrowAltCircleRight,
-            },
-        ],
+
     },
 
 ];
