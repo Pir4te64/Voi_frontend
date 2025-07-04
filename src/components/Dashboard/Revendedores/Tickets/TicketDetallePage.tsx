@@ -117,8 +117,8 @@ const TicketDetallePage: React.FC = () => {
 
 
                     {/* Filtros */}
-                    <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                        <div className="relative w-3/6">
+                    <div className="flex flex-col gap-4 rounded-t-lg bg-[#1c1c1c] p-4 md:flex-row md:items-center md:justify-between">
+                        <div className="relative w-3/6 rounded-lg border border-gray-700">
                             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                 <FaSearch className="h-4 w-4 text-gray-400" />
                             </div>
@@ -127,13 +127,13 @@ const TicketDetallePage: React.FC = () => {
                                 placeholder="Buscar ticket..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="w-full rounded-lg border border-gray-600 bg-[#1C1C1E] py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
+                                className="w-full rounded-lg bg-[#1C1C1E] py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:border-secondary focus:outline-none focus:ring-1 focus:ring-secondary"
                             />
                         </div>
                     </div>
 
                     {/* Lista de lotes seleccionables */}
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-4 bg-[#1c1c1c] p-4">
                         {eventoData.lotes?.length === 0 && (
                             <div className="p-6 text-center text-gray-500">
                                 No hay lotes disponibles para este evento

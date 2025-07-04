@@ -29,7 +29,7 @@ const TicketForm: React.FC<TicketFormProps> = ({ onSubmit, selectedLoteId, isSub
     }
 
     return (
-        <div className="mt-8 rounded-lg border border-gray-700 bg-[#18181a] p-6">
+        <div className="rounded-b-lg bg-[#1c1c1c] p-6">
             <h2 className="mb-6 text-xl font-bold text-white">Cagar datos del comprador</h2>
 
             <form onSubmit={formik.handleSubmit} className="space-y-4">
