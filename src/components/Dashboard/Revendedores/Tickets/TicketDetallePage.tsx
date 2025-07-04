@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import { Evento } from "@/components/Dashboard/Revendedores/Tickets/types/tickets.types";
 import { useTicketDetalleStore } from "@/components/Dashboard/Revendedores/Tickets/store/useTicketDetalleStore";
+import { LoadingSpinner, ErrorState } from "@/components/Dashboard/ComponentesReutilizables";
 
 const TicketDetallePage: React.FC = () => {
     const navigate = useNavigate();
@@ -31,35 +32,20 @@ const TicketDetallePage: React.FC = () => {
     }, [id, eventoData, navigate, loadTickets]);
 
 
-
-
-
-
     if (!eventoData) {
         return null;
     }
 
     if (loading) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
-            </div>
-        );
+        return <LoadingSpinner />;
     }
 
     if (error) {
         return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="text-center text-red-500">
-                    <p className="text-xl font-bold">{error}</p>
-                    <button
-                        onClick={() => loadTickets(Number(id))}
-                        className="mt-4 rounded bg-secondary px-4 py-2 text-white hover:bg-secondary/80"
-                    >
-                        Reintentar
-                    </button>
-                </div>
-            </div>
+            <ErrorState
+                error={error}
+                onRetry={() => loadTickets(Number(id))}
+            />
         );
     }
 
