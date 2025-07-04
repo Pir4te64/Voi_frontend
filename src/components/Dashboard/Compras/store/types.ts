@@ -2,6 +2,7 @@ export interface Ticket {
     id: string;
     evento: string;
     estado: string;
+    tipoTicket?: string;
     fechaEvento: string;
     fechaCompra: string;
     qrCode?: string;

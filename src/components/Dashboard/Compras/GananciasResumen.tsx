@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useGananciasStore } from '@/components/Dashboard/Compras/store/useGananciasStore';
+import { useUserInfo } from '@/context/useUserInfo';
 import { BiDollar } from "react-icons/bi";
 import { FaWallet, FaChartLine, FaPencilAlt } from "react-icons/fa";
 
@@ -9,13 +10,15 @@ interface GananciasResumenProps {
 
 const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
     const { resumen, loading, error, fetchGanancias } = useGananciasStore();
+    const { userType } = useUserInfo();
 
     useEffect(() => {
         if (visible) fetchGanancias();
         // eslint-disable-next-line
     }, [visible]);
 
-    if (!visible) return null;
+    // Solo mostrar para ADMIN y PRODUCTORA
+    if (!visible || (userType !== 'ADMIN' && userType !== 'PRODUCTORA')) return null;
 
     return (
         <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-lg bg-[#FF5C70] px-6 py-6 text-black md:flex-row">

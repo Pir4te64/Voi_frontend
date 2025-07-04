@@ -63,6 +63,7 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
                             <tr>
                                 <th className="px-4 py-3 font-semibold">Evento</th>
                                 <th className="px-4 py-3 font-semibold">Estado</th>
+                                <th className="px-4 py-3 font-semibold">Tipo de Ticket</th>
                                 <th className="px-4 py-3 font-semibold">Fecha del evento</th>
                                 <th className="px-4 py-3 font-semibold">Fecha de {tipo === 'ventas' ? 'venta' : 'compra'}</th>
                                 <th className="px-4 py-3 font-semibold">QR</th>
@@ -74,6 +75,11 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
                                     <td className="px-4 py-3">{ticket.evento}</td>
                                     <td className="px-4 py-3">
                                         <span className={`px-2 py-1 rounded-md text-xs font-semibold ${estadoColors[ticket.estado] || 'bg-gray-500/20 text-gray-400'}`}>{ticket.estado}</span>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        {ticket.tipoTicket === 'VENTA_REVENDEDOR' ? 'Revendedor' :
+                                            ticket.tipoTicket === 'VENTA_WEB' ? 'Web' :
+                                                ticket.tipoTicket || 'N/A'}
                                     </td>
                                     <td className="px-4 py-3">{ticket.fechaEvento}</td>
                                     <td className="px-4 py-3">{ticket.fechaCompra ? new Date(ticket.fechaCompra).toLocaleString() : '-'}</td>
