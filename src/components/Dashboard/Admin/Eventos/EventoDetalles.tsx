@@ -5,6 +5,8 @@ import { FaArrowLeft, FaMapMarkerAlt } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import { MdEventSeat } from "react-icons/md";
 import { FaCalendarAlt, FaClock } from "react-icons/fa";
+import LoteCard from "./LoteCard";
+import EventoInfoGrid from "./EventoInfoGrid";
 
 function formatFechaCompleta(fechaStr: string) {
     const fecha = new Date(fechaStr);
@@ -132,55 +134,21 @@ const EventoDetalles: React.FC = () => {
                                     )}
                                 </div>
                                 {/* Cards de info clave */}
-                                <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-                                    {/* Lotes */}
-                                    <div className="flex min-h-[90px] flex-col gap-2 rounded-lg bg-[#232326] p-4">
-                                        <div className="mb-1 flex items-center gap-2">
-                                            <MdEventSeat className="text-lg text-secondary" />
-                                            <span className="text-base font-semibold text-white">Lotes</span>
-                                        </div>
-                                        {evento.lotes && evento.lotes.length > 1 ? (
-                                            <select
-                                                className="appearance-none rounded border border-gray-700 bg-[#18181b] px-3 py-2 text-sm text-white focus:outline-none"
-                                                value={loteIndex}
-                                                onChange={e => setLoteIndex(Number(e.target.value))}
-                                            >
-                                                <option disabled>Ej: Early Bird</option>
-                                                {evento.lotes.map((lote, idx) => (
-                                                    <option key={lote.id} value={idx}>{lote.nombre}</option>
-                                                ))}
-                                            </select>
-                                        ) : (
-                                            <div className="rounded border border-gray-700 bg-[#18181b] px-3 py-2 text-sm text-white">{evento.lotes && evento.lotes[0]?.nombre || "Ej: Early Bird"}</div>
-                                        )}
-                                        {evento.lotes && evento.lotes.length > 0 && (
-                                            <>
-                                                <span className="text-xs text-gray-400">Precio: <span className="font-bold text-white">${evento.lotes[loteIndex].precio}</span></span>
-                                                <span className="text-xs text-gray-400">Cantidad: <span className="font-bold text-white">{evento.lotes[loteIndex].cantidadTickets}</span></span>
-                                                <span className="text-xs text-gray-400">Vendidos: <span className="font-bold text-white">{evento.lotes[loteIndex].ticketsVendidos}</span></span>
-                                                <span className="text-xs text-gray-400">Disponibles: <span className="font-bold text-white">{evento.lotes[loteIndex].ticketsDisponibles}</span></span>
-                                            </>
-                                        )}
-                                    </div>
-                                    {/* Fecha */}
-                                    <div className="flex min-h-[90px] flex-col gap-2 rounded-lg bg-[#232326] p-4">
-                                        <div className="mb-1 flex items-center gap-2">
-                                            <FaCalendarAlt className="text-lg text-secondary" />
-                                            <span className="text-base font-semibold text-white">Fecha</span>
-                                        </div>
-                                        <span className="text-base font-bold text-white">{dia} - {mes} {anio}</span>
-                                        <span className="text-xs text-white/80">{hora} hs a {fechaFin.hora} hs</span>
-                                    </div>
-                                    {/* Locación */}
-                                    <div className="flex min-h-[90px] flex-col gap-2 rounded-lg bg-[#232326] p-4">
-                                        <div className="mb-1 flex items-center gap-2">
-                                            <FaMapMarkerAlt className="text-lg text-secondary" />
-                                            <span className="text-base font-semibold text-white">Locación</span>
-                                        </div>
-                                        <span className="text-base font-bold text-white">{evento.address?.street}</span>
-                                        <span className="text-xs text-white/80">{evento.address?.city} {evento.address?.state ? `- ${evento.address.state}` : ""}</span>
-                                    </div>
-                                </div>
+                                {evento.lotes && (
+                                    <EventoInfoGrid
+                                        lotes={evento.lotes}
+                                        loteIndex={loteIndex}
+                                        setLoteIndex={setLoteIndex}
+                                        dia={dia}
+                                        mes={mes}
+                                        anio={anio}
+                                        hora={hora}
+                                        fechaFinHora={fechaFin.hora}
+                                        addressStreet={evento.address?.street}
+                                        addressCity={evento.address?.city}
+                                        addressState={evento.address?.state}
+                                    />
+                                )}
                             </div>
                         </div>
                     </div>
