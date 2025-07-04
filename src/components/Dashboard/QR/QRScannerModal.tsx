@@ -39,7 +39,7 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({ open, onClose, onResult
                             }}
                         />
                         {/* Animación de línea de escaneo con cuadros */}
-                        <div className="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+                        <div className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 gap-2">
                             {Array.from({ length: 6 }).map((_, i) => (
                                 <div
                                     key={i}
