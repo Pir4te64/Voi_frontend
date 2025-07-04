@@ -12,7 +12,6 @@ interface QRValidationResultProps {
 }
 
 const QRValidationResult: React.FC<QRValidationResultProps> = ({ status, ticketInfo, errorMsg, onScanAnother, onClose }) => {
-    // Usar los datos reales del ticket
     const ticket = ticketInfo || {};
     return (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-70">
@@ -23,45 +22,47 @@ const QRValidationResult: React.FC<QRValidationResultProps> = ({ status, ticketI
                     </button>
                 )}
                 {status === 'valid' && (
-                    <div className="flex w-full flex-col items-center">
-                        <div className="mb-2 flex items-center gap-2 text-lg font-bold text-green-400">
-                            <FaCheckCircle className="text-2xl" /> Entrada sin validar
+                    <>
+                        <div className="mb-4 flex w-full items-center justify-start gap-2 text-lg font-bold">
+                            <FaCheckCircle className="text-2xl text-green-400" /> Entrada sin validar
                         </div>
-                        <div className="mb-4 w-full rounded-lg bg-[#23232a] p-4 text-white">
-                            <div className="mb-2 font-bold">Lote: {ticket.lote || '-'}</div>
-                            <div>Nombre: <span className="font-semibold">{ticket.nombre || '-'} {ticket.apellido || '-'}</span></div>
-                            <div>DNI: <span className="font-semibold">{ticket.dni || '-'}</span></div>
-                            <div>N° Orden: <span className="font-semibold">{ticket.numOrden || '-'}</span></div>
-                            <div>Estado: <span className="font-semibold">{ticket.estado || '-'}</span></div>
+                        <div className="mb-6 w-full rounded-lg bg-[#23232a] p-4 text-white">
+                            <div className="mb-2 font-bold">"Ej: Entrada General"</div>
+                            <div>Precio: <span className="font-semibold">$0000</span></div>
+                            <div>Evento: <span className="font-semibold">Nombre del Evento</span></div>
+                            <div>Validez: <span className="font-semibold">QR válido para cualquier día del evento.</span></div>
+                            <div>Nombre: <span className="font-semibold">Nombre y Apellido del Comprador</span></div>
+                            <div>Email: <span className="font-semibold">comprador@gmail.com</span></div>
+                            <div>DNI: <span className="font-semibold">00000000</span></div>
                         </div>
-                        <button className="mb-2 w-full rounded bg-secondary py-2 font-bold text-white" onClick={onScanAnother}>Escanear otro QR</button>
-                    </div>
+                        <button className="w-full rounded border border-white py-2 text-white" onClick={onScanAnother}>Escanear otro QR</button>
+                    </>
                 )}
                 {status === 'used' && (
-                    <div className="flex w-full flex-col items-center">
-                        <div className="mb-2 flex items-center gap-2 text-lg font-bold text-red-400">
-                            <FaExclamationTriangle className="text-2xl" /> Entrada validada
+                    <>
+                        <div className="mb-4 flex w-full items-center justify-start gap-2 text-lg font-bold">
+                            <FaExclamationTriangle className="text-2xl text-yellow-400" /> Entrada validada
                         </div>
-                        <div className="mb-4 w-full rounded-lg bg-[#23232a] p-4 text-white">
+                        <div className="mb-6 w-full rounded-lg bg-[#23232a] p-4 text-white">
                             <div className="mb-2 font-bold">Lote: {ticket.lote || '-'}</div>
                             <div>Nombre: <span className="font-semibold">{ticket.nombre || '-'} {ticket.apellido || '-'}</span></div>
                             <div>DNI: <span className="font-semibold">{ticket.dni || '-'}</span></div>
                             <div>N° Orden: <span className="font-semibold">{ticket.numOrden || '-'}</span></div>
                             <div>Estado: <span className="font-semibold">{ticket.estado || '-'}</span></div>
                         </div>
-                        <button className="mb-2 w-full rounded bg-secondary py-2 font-bold text-white" onClick={onScanAnother}>Escanear otro QR</button>
-                    </div>
+                        <button className="w-full rounded border border-white py-2 text-white" onClick={onScanAnother}>Escanear otro QR</button>
+                    </>
                 )}
                 {status === 'error' && (
-                    <div className="flex w-full flex-col items-center">
-                        <div className="mb-2 flex items-center gap-2 text-lg font-bold text-red-400">
-                            <FaExclamationTriangle className="text-2xl" /> Error al validar
+                    <>
+                        <div className="mb-4 flex w-full items-center justify-start gap-2 text-lg font-bold">
+                            <FaExclamationTriangle className="text-2xl text-red-400" /> Error al validar
                         </div>
-                        <div className="mb-4 w-full rounded-lg bg-[#23232a] p-4 text-white">
+                        <div className="mb-6 w-full rounded-lg bg-[#23232a] p-4 text-white">
                             <div className="mb-2 font-bold">{errorMsg || 'Ocurrió un error al validar el ticket.'}</div>
                         </div>
-                        <button className="mb-2 w-full rounded bg-secondary py-2 font-bold text-white" onClick={onScanAnother}>Escanear otro QR</button>
-                    </div>
+                        <button className="w-full rounded border border-white py-2 text-white" onClick={onScanAnother}>Escanear otro QR</button>
+                    </>
                 )}
             </div>
         </div>
