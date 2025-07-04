@@ -10,6 +10,7 @@ import EventoDetallesStates from "@/components/Dashboard/Admin/Eventos/EventoDet
 import LoteResumen from "@/components/Dashboard/Admin/Eventos/LoteResumen";
 import axios from "axios";
 import { api_url } from "@/api/api";
+import TablaComprasUsuario from "@/components/Dashboard/Compras/TablaComprasUsuario";
 
 const EventoDetalles: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -192,6 +193,10 @@ const EventoDetalles: React.FC = () => {
                         lote={evento.lotes[validLoteIndex]}
                     />
                 )}
+            </div>
+            {/* Tabla de compras del usuario */}
+            <div className="mt-8">
+                <TablaComprasUsuario />
             </div>
         </div>
     );
