@@ -72,6 +72,8 @@ export const api_url = {
     `${baseUrl}/eventos/user/v1/tickets/utilizar/hash?hash=${hash}`,
 
   get_ganancias: `${baseUrl}/eventos/user/v1/ganancias`,
+
+  enviar_tickets: `${baseUrl}/eventos/user/v1/revendedores/enviar-ticket`,
 };
 
 /**
@@ -96,6 +98,41 @@ export const GETME = async () => {
 
   // Guardar en localStorage para mantener sincronizado
   localStorage.setItem("me", JSON.stringify(response.data));
+
+  return response;
+};
+
+/**
+ * Función para enviar tickets como revendedor
+ * @param ticketData - Datos del ticket a enviar
+ * @returns Promise con la respuesta de la API
+ * @throws Error si no hay token o si la petición falla
+ */
+export const enviarTicket = async (ticketData: {
+  emailCliente: string;
+  nombreCliente: string;
+  apellidoCliente: string;
+  phoneNumberCliente: string;
+  dniCliente: string;
+  cantidadTickets: string;
+  loteId: number;
+}) => {
+  // Obtiene el token de autenticación del localStorage
+  const token = localStorage.getItem("auth")
+    ? JSON.parse(localStorage.getItem("auth")!).accessToken
+    : null;
+
+  if (!token) {
+    throw new Error("No hay token de autenticación");
+  }
+
+  // Realiza la petición POST con el token en los headers
+  const response = await axios.post(api_url.enviar_tickets, ticketData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+  });
 
   return response;
 };

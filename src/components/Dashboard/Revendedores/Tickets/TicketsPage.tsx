@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { useTicketsStore } from "@/components/Dashboard/Revendedores/Tickets/store/useTicketsStore";
 import { Evento } from "@/components/Dashboard/Revendedores/Tickets/types/tickets.types";
+import { LoadingSpinner, ErrorState } from "@/components/Dashboard/ComponentesReutilizables";
 
 const TicketsPage: React.FC = () => {
     const navigate = useNavigate();
@@ -42,26 +43,15 @@ const TicketsPage: React.FC = () => {
     };
 
     if (loading) {
-        return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
-            </div>
-        );
+        return <LoadingSpinner />;
     }
 
     if (error) {
         return (
-            <div className="flex h-screen items-center justify-center">
-                <div className="text-center text-red-500">
-                    <p className="text-xl font-bold">{error}</p>
-                    <button
-                        onClick={loadEvents}
-                        className="mt-4 rounded bg-secondary px-4 py-2 text-white hover:bg-secondary/80"
-                    >
-                        Reintentar
-                    </button>
-                </div>
-            </div>
+            <ErrorState
+                error={error}
+                onRetry={loadEvents}
+            />
         );
     }
 
@@ -155,13 +145,13 @@ const TicketsPage: React.FC = () => {
                                         </span>
                                     </td>
                                     <td className="px-4 py-3 text-end">
-                                        <div className="flex justify-end gap-2">
+                                        <div className="flex justify-end">
                                             <button
                                                 onClick={() => handleViewTickets(event)}
-                                                className="rounded p-2 text-white hover:bg-secondary/80"
+                                                className="flex items-center gap-2 rounded-lg bg-secondary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-secondary/50"
                                                 title="Ver tickets"
                                             >
-                                                <FaEye className="h-4 w-4" />
+                                                Ver tickets
                                             </button>
                                         </div>
                                     </td>
