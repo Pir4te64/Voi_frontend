@@ -7,6 +7,7 @@ import EventoInfoGrid from "@/components/Dashboard/Admin/Eventos/EventoInfoGrid"
 import MapButton from "@/components/Dashboard/Admin/Eventos/components/MapButton";
 import { formatFechaCompleta } from "@/components/Dashboard/Admin/Eventos/utils/dateUtils";
 import EventoDetallesStates from "@/components/Dashboard/Admin/Eventos/EventoDetallesStates";
+import LoteResumen from "@/components/Dashboard/Admin/Eventos/LoteResumen";
 
 const EventoDetalles: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,12 +15,32 @@ const EventoDetalles: React.FC = () => {
     const { evento, loading, error, fetchEventoDetalle } = useEventoDetallesStore();
     const [galeriaIndex, setGaleriaIndex] = React.useState(0);
     const [loteIndex, setLoteIndex] = React.useState(0);
-    console.log(evento);
+
     useEffect(() => {
         if (id) {
             fetchEventoDetalle(parseInt(id));
         }
     }, [id, fetchEventoDetalle]);
+
+    // Resetear loteIndex cuando cambie el evento
+    // useEffect(() => {
+    //     if (evento && evento.lotes) {
+    //         setLoteIndex(0);
+    //     }
+    // }, [evento?.id]);
+
+    // Asegurar que loteIndex sea válido
+    const validLoteIndex = evento?.lotes && evento.lotes.length > 0
+        ? Math.min(loteIndex, evento.lotes.length - 1)
+        : 0;
+
+    // Debug: Log del lote seleccionado
+    React.useEffect(() => {
+        if (evento?.lotes && evento.lotes[validLoteIndex]) {
+            console.log("EventoDetalles: Lote seleccionado:", evento.lotes[validLoteIndex]);
+            console.log("EventoDetalles: validLoteIndex:", validLoteIndex);
+        }
+    }, [validLoteIndex, evento?.lotes]);
 
     // Manejar estados de carga, error y evento no encontrado
     const stateComponent = <EventoDetallesStates loading={loading} error={error} evento={evento} />;
@@ -83,7 +104,7 @@ const EventoDetalles: React.FC = () => {
                                 {evento.lotes && (
                                     <EventoInfoGrid
                                         lotes={evento.lotes}
-                                        loteIndex={loteIndex}
+                                        loteIndex={validLoteIndex}
                                         setLoteIndex={setLoteIndex}
                                         dia={dia}
                                         mes={mes}
@@ -150,6 +171,13 @@ const EventoDetalles: React.FC = () => {
                         )}
                     </div>
                 </div>
+                {/* Resumen de lote seleccionado */}
+                {evento.lotes && evento.lotes[validLoteIndex] && (
+                    <LoteResumen
+                        key={`lote-${evento.lotes[validLoteIndex].id}`}
+                        lote={evento.lotes[validLoteIndex]}
+                    />
+                )}
             </div>
         </div>
     );

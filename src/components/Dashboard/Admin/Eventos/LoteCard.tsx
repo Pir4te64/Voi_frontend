@@ -20,6 +20,13 @@ interface LoteCardProps {
 }
 
 const LoteCard: React.FC<LoteCardProps> = ({ lotes, loteIndex, setLoteIndex }) => {
+    const handleLoteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const newIndex = Number(e.target.value);
+        console.log("LoteCard: Cambiando lote de", loteIndex, "a", newIndex);
+        console.log("LoteCard: Lote seleccionado:", lotes[newIndex]);
+        setLoteIndex(newIndex);
+    };
+
     return (
         <div className="flex min-h-[90px] flex-col gap-2 rounded-lg bg-[#232326] p-4">
             <div className="mb-1 flex items-center gap-2">
@@ -30,7 +37,7 @@ const LoteCard: React.FC<LoteCardProps> = ({ lotes, loteIndex, setLoteIndex }) =
                 <select
                     className="appearance-none rounded border border-gray-700 bg-[#18181b] px-3 py-2 text-sm text-white focus:outline-none"
                     value={loteIndex}
-                    onChange={e => setLoteIndex(Number(e.target.value))}
+                    onChange={handleLoteChange}
                 >
                     <option disabled>Ej: Early Bird</option>
                     {lotes.map((lote, idx) => (
