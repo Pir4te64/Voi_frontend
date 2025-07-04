@@ -57,13 +57,6 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({ open, onClose, onResult
                         <strong>Resultado:</strong> {qrResult}
                     </div>
                 )}
-                {/* Link para ingresar datos manualmente */}
-                <button
-                    className="mt-6 text-sm text-secondary underline transition hover:text-pink-400"
-                    onClick={() => {/* Aquí puedes abrir otro modal o navegar a la vista de ingreso manual */ }}
-                >
-                    Ingresar datos manualmente
-                </button>
             </div>
         </div>
     );
