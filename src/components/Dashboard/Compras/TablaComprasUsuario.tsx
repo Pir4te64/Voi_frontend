@@ -36,7 +36,7 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
             if (!token) throw new Error('No autenticado');
 
             // URL base para obtener tickets
-            const baseUrl = `${api_url.get_tickets}?pageNumber=${pageNumber}&pageSize=10&sortDirection=DESC&estado=PAGADO`;
+            const baseUrl = `${api_url.get_tickets}?pageNumber=${pageNumber}&pageSize=10&sortDirection=DESC`;
 
             const res = await axios.get(baseUrl, {
                 headers: { Authorization: `Bearer ${token}` },

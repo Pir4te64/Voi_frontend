@@ -14,7 +14,7 @@ export const useEventsStore = create<EventsState>((set) => ({
   fetchEvents: async () => {
     try {
       const response = await axios.get(api_url.get_eventos);
-      set({ events: response.data });
+      set({ events: response.data.content });
     } catch (error) {
       console.error("Error fetching events:", error);
     }
