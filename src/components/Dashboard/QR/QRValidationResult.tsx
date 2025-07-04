@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTimes, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
+import { FaTimes, FaCheckCircle, FaExclamationTriangle, FaRegCheckCircle } from "react-icons/fa";
 
 type TicketStatus = 'valid' | 'used' | 'error';
 
@@ -41,7 +41,7 @@ const QRValidationResult: React.FC<QRValidationResultProps> = ({ status, ticketI
                 {status === 'used' && (
                     <>
                         <div className="mb-4 flex w-full items-center justify-start gap-2 text-lg font-bold">
-                            <FaExclamationTriangle className="text-2xl text-yellow-400" /> Entrada validada
+                            <FaRegCheckCircle className="text-2xl text-green-500" /> Entrada validada
                         </div>
                         <div className="mb-6 w-full rounded-lg bg-[#23232a] p-4 text-white">
                             <div className="mb-2 font-bold">Lote: {ticket.lote || '-'}</div>
