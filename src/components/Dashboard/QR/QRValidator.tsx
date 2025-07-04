@@ -15,6 +15,7 @@ const QRValidator = () => {
     const [loading, setLoading] = useState(false);
 
     const handleScanResult = async (hash: string) => {
+        console.log('QR detectado, hash:', hash);
         setLoading(true);
         setErrorMsg(null);
         try {
@@ -22,11 +23,13 @@ const QRValidator = () => {
                 ? JSON.parse(localStorage.getItem("auth")!).accessToken
                 : null;
             if (!token) throw new Error("No autenticado");
+            console.log('Enviando PUT a:', api_url.validar_ticket(hash));
             const response = await axios.put(
                 api_url.validar_ticket(hash),
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
+            console.log('Respuesta de la API:', response.data);
             setTicketInfo(response.data);
             if (response.data?.estado === 'UTILIZADO' || response.data?.ticket?.validado) {
                 setStatus('used');
@@ -42,6 +45,7 @@ const QRValidator = () => {
             } else if (err?.response?.data?.message) {
                 msg = err.response.data.message;
             }
+            console.log('Error en la petición PUT:', err, msg);
             setStatus('error');
             setErrorMsg(msg);
         } finally {
