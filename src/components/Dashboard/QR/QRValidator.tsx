@@ -2,13 +2,13 @@ import { useState } from "react";
 import QRScannerModal from "./QRScannerModal";
 import QRValidationResult from "./QRValidationResult";
 import axios from "axios";
-
-const baseUrl = "https://voi-gateway-production.up.railway.app/api";
+import { api_url } from "../../../api/api";
 
 type TicketStatus = 'idle' | 'valid' | 'used' | 'error';
 
 const QRValidator = () => {
     const [modalOpen, setModalOpen] = useState(true);
+    const [resultOpen, setResultOpen] = useState(false);
     const [status, setStatus] = useState<TicketStatus>('idle');
     const [ticketInfo, setTicketInfo] = useState<any>(null);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -23,12 +23,12 @@ const QRValidator = () => {
                 : null;
             if (!token) throw new Error("No autenticado");
             const response = await axios.put(
-                `${baseUrl}/eventos/user/v1/tickets/utilizar/hash?hash=${hash}`,
+                api_url.validar_ticket(hash),
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setTicketInfo(response.data);
-            if (response.data?.ticket?.validado) {
+            if (response.data?.estado === 'UTILIZADO' || response.data?.ticket?.validado) {
                 setStatus('used');
             } else {
                 setStatus('valid');
@@ -47,6 +47,7 @@ const QRValidator = () => {
         } finally {
             setLoading(false);
             setModalOpen(false);
+            setResultOpen(true);
         }
     };
 
@@ -55,17 +56,26 @@ const QRValidator = () => {
         setTicketInfo(null);
         setErrorMsg(null);
         setModalOpen(true);
+        setResultOpen(false);
+    };
+
+    const handleResultClose = () => {
+        setResultOpen(false);
+        setStatus('idle');
+        setTicketInfo(null);
+        setErrorMsg(null);
     };
 
     return (
         <div>
-            <QRScannerModal open={modalOpen} onClose={() => setModalOpen(false)} onResult={handleScanResult} />
-            {!modalOpen && status !== 'idle' && (
+            <QRScannerModal open={modalOpen} onClose={handleResultClose} onResult={handleScanResult} />
+            {resultOpen && status !== 'idle' && (
                 <QRValidationResult
                     status={status}
                     ticketInfo={ticketInfo}
                     errorMsg={errorMsg}
                     onScanAnother={handleScanAnother}
+                    onClose={handleResultClose}
                 />
             )}
             {loading && <div className="mt-4 text-center text-white">Validando QR...</div>}
