@@ -84,7 +84,7 @@ const EventoDetalles: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-black px-2 py-8">
-            <div className="mx-auto max-w-4xl">
+            <div className="mx-auto max-w-7xl">
                 {/* Header y botón volver */}
                 <div className="mb-4 flex items-center gap-4">
                     <button
@@ -134,21 +134,24 @@ const EventoDetalles: React.FC = () => {
                                 {/* Cards de info clave */}
                                 <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
                                     {/* Lotes */}
-                                    <div className="flex flex-col gap-2 rounded-xl bg-[#131316] p-4">
+                                    <div className="flex min-h-[90px] flex-col gap-2 rounded-lg bg-[#232326] p-4">
                                         <div className="mb-1 flex items-center gap-2">
                                             <MdEventSeat className="text-lg text-secondary" />
-                                            <span className="text-sm font-semibold text-white">Lotes</span>
+                                            <span className="text-base font-semibold text-white">Lotes</span>
                                         </div>
-                                        {evento.lotes && evento.lotes.length > 1 && (
+                                        {evento.lotes && evento.lotes.length > 1 ? (
                                             <select
-                                                className="mb-2 rounded border border-gray-700 bg-[#18181b] px-2 py-1 text-xs text-white focus:outline-none"
+                                                className="appearance-none rounded border border-gray-700 bg-[#18181b] px-3 py-2 text-sm text-white focus:outline-none"
                                                 value={loteIndex}
                                                 onChange={e => setLoteIndex(Number(e.target.value))}
                                             >
+                                                <option disabled>Ej: Early Bird</option>
                                                 {evento.lotes.map((lote, idx) => (
                                                     <option key={lote.id} value={idx}>{lote.nombre}</option>
                                                 ))}
                                             </select>
+                                        ) : (
+                                            <div className="rounded border border-gray-700 bg-[#18181b] px-3 py-2 text-sm text-white">{evento.lotes && evento.lotes[0]?.nombre || "Ej: Early Bird"}</div>
                                         )}
                                         {evento.lotes && evento.lotes.length > 0 && (
                                             <>
@@ -160,22 +163,22 @@ const EventoDetalles: React.FC = () => {
                                         )}
                                     </div>
                                     {/* Fecha */}
-                                    <div className="flex flex-col gap-2 rounded-xl bg-[#131316] p-4">
+                                    <div className="flex min-h-[90px] flex-col gap-2 rounded-lg bg-[#232326] p-4">
                                         <div className="mb-1 flex items-center gap-2">
                                             <FaCalendarAlt className="text-lg text-secondary" />
-                                            <span className="text-sm font-semibold text-white">Fecha</span>
+                                            <span className="text-base font-semibold text-white">Fecha</span>
                                         </div>
-                                        <span className="text-xs text-gray-400">{dia} - {mes} {anio}</span>
-                                        <span className="text-lg font-bold text-white">{hora} hs a {fechaFin.hora} hs</span>
+                                        <span className="text-base font-bold text-white">{dia} - {mes} {anio}</span>
+                                        <span className="text-xs text-white/80">{hora} hs a {fechaFin.hora} hs</span>
                                     </div>
                                     {/* Locación */}
-                                    <div className="flex flex-col gap-2 rounded-xl bg-[#131316] p-4">
+                                    <div className="flex min-h-[90px] flex-col gap-2 rounded-lg bg-[#232326] p-4">
                                         <div className="mb-1 flex items-center gap-2">
                                             <FaMapMarkerAlt className="text-lg text-secondary" />
-                                            <span className="text-sm font-semibold text-white">Locación</span>
+                                            <span className="text-base font-semibold text-white">Locación</span>
                                         </div>
-                                        <span className="text-xs text-gray-400">{evento.address?.street}</span>
-                                        <span className="text-lg font-bold text-white">{evento.address?.city} {evento.address?.state ? `- ${evento.address.state}` : ""}</span>
+                                        <span className="text-base font-bold text-white">{evento.address?.street}</span>
+                                        <span className="text-xs text-white/80">{evento.address?.city} {evento.address?.state ? `- ${evento.address.state}` : ""}</span>
                                     </div>
                                 </div>
                             </div>
