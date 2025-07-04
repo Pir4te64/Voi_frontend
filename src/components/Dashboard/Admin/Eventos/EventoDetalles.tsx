@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEventoDetallesStore } from "./store/useEventoDetallesStore";
 import { FaArrowLeft, FaMapMarkerAlt } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
+import { MdEventSeat } from "react-icons/md";
+import { FaCalendarAlt, FaClock } from "react-icons/fa";
 
 function formatFechaCompleta(fechaStr: string) {
     const fecha = new Date(fechaStr);
@@ -19,6 +21,7 @@ const EventoDetalles: React.FC = () => {
     const navigate = useNavigate();
     const { evento, loading, error, fetchEventoDetalle } = useEventoDetallesStore();
     const [galeriaIndex, setGaleriaIndex] = React.useState(0);
+    const [loteIndex, setLoteIndex] = React.useState(0);
 
     useEffect(() => {
         if (id) {
@@ -81,7 +84,7 @@ const EventoDetalles: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-black px-2 py-8">
-            <div className="mx-auto max-w-7xl">
+            <div className="mx-auto max-w-4xl">
                 {/* Header y botón volver */}
                 <div className="mb-4 flex items-center gap-4">
                     <button
@@ -91,73 +94,105 @@ const EventoDetalles: React.FC = () => {
                         <FaArrowLeft /> Volver
                     </button>
                 </div>
-                {/* Layout principal */}
-                <div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_1fr]">
+                {/* Grid principal: card evento | sidebar (revendedores + galería) */}
+                <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[2fr_1fr]">
                     {/* Columna principal */}
                     <div>
-                        {/* Imagen principal */}
-                        {evento.sliderImageUrl && (
-                            <div className="mb-4 overflow-hidden rounded-xl">
-                                <img
-                                    src={evento.sliderImageUrl}
-                                    alt={evento.nombre}
-                                    className="h-64 w-full object-cover object-center"
-                                />
-                            </div>
-                        )}
-                        {/* Título y estado */}
-                        <div className="mb-2 flex items-center justify-between">
-                            <h1 className="text-3xl font-bold leading-tight text-secondary">{evento.nombre}</h1>
-                            <span className={`rounded px-3 py-1 text-sm font-semibold ${estadoColor}`}>{estadoTexto}</span>
-                        </div>
-                        {/* Descripción */}
-                        <div className="mb-4">
-                            <h2 className="mb-1 text-lg font-bold text-red-500">DESCRIPCIÓN</h2>
-                            <p className="text-base leading-relaxed text-white/90">{evento.descripcion}</p>
-                        </div>
-                        {/* Info clave */}
-                        <div className="mb-4 flex flex-wrap gap-4">
-                            {/* Lote (solo el nombre del primer lote como ejemplo) */}
-                            {evento.lotes && evento.lotes.length > 0 && (
-                                <div className="flex min-w-[120px] flex-col rounded-lg bg-[#18181b] px-4 py-3">
-                                    <span className="text-xs text-gray-400">Lote</span>
-                                    <span className="font-semibold text-white">{evento.lotes[0].nombre}</span>
-                                </div>
-                            )}
-                            {/* Fecha */}
-                            <div className="flex min-w-[120px] flex-col rounded-lg bg-[#18181b] px-4 py-3">
-                                <span className="text-xs text-gray-400">Fecha</span>
-                                <span className="font-semibold text-white">{dia} - {mes} - {anio}</span>
-                                <span className="text-xs text-gray-400">{hora} hs a {fechaFin.hora} hs</span>
-                            </div>
-                            {/* Ubicación */}
-                            <div className="flex min-w-[180px] flex-col rounded-lg bg-[#18181b] px-4 py-3">
-                                <span className="text-xs text-gray-400">Locación</span>
-                                <span className="font-semibold text-white">{evento.address?.street}</span>
-                                <span className="text-xs text-gray-400">{evento.address?.city} - {evento.address?.state}</span>
-                                {mapsUrl && (
-                                    <a
-                                        href={mapsUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="mt-1 flex items-center gap-1 text-xs text-blue-400 hover:underline"
-                                    >
-                                        <FaMapMarkerAlt /> Ver Mapa
-                                    </a>
+                        {/* Card principal del evento */}
+                        <div className="overflow-hidden rounded-2xl bg-[#18181b] p-0 shadow-lg">
+                            {/* Imagen principal */}
+                            <div className="relative">
+                                {evento.sliderImageUrl && (
+                                    <img
+                                        src={evento.sliderImageUrl}
+                                        alt={evento.nombre}
+                                        className="h-80 w-full object-cover object-center"
+                                    />
                                 )}
+                            </div>
+                            {/* Contenido principal */}
+                            <div className="p-6">
+                                <div className="mb-2 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                                    <h1 className="text-2xl font-bold leading-tight text-white md:text-3xl">{evento.nombre}</h1>
+                                    <span className={`rounded px-3 py-1 text-sm font-semibold ${estadoColor}`}>{estadoTexto}</span>
+                                </div>
+                                {/* Descripción */}
+                                <div className="mb-4">
+                                    <h2 className="mb-1 text-base font-bold uppercase tracking-wide text-red-500">DESCRIPCIÓN</h2>
+                                    <p className="mb-2 text-base leading-relaxed text-white/90">{evento.descripcion}</p>
+                                    {mapsUrl && (
+                                        <a
+                                            href={mapsUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-1 text-sm font-semibold text-red-400 hover:underline"
+                                        >
+                                            <FaMapMarkerAlt /> Ver Mapa
+                                        </a>
+                                    )}
+                                </div>
+                                {/* Cards de info clave */}
+                                <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+                                    {/* Lotes */}
+                                    <div className="flex flex-col gap-2 rounded-xl bg-[#131316] p-4">
+                                        <div className="mb-1 flex items-center gap-2">
+                                            <MdEventSeat className="text-lg text-secondary" />
+                                            <span className="text-sm font-semibold text-white">Lotes</span>
+                                        </div>
+                                        {evento.lotes && evento.lotes.length > 1 && (
+                                            <select
+                                                className="mb-2 rounded border border-gray-700 bg-[#18181b] px-2 py-1 text-xs text-white focus:outline-none"
+                                                value={loteIndex}
+                                                onChange={e => setLoteIndex(Number(e.target.value))}
+                                            >
+                                                {evento.lotes.map((lote, idx) => (
+                                                    <option key={lote.id} value={idx}>{lote.nombre}</option>
+                                                ))}
+                                            </select>
+                                        )}
+                                        {evento.lotes && evento.lotes.length > 0 && (
+                                            <>
+                                                <span className="text-xs text-gray-400">Precio: <span className="font-bold text-white">${evento.lotes[loteIndex].precio}</span></span>
+                                                <span className="text-xs text-gray-400">Cantidad: <span className="font-bold text-white">{evento.lotes[loteIndex].cantidadTickets}</span></span>
+                                                <span className="text-xs text-gray-400">Vendidos: <span className="font-bold text-white">{evento.lotes[loteIndex].ticketsVendidos}</span></span>
+                                                <span className="text-xs text-gray-400">Disponibles: <span className="font-bold text-white">{evento.lotes[loteIndex].ticketsDisponibles}</span></span>
+                                            </>
+                                        )}
+                                    </div>
+                                    {/* Fecha */}
+                                    <div className="flex flex-col gap-2 rounded-xl bg-[#131316] p-4">
+                                        <div className="mb-1 flex items-center gap-2">
+                                            <FaCalendarAlt className="text-lg text-secondary" />
+                                            <span className="text-sm font-semibold text-white">Fecha</span>
+                                        </div>
+                                        <span className="text-xs text-gray-400">{dia} - {mes} {anio}</span>
+                                        <span className="text-lg font-bold text-white">{hora} hs a {fechaFin.hora} hs</span>
+                                    </div>
+                                    {/* Locación */}
+                                    <div className="flex flex-col gap-2 rounded-xl bg-[#131316] p-4">
+                                        <div className="mb-1 flex items-center gap-2">
+                                            <FaMapMarkerAlt className="text-lg text-secondary" />
+                                            <span className="text-sm font-semibold text-white">Locación</span>
+                                        </div>
+                                        <span className="text-xs text-gray-400">{evento.address?.street}</span>
+                                        <span className="text-lg font-bold text-white">{evento.address?.city} {evento.address?.state ? `- ${evento.address.state}` : ""}</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    {/* Sidebar derecha */}
+                    {/* Segunda columna: sidebar derecha */}
                     <div className="flex flex-col gap-6">
                         {/* Revendedores */}
-                        <div className="flex flex-col items-start rounded-xl bg-[#18181b] p-5 text-left">
-                            <div className="flex items-center gap-2">
-                                <FiUsers className="text-2xl text-secondary" />
-                                <span className="text-base font-bold tracking-wider text-secondary">REVENDEDORES</span>
+                        <div className="flex flex-col rounded-xl bg-[#18181b] p-5 text-left">
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <FiUsers className="text-2xl text-secondary" />
+                                    <span className="text-base font-bold tracking-wider text-secondary">REVENDEDORES</span>
+                                </div>
+                                <span className="mt-1 block text-sm text-white/80">En este evento</span>
                             </div>
-                            <span className="mt-1 text-sm text-white/80">En este evento</span>
-                            <span className="mt-4 text-4xl font-bold text-secondary">{revendedoresCount}</span>
+                            <span className="mt-4 text-center text-4xl font-bold text-secondary">{revendedoresCount}</span>
                         </div>
                         {/* Galería de evento */}
                         {galeria.length > 0 && (
