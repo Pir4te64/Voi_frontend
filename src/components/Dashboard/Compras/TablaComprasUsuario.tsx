@@ -1,81 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { api_url } from '@/api/api';
-import { FaChevronLeft, FaChevronRight, FaTimes } from 'react-icons/fa';
-
-const estadoColors: Record<string, string> = {
-    RESERVADO: 'bg-yellow-500/20 text-yellow-500',
-    PAGADO: 'bg-green-500/20 text-green-500',
-    UTILIZADO: 'bg-blue-500/20 text-blue-500',
-    CANCELADO: 'bg-red-500/20 text-red-500',
-};
-
-interface TablaComprasUsuarioProps {
-    titulo?: string;
-    tipo?: 'compras' | 'ventas';
-}
+import React, { useEffect } from 'react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useComprasStore } from './store/useComprasStore';
+import { estadoColors, TablaComprasUsuarioProps } from './store/types';
+import QRModal from './components/QRModal';
+import GananciasResumen from './GananciasResumen';
 
 const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
     titulo = "Mis Compras",
     tipo = 'compras'
 }) => {
-    const [tickets, setTickets] = useState<any[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [page, setPage] = useState(0); // 0-indexed
-    const [totalPages, setTotalPages] = useState(1);
-    const [qrModal, setQrModal] = useState<string | null>(null);
+    const {
+        tickets,
+        loading,
+        error,
+        page,
+        totalPages,
+        qrModal,
+        setTipo,
+        setTitulo,
+        setQrModal,
+        setPage,
+        fetchTickets
+    } = useComprasStore();
 
-    const fetchTickets = async (pageNumber = 0) => {
-        setLoading(true);
-        setError(null);
-        try {
-            const token = localStorage.getItem('auth')
-                ? JSON.parse(localStorage.getItem('auth')!).accessToken
-                : null;
-            if (!token) throw new Error('No autenticado');
-
-            // URL base para obtener tickets
-            const baseUrl = `${api_url.get_tickets}?pageNumber=${pageNumber}&pageSize=10&sortDirection=DESC`;
-
-            const res = await axios.get(baseUrl, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
-            const content = Array.isArray(res.data?.content) ? res.data.content : [];
-            setTickets(content);
-            setTotalPages(res.data?.totalPages || 1);
-        } catch (err: any) {
-            setTickets([]);
-
-            // Manejar diferentes tipos de errores
-            let errorMessage = `Error al cargar las ${tipo === 'ventas' ? 'ventas' : 'compras'}`;
-
-            if (err.response?.data?.error) {
-                // Error con formato específico de la API
-                const apiError = err.response.data.error;
-                if (apiError.description && Array.isArray(apiError.description)) {
-                    errorMessage = apiError.description.join(', ');
-                } else if (apiError.description) {
-                    errorMessage = apiError.description;
-                }
-            } else if (err.response?.data?.message) {
-                // Error con mensaje directo
-                errorMessage = err.response.data.message;
-            } else if (err.message) {
-                // Error general
-                errorMessage = err.message;
-            }
-
-            setError(errorMessage);
-        } finally {
-            setLoading(false);
+    // Configurar el tipo y título cuando cambian las props
+    useEffect(() => {
+        setTipo(tipo);
+        if (titulo) {
+            setTitulo(titulo);
         }
-    };
+    }, [tipo, titulo, setTipo, setTitulo]);
 
     useEffect(() => {
         fetchTickets(page);
-        // eslint-disable-next-line
-    }, [page]);
+    }, [page, fetchTickets]);
 
     const safeTickets = Array.isArray(tickets) ? tickets : [];
     const currentPage = page + 1;
@@ -86,6 +44,8 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
     return (
         <div className="container mx-auto bg-[#131315] px-4 py-8">
             <h1 className="mb-6 text-2xl font-bold text-secondary">{titulo}</h1>
+            {tipo === 'ventas' && <GananciasResumen visible={true} />}
+
             {loading ? (
                 <div className="flex justify-center py-8">
                     <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
@@ -121,7 +81,7 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
                                         {ticket.qrCode ? (
                                             <button
                                                 className="focus:outline-none"
-                                                onClick={() => setQrModal(ticket.qrCode)}
+                                                onClick={() => setQrModal(ticket.qrCode || null)}
                                                 title="Ver QR"
                                             >
                                                 <img src={ticket.qrCode} alt="QR" className="inline-block h-12 w-12 rounded object-contain shadow transition hover:scale-110" />
@@ -183,25 +143,7 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
 
             {/* Modal QR */}
             {qrModal && (
-                <div
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
-                    onClick={closeModal}
-                >
-                    <div
-                        className="relative flex flex-col items-center rounded-lg bg-[#232326] p-6 shadow-lg"
-                        onClick={e => e.stopPropagation()}
-                    >
-                        <button
-                            className="absolute right-2 top-2 text-xl text-gray-400 hover:text-white"
-                            onClick={closeModal}
-                            title="Cerrar"
-                        >
-                            <FaTimes />
-                        </button>
-                        <img src={qrModal} alt="QR grande" className="mb-2 h-64 w-64 object-contain" />
-                        <span className="text-xs text-gray-400">Escanea este código QR para tu entrada</span>
-                    </div>
-                </div>
+                <QRModal qrCode={qrModal} onClose={closeModal} />
             )}
         </div>
     );

@@ -70,6 +70,8 @@ export const api_url = {
   get_tickets: `${baseUrl}/eventos/user/v1/tickets/by-user`,
   validar_ticket: (hash: string) =>
     `${baseUrl}/eventos/user/v1/tickets/utilizar/hash?hash=${hash}`,
+
+  get_ganancias: `${baseUrl}/eventos/user/v1/ganancias`,
 };
 
 /**
