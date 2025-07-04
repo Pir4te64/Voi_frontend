@@ -8,7 +8,7 @@ import {
 import { Evento } from "@/components/Dashboard/Revendedores/Tickets/types/tickets.types";
 import { useTicketDetalleStore } from "@/components/Dashboard/Revendedores/Tickets/store/useTicketDetalleStore";
 import { LoadingSpinner, ErrorState, LoaderOverlay } from "@/components/Dashboard/ComponentesReutilizables";
-import TicketForm from "./components/TicketForm";
+import TicketForm from "@/components/Dashboard/Revendedores/Tickets/components/TicketForm";
 import { enviarTicket } from "@/api/api";
 import { toast } from "react-toastify";
 
@@ -98,27 +98,26 @@ const TicketDetallePage: React.FC = () => {
         <>
             {sendingTicket && <LoaderOverlay />}
             <div className="min-h-screen bg-black">
-                <div className="container mx-auto px-4 py-8">
+                <div className="container mx-auto px-4 py-4 sm:py-8">
                     {/* Header */}
-                    <div className="mb-8">
+                    <div className="mb-6 sm:mb-8">
                         <button
                             onClick={() => navigate("/dashboard/ticket")}
                             className="mb-4 flex items-center text-white hover:text-secondary"
                         >
                             <FaArrowLeft className="mr-2" />
-                            Volver a Mis Tickets
+                            <span className="hidden sm:inline">Volver a Mis Tickets</span>
+                            <span className="sm:hidden">Volver</span>
                         </button>
-                        <h1 className="text-3xl font-bold text-secondary">Enviar tickets</h1>
-                        <p className="mt-2 text-gray-400">
+                        <h1 className="text-2xl font-bold text-secondary sm:text-3xl">Enviar tickets</h1>
+                        <p className="mt-2 text-sm text-gray-400 sm:text-base">
                             Gestioná y enviá entradas a tus clientes para tus eventos.
                         </p>
                     </div>
 
-
-
                     {/* Filtros */}
                     <div className="flex flex-col gap-4 rounded-t-lg bg-[#1c1c1c] p-4 md:flex-row md:items-center md:justify-between">
-                        <div className="relative w-3/6 rounded-lg border border-gray-700">
+                        <div className="relative w-full rounded-lg border border-gray-700 md:w-3/6">
                             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                 <FaSearch className="h-4 w-4 text-gray-400" />
                             </div>
@@ -160,12 +159,12 @@ const TicketDetallePage: React.FC = () => {
                                     </div>
                                     {/* Info */}
                                     <div className="flex flex-1 flex-col gap-1">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-lg font-bold">
+                                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                                            <span className="text-lg font-bold text-white">
                                                 {lote.nombre}
                                             </span>
-                                            <div className="flex flex-col items-end">
-                                                <span className="text-2xl font-bold text-white">
+                                            <div className="flex flex-col items-start sm:items-end">
+                                                <span className="text-xl font-bold text-white sm:text-2xl">
                                                     ${lote.precio.toLocaleString('es-AR')}
                                                 </span>
                                                 <span className="mt-1 text-xs font-bold text-green-400">
@@ -178,8 +177,6 @@ const TicketDetallePage: React.FC = () => {
                                 </label>
                             ))}
                     </div>
-
-
 
                     {/* Formulario de envío de tickets */}
                     <TicketForm
