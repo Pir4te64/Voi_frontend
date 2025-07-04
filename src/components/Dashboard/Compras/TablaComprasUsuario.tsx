@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaChevronLeft, FaChevronRight, FaSearch } from 'react-icons/fa';
 import { useComprasStore } from '@/components/Dashboard/Compras/store/useComprasStore';
-import { estadoColors, TablaComprasUsuarioProps } from '@/components/Dashboard/Compras/store/types';
+import { estadoColors } from '@/components/Dashboard/Compras/store/types';
 import QRModal from '@/components/Dashboard/Compras/components/QRModal';
 import GananciasResumen from '@/components/Dashboard/Compras/GananciasResumen';
 
-const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
-    titulo = "Mis Compras",
-    tipo = 'compras'
-}) => {
+interface TablaComprasUsuarioProps {
+    titulo?: string;
+    tipo?: 'compras' | 'ventas';
+}
+
+const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({ titulo, tipo = 'compras' }) => {
     const {
         tickets,
         loading,
@@ -23,6 +25,8 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
         fetchTickets
     } = useComprasStore();
 
+    const [search, setSearch] = useState("");
+
     // Configurar el tipo y título cuando cambian las props
     useEffect(() => {
         setTipo(tipo);
@@ -35,7 +39,17 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
         fetchTickets(page);
     }, [page, fetchTickets]);
 
-    const safeTickets = Array.isArray(tickets) ? tickets : [];
+    // Filtrado local de tickets
+    const filteredTickets = tickets.filter(ticket => {
+        const searchLower = search.toLowerCase();
+        return (
+            ticket.evento?.toLowerCase().includes(searchLower) ||
+            ticket.tipoTicket?.toLowerCase().includes(searchLower) ||
+            ticket.estado?.toLowerCase().includes(searchLower)
+        );
+    });
+
+    const safeTickets = Array.isArray(filteredTickets) ? filteredTickets : [];
     const currentPage = page + 1;
 
     // Modal QR
@@ -43,7 +57,21 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
 
     return (
         <div className="container mx-auto bg-[#131315] px-4 py-8">
-            <h1 className="mb-6 text-2xl font-bold text-secondary">{titulo}</h1>
+            <h2 className="mb-4 text-2xl font-bold" style={{ color: titulo ? 'white' : '#ff5c74' }}>
+                {titulo || 'Mis Compras'}
+            </h2>
+            <div className="relative mb-6">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    <FaSearch />
+                </span>
+                <input
+                    type="text"
+                    placeholder="Buscar por evento, tipo de ticket o estado..."
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    className="w-full rounded-md bg-[#232326] px-10 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary"
+                />
+            </div>
             {tipo === 'ventas' && <GananciasResumen visible={true} />}
 
             {loading ? (

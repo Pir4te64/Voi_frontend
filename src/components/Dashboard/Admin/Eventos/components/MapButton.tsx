@@ -1,7 +1,7 @@
 import React from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { useMapModal } from "../hooks/useMapModal";
-import MapModal from "../MapModal";
+import { useMapModal } from "@/components/Dashboard/Admin/Eventos/hooks/useMapModal";
+import MapModal from "@/components/Dashboard/Admin/Eventos/MapModal";
 
 interface MapButtonProps {
     latitude: string;

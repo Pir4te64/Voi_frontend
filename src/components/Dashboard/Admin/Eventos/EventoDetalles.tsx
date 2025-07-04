@@ -196,7 +196,7 @@ const EventoDetalles: React.FC = () => {
             </div>
             {/* Tabla de compras del usuario */}
             <div className="mt-8">
-                <TablaComprasUsuario />
+                <TablaComprasUsuario titulo="Transacciones" />
             </div>
         </div>
     );
