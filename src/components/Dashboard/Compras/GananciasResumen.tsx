@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useGananciasStore } from '@/components/Dashboard/Compras/store/useGananciasStore';
 import { useUserInfo } from '@/context/useUserInfo';
 import { BiDollar } from "react-icons/bi";
-import { FaWallet, FaChartLine, FaPencilAlt } from "react-icons/fa";
+import { FaWallet, FaChartLine } from "react-icons/fa";
 
 interface GananciasResumenProps {
     visible: boolean;
