@@ -47,7 +47,8 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
                                     <th className="px-4 py-3">Nombre del Lote</th>
                                     <th className="px-4 py-3">Precio</th>
                                     <th className="px-4 py-3">Válido hasta</th>
-                                    <th className="px-4 py-3">Monto Comision</th>
+                                    <th className="px-4 py-3">Monto Comisión</th>
+                                    <th className="px-4 py-3">Porcentaje Comisión</th>
                                     <th className="px-4 py-3">Estado</th>
                                     <th className="px-4 py-3">Acciones</th>
                                 </tr>
@@ -56,17 +57,10 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
                                 {lotes.map((lote) => (
                                     <tr key={lote.id} className="border-t border-gray-700">
                                         <td className="px-4 py-3 text-white">{lote.nombre}</td>
-                                        <td className="px-4 py-3 text-white">
-                                            {formatCurrency(lote.precio)}
-                                        </td>
-                                        <td className="px-4 py-3 text-white">
-                                            {formatDate(lote.fechaValidez)}
-                                        </td>
-                                        <td className="px-4 py-3 text-white">
-                                            {lote.tipoComision === "MONTO_FIJO"
-                                                ? formatCurrency(lote.montoComision)
-                                                : `${lote.montoComision}%`}
-                                        </td>
+                                        <td className="px-4 py-3 text-white">{formatCurrency(lote.precio)}</td>
+                                        <td className="px-4 py-3 text-white">{formatDate(lote.fechaValidez)}</td>
+                                        <td className="px-4 py-3 text-white">{lote.montoComision > 0 ? formatCurrency(lote.montoComision) : "-"}</td>
+                                        <td className="px-4 py-3 text-white">{lote.porcentajeComision > 0 ? `${lote.porcentajeComision}%` : "-"}</td>
                                         <td className="px-4 py-3">
                                             <select
                                                 value={lote.estado}
@@ -80,18 +74,10 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
                                                             : "bg-red-500/20 text-red-500"
                                                     }`}
                                             >
-                                                <option value="ACTIVO" className="bg-gray-800 text-green-500">
-                                                    ACTIVO
-                                                </option>
-                                                <option value="PAUSADO" className="bg-gray-800 text-yellow-500">
-                                                    PAUSADO
-                                                </option>
-                                                <option value="CANCELADO" className="bg-gray-800 text-red-500">
-                                                    CANCELADO
-                                                </option>
-                                                <option value="AGOTADO" className="bg-gray-800 text-purple-500">
-                                                    AGOTADO
-                                                </option>
+                                                <option value="ACTIVO" className="bg-gray-800 text-green-500">ACTIVO</option>
+                                                <option value="PAUSADO" className="bg-gray-800 text-yellow-500">PAUSADO</option>
+                                                <option value="CANCELADO" className="bg-gray-800 text-red-500">CANCELADO</option>
+                                                <option value="AGOTADO" className="bg-gray-800 text-purple-500">AGOTADO</option>
                                             </select>
                                         </td>
                                         <td className="px-4 py-3">
@@ -150,4 +136,4 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
     );
 };
 
-export default TablaLotes; 
+export default TablaLotes;

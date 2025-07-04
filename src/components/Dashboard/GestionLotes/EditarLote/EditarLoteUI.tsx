@@ -32,14 +32,17 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
     }
   }, [success, setSuccess]);
 
+  // Obtener porcentajeComision si existe en el objeto lote
+  const porcentajeComision = (lote as any).porcentajeComision ?? 0;
+  const tipoComision: "MONTO_FIJO" | "PORCENTAJE" = porcentajeComision > 0 ? "PORCENTAJE" : "MONTO_FIJO";
   const formik = useFormik({
     initialValues: {
       nombre: lote.nombre,
       precio: lote.precio,
-      fechaValidez: lote.fechaValidez.split("T")[0], // Asegurarnos de que sea formato YYYY-MM-DD
-      tipoComision: lote.tipoComision as "MONTO_FIJO" | "PORCENTAJE",
-      montoFijo: lote.tipoComision === "MONTO_FIJO" ? lote.montoComision : 0,
-      porcentaje: lote.tipoComision === "PORCENTAJE" ? lote.montoComision : 0,
+      fechaValidez: lote.fechaValidez.split("T")[0],
+      tipoComision,
+      montoFijo: tipoComision === "MONTO_FIJO" ? lote.montoComision : 0,
+      porcentaje: tipoComision === "PORCENTAJE" ? porcentajeComision : 0,
       cantidadTickets: lote.cantidadTickets,
     },
     validationSchema: editarValidationSchema,
@@ -228,7 +231,7 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                   </FloatingField>
                 </div>
               </label>
-              {formik.touched.porcentaje && formik.errors.porcentaje && (
+              {formik.touched.porcentaje && typeof formik.errors.porcentaje === "string" && (
                 <div className="mt-1 text-sm text-red-500">
                   {formik.errors.porcentaje}
                 </div>
