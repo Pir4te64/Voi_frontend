@@ -24,13 +24,11 @@ const TicketForm: React.FC<TicketFormProps> = ({ onSubmit, selectedLoteId, isSub
         },
     });
 
-    if (!selectedLoteId) {
-        return null;
-    }
+    if (!selectedLoteId) { return null; }
 
     return (
         <div className="rounded-b-lg bg-[#1c1c1c] p-4 sm:p-6">
-            <h2 className="mb-4 sm:mb-6 text-lg sm:text-xl font-bold text-white">Cargar datos del comprador</h2>
+            <h2 className="mb-4 text-lg font-bold text-white sm:mb-6 sm:text-xl">Cargar datos del comprador</h2>
 
             <form onSubmit={formik.handleSubmit} className="space-y-4">
                 {/* Email */}
@@ -60,7 +58,7 @@ const TicketForm: React.FC<TicketFormProps> = ({ onSubmit, selectedLoteId, isSub
                 </div>
 
                 {/* Nombre y Apellido */}
-                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                         <FloatingField label="Nombre" htmlFor="nombreCliente">
                             <FaUser className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
@@ -113,7 +111,7 @@ const TicketForm: React.FC<TicketFormProps> = ({ onSubmit, selectedLoteId, isSub
                 </div>
 
                 {/* Teléfono y DNI */}
-                <div className="grid gap-4 grid-cols-1 sm:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                         <FloatingField label="Teléfono" htmlFor="phoneNumberCliente">
                             <FaPhone className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
@@ -199,7 +197,7 @@ const TicketForm: React.FC<TicketFormProps> = ({ onSubmit, selectedLoteId, isSub
                     <button
                         type="submit"
                         disabled={isSubmitting || !formik.isValid}
-                        className="w-full rounded-lg bg-secondary px-4 sm:px-6 py-3 font-semibold text-white transition-colors hover:bg-secondary/80 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="w-full rounded-lg bg-secondary px-4 py-3 font-semibold text-white transition-colors hover:bg-secondary/80 disabled:cursor-not-allowed disabled:opacity-50 sm:px-6"
                     >
                         {isSubmitting ? "Enviando..." : "Enviar Ticket"}
                     </button>
