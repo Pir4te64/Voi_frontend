@@ -37,6 +37,8 @@ import CrearEvento from "@/components/Dashboard/GestionEventos/CrearEventos/Crea
 import ListarEventosParaEditar from "@/components/Dashboard/GestionEventos/EditarEvento/ListarEventosParaEditar";
 import SolicitudAlta from "@/components/Dashboard/Admin/SolicitudAlta/SolicitudAlta";
 import MisCompras from "@/pages/MisCompras/MisCompras";
+import TicketsPage from "@/components/Dashboard/Revendedores/Tickets/TicketsPage";
+import TicketDetallePage from "@/components/Dashboard/Revendedores/Tickets/TicketDetallePage";
 
 function App() {
   return (
@@ -72,6 +74,8 @@ function App() {
           <Route path="misventas/web" element={<Web />} />
           <Route path="misventas/revendedores" element={<Revendedores />} />
           <Route path="misventas/lote" element={<Lote />} />
+          <Route path="ticket" element={<TicketsPage />} />
+          <Route path="ticket/:id" element={<TicketDetallePage />} />
           {/* <Route path="revendedores" element={<RevendedoresR />} /> */}
           <Route
             path="revendedores/eventos"
