@@ -47,6 +47,11 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({ open, onClose, onResult
                                 />
                             ))}
                         </div>
+                        {scanned && (
+                            <div className="absolute inset-0 z-20 flex items-center justify-center bg-black bg-opacity-60">
+                                <span className="text-lg font-semibold text-white">Procesando QR...</span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
