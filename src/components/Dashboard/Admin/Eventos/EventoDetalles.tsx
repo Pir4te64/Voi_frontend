@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEventoDetallesStore } from "./store/useEventoDetallesStore";
-import { FaArrowLeft, FaMapMarkerAlt, FaCalendarAlt, FaClock, FaUsers, FaUpload } from "react-icons/fa";
+import { FaArrowLeft, FaMapMarkerAlt } from "react-icons/fa";
+import { FiUsers } from "react-icons/fi";
 
 function formatFechaCompleta(fechaStr: string) {
     const fecha = new Date(fechaStr);
@@ -150,25 +151,13 @@ const EventoDetalles: React.FC = () => {
                     {/* Sidebar derecha */}
                     <div className="flex flex-col gap-6">
                         {/* Revendedores */}
-                        <div className="flex flex-col items-center rounded-xl bg-[#18181b] p-5 text-center">
-                            <span className="mb-1 text-xs text-gray-400">REVENDEDORES</span>
-                            <span className="text-3xl font-bold text-secondary">{revendedoresCount}</span>
-                            <span className="text-xs text-gray-400">En este evento</span>
-                        </div>
-                        {/* Recursos gráficos */}
-                        <div className="flex flex-col items-center rounded-xl bg-[#18181b] p-5 text-center">
-                            <span className="mb-2 text-xs text-gray-400">RECURSOS GRÁFICOS</span>
-                            <a
-                                href="#"
-                                className="mb-3 text-xs text-blue-400 underline"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Enlace al Drive.
-                            </a>
-                            <button className="flex items-center gap-2 rounded bg-secondary px-4 py-2 text-sm font-semibold text-white hover:bg-secondary/80">
-                                <FaUpload /> Subir material
-                            </button>
+                        <div className="flex flex-col items-start rounded-xl bg-[#18181b] p-5 text-left">
+                            <div className="flex items-center gap-2">
+                                <FiUsers className="text-2xl text-secondary" />
+                                <span className="text-base font-bold tracking-wider text-secondary">REVENDEDORES</span>
+                            </div>
+                            <span className="mt-1 text-sm text-white/80">En este evento</span>
+                            <span className="mt-4 text-4xl font-bold text-secondary">{revendedoresCount}</span>
                         </div>
                         {/* Galería de evento */}
                         {galeria.length > 0 && (
