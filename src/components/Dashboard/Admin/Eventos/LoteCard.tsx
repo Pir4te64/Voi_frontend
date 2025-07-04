@@ -22,8 +22,6 @@ interface LoteCardProps {
 const LoteCard: React.FC<LoteCardProps> = ({ lotes, loteIndex, setLoteIndex }) => {
     const handleLoteChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const newIndex = Number(e.target.value);
-        console.log("LoteCard: Cambiando lote de", loteIndex, "a", newIndex);
-        console.log("LoteCard: Lote seleccionado:", lotes[newIndex]);
         setLoteIndex(newIndex);
     };
 

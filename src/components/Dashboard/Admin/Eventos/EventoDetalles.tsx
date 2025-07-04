@@ -8,6 +8,8 @@ import MapButton from "@/components/Dashboard/Admin/Eventos/components/MapButton
 import { formatFechaCompleta } from "@/components/Dashboard/Admin/Eventos/utils/dateUtils";
 import EventoDetallesStates from "@/components/Dashboard/Admin/Eventos/EventoDetallesStates";
 import LoteResumen from "@/components/Dashboard/Admin/Eventos/LoteResumen";
+import axios from "axios";
+import { api_url } from "@/api/api";
 
 const EventoDetalles: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -22,6 +24,24 @@ const EventoDetalles: React.FC = () => {
         }
     }, [id, fetchEventoDetalle]);
 
+    useEffect(() => {
+        if (evento?.id) {
+            const userData = localStorage.getItem('auth');
+            const token = userData ? JSON.parse(userData).accessToken : null;
+            axios.get(`${api_url.get_tickets}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            })
+                .then(res => {
+                    console.log("Tickets API response:", res.data);
+                })
+                .catch(err => {
+                    console.error("Error al obtener tickets:", err);
+                });
+        }
+    }, [evento?.id]);
+
     // Resetear loteIndex cuando cambie el evento
     // useEffect(() => {
     //     if (evento && evento.lotes) {
@@ -34,13 +54,7 @@ const EventoDetalles: React.FC = () => {
         ? Math.min(loteIndex, evento.lotes.length - 1)
         : 0;
 
-    // Debug: Log del lote seleccionado
-    React.useEffect(() => {
-        if (evento?.lotes && evento.lotes[validLoteIndex]) {
-            console.log("EventoDetalles: Lote seleccionado:", evento.lotes[validLoteIndex]);
-            console.log("EventoDetalles: validLoteIndex:", validLoteIndex);
-        }
-    }, [validLoteIndex, evento?.lotes]);
+
 
     // Manejar estados de carga, error y evento no encontrado
     const stateComponent = <EventoDetallesStates loading={loading} error={error} evento={evento} />;
