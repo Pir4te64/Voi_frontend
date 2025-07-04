@@ -8,6 +8,7 @@ import EventosUI from "@/components/Dashboard/GestionLotes/UI/EventosUI";
 import LotesUI from "@/components/Dashboard/GestionLotes/UI/LotesUI";
 import DeleteLoteModal from "@/components/Dashboard/GestionLotes/UI/DeleteLoteModal";
 import { Evento, Lote } from "@/components/Dashboard/GestionLotes/EditarLote/data/interfaces";
+import { formatFechaLarga } from "@/components/Dashboard/Admin/Eventos/utils/dateUtils";
 
 const GestionLotes: React.FC = () => {
   const [events, setEvents] = useState<Evento[]>([]);
@@ -184,11 +185,7 @@ const GestionLotes: React.FC = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    return formatFechaLarga(dateString);
   };
 
   const formatCurrency = (amount: number) => {

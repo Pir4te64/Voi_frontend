@@ -1,19 +1,12 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEventoDetallesStore } from "@/components/Dashboard/Admin/Eventos/store/useEventoDetallesStore";
-import { FaArrowLeft, FaMapMarkerAlt } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import EventoInfoGrid from "@/components/Dashboard/Admin/Eventos/EventoInfoGrid";
-
-function formatFechaCompleta(fechaStr: string) {
-    const fecha = new Date(fechaStr);
-    const dia = fecha.getDate().toString().padStart(2, "0");
-    const mes = fecha.toLocaleString("es-ES", { month: "short" });
-    const anio = fecha.getFullYear();
-    const diaSemana = fecha.toLocaleString("es-ES", { weekday: "long" });
-    const hora = fecha.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
-    return { dia, mes, anio, diaSemana, hora };
-}
+import MapButton from "@/components/Dashboard/Admin/Eventos/components/MapButton";
+import { formatFechaCompleta } from "@/components/Dashboard/Admin/Eventos/utils/dateUtils";
+import EventoDetallesStates from "@/components/Dashboard/Admin/Eventos/EventoDetallesStates";
 
 const EventoDetalles: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -21,52 +14,17 @@ const EventoDetalles: React.FC = () => {
     const { evento, loading, error, fetchEventoDetalle } = useEventoDetallesStore();
     const [galeriaIndex, setGaleriaIndex] = React.useState(0);
     const [loteIndex, setLoteIndex] = React.useState(0);
-
+    console.log(evento);
     useEffect(() => {
         if (id) {
             fetchEventoDetalle(parseInt(id));
         }
     }, [id, fetchEventoDetalle]);
 
-    if (loading) {
-        return (
-            <div className="flex min-h-screen items-center justify-center">
-                <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="flex min-h-screen items-center justify-center">
-                <div className="max-w-md rounded-lg bg-red-500/10 p-6 text-center text-red-500">
-                    <p className="mb-2 text-lg font-semibold">Error</p>
-                    <p>{error}</p>
-                    <button
-                        onClick={() => navigate("/dashboard/eventos")}
-                        className="mt-4 rounded bg-secondary px-4 py-2 text-white hover:bg-secondary/80"
-                    >
-                        Volver a Eventos
-                    </button>
-                </div>
-            </div>
-        );
-    }
-
-    if (!evento) {
-        return (
-            <div className="flex min-h-screen items-center justify-center">
-                <div className="text-center">
-                    <p className="mb-4 text-xl text-gray-400">Evento no encontrado</p>
-                    <button
-                        onClick={() => navigate("/dashboard/eventos")}
-                        className="rounded bg-secondary px-4 py-2 text-white hover:bg-secondary/80"
-                    >
-                        Volver a Eventos
-                    </button>
-                </div>
-            </div>
-        );
+    // Manejar estados de carga, error y evento no encontrado
+    const stateComponent = <EventoDetallesStates loading={loading} error={error} evento={evento} />;
+    if (loading || error || !evento) {
+        return stateComponent;
     }
 
     const { dia, mes, anio, hora } = formatFechaCompleta(evento.fechaInicio);
@@ -76,14 +34,9 @@ const EventoDetalles: React.FC = () => {
     const revendedoresCount = evento.revendedores?.length || 0;
     const galeria = evento.galeriaUrls || [];
 
-    // Google Maps link
-    const mapsUrl = evento.address?.latitude && evento.address?.longitude
-        ? `https://www.google.com/maps?q=${evento.address.latitude},${evento.address.longitude}`
-        : null;
-
     return (
         <div className="min-h-screen bg-black px-2 py-8">
-            <div className="mx-auto max-w-7xl">
+            <div className="container mx-auto">
                 {/* Header y botón volver */}
                 <div className="mb-4 flex items-center gap-4">
                     <button
@@ -119,16 +72,12 @@ const EventoDetalles: React.FC = () => {
                                 <div className="mb-4">
                                     <h2 className="mb-1 text-base font-bold uppercase tracking-wide text-red-500">DESCRIPCIÓN</h2>
                                     <p className="mb-2 text-base leading-relaxed text-white/90">{evento.descripcion}</p>
-                                    {mapsUrl && (
-                                        <a
-                                            href={mapsUrl}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-1 text-sm font-semibold text-red-400 hover:underline"
-                                        >
-                                            <FaMapMarkerAlt /> Ver Mapa
-                                        </a>
-                                    )}
+                                    <MapButton
+                                        latitude={evento.address?.latitude || ""}
+                                        longitude={evento.address?.longitude || ""}
+                                        address={evento.address}
+                                        eventName={evento.nombre}
+                                    />
                                 </div>
                                 {/* Cards de info clave */}
                                 {evento.lotes && (

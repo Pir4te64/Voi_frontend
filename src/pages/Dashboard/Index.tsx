@@ -3,7 +3,7 @@ import { MdGroup } from "react-icons/md";
 
 const Index = () => {
     return (
-        <div className="mx-auto w-full max-w-7xl px-4 py-8">
+        <div className="container mx-auto w-full px-4 py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Dashboard Admin</h1>
             <p className="mb-6 text-gray-300">Panel de administración y monitoreo de la plataforma.</p>
 

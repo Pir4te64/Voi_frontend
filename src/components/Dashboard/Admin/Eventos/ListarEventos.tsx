@@ -3,15 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useEventosStore } from "@/components/Dashboard/Admin/Eventos/store/useEventosStore";
 import { FaEye, FaWallet, FaMapMarkerAlt, FaTag } from "react-icons/fa";
 import { BiSolidDollarCircle } from "react-icons/bi";
-
-function formatFechaCompleta(fechaStr: string) {
-    const fecha = new Date(fechaStr);
-    const dia = fecha.getDate().toString().padStart(2, "0");
-    const mes = fecha.toLocaleString("es-ES", { month: "short" });
-    const anio = fecha.getFullYear();
-    const diaSemana = fecha.toLocaleString("es-ES", { weekday: "long" });
-    return { dia, mes, anio, diaSemana };
-}
+import { formatFechaCompleta } from "@/components/Dashboard/Admin/Eventos/utils/dateUtils";
 
 const ListarEventos: React.FC = () => {
     const navigate = useNavigate();
@@ -70,7 +62,7 @@ const ListarEventos: React.FC = () => {
     }, [eventos, search, estadoFiltro, categoriaFiltro, orden]);
 
     return (
-        <div className="bg-blackpx-4 mx-auto w-full max-w-7xl py-8">
+        <div className="container mx-auto w-full bg-black px-4 py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Resumen de Eventos</h1>
             <p className="mb-6 text-gray-300">Supervisión de todos los eventos en la plataforma.</p>
 
