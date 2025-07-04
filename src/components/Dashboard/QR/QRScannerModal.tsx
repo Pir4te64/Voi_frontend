@@ -22,7 +22,7 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({ open, onClose, onResult
 
     return (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-70">
-            <div className="relative flex min-h-[500px] w-[90vw] max-w-xs flex-col items-center rounded-lg border border-secondary bg-[#18171c] p-6 shadow-lg">
+            <div className="relative flex w-[90vw] max-w-xs flex-col items-center rounded-lg border border-secondary bg-[#18171c] p-6 shadow-lg">
                 <button className="absolute right-2 top-2 text-white hover:text-secondary" onClick={onClose}>
                     <FaTimes className="h-6 w-6" />
                 </button>
@@ -39,7 +39,7 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({ open, onClose, onResult
                             }}
                         />
                         {/* Animación de línea de escaneo con cuadros */}
-                        <div className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 gap-2">
+                        <div className="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2 gap-2">
                             {Array.from({ length: 6 }).map((_, i) => (
                                 <div
                                     key={i}
