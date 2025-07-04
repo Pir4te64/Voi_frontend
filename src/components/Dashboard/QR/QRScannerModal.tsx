@@ -40,13 +40,12 @@ const QRScannerModal: React.FC<QRScannerModalProps> = ({ open, onClose, onResult
                                 video: 'absolute inset-0 h-full w-full object-cover',
                             }}
                         />
-                        {/* Animación de cuadrados blancos */}
+                        {/* Animación de línea de escaneo con cuadros */}
                         <div className="absolute left-1/2 top-1/2 z-10 flex -translate-x-1/2 -translate-y-1/2 gap-2">
                             {Array.from({ length: 6 }).map((_, i) => (
                                 <div
                                     key={i}
                                     className={`animate-scan-bar h-7 w-7 rounded bg-white/90`}
-                                    style={{ animationDelay: `${i * 0.15}s` }}
                                 />
                             ))}
                         </div>
