@@ -26,10 +26,12 @@ export interface Evento {
 export interface Lote {
     id: number;
     nombre: string;
-    tipoComision: "PORCENTAJE" | "MONTO_FIJO";
+    porcentajeComision: number;
+    tipoComision?: "PORCENTAJE" | "MONTO_FIJO";
     precio: number;
     cantidadTickets: number;
     ticketsDisponibles: number;
+    ticketsVendidos: number;
     estado: string;
 }
 

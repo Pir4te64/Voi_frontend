@@ -100,36 +100,47 @@ const TicketDetallePage: React.FC = () => {
                 </div>
 
                 {/* Lista de lotes seleccionables */}
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-4">
                     {eventoData.lotes?.length === 0 && (
                         <div className="p-6 text-center text-gray-500">
                             No hay lotes disponibles para este evento
                         </div>
                     )}
-                    {eventoData.lotes?.
-                        filter((lote) => lote.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
+                    {eventoData.lotes
+                        ?.filter((lote) => lote.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
                         .map((lote) => (
                             <label
                                 key={lote.id}
-                                className={`flex flex-col gap-1 rounded-lg border-2 p-4 cursor-pointer transition
-                                    ${selectedLoteId?.toString() === lote.id.toString() ? 'border-red-500 bg-black' : 'border-transparent bg-[#18181a]'}`}
+                                className={`flex items-start gap-4 rounded-lg border-2 p-4 cursor-pointer transition-all
+                                    ${selectedLoteId?.toString() === lote.id.toString()
+                                        ? 'border-red-500 bg-black shadow-lg'
+                                        : 'border-transparent bg-[#18181a] hover:border-gray-700'}`}
                             >
-                                <div className="flex items-center gap-2">
+                                {/* Radio */}
+                                <div className="pt-1">
                                     <input
                                         type="radio"
                                         checked={selectedLoteId?.toString() === lote.id.toString()}
                                         onChange={() => setSelectedLoteId(Number(lote.id))}
-                                        className="accent-red-500"
+                                        className="h-5 w-5 accent-red-500"
                                     />
-                                    <span className="text-lg font-bold"><span className="text-white">{lote.nombre}</span></span>
-                                    <span className="ml-auto text-2xl font-bold text-white">${lote.precio.toLocaleString('es-AR')}</span>
                                 </div>
-                                <div className="text-sm text-gray-400">{eventoData.nombre}</div>
-                                <div className="text-xs text-gray-500">
-                                    {/* Aquí podrías poner la descripción real del lote si la tienes */}
-                                </div>
-                                <div className="mt-1 text-xs font-bold text-green-400">
-                                    +{Number((lote as any).porcentajeComision) || 0}% de comisión
+                                {/* Info */}
+                                <div className="flex flex-1 flex-col gap-1">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-lg font-bold">
+                                            {lote.nombre}
+                                        </span>
+                                        <div className="flex flex-col items-end">
+                                            <span className="text-2xl font-bold text-white">
+                                                ${lote.precio.toLocaleString('es-AR')}
+                                            </span>
+                                            <span className="mt-1 text-xs font-bold text-green-400">
+                                                +{lote.porcentajeComision}% de comisión
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="text-sm font-medium text-gray-400">{eventoData.nombre}</div>
                                 </div>
                             </label>
                         ))}
