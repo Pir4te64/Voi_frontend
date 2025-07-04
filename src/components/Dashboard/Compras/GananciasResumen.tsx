@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
-import { useGananciasStore } from './store/useGananciasStore';
+import { useGananciasStore } from '@/components/Dashboard/Compras/store/useGananciasStore';
+import { BiDollar } from "react-icons/bi";
+import { FaWallet, FaChartLine, FaPencilAlt } from "react-icons/fa";
 
 interface GananciasResumenProps {
     visible: boolean;
@@ -16,27 +18,27 @@ const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
     if (!visible) return null;
 
     return (
-        <div className="mb-8 rounded-lg bg-[#FF5C70] px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-black">
+        <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-lg bg-[#FF5C70] px-6 py-6 text-black md:flex-row">
             {loading ? (
                 <div className="w-full text-center">Cargando resumen...</div>
             ) : error ? (
                 <div className="w-full text-center text-red-700">{error}</div>
             ) : resumen ? (
                 <>
-                    <div className="flex-1 min-w-[180px] border-r border-black/20 last:border-none px-4">
-                        <div className="font-bold flex items-center gap-2">💲 INGRESO TOTAL</div>
-                        <div className="text-xs mb-1">En todos los eventos</div>
-                        <div className="text-2xl font-extrabold">${resumen.gananciaTotal.toLocaleString('es-AR', { minimumFractionDigits: 3 })}</div>
+                    <div className="min-w-[180px] flex-1 border-r border-black/20 px-4 last:border-none">
+                        <div className="flex items-center gap-2 font-bold"><BiDollar /> INGRESO TOTAL</div>
+                        <div className="mb-1 text-xs">En todos los eventos</div>
+                        <div className="text-2xl font-extrabold">${resumen.gananciaTotal.toLocaleString('es-AR')}</div>
                     </div>
-                    <div className="flex-1 min-w-[180px] border-r border-black/20 last:border-none px-4">
-                        <div className="font-bold flex items-center gap-2">🎟️ TICKETS VENDIDOS</div>
-                        <div className="text-xs mb-1">De todos los eventos</div>
-                        <div className="text-2xl font-extrabold">{resumen.ticketsVendidos.toString().padStart(2, '0').padEnd(6, '.')}</div>
+                    <div className="min-w-[180px] flex-1 border-r border-black/20 px-4 last:border-none">
+                        <div className="flex items-center gap-2 font-bold"><FaWallet /> TICKETS VENDIDOS</div>
+                        <div className="mb-1 text-xs">De todos los eventos</div>
+                        <div className="text-2xl font-extrabold">{resumen.ticketsVendidos}</div>
                     </div>
-                    <div className="flex-1 min-w-[180px] px-4">
-                        <div className="font-bold flex items-center gap-2">📈 INGRESO PROMEDIO</div>
-                        <div className="text-xs mb-1">POR EVENTO</div>
-                        <div className="text-2xl font-extrabold">${resumen.precioPromedio.toLocaleString('es-AR', { minimumFractionDigits: 3 })}</div>
+                    <div className="min-w-[180px] flex-1 px-4">
+                        <div className="flex items-center gap-2 font-bold"><FaChartLine /> INGRESO PROMEDIO</div>
+                        <div className="mb-1 text-xs">POR EVENTO</div>
+                        <div className="text-2xl font-extrabold">${resumen.precioPromedio.toLocaleString('es-AR')}</div>
                     </div>
                 </>
             ) : null}

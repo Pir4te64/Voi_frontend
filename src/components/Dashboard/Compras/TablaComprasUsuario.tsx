@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useComprasStore } from './store/useComprasStore';
-import { estadoColors, TablaComprasUsuarioProps } from './store/types';
-import QRModal from './components/QRModal';
-import GananciasResumen from './GananciasResumen';
+import { useComprasStore } from '@/components/Dashboard/Compras/store/useComprasStore';
+import { estadoColors, TablaComprasUsuarioProps } from '@/components/Dashboard/Compras/store/types';
+import QRModal from '@/components/Dashboard/Compras/components/QRModal';
+import GananciasResumen from '@/components/Dashboard/Compras/GananciasResumen';
 
 const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({
     titulo = "Mis Compras",

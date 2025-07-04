@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 import { api_url } from '@/api/api';
-import { Ticket } from './types';
+import { Ticket } from '@/components/Dashboard/Compras/store/types';
 
 interface ComprasState {
     tickets: Ticket[];

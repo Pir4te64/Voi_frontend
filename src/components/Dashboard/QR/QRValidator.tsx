@@ -1,8 +1,8 @@
 import { useState } from "react";
-import QRScannerModal from "./QRScannerModal";
-import QRValidationResult from "./QRValidationResult";
+import QRScannerModal from "@/components/Dashboard/QR/QRScannerModal";
+import QRValidationResult from "@/components/Dashboard/QR/QRValidationResult";
 import axios from "axios";
-import { api_url } from "../../../api/api";
+import { api_url } from "@/api/api";
 
 type TicketStatus = 'idle' | 'valid' | 'used' | 'error';
 
