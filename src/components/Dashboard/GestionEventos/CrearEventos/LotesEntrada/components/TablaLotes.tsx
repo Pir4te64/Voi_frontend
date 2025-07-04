@@ -83,7 +83,11 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
                                         <td className="px-4 py-3">
                                             <div className="flex gap-2">
                                                 <button
-                                                    onClick={() => onEdit(lote)}
+                                                    onClick={() => onEdit({
+                                                        ...lote,
+                                                        montoComision: lote.montoComision ?? 0,
+                                                        porcentajeComision: lote.porcentajeComision ?? 0
+                                                    })}
                                                     className="rounded p-1 text-gray-400 hover:text-secondary"
                                                 >
                                                     <FaPencilAlt />

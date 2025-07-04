@@ -32,8 +32,9 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
     }
   }, [success, setSuccess]);
 
-  // Obtener porcentajeComision si existe en el objeto lote
+  // Obtener porcentajeComision y montoComision si existen en el objeto lote
   const porcentajeComision = (lote as any).porcentajeComision ?? 0;
+  const montoComision = (lote as any).montoComision ?? 0;
   const tipoComision: "MONTO_FIJO" | "PORCENTAJE" = porcentajeComision > 0 ? "PORCENTAJE" : "MONTO_FIJO";
   const formik = useFormik({
     initialValues: {
@@ -41,8 +42,8 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
       precio: lote.precio,
       fechaValidez: lote.fechaValidez.split("T")[0],
       tipoComision,
-      montoFijo: tipoComision === "MONTO_FIJO" ? lote.montoComision : 0,
-      porcentaje: tipoComision === "PORCENTAJE" ? porcentajeComision : 0,
+      montoFijo: montoComision,
+      porcentaje: porcentajeComision,
       cantidadTickets: lote.cantidadTickets,
     },
     validationSchema: editarValidationSchema,
@@ -195,7 +196,7 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                   </FloatingField>
                 </div>
               </label>
-              {formik.touched.montoFijo && formik.errors.montoFijo && (
+              {formik.touched.montoFijo && typeof formik.errors.montoFijo === "string" && (
                 <div className="mt-1 text-sm text-red-500">
                   {formik.errors.montoFijo}
                 </div>
