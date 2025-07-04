@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useEventosStore } from "@/components/Dashboard/Admin/Eventos/store/useEventosStore";
 import { FaEye, FaWallet, FaMapMarkerAlt, FaTag } from "react-icons/fa";
 import { BiSolidDollarCircle } from "react-icons/bi";
@@ -13,6 +14,7 @@ function formatFechaCompleta(fechaStr: string) {
 }
 
 const ListarEventos: React.FC = () => {
+    const navigate = useNavigate();
     const {
         eventos, loading, error, fetchEventos,
         search, setSearch,
@@ -183,7 +185,10 @@ const ListarEventos: React.FC = () => {
                             </div>
                             {/* Columna de botones */}
                             <div className="flex flex-row items-center justify-center gap-2 md:flex-col md:items-end md:justify-start md:pl-4">
-                                <button className="flex items-center gap-2 rounded border border-gray-400 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-700/30">
+                                <button
+                                    onClick={() => navigate(`/dashboard/eventos/${evento.id}`)}
+                                    className="flex items-center gap-2 rounded border border-gray-400 px-4 py-2 text-xs font-semibold text-white hover:bg-gray-700/30"
+                                >
                                     <FaEye className="text-base" /> Ver Detalles
                                 </button>
                             </div>

@@ -44,7 +44,7 @@ export const useEventosStore = create<EventosState>((set) => ({
         set({ loading: true, error: null });
         try {
             const response = await axios.get(api_url.get_eventos);
-            set({ eventos: response.data, loading: false });
+            set({ eventos: response.data.content, loading: false });
         } catch (err) {
             set({ error: "Error al cargar los eventos", loading: false });
         }

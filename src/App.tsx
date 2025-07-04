@@ -32,6 +32,7 @@ import RevendedorPerfiles from "@/components/Dashboard/Revendedores/RevendedorPe
 import RevendedoresLotes from "@/components/Dashboard/Revendedores/RevendedoresLotes";
 import AgregarComision from "@/components/Dashboard/Revendedores/AgregarComision";
 import ListarEventos from "@/components/Dashboard/Admin/Eventos/ListarEventos";
+import EventoDetalles from "@/components/Dashboard/Admin/Eventos/EventoDetalles";
 import CrearEvento from "@/components/Dashboard/GestionEventos/CrearEventos/CrearEvento";
 import ListarEventosParaEditar from "@/components/Dashboard/GestionEventos/EditarEvento/ListarEventosParaEditar";
 import SolicitudAlta from "@/components/Dashboard/Admin/SolicitudAlta/SolicitudAlta";
@@ -61,6 +62,7 @@ function App() {
           <Route path="miperfil" element={<Miperfil />} />
           <Route path="miscompras" element={<MisCompras />} />
           <Route path="eventos" element={<ListarEventos />} />
+          <Route path="eventos/:id" element={<EventoDetalles />} />
           <Route path="crearevento" element={<CrearEvento />} />
           <Route path="editareventos" element={<ListarEventosParaEditar />} />
           <Route path="editarevento/:id" element={<EditarEventoPage />} />
