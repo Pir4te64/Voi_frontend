@@ -43,7 +43,13 @@ export const useEventosStore = create<EventosState>((set) => ({
     fetchEventos: async () => {
         set({ loading: true, error: null });
         try {
-            const response = await axios.get(api_url.get_eventos);
+            const userData = localStorage.getItem('auth');
+            const token = userData ? JSON.parse(userData).accessToken : null;
+            const response = await axios.get(`${api_url.get_eventos_con_ganancias}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                }
+            });
             set({ eventos: response.data.content, loading: false });
         } catch (err) {
             set({ error: "Error al cargar los eventos", loading: false });
