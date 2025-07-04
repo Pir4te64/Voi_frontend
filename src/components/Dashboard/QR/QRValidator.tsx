@@ -6,13 +6,18 @@ import { api_url } from "../../../api/api";
 
 type TicketStatus = 'idle' | 'valid' | 'used' | 'error';
 
-const QRValidator = () => {
+interface QRValidatorProps {
+    onClose?: () => void;
+}
+
+const QRValidator: React.FC<QRValidatorProps> = ({ onClose }) => {
     const [modalOpen, setModalOpen] = useState(true);
     const [resultOpen, setResultOpen] = useState(false);
     const [status, setStatus] = useState<TicketStatus>('idle');
     const [ticketInfo, setTicketInfo] = useState<any>(null);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [resetKey, setResetKey] = useState(0);
 
     const handleScanResult = async (hash: string) => {
         console.log('QR detectado, hash:', hash);
@@ -61,6 +66,7 @@ const QRValidator = () => {
         setErrorMsg(null);
         setModalOpen(true);
         setResultOpen(false);
+        setResetKey(prev => prev + 1);
     };
 
     const handleResultClose = () => {
@@ -68,11 +74,14 @@ const QRValidator = () => {
         setStatus('idle');
         setTicketInfo(null);
         setErrorMsg(null);
+        if (onClose) {
+            onClose();
+        }
     };
 
     return (
         <div>
-            <QRScannerModal open={modalOpen} onClose={handleResultClose} onResult={handleScanResult} />
+            <QRScannerModal open={modalOpen} onClose={handleResultClose} onResult={handleScanResult} resetKey={resetKey} />
             {resultOpen && status !== 'idle' && (
                 <QRValidationResult
                     status={status}

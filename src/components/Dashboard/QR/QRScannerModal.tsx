@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Scanner } from '@yudiel/react-qr-scanner';
 import { FaTimes } from "react-icons/fa";
 
@@ -6,11 +6,16 @@ interface QRScannerModalProps {
     open: boolean;
     onClose: () => void;
     onResult: (hash: string) => void;
+    resetKey?: number;
 }
 
-const QRScannerModal: React.FC<QRScannerModalProps> = ({ open, onClose, onResult }) => {
+const QRScannerModal: React.FC<QRScannerModalProps> = ({ open, onClose, onResult, resetKey }) => {
     const [scanned, setScanned] = useState(false);
 
+    // Reiniciar el estado cuando cambie resetKey
+    useEffect(() => {
+        setScanned(false);
+    }, [resetKey]);
     const handleScan = (codes: any[]) => {
         if (codes.length > 0 && codes[0].rawValue && !scanned) {
             setScanned(true);

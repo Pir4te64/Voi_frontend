@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 
 type TicketStatus = 'valid' | 'used' | 'error';
 
@@ -16,7 +16,7 @@ const QRValidationResult: React.FC<QRValidationResultProps> = ({ status, ticketI
     const ticket = ticketInfo || {};
     return (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-70">
-            <div className="relative mx-auto flex min-h-[500px] w-full max-w-xs flex-col items-center rounded-lg border border-secondary bg-[#18171c] p-6 shadow-lg">
+            <div className="relative mx-auto flex w-full max-w-xs flex-col items-center rounded-lg border border-secondary bg-[#18171c] p-6 shadow-lg">
                 {onClose && (
                     <button className="absolute right-2 top-2 text-white hover:text-secondary" onClick={onClose}>
                         <FaTimes className="h-6 w-6" />
@@ -25,7 +25,7 @@ const QRValidationResult: React.FC<QRValidationResultProps> = ({ status, ticketI
                 {status === 'valid' && (
                     <div className="flex w-full flex-col items-center">
                         <div className="mb-2 flex items-center gap-2 text-lg font-bold text-green-400">
-                            <span className="text-2xl">✔️</span> Entrada sin validar
+                            <FaCheckCircle className="text-2xl" /> Entrada sin validar
                         </div>
                         <div className="mb-4 w-full rounded-lg bg-[#23232a] p-4 text-white">
                             <div className="mb-2 font-bold">Lote: {ticket.lote || '-'}</div>
@@ -40,7 +40,7 @@ const QRValidationResult: React.FC<QRValidationResultProps> = ({ status, ticketI
                 {status === 'used' && (
                     <div className="flex w-full flex-col items-center">
                         <div className="mb-2 flex items-center gap-2 text-lg font-bold text-red-400">
-                            <span className="text-2xl">⚠️</span> Entrada validada
+                            <FaExclamationTriangle className="text-2xl" /> Entrada validada
                         </div>
                         <div className="mb-4 w-full rounded-lg bg-[#23232a] p-4 text-white">
                             <div className="mb-2 font-bold">Lote: {ticket.lote || '-'}</div>
@@ -55,7 +55,7 @@ const QRValidationResult: React.FC<QRValidationResultProps> = ({ status, ticketI
                 {status === 'error' && (
                     <div className="flex w-full flex-col items-center">
                         <div className="mb-2 flex items-center gap-2 text-lg font-bold text-red-400">
-                            <span className="text-2xl">⚠️</span> Error al validar
+                            <FaExclamationTriangle className="text-2xl" /> Error al validar
                         </div>
                         <div className="mb-4 w-full rounded-lg bg-[#23232a] p-4 text-white">
                             <div className="mb-2 font-bold">{errorMsg || 'Ocurrió un error al validar el ticket.'}</div>

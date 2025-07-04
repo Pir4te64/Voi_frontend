@@ -8,7 +8,7 @@ import {
   FaChevronDown,
   FaChevronRight,
 } from "react-icons/fa";
-import QRScannerModal from '@/components/Dashboard/QR/QRScannerModal';
+import QRValidator from '@/components/Dashboard/QR/QRValidator';
 
 import { navItemsProductora } from "@/components/Dashboard/Sidebar/SidebarProductora/Items/NavItemsProductora";
 import { useUserInfo } from "@/context/useUserInfo";
@@ -27,7 +27,6 @@ const SidebarProductora = () => {
   const { email, allUser } = useUserInfo();
   const { logout } = useAuth();
   const [showQrModal, setShowQrModal] = useState(false);
-  const [_, setQrResult] = useState<string | null>(null);
 
   /* Cerrar automáticamente al cambiar de ruta (mobile) */
   useEffect(() => {
@@ -208,11 +207,7 @@ const SidebarProductora = () => {
       </aside>
 
       {/* Modal para escanear QR */}
-      <QRScannerModal
-        open={showQrModal}
-        onClose={() => setShowQrModal(false)}
-        onResult={setQrResult}
-      />
+      {showQrModal && <QRValidator onClose={() => setShowQrModal(false)} />}
     </>
   );
 };
