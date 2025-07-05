@@ -78,14 +78,6 @@ const DashboardUsuario = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Próximos eventos */}
-            <div className="mt-10">
-                <h2 className="mb-4 rounded-t bg-black/60 px-4 py-2 text-xl font-bold text-white">Próximos eventos</h2>
-                <div className="rounded-b bg-black/30 p-4">
-                    <p className="text-gray-300">No tienes eventos próximos programados.</p>
-                </div>
-            </div>
         </div>
     );
 };

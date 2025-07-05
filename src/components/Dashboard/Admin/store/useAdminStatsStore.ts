@@ -41,13 +41,24 @@ export const useAdminStatsStore = create<AdminStatsState>((set) => ({
                 headers: { Authorization: `Bearer ${token}` },
             });
             
+            // Obtenemos solicitudes de alta de productoras
+            const solicitudesUrl = `${api_url.admin_solicitudes_get}`;
+            const solicitudesRes = await axios.get(solicitudesUrl, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            
+            // Filtramos solo las solicitudes pendientes
+            const solicitudesPendientes = Array.isArray(solicitudesRes.data) 
+                ? solicitudesRes.data.filter((solicitud: any) => solicitud.status === 'PENDING').length
+                : 0;
+            
             // Construimos las estadísticas con datos reales
             const stats: AdminStats = {
                 productoras: 12, // Por ahora simulado
                 eventosActivos: eventosRes.data?.length || 0,
                 revendedores: revendedoresRes.data?.length || 0,
                 usuariosParticulares: 150, // Por ahora simulado
-                solicitudesPendientes: 3 // Por ahora simulado
+                solicitudesPendientes: solicitudesPendientes
             };
             
             set({ stats: stats, loading: false });
