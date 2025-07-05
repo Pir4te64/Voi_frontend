@@ -67,7 +67,7 @@ const ListarEventos: React.FC = () => {
             <p className="mb-6 text-gray-300">Supervisión de todos los eventos en la plataforma.</p>
 
             {/* Filtros y buscador */}
-            <div className="mb-6 flex flex-col gap-4 rounded-xl bg-[#1C1C1E] p-4 shadow">
+            <div className="flex flex-col gap-4 rounded-t-xl bg-[#1C1C1E] p-4 shadow">
                 <input
                     type="text"
                     placeholder="Buscar evento por título, productora, ubicación..."
@@ -116,7 +116,7 @@ const ListarEventos: React.FC = () => {
             )}
 
             {/* Cards de eventos */}
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-6 bg-[#1C1C1E]">
                 {eventosFiltrados.map((evento) => {
                     const { dia, mes, anio, diaSemana } = formatFechaCompleta(evento.fechaInicio);
                     const ticketsVendidos = evento.lotes?.reduce((acc, lote) => acc + (lote.ticketsVendidos || 0), 0) ?? 0;
@@ -134,7 +134,7 @@ const ListarEventos: React.FC = () => {
                     return (
                         <div
                             key={evento.id}
-                            className="grid grid-cols-1 gap-4 rounded-xl bg-[#1C1C1E] p-4 shadow-lg md:grid-cols-[auto_1fr_auto]"
+                            className="grid grid-cols-1 gap-4 rounded-xl bg-[#1C1C1E] p-4 shadow-2xl md:grid-cols-[auto_1fr_auto]"
                         >
                             {/* Fecha grande */}
                             <div className="mx-auto flex w-28 min-w-[7rem] flex-col items-center justify-center rounded-lg bg-white p-2 text-center md:mx-0">
@@ -163,7 +163,7 @@ const ListarEventos: React.FC = () => {
                                             <FaWallet className="text-red-500" />
                                             <span className="text-xs font-bold uppercase text-red-400">TICKETS VENDIDOS</span>
                                         </div>
-                                        <span className="text-lg font-bold text-red-400">{ticketsVendidos.toLocaleString("es-AR", { minimumFractionDigits: 2 })}</span>
+                                        <span className="text-lg font-bold text-red-400">{ticketsVendidos.toString()}</span>
                                     </div>
                                     {/* Ganancias */}
                                     <div className="flex items-center justify-between py-2">
@@ -171,7 +171,7 @@ const ListarEventos: React.FC = () => {
                                             <BiSolidDollarCircle className="text-green-500" />
                                             <span className="text-xs font-bold uppercase text-green-400">GANANCIAS</span>
                                         </div>
-                                        <span className="text-lg font-bold text-green-400">${ganancias.toLocaleString("es-AR", { minimumFractionDigits: 3 })}</span>
+                                        <span className="text-lg font-bold text-green-400">${ganancias.toLocaleString("es-AR", { maximumFractionDigits: 0 })}</span>
                                     </div>
                                 </div>
                             </div>

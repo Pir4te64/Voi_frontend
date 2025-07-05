@@ -8,6 +8,8 @@ export interface AdminStats {
     revendedores: number;
     usuariosParticulares: number;
     solicitudesPendientes: number;
+    ticketsVendidos: number;
+    gananciasTotal: number;
 }
 
 interface AdminStatsState {
@@ -29,11 +31,22 @@ export const useAdminStatsStore = create<AdminStatsState>((set) => ({
                 : null;
             if (!token) throw new Error('No autenticado');
             
-            // Obtenemos eventos activos
-            const eventosUrl = `${api_url.get_eventos_productora}`;
+            // Obtenemos eventos activos (usando el endpoint de admin que trae todos los eventos)
+            const eventosUrl = `${api_url.get_eventos}`;
             const eventosRes = await axios.get(eventosUrl, {
                 headers: { Authorization: `Bearer ${token}` },
             });
+            
+            // Usamos los valores pre-calculados de cada evento
+            let ticketsVendidosTotal = 0;
+            let gananciasTotal = 0;
+            
+            if (Array.isArray(eventosRes.data?.content)) {
+                eventosRes.data.content.forEach((evento: any) => {
+                    ticketsVendidosTotal += evento.cantidadTickets || 0;
+                    gananciasTotal += evento.gananciaTotal || 0;
+                });
+            }
             
             // Obtenemos revendedores
             const revendedoresUrl = `${api_url.get_revendedores}`;
@@ -55,10 +68,12 @@ export const useAdminStatsStore = create<AdminStatsState>((set) => ({
             // Construimos las estadísticas con datos reales
             const stats: AdminStats = {
                 productoras: 12, // Por ahora simulado
-                eventosActivos: eventosRes.data?.length || 0,
+                eventosActivos: eventosRes.data?.totalElements || 0,
                 revendedores: revendedoresRes.data?.length || 0,
                 usuariosParticulares: 150, // Por ahora simulado
-                solicitudesPendientes: solicitudesPendientes
+                solicitudesPendientes: solicitudesPendientes,
+                ticketsVendidos: ticketsVendidosTotal,
+                gananciasTotal: gananciasTotal
             };
             
             set({ stats: stats, loading: false });
