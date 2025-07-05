@@ -1,4 +1,3 @@
-import { FaEye } from "react-icons/fa";
 import { useGananciasStore } from '@/components/Dashboard/Compras/store/useGananciasStore';
 import { useEventosProductoraStore } from '@/components/Dashboard/Compras/store/useEventosProductoraStore';
 import MetricasDashboard from '@/components/Dashboard/ComponentesReutilizables/MetricasDashboard';

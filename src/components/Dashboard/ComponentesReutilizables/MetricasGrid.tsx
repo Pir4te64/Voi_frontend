@@ -1,5 +1,5 @@
 import React from 'react';
-import MetricaCard from './MetricaCard';
+import MetricaCard from '@/components/Dashboard/ComponentesReutilizables/MetricaCard';
 
 interface MetricaItem {
     icon: React.ReactNode;

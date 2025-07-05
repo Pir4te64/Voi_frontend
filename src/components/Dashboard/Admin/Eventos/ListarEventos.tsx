@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEventosStore } from "@/components/Dashboard/Admin/Eventos/store/useEventosStore";
-import { FaEye, FaWallet, FaMapMarkerAlt, FaTag } from "react-icons/fa";
+import { FaEye, FaWallet, FaMapMarkerAlt, FaTag, FaSearch } from "react-icons/fa";
 import { BiSolidDollarCircle } from "react-icons/bi";
 import { formatFechaCompleta } from "@/components/Dashboard/Admin/Eventos/utils/dateUtils";
 
@@ -61,6 +61,30 @@ const ListarEventos: React.FC = () => {
         return filtrados;
     }, [eventos, search, estadoFiltro, categoriaFiltro, orden]);
 
+    // Funciones helper para procesar datos del evento
+    const getEventoData = (evento: any) => {
+        const { dia, mes, anio, diaSemana } = formatFechaCompleta(evento.fechaInicio);
+        const ticketsVendidos = evento.cantidadTickets || 0;
+        const ganancias = evento.gananciaTotal || 0;
+
+        return { dia, mes, anio, diaSemana, ticketsVendidos, ganancias };
+    };
+
+    const getEstadoInfo = (estado: string) => {
+        let estadoColor = "bg-gray-600 text-white";
+        let estadoTexto = estado;
+
+        if (estado === "ACTIVO") {
+            estadoColor = "bg-green-600 text-white";
+            estadoTexto = "En Curso";
+        } else if (estado === "PASADO" || estado === "Pasado") {
+            estadoColor = "bg-gray-600 text-white";
+            estadoTexto = "Pasado";
+        }
+
+        return { estadoColor, estadoTexto };
+    };
+
     return (
         <div className="container mx-auto w-full bg-black px-4 py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Resumen de Eventos</h1>
@@ -68,13 +92,18 @@ const ListarEventos: React.FC = () => {
 
             {/* Filtros y buscador */}
             <div className="flex flex-col gap-4 rounded-t-xl bg-[#1C1C1E] p-4 shadow">
-                <input
-                    type="text"
-                    placeholder="Buscar evento por título, productora, ubicación..."
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    className="w-full rounded-md bg-[#232326] px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary"
-                />
+                <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        <FaSearch />
+                    </span>
+                    <input
+                        type="text"
+                        placeholder="Buscar evento por título, productora, ubicación..."
+                        value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        className="w-full rounded-md bg-[#232326] py-3 pl-10 pr-4 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary"
+                    />
+                </div>
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-3">
                     <select
                         className="w-full rounded bg-[#232326] px-4 py-2 text-white md:w-auto"
@@ -118,19 +147,9 @@ const ListarEventos: React.FC = () => {
             {/* Cards de eventos */}
             <div className="flex flex-col gap-6 bg-[#1C1C1E]">
                 {eventosFiltrados.map((evento) => {
-                    const { dia, mes, anio, diaSemana } = formatFechaCompleta(evento.fechaInicio);
-                    const ticketsVendidos = evento.lotes?.reduce((acc, lote) => acc + (lote.ticketsVendidos || 0), 0) ?? 0;
-                    const ganancias = evento.lotes?.reduce((acc, lote) => acc + ((lote.ticketsVendidos || 0) * (lote.precio || 0)), 0) ?? 0;
-                    // Estado visual
-                    let estadoColor = "bg-gray-600 text-white";
-                    let estadoTexto = evento.estado;
-                    if (evento.estado === "ACTIVO") {
-                        estadoColor = "bg-green-600 text-white";
-                        estadoTexto = "En Curso";
-                    } else if (evento.estado === "PASADO" || evento.estado === "Pasado") {
-                        estadoColor = "bg-gray-600 text-white";
-                        estadoTexto = "Pasado";
-                    }
+                    const eventoData = getEventoData(evento);
+                    const { estadoColor, estadoTexto } = getEstadoInfo(evento.estado);
+
                     return (
                         <div
                             key={evento.id}
@@ -138,10 +157,10 @@ const ListarEventos: React.FC = () => {
                         >
                             {/* Fecha grande */}
                             <div className="mx-auto flex w-28 min-w-[7rem] flex-col items-center justify-center rounded-lg bg-white p-2 text-center md:mx-0">
-                                <span className="mb-1 text-xs font-semibold capitalize text-black">{diaSemana}</span>
-                                <span className="text-3xl font-bold leading-none text-black">{dia}</span>
-                                <span className="text-xs uppercase leading-none text-black">{mes}</span>
-                                <span className="text-xs leading-none text-black">{anio}</span>
+                                <span className="mb-1 text-xs font-semibold capitalize text-black">{eventoData.diaSemana}</span>
+                                <span className="text-3xl font-bold leading-none text-black">{eventoData.dia}</span>
+                                <span className="text-xs uppercase leading-none text-black">{eventoData.mes}</span>
+                                <span className="text-xs leading-none text-black">{eventoData.anio}</span>
                             </div>
                             {/* Info evento */}
                             <div className="flex flex-1 flex-col justify-between gap-2 md:pl-2">
@@ -163,7 +182,7 @@ const ListarEventos: React.FC = () => {
                                             <FaWallet className="text-red-500" />
                                             <span className="text-xs font-bold uppercase text-red-400">TICKETS VENDIDOS</span>
                                         </div>
-                                        <span className="text-lg font-bold text-red-400">{ticketsVendidos.toString()}</span>
+                                        <span className="text-lg font-bold text-red-400">{eventoData.ticketsVendidos.toString()}</span>
                                     </div>
                                     {/* Ganancias */}
                                     <div className="flex items-center justify-between py-2">
@@ -171,7 +190,7 @@ const ListarEventos: React.FC = () => {
                                             <BiSolidDollarCircle className="text-green-500" />
                                             <span className="text-xs font-bold uppercase text-green-400">GANANCIAS</span>
                                         </div>
-                                        <span className="text-lg font-bold text-green-400">${ganancias.toLocaleString("es-AR", { maximumFractionDigits: 0 })}</span>
+                                        <span className="text-lg font-bold text-green-400">${eventoData.ganancias.toLocaleString("es-AR", { maximumFractionDigits: 0 })}</span>
                                     </div>
                                 </div>
                             </div>
