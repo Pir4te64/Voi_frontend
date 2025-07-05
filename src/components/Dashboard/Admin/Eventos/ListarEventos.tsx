@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEventosStore } from "@/components/Dashboard/Admin/Eventos/store/useEventosStore";
-import { FaEye, FaWallet, FaMapMarkerAlt, FaTag, FaSearch } from "react-icons/fa";
+import { FaEye, FaWallet, FaMapMarkerAlt, FaTag, FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { BiSolidDollarCircle } from "react-icons/bi";
 import { formatFechaCompleta } from "@/components/Dashboard/Admin/Eventos/utils/dateUtils";
 
@@ -9,6 +9,7 @@ const ListarEventos: React.FC = () => {
     const navigate = useNavigate();
     const {
         eventos, loading, error, fetchEventos,
+        page, totalPages, setPage,
         search, setSearch,
         estadoFiltro, setEstadoFiltro,
         categoriaFiltro, setCategoriaFiltro,
@@ -16,8 +17,8 @@ const ListarEventos: React.FC = () => {
     } = useEventosStore();
 
     useEffect(() => {
-        fetchEventos();
-    }, [fetchEventos]);
+        fetchEventos(page);
+    }, [fetchEventos, page]);
 
     // Obtener valores únicos para los filtros
     const estadosUnicos = useMemo(() => {
@@ -207,6 +208,51 @@ const ListarEventos: React.FC = () => {
                     );
                 })}
             </div>
+
+            {/* Paginación */}
+            {totalPages > 1 && (
+                <div className="mt-6 flex items-center justify-between">
+                    {/* Flecha izquierda */}
+                    <button
+                        onClick={() => setPage(Math.max(0, page - 1))}
+                        disabled={page === 0}
+                        className={`flex items-center justify-center w-16 h-10 rounded-lg border transition ${page === 0
+                            ? "border-gray-600 text-gray-600 cursor-not-allowed"
+                            : "border-gray-600 text-white hover:bg-secondary hover:border-secondary"
+                            }`}
+                    >
+                        <FaChevronLeft className="h-3 w-3" />
+                    </button>
+
+                    {/* Números de página centrados */}
+                    <div className="flex items-center gap-2">
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                            <button
+                                key={pageNum}
+                                onClick={() => setPage(pageNum - 1)}
+                                className={`flex items-center justify-center w-10 h-10 rounded-lg transition ${page + 1 === pageNum
+                                    ? "text-white"
+                                    : "text-gray-400 hover:text-white"
+                                    }`}
+                            >
+                                {pageNum}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Flecha derecha */}
+                    <button
+                        onClick={() => setPage(Math.min(totalPages - 1, page + 1))}
+                        disabled={page === totalPages - 1}
+                        className={`flex items-center justify-center w-16 h-10 rounded-lg border transition ${page === totalPages - 1
+                            ? "border-gray-600 text-gray-600 cursor-not-allowed"
+                            : "border-gray-600 text-white hover:bg-secondary hover:border-secondary"
+                            }`}
+                    >
+                        <FaChevronRight className="h-3 w-3" />
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
