@@ -19,6 +19,8 @@ export interface AllUser {
     status?: string;
     firstName?: string;
     lastName?: string;
+    nombre?: string;
+    apellido?: string;
     phoneNumber?: string;
 }
 

@@ -31,11 +31,6 @@ export const navItemsRevendedor = [
         badge: 9, // ← reemplaza por tu contador dinámico
     },
     {
-        to: "/dashboard/ticket/evento",
-        label: "Mis Eventos",
-        Icon: FaCalendarAlt,
-    },
-    {
         to: "/dashboard/misventas",
         label: "Mis Ventas",
         Icon: BsBarChart,

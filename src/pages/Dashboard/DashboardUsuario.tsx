@@ -64,11 +64,6 @@ const DashboardUsuario = () => {
             <h1 className="mb-1 text-3xl font-bold text-secondary">Mi Dashboard</h1>
             <p className="mb-6 text-gray-300">Panel personal para gestionar tus eventos y compras.</p>
 
-            {error && (
-                <div className="mb-6 rounded-lg bg-red-500/10 p-4 text-center text-red-500">
-                    {error}
-                </div>
-            )}
 
             <MetricasGrid metricas={metricasUsuario} />
         </div>

@@ -95,6 +95,7 @@ function App() {
             element={<AgregarComision />}
           />
           <Route path="solicitudes-alta" element={<SolicitudAlta />} />
+          <Route path="*" element={<ErrorNotFound />} />
         </Route>
       </Routes>
     </AuthProvider>

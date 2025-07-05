@@ -90,13 +90,6 @@ const DashboardRevendedor = () => {
                 </div>
             </div>
 
-            {/* Actividad reciente */}
-            <div className="mt-10">
-                <h2 className="mb-4 rounded-t bg-black/60 px-4 py-2 text-xl font-bold text-white">Actividad reciente</h2>
-                <div className="rounded-b bg-black/30 p-4">
-                    <p className="text-gray-300">No hay actividad reciente para mostrar.</p>
-                </div>
-            </div>
         </div>
     );
 };

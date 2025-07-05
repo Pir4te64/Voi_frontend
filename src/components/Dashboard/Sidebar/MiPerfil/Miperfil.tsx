@@ -19,7 +19,7 @@ const fieldsConfig: Record<
         { name: "cuit", label: "CUIT" }
     ],
     REVENDEDOR: [
-        { name: "name", label: "Nombre" },
+        { name: "firstName", label: "Nombre" },
         { name: "lastName", label: "Apellido" },
         { name: "phoneNumber", label: "Teléfono de contacto", type: "tel" }
     ],
@@ -42,7 +42,13 @@ const Miperfil: React.FC = () => {
         if (!allUser) return;
         const initial: Partial<Record<keyof AllUser, string>> = {};
         fieldsConfig[userType].forEach(({ name }) => {
-            initial[name] = allUser[name]?.toString() ?? "";
+            if (name === "firstName" && allUser.nombre) {
+                initial[name] = allUser.nombre;
+            } else if (name === "lastName" && allUser.apellido) {
+                initial[name] = allUser.apellido;
+            } else {
+                initial[name] = allUser[name]?.toString() ?? "";
+            }
         });
         setFormValues(initial);
     }, [allUser, userType]);
@@ -63,9 +69,14 @@ const Miperfil: React.FC = () => {
 
             const payload = {
                 email,
-                ...formValues
+                ...Object.fromEntries(
+                    Object.entries(formValues).map(([key, value]) => [
+                        key,
+                        typeof value === 'string' ? value.trim() : value
+                    ])
+                )
             };
-
+            console.log(payload);
             await axios.put(
                 api_url.update_profile,
                 payload,
@@ -84,9 +95,9 @@ const Miperfil: React.FC = () => {
 
             toast.success('Perfil actualizado correctamente');
             // Esperar un momento para asegurar que los datos se hayan actualizado
-            setTimeout(() => {
-                window.location.reload();
-            }, 500);
+            /*   setTimeout(() => {
+                  window.location.reload();
+              }, 500); */
         } catch (error: any) {
             console.error('Error al actualizar perfil:', error);
             const message = error.response?.data?.message || 'Error al actualizar el perfil';
@@ -105,6 +116,7 @@ const Miperfil: React.FC = () => {
                 {fieldsConfig[userType].map(({ name, label, type }) => (
                     <FloatingField key={name} label={label}>
                         <input
+                            autoComplete="off"
                             name={name}
                             type={type ?? "text"}
                             value={(formValues[name] as string) ?? ""}
