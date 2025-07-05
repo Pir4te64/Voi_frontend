@@ -1,13 +1,16 @@
 import { FaTicketAlt, FaEye } from "react-icons/fa";
 import { MdGroup, MdEventAvailable } from "react-icons/md";
 import { useGananciasStore } from '@/components/Dashboard/Compras/store/useGananciasStore';
+import { useEventosProductoraStore } from '@/components/Dashboard/Compras/store/useEventosProductoraStore';
 import { useEffect } from 'react';
 
 const DashboardProductora = () => {
     const { resumen, loading, error, fetchGanancias } = useGananciasStore();
+    const { eventos, loading: eventosLoading, error: eventosError, fetchEventos } = useEventosProductoraStore();
 
     useEffect(() => {
         fetchGanancias();
+        fetchEventos();
         // eslint-disable-next-line
     }, []);
 
@@ -62,7 +65,15 @@ const DashboardProductora = () => {
                             <div className="text-xs font-bold uppercase text-black">EVENTOS ACTIVOS</div>
                         </div>
                         <div className="flex min-w-[90px] flex-col items-end">
-                            <span className="text-base font-bold text-black">7</span>
+                            {eventosLoading ? (
+                                <div className="h-4 w-8 animate-spin rounded-full border-b-2 border-t-2 border-black"></div>
+                            ) : eventosError ? (
+                                <span className="text-base font-bold text-red-600">Error</span>
+                            ) : (
+                                <span className="text-base font-bold text-black">
+                                    {eventos?.length || '0'}
+                                </span>
+                            )}
                         </div>
                     </div>
                     {/* Revendedores */}
