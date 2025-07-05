@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 //import { useNavigate } from "react-router-dom";
 //import { FaArrowLeft } from "react-icons/fa";
 import { FiChevronLeft } from "react-icons/fi";
+import { toast } from "react-toastify";
 import EventoForm from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/EventForm";
 import GestionarLoteUI from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEntrada/LotesEntrada";
 import { useCrearEventoForm } from "@/components/Dashboard/GestionEventos/CrearEventos/DetallesEvento/store/useCrearEventoForm";
@@ -120,6 +121,12 @@ const CrearEvento: React.FC = () => {
               <button
                 key={label}
                 onClick={() => {
+                  // Si intenta ir a un paso posterior sin haber creado el evento
+                  if (idx > 0 && !createdEventId) {
+                    toast.error("Debes guardar los detalles del evento antes de continuar");
+                    return;
+                  }
+                  // Si intenta ir a un paso posterior y el formulario no es válido
                   if (idx > 0 && !formik.isValid) {
                     formik.handleSubmit();
                     return;
@@ -129,7 +136,9 @@ const CrearEvento: React.FC = () => {
                 className={`whitespace-nowrap rounded-xl px-6 py-4 text-md font-semibold transition flex-shrink-0
                   ${active === idx
                     ? "bg-secondary text-black font-bold"
-                    : "bg-black hover:bg-gray-800 font-normal"
+                    : idx > 0 && !createdEventId
+                      ? "bg-gray-700 text-gray-400 cursor-not-allowed"
+                      : "bg-black hover:bg-gray-800 font-normal"
                   }`}
               >
                 {label}
@@ -153,10 +162,11 @@ const CrearEvento: React.FC = () => {
 
             <button
               onClick={nextStep}
-              disabled={active === steps.length - 1}
+              disabled={active === steps.length - 1 || (active === 0 && !createdEventId)}
               className="rounded-xl bg-secondary px-6 py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-40"
+              title={active === 0 && !createdEventId ? "Debes guardar los detalles del evento antes de continuar" : ""}
             >
-              Continuar
+              {active === 0 && !createdEventId ? "Guardar para Continuar" : "Continuar"}
             </button>
           </div>
         </div>

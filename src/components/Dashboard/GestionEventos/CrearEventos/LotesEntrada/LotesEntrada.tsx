@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import {
   FaCalendarAlt,
-  FaCheckCircle,
   FaDollarSign,
   FaPencilAlt,
   FaPercent,
   FaTicketAlt,
 } from "react-icons/fa";
+import LoaderOverlay from "@/components/Dashboard/ComponentesReutilizables/LoaderOverlay";
 import { useFormik } from "formik";
 import {
   initialSchema,
@@ -26,8 +26,8 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
   const {
     lotes,
     loadingLotes,
+    loadingSubmit,
     isEditing,
-    success,
     loteToDelete,
     cargarLotes,
     createLote,
@@ -47,10 +47,13 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
     initialValues: initialSchema,
     validationSchema,
     onSubmit: async (values: LoteFormData, { resetForm }) => {
+      console.log("Enviando formulario:", { values, isEditing, eventId }); // Debug log
       try {
         if (isEditing && values.id) {
+          console.log("Actualizando lote con ID:", values.id); // Debug log
           await updateLote({ ...values, id: values.id }, eventId);
         } else {
+          console.log("Creando nuevo lote"); // Debug log
           await createLote(values, eventId);
         }
         resetForm();
@@ -61,8 +64,10 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
   });
 
   const handleEditLote = (lote: Lote) => {
+    console.log("Editando lote:", lote); // Debug log
     setIsEditing(true);
-    formik.setValues({
+
+    const formValues = {
       id: lote.id,
       nombre: lote.nombre,
       precio: lote.precio,
@@ -70,19 +75,28 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
       cantidadTickets: lote.cantidadTickets,
       tipoComision: lote.tipoComision,
       montoFijo: lote.tipoComision === "MONTO_FIJO" ? lote.montoComision : 0,
-      porcentaje: lote.tipoComision === "PORCENTAJE" ? lote.montoComision : 0,
-    });
+      porcentaje: lote.tipoComision === "PORCENTAJE" ? lote.porcentajeComision : 0,
+    };
+
+    console.log("Valores del formulario:", formValues); // Debug log
+    formik.setValues(formValues);
   };
 
   return (
     <div className="space-y-8">
+      {/* Loader para operaciones de crear/actualizar */}
+      {loadingSubmit && <LoaderOverlay />}
+
       <form
         onSubmit={formik.handleSubmit}
         className="relative w-full rounded-2xl bg-back p-8 shadow-lg"
       >
         <div className="mb-6">
           <h1 className="text-xxl font-light text-white">
-            Crea diferentes lotes de tickets con precios y disponibilidad únicos.
+            {isEditing
+              ? "Editar Lote de Tickets"
+              : "Crea diferentes lotes de tickets con precios y disponibilidad únicos."
+            }
           </h1>
         </div>
 
@@ -93,6 +107,7 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
               id="nombreLote"
               name="nombre"
               type="text"
+              autoComplete="off"
               className={`w-full rounded-lg border ${formik.touched.nombre && formik.errors.nombre
                 ? "border-red-500"
                 : "border-gray-700"
@@ -268,30 +283,29 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
           )}
         </div>
 
-        {/* Mensaje de éxito */}
-        {success && (
-          <div className="mt-4 flex items-center justify-center gap-2 text-green-400">
-            <FaCheckCircle /> Lote creado con éxito
-          </div>
-        )}
-
         {/* Botones */}
         <div className="mt-6 flex gap-4">
           <button
             type="submit"
-            className="flex-1 rounded-lg bg-secondary py-3 text-lg font-semibold text-white transition hover:opacity-90"
+            disabled={loadingSubmit}
+            className="flex-1 rounded-lg bg-secondary py-3 text-lg font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {isEditing ? "Actualizar Lote" : "Agregar Lote"}
+            {loadingSubmit
+              ? (isEditing ? "Actualizando..." : "Creando...")
+              : (isEditing ? "Actualizar Lote" : "Agregar Lote")
+            }
           </button>
 
           {isEditing && (
             <button
               type="button"
+              disabled={loadingSubmit}
               onClick={() => {
+                console.log("Cancelando edición"); // Debug log
                 setIsEditing(false);
                 formik.resetForm();
               }}
-              className="flex-1 rounded-lg border border-gray-600 py-3 text-lg font-semibold text-white transition hover:bg-gray-700"
+              className="flex-1 rounded-lg border border-gray-600 py-3 text-lg font-semibold text-white transition hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Cancelar Edición
             </button>

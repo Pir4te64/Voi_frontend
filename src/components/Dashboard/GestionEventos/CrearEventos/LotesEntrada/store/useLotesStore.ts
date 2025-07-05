@@ -8,6 +8,7 @@ import { Lote } from "@/components/Dashboard/GestionEventos/CrearEventos/LotesEn
 interface LotesState {
     lotes: Lote[];
     loadingLotes: boolean;
+    loadingSubmit: boolean; // Nuevo estado para loading de crear/actualizar
     isEditing: boolean;
     loteToDelete: Lote | null;
     success: boolean;
@@ -28,6 +29,7 @@ interface LotesState {
 export const useLotesStore = create<LotesState>((set, get) => ({
     lotes: [],
     loadingLotes: false,
+    loadingSubmit: false,
     isEditing: false,
     loteToDelete: null,
     success: false,
@@ -64,6 +66,7 @@ export const useLotesStore = create<LotesState>((set, get) => ({
     },
 
     createLote: async (values: LoteFormData, eventId: number) => {
+        set({ loadingSubmit: true });
         try {
             const payload = {
                 nombre: values.nombre,
@@ -91,10 +94,13 @@ export const useLotesStore = create<LotesState>((set, get) => ({
         } catch (error: any) {
             toast.error(error.response?.data?.message || "Error al crear el lote");
             console.error("Error al crear lote:", error);
+        } finally {
+            set({ loadingSubmit: false });
         }
     },
 
     updateLote: async (values: LoteFormData & { id: number }, eventId: number) => {
+        set({ loadingSubmit: true });
         try {
             const payload = {
                 nombre: values.nombre,
@@ -122,6 +128,8 @@ export const useLotesStore = create<LotesState>((set, get) => ({
         } catch (error) {
             toast.error("Error al actualizar el lote");
             console.error("Error al actualizar lote:", error);
+        } finally {
+            set({ loadingSubmit: false });
         }
     },
 
