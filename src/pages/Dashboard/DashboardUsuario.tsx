@@ -1,4 +1,4 @@
-import { FaCalendarAlt, FaTicketAlt, FaHeart, FaHistory } from "react-icons/fa";
+import { FaCalendarAlt, FaTicketAlt, FaHeart, FaHistory, FaUsers } from "react-icons/fa";
 import { CgShoppingCart } from "react-icons/cg";
 import MetricasGrid from '@/components/Dashboard/ComponentesReutilizables/MetricasGrid';
 import { useUsuarioStatsStore } from '@/components/Dashboard/Compras/store/useUsuarioStatsStore';
@@ -11,6 +11,7 @@ const DashboardUsuario = () => {
         fetchStats();
         // eslint-disable-next-line
     }, []);
+
 
     const metricasUsuario = [
         {
@@ -46,6 +47,13 @@ const DashboardUsuario = () => {
             title: "HISTORIAL",
             subtitle: "Eventos pasados",
             value: loading ? "..." : stats?.historial?.toString() || "0",
+            loading: loading
+        },
+        {
+            icon: <FaUsers />,
+            title: "USUARIOS",
+            subtitle: "Total registrados",
+            value: loading ? "..." : stats?.cantidadUsuarios?.toString() || "0",
             loading: loading
         }
     ];

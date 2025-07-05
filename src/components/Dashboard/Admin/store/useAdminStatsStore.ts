@@ -30,52 +30,64 @@ export const useAdminStatsStore = create<AdminStatsState>((set) => ({
                 ? JSON.parse(localStorage.getItem('auth')!).accessToken
                 : null;
             if (!token) throw new Error('No autenticado');
-            
+
             // Obtenemos eventos activos (usando el endpoint de admin que trae todos los eventos)
             const eventosUrl = `${api_url.get_eventos}`;
             const eventosRes = await axios.get(eventosUrl, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            
+
             // Usamos los valores pre-calculados de cada evento
             let ticketsVendidosTotal = 0;
             let gananciasTotal = 0;
-            
+
             if (Array.isArray(eventosRes.data?.content)) {
                 eventosRes.data.content.forEach((evento: any) => {
                     ticketsVendidosTotal += evento.cantidadTickets || 0;
                     gananciasTotal += evento.gananciaTotal || 0;
                 });
             }
-            
+
             // Obtenemos revendedores
             const revendedoresUrl = `${api_url.get_revendedores}`;
             const revendedoresRes = await axios.get(revendedoresUrl, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            
+
             // Obtenemos solicitudes de alta de productoras
             const solicitudesUrl = `${api_url.admin_solicitudes_get}`;
             const solicitudesRes = await axios.get(solicitudesUrl, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            
-            // Filtramos solo las solicitudes pendientes
-            const solicitudesPendientes = Array.isArray(solicitudesRes.data) 
+
+            // Filtramos las solicitudes por estado
+            const solicitudesPendientes = Array.isArray(solicitudesRes.data)
                 ? solicitudesRes.data.filter((solicitud: any) => solicitud.status === 'PENDING').length
                 : 0;
-            
+
+            const productorasAprobadas = Array.isArray(solicitudesRes.data)
+                ? solicitudesRes.data.filter((solicitud: any) => solicitud.status === 'APPROVED').length
+                : 0;
+
+            // Obtenemos la cantidad de usuarios
+            const cantidadUsuariosUrl = `${api_url.get_cantidad_usuarios}`;
+            const cantidadUsuariosRes = await axios.get(cantidadUsuariosUrl, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            const cantidadUsuarios = cantidadUsuariosRes.data?.count || 0;
+
             // Construimos las estadísticas con datos reales
             const stats: AdminStats = {
-                productoras: 12, // Por ahora simulado
+                productoras: productorasAprobadas,
                 eventosActivos: eventosRes.data?.totalElements || 0,
                 revendedores: revendedoresRes.data?.length || 0,
-                usuariosParticulares: 150, // Por ahora simulado
+                usuariosParticulares: cantidadUsuarios,
                 solicitudesPendientes: solicitudesPendientes,
                 ticketsVendidos: ticketsVendidosTotal,
                 gananciasTotal: gananciasTotal
             };
-            
+
             set({ stats: stats, loading: false });
         } catch (err: any) {
             let errorMessage = 'Error al cargar las estadísticas';

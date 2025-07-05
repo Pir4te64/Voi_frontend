@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEventoDetallesStore } from "@/components/Dashboard/Admin/Eventos/store/useEventoDetallesStore";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import EventoInfoGrid from "@/components/Dashboard/Admin/Eventos/EventoInfoGrid";
 import MapButton from "@/components/Dashboard/Admin/Eventos/components/MapButton";
@@ -163,25 +163,19 @@ const EventoDetalles: React.FC = () => {
                                             <button
                                                 onClick={() => setGaleriaIndex((i) => (i === 0 ? galeria.length - 1 : i - 1))}
                                                 className="flex h-6 w-6 items-center justify-center rounded-full bg-black/40 text-white"
-                                            >&#8592;</button>
+                                            >
+                                                <FaArrowLeft className="h-3 w-3" />
+                                            </button>
                                             <button
                                                 onClick={() => setGaleriaIndex((i) => (i === galeria.length - 1 ? 0 : i + 1))}
                                                 className="flex h-6 w-6 items-center justify-center rounded-full bg-black/40 text-white"
-                                            >&#8594;</button>
+                                            >
+                                                <FaArrowRight className="h-3 w-3" />
+                                            </button>
                                         </div>
                                     )}
                                 </div>
-                                {/* Paginación de galería */}
-                                {galeria.length > 1 && (
-                                    <div className="mt-2 flex justify-center gap-1">
-                                        {galeria.map((_, idx) => (
-                                            <span
-                                                key={idx}
-                                                className={`inline-block w-2 h-2 rounded-full ${galeriaIndex === idx ? 'bg-secondary' : 'bg-gray-600'}`}
-                                            ></span>
-                                        ))}
-                                    </div>
-                                )}
+
                             </div>
                         )}
                     </div>

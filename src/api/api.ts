@@ -74,6 +74,9 @@ export const api_url = {
   get_ganancias: `${baseUrl}/eventos/user/v1/ganancias`,
 
   enviar_tickets: `${baseUrl}/eventos/user/v1/revendedores/enviar-ticket`,
+
+  //obtener cantidad de usuarios
+  get_cantidad_usuarios: `${baseUrl}/auth/admin/v1/usuarios/count`,
 };
 
 /**
