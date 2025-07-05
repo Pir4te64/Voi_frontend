@@ -55,10 +55,25 @@ const EventoDetallesComprar: React.FC<EventoDetallesComprarProps> = ({ event }) 
 
         // Solo actualizar si el usuario puede comprar
         if (isAuthenticated() && canUserBuy()) {
-            const nuevaCantidad = getItemQuantity(event.id, selectedTicket) || 1;
-            setQuantity(nuevaCantidad);
+            const nuevaCantidad = getItemQuantity(event.id, selectedTicket);
+            // Si el elemento existe en el carrito, usar esa cantidad
+            // Si no existe, usar 1 como cantidad por defecto
+            setQuantity(nuevaCantidad > 0 ? nuevaCantidad : 1);
         }
     }, [items, selectedTicket, event.id, getItemQuantity, hasAvailableTickets]);
+
+    // Actualizar cantidad cuando cambie el tipo de ticket seleccionado
+    useEffect(() => {
+        if (!hasAvailableTickets || !selectedTicket) return;
+
+        // Solo actualizar si el usuario puede comprar
+        if (isAuthenticated() && canUserBuy()) {
+            const nuevaCantidad = getItemQuantity(event.id, selectedTicket);
+            // Si el elemento existe en el carrito, usar esa cantidad
+            // Si no existe, usar 1 como cantidad por defecto
+            setQuantity(nuevaCantidad > 0 ? nuevaCantidad : 1);
+        }
+    }, [selectedTicket, event.id, getItemQuantity, hasAvailableTickets]);
 
     // Calcular total
     const total = (() => {
