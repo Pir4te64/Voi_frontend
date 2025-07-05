@@ -3,8 +3,10 @@ import { FaUserGroup, FaUserCheck } from "react-icons/fa6";
 import MetricasGrid from '@/components/Dashboard/ComponentesReutilizables/MetricasGrid';
 import { useAdminStatsStore } from '@/components/Dashboard/Admin/store/useAdminStatsStore';
 import { useEffect } from 'react';
+import { usePageTitle } from '@/context/usePageTitle';
 
 const Index = () => {
+    usePageTitle('Dashboard Admin');
     const { stats, loading, error, fetchStats } = useAdminStatsStore();
 
     useEffect(() => {

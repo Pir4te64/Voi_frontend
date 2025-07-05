@@ -3,10 +3,11 @@ import { CgShoppingCart } from "react-icons/cg";
 import MetricasGrid from '@/components/Dashboard/ComponentesReutilizables/MetricasGrid';
 import { useUsuarioStatsStore } from '@/components/Dashboard/Compras/store/useUsuarioStatsStore';
 import { useEffect } from 'react';
+import { usePageTitle } from '@/context/usePageTitle';
 
 const DashboardUsuario = () => {
     const { stats, loading, error, fetchStats } = useUsuarioStatsStore();
-
+    usePageTitle('Dashboard Usuario');
     useEffect(() => {
         fetchStats();
         // eslint-disable-next-line

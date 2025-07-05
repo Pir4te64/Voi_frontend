@@ -1,29 +1,31 @@
 // src/pages/ErrorNotFound.jsx
 import { Link } from "react-router-dom";
 import logoGrande from "@/assets/LogoGrande.svg";
+import { usePageTitle } from '@/context/usePageTitle';
 
 const ErrorNotFound = () => {
+    usePageTitle('404');
     return (
-        <div className="relative flex items-center justify-center h-screen bg-primary text-white overflow-hidden">
+        <div className="relative flex h-screen items-center justify-center overflow-hidden bg-primary text-white">
             {/* Logo al centro, con opacidad baja */}
             <img
                 src={logoGrande}
                 alt="Logo CruzNegra"
-                className="absolute inset-0 w-full h-full max-h-[70vh] m-auto object-contain opacity-10 pointer-events-none select-none"
+                className="pointer-events-none absolute inset-0 m-auto h-full max-h-[70vh] w-full select-none object-contain opacity-10"
             />
 
             {/* Contenido principal */}
             <div className="relative z-10 flex flex-col items-center">
-                <h1 className="text-[10vw] leading-none font-extrabold drop-shadow-lg">
+                <h1 className="text-[10vw] font-extrabold leading-none drop-shadow-lg">
                     404
                 </h1>
-                <p className="mt-2 mb-8 text-lg md:text-2xl text-center font-light">
+                <p className="mb-8 mt-2 text-center text-lg font-light md:text-2xl">
                     ¡Ups! La página que buscas no existe.
                 </p>
 
                 <Link
                     to="/"
-                    className="px-6 py-3 rounded-lg bg-white text-primary font-semibold shadow hover:bg-gray-100 transition"
+                    className="rounded-lg bg-white px-6 py-3 font-semibold text-primary shadow transition hover:bg-gray-100"
                 >
                     Volver al inicio
                 </Link>

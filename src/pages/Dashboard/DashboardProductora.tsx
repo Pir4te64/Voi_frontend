@@ -2,11 +2,12 @@ import { useGananciasStore } from '@/components/Dashboard/Compras/store/useGanan
 import { useEventosProductoraStore } from '@/components/Dashboard/Compras/store/useEventosProductoraStore';
 import MetricasDashboard from '@/components/Dashboard/ComponentesReutilizables/MetricasDashboard';
 import { useEffect } from 'react';
+import { usePageTitle } from '@/context/usePageTitle';
 
 const DashboardProductora = () => {
     const { resumen, loading, error, fetchGanancias } = useGananciasStore();
     const { fetchEventos } = useEventosProductoraStore();
-
+    usePageTitle('Dashboard Productora');
     useEffect(() => {
         fetchGanancias();
         fetchEventos();

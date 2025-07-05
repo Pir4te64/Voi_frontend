@@ -1,7 +1,9 @@
 import { FaTicketAlt, FaShoppingCart, FaChartLine, FaBell, FaQrcode } from "react-icons/fa";
 import { BiBarChartAlt2 } from "react-icons/bi";
+import { usePageTitle } from '@/context/usePageTitle';
 
 const DashboardRevendedor = () => {
+    usePageTitle('Dashboard Revendedor');
     return (
         <div className="container mx-auto w-full px-4 py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Dashboard Revendedor</h1>

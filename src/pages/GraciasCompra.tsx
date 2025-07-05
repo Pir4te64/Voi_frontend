@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { FaCheckCircle, FaHome } from 'react-icons/fa';
 import logo from '@/assets/Logo.svg';
 import Layout from '@/Layout';
+import { usePageTitle } from '@/context/usePageTitle';
 
 const GraciasCompra: React.FC = () => {
+    usePageTitle('Gracias por tu compra');
     const navigate = useNavigate();
 
     const handleIrAlInicio = () => {
