@@ -83,16 +83,16 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Loader para operaciones de crear/actualizar */}
       {loadingSubmit && <LoaderOverlay />}
 
       <form
         onSubmit={formik.handleSubmit}
-        className="relative w-full rounded-2xl bg-back p-8 shadow-lg"
+        className="relative w-full rounded-2xl bg-back p-4 shadow-lg sm:p-6 lg:p-8"
       >
-        <div className="mb-6">
-          <h1 className="text-xxl font-light text-white">
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-xl font-light text-white sm:text-2xl lg:text-xxl">
             {isEditing
               ? "Editar Lote de Tickets"
               : "Crea diferentes lotes de tickets con precios y disponibilidad únicos."
@@ -126,7 +126,7 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
         </div>
 
         {/* Precio y Fecha */}
-        <div className="mb-4 grid gap-4 md:grid-cols-2">
+        <div className="mb-4 grid gap-4 sm:gap-6 md:grid-cols-2">
           <div>
             <FloatingField label="Precio" htmlFor="precio">
               <FaDollarSign className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
@@ -180,8 +180,8 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
         </div>
 
         {/* Tipo de Comisión */}
-        <div className="mb-4 rounded-lg bg-back p-6">
-          <label className="mb-4 block text-lg font-semibold text-white">
+        <div className="mb-4 rounded-lg bg-back p-4 sm:p-6">
+          <label className="mb-3 block text-base font-semibold text-white sm:mb-4 sm:text-lg">
             Tipo de Comisión
           </label>
           <div className="space-y-4">
@@ -284,11 +284,11 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
         </div>
 
         {/* Botones */}
-        <div className="mt-6 flex gap-4">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:gap-4">
           <button
             type="submit"
             disabled={loadingSubmit}
-            className="flex-1 rounded-lg bg-secondary py-3 text-lg font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex-1 rounded-lg bg-secondary py-3 text-base font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50 sm:text-lg"
           >
             {loadingSubmit
               ? (isEditing ? "Actualizando..." : "Creando...")
@@ -305,7 +305,7 @@ const GestionarLoteUI: React.FC<GestionarLoteUIProps> = ({
                 setIsEditing(false);
                 formik.resetForm();
               }}
-              className="flex-1 rounded-lg border border-gray-600 py-3 text-lg font-semibold text-white transition hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 rounded-lg border border-gray-600 py-3 text-base font-semibold text-white transition hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50 sm:text-lg"
             >
               Cancelar Edición
             </button>

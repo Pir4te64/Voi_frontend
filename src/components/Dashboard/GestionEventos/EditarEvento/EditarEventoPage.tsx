@@ -107,19 +107,19 @@ const EditarEventoPage: React.FC = () => {
   const steps = createSteps();
 
   return (
-    <div className="container mx-auto bg-black px-4 py-8">
+    <div className="container mx-auto bg-black px-4 py-4 sm:px-6 lg:px-8">
       <button
         onClick={() => navigate(-1)}
-        className="mb-8 flex items-center text-white hover:text-secondary"
+        className="mb-6 flex items-center text-white hover:text-secondary sm:mb-8"
       >
         <FaArrowLeft className="mr-2" />
         Volver
       </button>
 
-      <h1 className="mb-8 text-3xl font-bold text-secondary">Editar Evento</h1>
-      <div className="rounded-lg bg-back p-4 text-white">
+      <h1 className="mb-6 text-2xl font-bold text-secondary sm:mb-8 sm:text-3xl">Editar Evento</h1>
+      <div className="rounded-lg bg-back p-4 text-white sm:p-6">
         {/* Pestañas de navegación */}
-        <div className="scrollbar-hide mb-8 flex gap-4 overflow-x-auto rounded-xl bg-black/40 p-2">
+        <div className="scrollbar-hide mb-6 flex gap-2 overflow-x-auto rounded-xl bg-black/40 p-2 sm:mb-8 sm:gap-4">
           {steps.map(({ label }, idx) => (
             <button
               key={label}
@@ -130,7 +130,7 @@ const EditarEventoPage: React.FC = () => {
                 }
                 setActive(idx);
               }}
-              className={`whitespace-nowrap rounded px-6 py-4 text-md font-semibold transition
+              className={`whitespace-nowrap rounded px-3 py-2 text-sm font-semibold transition flex-shrink-0 sm:px-6 sm:py-4 sm:text-md
               ${active === idx
                   ? "bg-secondary text-black font-bold"
                   : "bg-[#1c1c1c] hover:bg-gray-800 font-normal"
@@ -142,7 +142,7 @@ const EditarEventoPage: React.FC = () => {
         </div>
 
         {/* Contenido de la pestaña activa */}
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6">
           {steps[active].content}
         </div>
       </div>

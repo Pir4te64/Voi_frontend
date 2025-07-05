@@ -30,8 +30,8 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
     return (
         <>
             {/* Lista de Lotes */}
-            <div className="rounded-lg bg-back p-6">
-                <h2 className="mb-6 text-xl font-semibold text-white">
+            <div className="rounded-lg bg-back p-4 sm:p-6">
+                <h2 className="mb-4 text-lg font-semibold text-white sm:mb-6 sm:text-xl">
                     Lotes Agregados al Evento
                 </h2>
 
@@ -41,27 +41,27 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
                     </div>
                 ) : (
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm">
+                        <table className="w-full text-left text-xs sm:text-sm">
                             <thead className="rounded-md bg-[#1C1C1E] text-gray-400">
                                 <tr>
-                                    <th className="px-4 py-3">Nombre del Lote</th>
-                                    <th className="px-4 py-3">Precio</th>
-                                    <th className="px-4 py-3">Válido hasta</th>
-                                    <th className="px-4 py-3">Monto Comisión</th>
-                                    <th className="px-4 py-3">Porcentaje Comisión</th>
-                                    <th className="px-4 py-3">Estado</th>
-                                    <th className="px-4 py-3">Acciones</th>
+                                    <th className="px-2 py-2 sm:px-4 sm:py-3">Nombre del Lote</th>
+                                    <th className="px-2 py-2 sm:px-4 sm:py-3">Precio</th>
+                                    <th className="px-2 py-2 sm:px-4 sm:py-3">Válido hasta</th>
+                                    <th className="hidden md:table-cell px-2 py-2 sm:px-4 sm:py-3">Monto Comisión</th>
+                                    <th className="hidden md:table-cell px-2 py-2 sm:px-4 sm:py-3">Porcentaje Comisión</th>
+                                    <th className="px-2 py-2 sm:px-4 sm:py-3">Estado</th>
+                                    <th className="px-2 py-2 sm:px-4 sm:py-3">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {lotes.map((lote) => (
                                     <tr key={lote.id} className="border-t border-gray-700">
-                                        <td className="px-4 py-3 text-white">{lote.nombre}</td>
-                                        <td className="px-4 py-3 text-white">{formatCurrency(lote.precio)}</td>
-                                        <td className="px-4 py-3 text-white">{formatDate(lote.fechaValidez)}</td>
-                                        <td className="px-4 py-3 text-white">{lote.montoComision > 0 ? formatCurrency(lote.montoComision) : "-"}</td>
-                                        <td className="px-4 py-3 text-white">{lote.porcentajeComision > 0 ? `${lote.porcentajeComision}%` : "-"}</td>
-                                        <td className="px-4 py-3">
+                                        <td className="px-2 py-2 text-white sm:px-4 sm:py-3">{lote.nombre}</td>
+                                        <td className="px-2 py-2 text-white sm:px-4 sm:py-3">{formatCurrency(lote.precio)}</td>
+                                        <td className="px-2 py-2 text-white sm:px-4 sm:py-3">{formatDate(lote.fechaValidez)}</td>
+                                        <td className="hidden px-2 py-2 text-white md:table-cell sm:px-4 sm:py-3">{lote.montoComision > 0 ? formatCurrency(lote.montoComision) : "-"}</td>
+                                        <td className="hidden px-2 py-2 text-white md:table-cell sm:px-4 sm:py-3">{lote.porcentajeComision > 0 ? `${lote.porcentajeComision}%` : "-"}</td>
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3">
                                             <select
                                                 value={lote.estado}
                                                 onChange={(e) => onChangeEstado(lote.id, e.target.value)}
@@ -80,8 +80,8 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
                                                 <option value="AGOTADO" className="bg-gray-800 text-purple-500">AGOTADO</option>
                                             </select>
                                         </td>
-                                        <td className="px-4 py-3">
-                                            <div className="flex gap-2">
+                                        <td className="px-2 py-2 sm:px-4 sm:py-3">
+                                            <div className="flex gap-1 sm:gap-2">
                                                 <button
                                                     onClick={() => onEdit({
                                                         ...lote,
@@ -110,25 +110,25 @@ const TablaLotes: React.FC<TablaLotesProps> = ({
 
             {/* Modal de confirmación de eliminación */}
             {loteToDelete && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="w-full max-w-md rounded-lg bg-back p-6">
-                        <h3 className="mb-4 text-xl font-semibold text-white">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+                    <div className="w-full max-w-md rounded-lg bg-back p-4 sm:p-6">
+                        <h3 className="mb-3 text-lg font-semibold text-white sm:mb-4 sm:text-xl">
                             Confirmar Eliminación
                         </h3>
-                        <p className="mb-6 text-gray-400">
+                        <p className="mb-4 text-sm text-gray-400 sm:mb-6 sm:text-base">
                             ¿Estás seguro de que deseas eliminar el lote "{loteToDelete.nombre}"?
                             Esta acción no se puede deshacer.
                         </p>
-                        <div className="flex justify-end gap-4">
+                        <div className="flex flex-col gap-3 sm:flex-row sm:justify-end sm:gap-4">
                             <button
                                 onClick={() => onSetLoteToDelete(null)}
-                                className="rounded-lg border border-gray-600 px-4 py-2 text-white hover:bg-gray-700"
+                                className="rounded-lg border border-gray-600 px-3 py-2 text-sm text-white hover:bg-gray-700 sm:px-4 sm:text-base"
                             >
                                 Cancelar
                             </button>
                             <button
                                 onClick={() => onDelete(eventId, loteToDelete.id)}
-                                className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+                                className="rounded-lg bg-red-500 px-3 py-2 text-sm text-white hover:bg-red-600 sm:px-4 sm:text-base"
                             >
                                 Eliminar
                             </button>

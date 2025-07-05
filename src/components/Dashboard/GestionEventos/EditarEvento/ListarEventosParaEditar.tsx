@@ -71,18 +71,18 @@ const ListarEventosParaEditar: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <button
             onClick={() => navigate("/dashboard")}
-            className="mb-4 flex items-center text-white hover:text-secondary"
+            className="mb-3 flex items-center text-white hover:text-secondary sm:mb-4"
           >
             <FaArrowLeft className="mr-2" />
             Volver
           </button>
-          <h1 className="text-3xl font-bold text-secondary">Editar Eventos</h1>
-          <p className="mt-2 text-gray-400">
+          <h1 className="text-2xl font-bold text-secondary sm:text-3xl">Editar Eventos</h1>
+          <p className="mt-2 text-sm text-gray-400 sm:text-base">
             Selecciona un evento para editarlo
           </p>
         </div>
@@ -90,7 +90,7 @@ const ListarEventosParaEditar: React.FC = () => {
         {/* Lista de eventos */}
         <div className="overflow-x-auto rounded-lg bg-[#1C1C1E]">
           {/* Buscador */}
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             <div className="relative max-w-md">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <FaSearch className="h-4 w-4 text-gray-400" />
@@ -105,22 +105,22 @@ const ListarEventosParaEditar: React.FC = () => {
             </div>
           </div>
 
-          <table className="w-full text-left text-sm">
+          <table className="w-full text-left text-xs sm:text-sm">
             <thead className="bg-[#1C1C1E] text-gray-400">
               <tr>
-                <th className="px-4 py-3 font-semibold text-white">Nombre del Evento</th>
-                <th className="px-4 py-3 font-semibold text-white">Fecha</th>
-                <th className="px-4 py-3 font-semibold text-white">Categoría</th>
-                <th className="px-4 py-3 font-semibold text-white">Ubicación</th>
-                <th className="px-4 py-3 text-center font-semibold text-white">Estado</th>
-                <th className="px-4 py-3 text-center font-semibold text-white">RRPP</th>
-                <th className="px-4 py-3 text-end font-semibold text-white">Acciones</th>
+                <th className="px-2 py-2 font-semibold text-white sm:px-4 sm:py-3">Nombre del Evento</th>
+                <th className="hidden px-2 py-2 font-semibold text-white sm:table-cell sm:px-4 sm:py-3">Fecha</th>
+                <th className="hidden px-2 py-2 font-semibold text-white sm:px-4 sm:py-3 md:table-cell">Categoría</th>
+                <th className="hidden px-2 py-2 font-semibold text-white sm:px-4 sm:py-3 lg:table-cell">Ubicación</th>
+                <th className="px-2 py-2 text-center font-semibold text-white sm:px-4 sm:py-3">Estado</th>
+                <th className="hidden px-2 py-2 text-center font-semibold text-white sm:px-4 sm:py-3 md:table-cell">RRPP</th>
+                <th className="px-2 py-2 text-end font-semibold text-white sm:px-4 sm:py-3">Acciones</th>
               </tr>
             </thead>
             <tbody>
               {currentEvents.length === 0 && filteredEvents.length === 0 && (
                 <tr>
-                  <td colSpan={7} className="p-6 text-center text-gray-500">
+                  <td colSpan={7} className="p-4 text-center text-sm text-gray-500 sm:p-6 sm:text-base">
                     {searchTerm.trim()
                       ? `No se encontraron eventos que coincidan con "${searchTerm}"`
                       : "No hay eventos disponibles para editar"}
@@ -133,19 +133,19 @@ const ListarEventosParaEditar: React.FC = () => {
                   key={event.id}
                   className="border-t border-gray-700 hover:bg-black/30"
                 >
-                  <td className="px-4 py-3 text-white">{event.nombre}</td>
-                  <td className="px-4 py-3 text-white">
+                  <td className="px-2 py-2 text-white sm:px-4 sm:py-3">{event.nombre}</td>
+                  <td className="hidden px-2 py-2 text-white sm:table-cell sm:px-4 sm:py-3">
                     {format(new Date(event.fechaInicio), "PPP", { locale: es })}
                   </td>
-                  <td className="px-4 py-3 text-white">
+                  <td className="hidden px-2 py-2 text-white sm:px-4 sm:py-3 md:table-cell">
                     {event.categoriaNombre}
                   </td>
-                  <td className="px-4 py-3 text-white">
+                  <td className="hidden px-2 py-2 text-white sm:px-4 sm:py-3 lg:table-cell">
                     {event.address.street}, {event.address.city}
                   </td>
-                  <td className="px-4 py-3 text-center">
+                  <td className="px-2 py-2 text-center sm:px-4 sm:py-3">
                     <span
-                      className={`rounded px-3 py-1 text-sm ${event.estado === "ACTIVO"
+                      className={`rounded px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm ${event.estado === "ACTIVO"
                         ? "bg-green-500 text-white"
                         : "bg-red-500 text-white"
                         }`}
@@ -153,13 +153,13 @@ const ListarEventosParaEditar: React.FC = () => {
                       {event.estado}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-center">
+                  <td className="hidden px-2 py-2 text-center text-white sm:px-4 sm:py-3 md:table-cell">
                     <span className="text-white">
                       {event.revendedores ? event.revendedores.length : 0}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-end">
-                    <div className="flex justify-end gap-2">
+                  <td className="px-2 py-2 text-end sm:px-4 sm:py-3">
+                    <div className="flex justify-end gap-1 sm:gap-2">
                       <button
                         onClick={() => handleEditEvent(event)}
                         className="rounded p-2 text-white hover:bg-secondary/80"
@@ -184,12 +184,12 @@ const ListarEventosParaEditar: React.FC = () => {
 
         {/* Paginación */}
         {totalPages > 1 && (
-          <div className="mt-6 flex items-center justify-between">
+          <div className="mt-4 flex flex-col items-center gap-4 sm:mt-6 sm:flex-row sm:justify-between">
             {/* Flecha izquierda */}
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className={`flex h-10 w-16 items-center justify-center rounded-lg border transition ${currentPage === 1
+              className={`flex h-8 w-12 items-center justify-center rounded-lg border transition sm:h-10 sm:w-16 ${currentPage === 1
                 ? "cursor-not-allowed border-gray-600 text-gray-600"
                 : "border-gray-600 text-white hover:border-secondary hover:bg-secondary"
                 }`}
@@ -198,13 +198,13 @@ const ListarEventosParaEditar: React.FC = () => {
             </button>
 
             {/* Números de página centrados */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                 (pageNum) => (
                   <button
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
-                    className={`flex h-10 w-10 items-center justify-center rounded-lg transition ${currentPage === pageNum
+                    className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm transition sm:h-10 sm:w-10 sm:text-base ${currentPage === pageNum
                       ? "text-white"
                       : "text-gray-400 hover:text-white"
                       }`}
@@ -221,7 +221,7 @@ const ListarEventosParaEditar: React.FC = () => {
                 setCurrentPage(Math.min(totalPages, currentPage + 1))
               }
               disabled={currentPage === totalPages}
-              className={`flex h-10 w-16 items-center justify-center rounded-lg border transition ${currentPage === totalPages
+              className={`flex h-8 w-12 items-center justify-center rounded-lg border transition sm:h-10 sm:w-16 ${currentPage === totalPages
                 ? "cursor-not-allowed border-gray-600 text-gray-600"
                 : "border-gray-600 text-white hover:border-secondary hover:bg-secondary"
                 }`}

@@ -23,7 +23,7 @@ const DashboardUsuario = () => {
             const user = JSON.parse(userData);
             isAdmin = user.roles && user.roles.includes('ROLE_ADMIN');
         } catch (error) {
-            console.warn('Error al parsear datos del usuario:', error);
+            // Error silencioso al parsear datos del usuario
         }
     }
 

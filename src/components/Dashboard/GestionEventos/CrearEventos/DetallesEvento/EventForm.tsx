@@ -39,7 +39,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
 
       {/* ---------- Formulario principal ---------- */}
       <form
-        className="space-y-6 rounded-lg bg-back p-6"
+        className="space-y-4 rounded-lg bg-back p-4 sm:space-y-6 sm:p-6"
         onSubmit={handleSubmit}
       >
         {/* Nombre */}
@@ -83,7 +83,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
         </FloatingField>
 
         {/* ---------- FILA 1: Fechas ---------- */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
           {/* Fecha inicio */}
           <FloatingField label="Fecha de Inicio" htmlFor="startDate">
             <input
@@ -120,7 +120,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
         </div>
 
         {/* ---------- FILA 2: Ubicación + Categoría ---------- */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
           {/* Ubicación (label flotante) */}
           <FloatingField label="Ubicación" htmlFor="ubicacion">
             <input
@@ -172,7 +172,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
         </div>
 
         {/* ---------- FILA 3: Redes Sociales ---------- */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2">
           <FloatingField label="Link a Red Social 1" htmlFor="social1">
             <input
               id="social1"
@@ -211,7 +211,7 @@ const EventoForm: React.FC<EventoFormProps> = ({
       </form>
 
       {/* ---------- Upload de imágenes ---------- */}
-      <div className="mt-6 space-y-6 rounded-lg bg-back p-6">
+      <div className="mt-4 space-y-4 rounded-lg bg-back p-4 sm:mt-6 sm:space-y-6 sm:p-6">
         <ImageUpload
           key={`slider-${resetKey}`}
           label="Imagen para el Slider Home"
@@ -253,12 +253,12 @@ const EventoForm: React.FC<EventoFormProps> = ({
       </div>
 
       {/* ---------- Botón Guardar ---------- */}
-      <div className="z-50 mt-6">
+      <div className="z-50 mt-4 sm:mt-6">
         <button
           type="button"
           onClick={() => formik.handleSubmit()}
           disabled={isSubmitting}
-          className="w-full rounded-xl py-3 text-xl font-semibold text-secondary underline transition hover:opacity-90 disabled:opacity-50"
+          className="w-full rounded-xl py-3 text-lg font-semibold text-secondary underline transition hover:opacity-90 disabled:opacity-50 sm:text-xl"
         >
           {isSubmitting ? "Guardando…" : "Guardar Cambios"}
         </button>

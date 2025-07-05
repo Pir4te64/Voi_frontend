@@ -109,14 +109,14 @@ const CrearEvento: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black">
-      <div className="container mx-auto bg-black px-4 py-8">
-        <div className="mb-8">
-          <h1 className="ml-8 text-3xl font-bold text-white">Crear Evento</h1>
+      <div className="container mx-auto bg-black px-4 py-4 sm:px-6 lg:px-8">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl font-bold text-white sm:text-3xl lg:ml-8">Crear Evento</h1>
         </div>
 
-        <div className="rounded-xl bg-primary p-6 text-white">
+        <div className="rounded-xl bg-primary p-4 text-white sm:p-6 lg:p-8">
           {/* ---------- Pestañas ---------- */}
-          <div className="scrollbar-hide mb-8 flex gap-4 overflow-x-auto rounded-xl bg-black/40 p-2">
+          <div className="scrollbar-hide mb-6 flex gap-2 overflow-x-auto rounded-xl bg-black/40 p-2 sm:mb-8 sm:gap-4">
             {steps.map(({ label }, idx) => (
               <button
                 key={label}
@@ -133,7 +133,7 @@ const CrearEvento: React.FC = () => {
                   }
                   setActive(idx);
                 }}
-                className={`whitespace-nowrap rounded-xl px-6 py-4 text-md font-semibold transition flex-shrink-0
+                className={`whitespace-nowrap rounded-xl px-3 py-2 text-sm font-semibold transition flex-shrink-0 sm:px-6 sm:py-4 sm:text-md
                   ${active === idx
                     ? "bg-secondary text-black font-bold"
                     : idx > 0 && !createdEventId
@@ -147,14 +147,14 @@ const CrearEvento: React.FC = () => {
           </div>
 
           {/* ---------- Contenido ---------- */}
-          <div className="grid grid-cols-1 gap-6">{steps[active].content}</div>
+          <div className="grid grid-cols-1 gap-4 sm:gap-6">{steps[active].content}</div>
 
           {/* ---------- Navegación abajo ---------- */}
-          <div className="mt-8 flex justify-end gap-4">
+          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:justify-end sm:gap-4">
             <button
               onClick={prevStep}
               disabled={active === 0}
-              className="flex items-center gap-2 rounded-xl bg-black px-6 py-3 font-semibold text-white transition hover:bg-gray-800 disabled:opacity-40"
+              className="flex items-center justify-center gap-2 rounded-xl bg-black px-4 py-3 font-semibold text-white transition hover:bg-gray-800 disabled:opacity-40 sm:px-6"
             >
               <FiChevronLeft size={20} />
               Volver
@@ -163,7 +163,7 @@ const CrearEvento: React.FC = () => {
             <button
               onClick={nextStep}
               disabled={active === steps.length - 1 || (active === 0 && !createdEventId)}
-              className="rounded-xl bg-secondary px-6 py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-40"
+              className="rounded-xl bg-secondary px-4 py-3 font-semibold text-white transition hover:opacity-90 disabled:opacity-40 sm:px-6"
               title={active === 0 && !createdEventId ? "Debes guardar los detalles del evento antes de continuar" : ""}
             >
               {active === 0 && !createdEventId ? "Guardar para Continuar" : "Continuar"}
