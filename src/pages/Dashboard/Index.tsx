@@ -1,89 +1,62 @@
-import { FaUsers, FaCalendarAlt, FaRegClock, FaUserTie } from "react-icons/fa";
-import { MdGroup } from "react-icons/md";
+import { FaCalendarCheck, FaRegHourglass } from "react-icons/fa";
+import { FaUserGroup, FaUserCheck } from "react-icons/fa6";
+import MetricasGrid from '@/components/Dashboard/ComponentesReutilizables/MetricasGrid';
+import { useAdminStatsStore } from '@/components/Dashboard/Admin/store/useAdminStatsStore';
+import { useEffect } from 'react';
 
 const Index = () => {
+    const { stats, loading, error, fetchStats } = useAdminStatsStore();
+
+    useEffect(() => {
+        fetchStats();
+        // eslint-disable-next-line
+    }, []);
+
+    const metricasAdmin = [
+        {
+            icon: <FaUserGroup />,
+            title: "PRODUCTORAS",
+            value: loading ? "..." : stats?.productoras?.toString() || "0",
+            loading: loading
+        },
+        {
+            icon: <FaCalendarCheck />,
+            title: "EVENTOS ACTIVOS",
+            value: loading ? "..." : stats?.eventosActivos?.toString() || "0",
+            loading: loading
+        },
+        {
+            icon: <FaUserGroup />,
+            title: "REVENDEDORES",
+            value: loading ? "..." : stats?.revendedores?.toString() || "0",
+            loading: loading
+        },
+        {
+            icon: <FaUserCheck />,
+            title: "USUARIOS PARTICULARES",
+            value: loading ? "..." : stats?.usuariosParticulares?.toString() || "0",
+            loading: loading
+        },
+        {
+            icon: <FaRegHourglass />,
+            title: "SOLICITUDES PENDIENTES",
+            value: loading ? "..." : stats?.solicitudesPendientes?.toString() || "0",
+            loading: loading
+        }
+    ];
+
     return (
         <div className="container mx-auto w-full px-4 py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Dashboard Admin</h1>
             <p className="mb-6 text-gray-300">Panel de administración y monitoreo de la plataforma.</p>
 
-            <div className="w-full overflow-hidden rounded-xl bg-secondary p-0">
-                <div className="grid grid-cols-1 divide-y divide-black/30 md:grid-cols-2 md:divide-x md:divide-y-0">
-                    {/* Columna izquierda */}
-                    <div className="flex flex-col divide-y divide-black/30">
-                        {/* Productoras */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <MdGroup className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">PRODUCTORAS</div>
-                                    <div className="text-xs font-normal text-black/60">Registradas</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
-                        </div>
-                        {/* Eventos Activos */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaCalendarAlt className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">EVENTOS ACTIVOS</div>
-                                    <div className="text-xs font-normal text-black/60">En curso</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
-                        </div>
-                        {/* Revendedores */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaUserTie className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">REVENDEDORES</div>
-                                    <div className="text-xs font-normal text-black/60">Registrados</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full flex-col items-end justify-center">
-                                <div className="text-3xl font-bold text-black">00</div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* Columna derecha */}
-                    <div className="flex flex-col divide-y divide-black/30">
-                        {/* Usuarios Particulares */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaUsers className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">USUARIOS PARTICULARES</div>
-                                    <div className="text-xs font-normal text-black/60">Registrados</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full flex-col items-end justify-center">
-                                <div className="text-3xl font-bold text-black">000</div>
-                            </div>
-                        </div>
-                        {/* Solicitudes Pendientes */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaRegClock className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">SOLICITUDES PENDIENTES</div>
-                                    <div className="text-xs font-normal text-black/60">En revisión</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
-                        </div>
-                        {/* Espacio vacío para alinear visualmente */}
-                        <div className="min-h-[80px] px-6 py-6" />
-                    </div>
+            {error && (
+                <div className="mb-6 rounded-lg bg-red-500/10 p-4 text-center text-red-500">
+                    {error}
                 </div>
-            </div>
+            )}
 
-            {/* Actividad reciente (solo título, visual) */}
-            <div className="mt-10">
-                <h2 className="mb-4 rounded-t bg-black/60 px-4 py-2 text-xl font-bold text-white">Actividad reciente</h2>
-                {/* Aquí iría la lista de actividad reciente, solo visual por ahora */}
-            </div>
+            <MetricasGrid metricas={metricasAdmin} />
         </div>
     );
 };
