@@ -1,9 +1,23 @@
 import { FaTicketAlt, FaShoppingCart, FaChartLine, FaBell, FaQrcode } from "react-icons/fa";
 import { BiBarChartAlt2 } from "react-icons/bi";
 import { usePageTitle } from '@/context/usePageTitle';
+import { useEventosRevendedorStore } from '@/components/Dashboard/Compras/store/useEventosRevendedorStore';
+import { useTicketsUsuarioStore } from '@/components/Dashboard/Compras/store/useTicketsUsuarioStore';
+import { useEffect } from 'react';
 
 const DashboardRevendedor = () => {
     usePageTitle('Dashboard Revendedor');
+    const { eventos, loading: eventosLoading, error: eventosError, fetchEventos } = useEventosRevendedorStore();
+    const { tickets, totalTickets, loading: ticketsLoading, error: ticketsError, fetchTickets } = useTicketsUsuarioStore();
+
+    useEffect(() => {
+        fetchEventos();
+        fetchTickets();
+    }, [fetchEventos, fetchTickets]);
+
+    // Calcular métricas de tickets
+    const ticketsUtilizados = tickets.filter(ticket => ticket.estado === 'UTILIZADO').length;
+    const ticketsPagados = tickets.filter(ticket => ticket.estado === 'PAGADO').length;
     return (
         <div className="container mx-auto w-full px-4 py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Dashboard Revendedor</h1>
@@ -19,10 +33,12 @@ const DashboardRevendedor = () => {
                                 <FaTicketAlt className="text-2xl text-black" />
                                 <div>
                                     <div className="text-base font-bold text-black">TICKETS VENDIDOS</div>
-                                    <div className="text-xs font-normal text-black/60">Este mes</div>
+                                    <div className="text-xs font-normal text-black/60">Total</div>
                                 </div>
                             </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">00</div>
+                            <div className="flex h-full items-center text-3xl font-bold text-black">
+                                {ticketsLoading ? '...' : ticketsError ? '0' : totalTickets.toString().padStart(2, '0')}
+                            </div>
                         </div>
                         {/* Ventas Totales */}
                         <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
@@ -61,7 +77,9 @@ const DashboardRevendedor = () => {
                                 </div>
                             </div>
                             <div className="flex h-full flex-col items-end justify-center">
-                                <div className="text-3xl font-bold text-black">00</div>
+                                <div className="text-3xl font-bold text-black">
+                                    {eventosLoading ? '...' : eventosError ? '0' : eventos.length.toString().padStart(2, '0')}
+                                </div>
                             </div>
                         </div>
                         {/* Notificaciones */}

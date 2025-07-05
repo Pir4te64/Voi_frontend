@@ -77,6 +77,9 @@ export const api_url = {
 
   //obtener cantidad de usuarios
   get_cantidad_usuarios: `${baseUrl}/auth/admin/v1/usuarios/count`,
+
+  //obtener eventos por revendedor
+  get_eventos_revendedor: `${baseUrl}/eventos/user/v1/revendedores/get-evento-by-revendedor`,
 };
 
 /**
