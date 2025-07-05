@@ -57,9 +57,12 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({ titulo, tipo 
 
     return (
         <div className="container mx-auto bg-[#131315] px-4 py-8">
+
             <h2 className="mb-4 text-2xl font-bold" style={{ color: titulo ? 'white' : '#ff5c74' }}>
                 {titulo || 'Mis Compras'}
             </h2>
+            {tipo === 'ventas' && <GananciasResumen visible={true} />}
+
             <div className="relative mb-6">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                     <FaSearch />
@@ -72,7 +75,6 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({ titulo, tipo 
                     className="w-full rounded-md bg-[#232326] px-10 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-secondary"
                 />
             </div>
-            {tipo === 'ventas' && <GananciasResumen visible={true} />}
 
             {loading ? (
                 <div className="flex justify-center py-8">
@@ -109,7 +111,15 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({ titulo, tipo 
                                             ticket.tipoTicket === 'VENTA_WEB' ? 'Web' :
                                                 ticket.tipoTicket || 'N/A'}
                                     </td>
-                                    <td className="px-4 py-3">{ticket.fechaEvento}</td>
+                                    <td className="px-4 py-3">
+                                        {ticket.fechaEvento ? new Date(ticket.fechaEvento).toLocaleDateString('es-ES', {
+                                            year: 'numeric',
+                                            month: 'long',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        }) : '-'}
+                                    </td>
                                     <td className="px-4 py-3">{ticket.fechaCompra ? new Date(ticket.fechaCompra).toLocaleString() : '-'}</td>
                                     <td className="px-4 py-3">
                                         {ticket.qrCode ? (

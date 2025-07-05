@@ -40,7 +40,7 @@ const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
                     </div>
                     <div className="min-w-[180px] flex-1 px-4">
                         <div className="flex items-center gap-2 font-bold"><FaChartLine /> INGRESO PROMEDIO</div>
-                        <div className="mb-1 text-xs">POR EVENTO</div>
+                        <div className="mb-1 text-xs">POR TICKET</div>
                         <div className="text-2xl font-extrabold">${resumen.precioPromedio.toLocaleString('es-AR')}</div>
                     </div>
                 </>
