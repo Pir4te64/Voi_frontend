@@ -95,8 +95,6 @@ const GestionLotes: React.FC = () => {
   };
 
   const handleEditLote = (lote: Lote) => {
-    console.log("Editar lote:", lote);
-    console.log("ID del lote:", lote.id);
     if (!lote.id) {
       toast.error("Error: El lote no tiene un ID válido");
       return;
@@ -217,19 +215,19 @@ const GestionLotes: React.FC = () => {
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-secondary"></div>
+        <div className="h-16 w-16 animate-spin rounded-full border-b-2 border-t-2 border-secondary sm:h-32 sm:w-32"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-screen items-center justify-center px-4">
         <div className="text-center text-red-500">
-          <p className="text-xl font-bold">{error}</p>
+          <p className="text-lg font-bold sm:text-xl">{error}</p>
           <button
             onClick={loadEvents}
-            className="mt-4 rounded bg-secondary px-4 py-2 text-white hover:bg-secondary/80"
+            className="mt-4 rounded bg-secondary px-4 py-2 text-sm text-white hover:bg-secondary/80 sm:text-base"
           >
             Reintentar
           </button>

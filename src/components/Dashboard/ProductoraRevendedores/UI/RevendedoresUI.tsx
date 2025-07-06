@@ -14,28 +14,28 @@ const RevendedoresUI: React.FC<RevendedoresUIProps> = ({
 }) => {
     return (
         <div className="min-h-screen bg-black">
-            <div className="container mx-auto px-4 py-8">
+            <div className="container mx-auto px-4 py-4 sm:py-8">
                 {/* Header */}
-                <div className="mb-8">
+                <div className="mb-6 sm:mb-8">
                     <button
                         onClick={handleBackToEvents}
-                        className="mb-4 flex items-center text-white hover:text-secondary"
+                        className="mb-4 flex items-center text-sm text-white hover:text-secondary sm:text-base"
                     >
                         <FaArrowLeft className="mr-2" />
                         Volver a Gestión
                     </button>
                     <div>
-                        <h1 className="text-3xl font-bold text-secondary">
+                        <h1 className="text-2xl font-bold text-secondary sm:text-3xl">
                             Revendedores de {selectedEvent.nombre}
                         </h1>
-                        <p className="mt-2 text-gray-400">
+                        <p className="mt-2 text-sm text-gray-400 sm:text-base">
                             Gestiona los revendedores asignados a este evento
                         </p>
                     </div>
                 </div>
 
                 {/* Componente AsignarRevendedor */}
-                <div className="rounded-lg bg-[#1C1C1E] p-6">
+                <div className="rounded-lg bg-[#1C1C1E] p-4 sm:p-6">
                     <AsignarRevendedor
                         eventId={selectedEvent.id}
                         eventName={selectedEvent.nombre}

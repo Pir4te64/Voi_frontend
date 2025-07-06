@@ -62,21 +62,21 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
+    <div className="container mx-auto px-4 py-4 sm:py-8">
+      <div className="mb-6 sm:mb-8">
         <button
           onClick={onBack}
-          className="mb-4 flex items-center text-white hover:text-secondary"
+          className="mb-4 flex items-center text-sm text-white hover:text-secondary sm:text-base"
         >
           <FaArrowLeft className="mr-2" />
           Volver a Lotes
         </button>
-        <h1 className="text-3xl font-bold text-secondary">
+        <h1 className="text-2xl font-bold text-secondary sm:text-3xl">
           Editar Lote - {lote.nombre}
         </h1>
       </div>
 
-      <div className="rounded-lg bg-back p-8">
+      <div className="rounded-lg bg-back p-4 sm:p-8">
         <form onSubmit={formik.handleSubmit} className="space-y-6">
           {/* Nombre del Lote */}
           <div>
@@ -166,17 +166,19 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
               Tipo de Comisión
             </label>
             <div className="flex flex-col gap-2">
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="tipoComision"
-                  checked={formik.values.tipoComision === "MONTO_FIJO"}
-                  onChange={formik.handleChange}
-                  value="MONTO_FIJO"
-                  className="accent-red-500"
-                />
-                <span className="text-white">Monto Fijo</span>
-                <div className="ml-4 flex-1">
+              <label className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="tipoComision"
+                    checked={formik.values.tipoComision === "MONTO_FIJO"}
+                    onChange={formik.handleChange}
+                    value="MONTO_FIJO"
+                    className="accent-red-500"
+                  />
+                  <span className="text-white">Monto Fijo</span>
+                </div>
+                <div className="flex-1 sm:ml-4">
                   <FloatingField htmlFor="montoFijo">
                     <FaDollarSign className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
                     <input
@@ -202,17 +204,19 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
                 </div>
               )}
 
-              <label className="mt-2 flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="tipoComision"
-                  checked={formik.values.tipoComision === "PORCENTAJE"}
-                  onChange={formik.handleChange}
-                  value="PORCENTAJE"
-                  className="accent-red-500"
-                />
-                <span className="text-white">Porcentaje</span>
-                <div className="ml-4 flex-1">
+              <label className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="tipoComision"
+                    checked={formik.values.tipoComision === "PORCENTAJE"}
+                    onChange={formik.handleChange}
+                    value="PORCENTAJE"
+                    className="accent-red-500"
+                  />
+                  <span className="text-white">Porcentaje</span>
+                </div>
+                <div className="flex-1 sm:ml-4">
                   <FloatingField htmlFor="porcentaje">
                     <FaPercent className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
                     <input
@@ -242,33 +246,27 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
 
           {/* Cantidad de Tickets */}
           <div>
-            <FloatingField
-              label="Cantidad Total de Tickets"
-              htmlFor="cantidadTickets"
-            >
+            <FloatingField label="Cantidad de Tickets" htmlFor="cantidadTickets">
               <FaTicketAlt className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
               <input
                 id="cantidadTickets"
                 name="cantidadTickets"
                 type="number"
-                className={`w-full rounded-lg border ${formik.touched.cantidadTickets &&
-                  formik.errors.cantidadTickets
+                className={`w-full rounded-lg border ${formik.touched.cantidadTickets && formik.errors.cantidadTickets
                   ? "border-red-500"
                   : "border-gray-700"
                   } bg-back px-4 py-3 pl-10 pr-10 text-white placeholder-gray-400 focus:border-secondary focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none`}
                 value={formik.values.cantidadTickets || ""}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                min={lote.cantidadTickets - lote.ticketsDisponibles}
               />
               <FaEdit className="absolute right-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
             </FloatingField>
-            {formik.touched.cantidadTickets &&
-              formik.errors.cantidadTickets && (
-                <div className="mt-1 text-sm text-red-500">
-                  {formik.errors.cantidadTickets}
-                </div>
-              )}
+            {formik.touched.cantidadTickets && formik.errors.cantidadTickets && (
+              <div className="mt-1 text-sm text-red-500">
+                {formik.errors.cantidadTickets}
+              </div>
+            )}
           </div>
 
           {/* Mensaje de éxito */}
@@ -279,19 +277,19 @@ const EditarLoteUI: React.FC<EditarLoteUIProps> = ({
           )}
 
           {/* Botones */}
-          <div className="flex gap-4 pt-4">
+          <div className="flex flex-col gap-4 pt-4 sm:flex-row">
             <button
               type="button"
               onClick={onBack}
-              className="flex-1 rounded-lg border border-gray-600 py-3 text-white transition hover:bg-gray-600"
+              className="rounded-lg border border-gray-600 py-3 text-white transition hover:bg-gray-600 sm:flex-1"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="flex-1 cursor-pointer rounded-lg bg-secondary py-3 text-white transition hover:opacity-90"
+              className="rounded-lg bg-secondary py-3 text-white transition hover:opacity-90 sm:flex-1"
             >
-              Guardar Cambios
+              Actualizar Lote
             </button>
           </div>
         </form>

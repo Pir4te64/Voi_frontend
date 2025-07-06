@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 const DashboardRevendedor = () => {
     usePageTitle('Dashboard Revendedor');
     const { eventos, loading: eventosLoading, error: eventosError, fetchEventos } = useEventosRevendedorStore();
-    const { tickets, totalTickets, loading: ticketsLoading, error: ticketsError, fetchTickets } = useTicketsUsuarioStore();
+    const { totalTickets, loading: ticketsLoading, error: ticketsError, fetchTickets } = useTicketsUsuarioStore();
 
     useEffect(() => {
         fetchEventos();
@@ -16,8 +16,8 @@ const DashboardRevendedor = () => {
     }, [fetchEventos, fetchTickets]);
 
     // Calcular métricas de tickets
-    const ticketsUtilizados = tickets.filter(ticket => ticket.estado === 'UTILIZADO').length;
-    const ticketsPagados = tickets.filter(ticket => ticket.estado === 'PAGADO').length;
+    //const ticketsUtilizados = tickets.filter(ticket => ticket.estado === 'UTILIZADO').length;
+    //const ticketsPagados = tickets.filter(ticket => ticket.estado === 'PAGADO').length;
     return (
         <div className="container mx-auto w-full px-4 py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Dashboard Revendedor</h1>

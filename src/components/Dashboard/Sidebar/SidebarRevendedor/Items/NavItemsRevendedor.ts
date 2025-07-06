@@ -1,6 +1,5 @@
 import {
     FaChartLine,
-    FaCalendarAlt,
 } from "react-icons/fa";
 import { IoHomeOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";

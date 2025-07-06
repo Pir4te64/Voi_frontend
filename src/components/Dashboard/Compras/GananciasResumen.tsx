@@ -21,27 +21,37 @@ const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
     if (!visible || (userType !== 'ADMIN' && userType !== 'PRODUCTORA')) return null;
 
     return (
-        <div className="mb-8 flex flex-col items-center justify-between gap-4 rounded-lg bg-[#FF5C70] px-6 py-6 text-black md:flex-row">
+        <div className="mb-6 flex flex-col items-center justify-between gap-4 rounded-lg bg-[#FF5C70] px-4 py-4 text-black sm:mb-8 sm:px-6 sm:py-6 md:flex-row">
             {loading ? (
-                <div className="w-full text-center">Cargando resumen...</div>
+                <div className="w-full text-center text-sm sm:text-base">Cargando resumen...</div>
             ) : error ? (
-                <div className="w-full text-center text-red-700">{error}</div>
+                <div className="w-full text-center text-sm text-red-700 sm:text-base">{error}</div>
             ) : resumen ? (
                 <>
-                    <div className="min-w-[180px] flex-1 border-r border-black/20 px-4 last:border-none">
-                        <div className="flex items-center gap-2 font-bold"><BiDollar /> INGRESO TOTAL</div>
+                    <div className="w-full flex-1 border-b border-black/20 px-2 py-2 last:border-none sm:min-w-[180px] sm:border-b-0 sm:border-r sm:px-4 sm:py-0">
+                        <div className="flex items-center gap-2 text-sm font-bold sm:text-base">
+                            <BiDollar /> INGRESO TOTAL
+                        </div>
                         <div className="mb-1 text-xs">En todos los eventos</div>
-                        <div className="text-2xl font-extrabold">${resumen.gananciaTotal.toLocaleString('es-AR')}</div>
+                        <div className="text-xl font-extrabold sm:text-2xl">
+                            ${resumen.gananciaTotal.toLocaleString('es-AR')}
+                        </div>
                     </div>
-                    <div className="min-w-[180px] flex-1 border-r border-black/20 px-4 last:border-none">
-                        <div className="flex items-center gap-2 font-bold"><FaWallet /> TICKETS VENDIDOS</div>
+                    <div className="w-full flex-1 border-b border-black/20 px-2 py-2 last:border-none sm:min-w-[180px] sm:border-b-0 sm:border-r sm:px-4 sm:py-0">
+                        <div className="flex items-center gap-2 text-sm font-bold sm:text-base">
+                            <FaWallet /> TICKETS VENDIDOS
+                        </div>
                         <div className="mb-1 text-xs">De todos los eventos</div>
-                        <div className="text-2xl font-extrabold">{resumen.ticketsVendidos}</div>
+                        <div className="text-xl font-extrabold sm:text-2xl">{resumen.ticketsVendidos}</div>
                     </div>
-                    <div className="min-w-[180px] flex-1 px-4">
-                        <div className="flex items-center gap-2 font-bold"><FaChartLine /> INGRESO PROMEDIO</div>
+                    <div className="w-full flex-1 px-2 py-2 sm:min-w-[180px] sm:px-4 sm:py-0">
+                        <div className="flex items-center gap-2 text-sm font-bold sm:text-base">
+                            <FaChartLine /> INGRESO PROMEDIO
+                        </div>
                         <div className="mb-1 text-xs">POR TICKET</div>
-                        <div className="text-2xl font-extrabold">${resumen.precioPromedio.toLocaleString('es-AR')}</div>
+                        <div className="text-xl font-extrabold sm:text-2xl">
+                            ${resumen.precioPromedio.toLocaleString('es-AR')}
+                        </div>
                     </div>
                 </>
             ) : null}

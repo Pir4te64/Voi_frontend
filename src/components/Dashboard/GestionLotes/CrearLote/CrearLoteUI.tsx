@@ -51,24 +51,24 @@ const CrearLoteUI: React.FC<CrearLoteUIProps> = ({
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <div className="mb-8">
+        <div className="container mx-auto px-4 py-4 sm:py-8">
+            <div className="mb-6 sm:mb-8">
                 <button
                     onClick={onBack}
-                    className="mb-4 flex items-center text-white hover:text-secondary"
+                    className="mb-4 flex items-center text-sm text-white hover:text-secondary sm:text-base"
                 >
                     <FaArrowLeft className="mr-2" />
                     Volver a Lotes
                 </button>
-                <h1 className="text-3xl font-bold text-white">
+                <h1 className="text-2xl font-bold text-white sm:text-3xl">
                     Crear Nuevo Lote - {eventName}
                 </h1>
-                <p className="mt-2 text-gray-400">
+                <p className="mt-2 text-sm text-gray-400 sm:text-base">
                     Crea diferentes lotes de tickets con precios y disponibilidad únicos
                 </p>
             </div>
 
-            <div className="rounded-lg bg-back p-8">
+            <div className="rounded-lg bg-back p-4 sm:p-8">
                 <form onSubmit={formik.handleSubmit} className="space-y-6">
                     {/* Nombre del Lote */}
                     <div>
@@ -148,21 +148,23 @@ const CrearLoteUI: React.FC<CrearLoteUIProps> = ({
                     </div>
 
                     {/* Tipo de Comisión */}
-                    <div className="rounded-lg bg-back p-6">
-                        <label className="mb-4 block text-lg font-semibold text-white">
+                    <div className="rounded-lg bg-back p-4 sm:p-6">
+                        <label className="mb-4 block text-base font-semibold text-white sm:text-lg">
                             Asigna un Tipo de Comisión
                         </label>
                         <div className="space-y-4">
-                            <label className="flex items-center gap-4">
-                                <input
-                                    type="radio"
-                                    name="tipoComision"
-                                    checked={formik.values.tipoComision === "MONTO_FIJO"}
-                                    onChange={formik.handleChange}
-                                    value="MONTO_FIJO"
-                                    className="accent-secondary"
-                                />
-                                <span className="font-medium text-white">Monto Fijo</span>
+                            <label className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        name="tipoComision"
+                                        checked={formik.values.tipoComision === "MONTO_FIJO"}
+                                        onChange={formik.handleChange}
+                                        value="MONTO_FIJO"
+                                        className="accent-secondary"
+                                    />
+                                    <span className="font-medium text-white">Monto Fijo</span>
+                                </div>
                                 <div className="flex-1">
                                     <FloatingField htmlFor="montoFijo">
                                         <FaDollarSign className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
@@ -187,16 +189,18 @@ const CrearLoteUI: React.FC<CrearLoteUIProps> = ({
                                 <div className="text-sm text-red-500">{formik.errors.montoFijo}</div>
                             )}
 
-                            <label className="flex items-center gap-4">
-                                <input
-                                    type="radio"
-                                    name="tipoComision"
-                                    checked={formik.values.tipoComision === "PORCENTAJE"}
-                                    onChange={formik.handleChange}
-                                    value="PORCENTAJE"
-                                    className="accent-secondary"
-                                />
-                                <span className="font-medium text-white">Porcentaje</span>
+                            <label className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        name="tipoComision"
+                                        checked={formik.values.tipoComision === "PORCENTAJE"}
+                                        onChange={formik.handleChange}
+                                        value="PORCENTAJE"
+                                        className="accent-secondary"
+                                    />
+                                    <span className="font-medium text-white">Porcentaje</span>
+                                </div>
                                 <div className="flex-1">
                                     <FloatingField htmlFor="porcentaje">
                                         <FaPercent className="absolute left-3 top-1/2 z-10 -translate-y-1/2 text-gray-400" />
@@ -254,17 +258,17 @@ const CrearLoteUI: React.FC<CrearLoteUIProps> = ({
                     )}
 
                     {/* Botones */}
-                    <div className="flex gap-4 pt-4">
+                    <div className="flex flex-col gap-4 pt-4 sm:flex-row">
                         <button
                             type="button"
                             onClick={onBack}
-                            className="flex-1 rounded-lg border border-gray-600 py-3 text-white transition hover:bg-gray-600"
+                            className="rounded-lg border border-gray-600 py-3 text-white transition hover:bg-gray-600 sm:flex-1"
                         >
                             Cancelar
                         </button>
                         <button
                             type="submit"
-                            className="flex-1 rounded-lg bg-secondary py-3 text-white transition hover:opacity-90"
+                            className="rounded-lg bg-secondary py-3 text-white transition hover:opacity-90 sm:flex-1"
                         >
                             Crear Lote
                         </button>

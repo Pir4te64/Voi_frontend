@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaTrash, FaPlus, FaTimes } from 'react-icons/fa';
+import { FaTrash, FaPlus, FaTimes, FaUser, FaEnvelope, FaPhone } from 'react-icons/fa';
 import { useRevendedoresStore } from '@/components/Dashboard/GestionEventos/AsignarRevendedor/store/useRevendedoresStore';
 
 interface AsignarRevendedorProps {
@@ -72,7 +72,8 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
                     </div>
                 ) : (
                     <div className="rounded-lg">
-                        <div className="overflow-x-auto">
+                        {/* Vista de escritorio - Tabla */}
+                        <div className="hidden overflow-x-auto lg:block">
                             <table className="w-full table-auto text-xs sm:text-sm">
                                 <thead className="rounded-lg bg-[#131315]">
                                     <tr>
@@ -107,11 +108,51 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
                             </table>
                         </div>
 
-                        {revendedoresAsignados.length === 0 && (
-                            <p className="py-8 text-center text-gray-400">
-                                No hay revendedores asignados a este evento
-                            </p>
-                        )}
+                        {/* Vista móvil - Cards */}
+                        <div className="lg:hidden">
+                            {revendedoresAsignados.length === 0 ? (
+                                <p className="py-8 text-center text-gray-400">
+                                    No hay revendedores asignados a este evento
+                                </p>
+                            ) : (
+                                <div className="space-y-4">
+                                    {revendedoresAsignados.map((revendedor) => (
+                                        <div
+                                            key={revendedor.id}
+                                            className="rounded-lg border border-gray-700 bg-black/30 p-4 hover:bg-black/50"
+                                        >
+                                            <div className="mb-3">
+                                                <div className="flex items-center gap-2">
+                                                    <FaUser className="h-4 w-4 text-secondary" />
+                                                    <h4 className="text-lg font-semibold text-white">
+                                                        {revendedor.nombre} {revendedor.apellido}
+                                                    </h4>
+                                                </div>
+                                            </div>
+
+                                            <div className="mb-4 space-y-2 text-sm">
+                                                <div className="flex items-center gap-2">
+                                                    <FaEnvelope className="h-3 w-3 text-gray-400" />
+                                                    <span className="text-white">{revendedor.email}</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <FaPhone className="h-3 w-3 text-gray-400" />
+                                                    <span className="text-gray-400">{revendedor.phoneNumber}</span>
+                                                </div>
+                                            </div>
+
+                                            <button
+                                                onClick={() => handleEliminarRevendedor(revendedor.id)}
+                                                className="flex w-full items-center justify-center gap-2 rounded bg-red-500 px-4 py-2 text-white transition hover:bg-red-600"
+                                            >
+                                                <FaTrash className="h-4 w-4" />
+                                                Eliminar Revendedor
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 )}
             </div>
@@ -136,7 +177,8 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
                             </div>
                         ) : (
                             <div className="rounded-lg">
-                                <div className="overflow-x-auto">
+                                {/* Vista de escritorio - Tabla */}
+                                <div className="hidden overflow-x-auto lg:block">
                                     <table className="w-full table-auto text-xs sm:text-sm">
                                         <thead className="bg-black/30">
                                             <tr>
@@ -172,11 +214,51 @@ const AsignarRevendedor: React.FC<AsignarRevendedorProps> = ({ eventId }) => {
                                     </table>
                                 </div>
 
-                                {revendedores.length === 0 && !loading && (
-                                    <p className="py-8 text-center text-gray-400">
-                                        No hay revendedores disponibles
-                                    </p>
-                                )}
+                                {/* Vista móvil - Cards */}
+                                <div className="lg:hidden">
+                                    {revendedores.length === 0 ? (
+                                        <p className="py-8 text-center text-gray-400">
+                                            No hay revendedores disponibles
+                                        </p>
+                                    ) : (
+                                        <div className="space-y-4">
+                                            {revendedores.map((revendedor) => (
+                                                <div
+                                                    key={revendedor.id}
+                                                    className="rounded-lg border border-gray-700 bg-black/30 p-4 hover:bg-black/50"
+                                                >
+                                                    <div className="mb-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <FaUser className="h-4 w-4 text-secondary" />
+                                                            <h4 className="text-lg font-semibold text-white">
+                                                                {revendedor.nombre} {revendedor.apellido}
+                                                            </h4>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="mb-4 space-y-2 text-sm">
+                                                        <div className="flex items-center gap-2">
+                                                            <FaEnvelope className="h-3 w-3 text-gray-400" />
+                                                            <span className="text-white">{revendedor.email}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <FaPhone className="h-3 w-3 text-gray-400" />
+                                                            <span className="text-gray-400">{revendedor.phoneNumber}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <button
+                                                        onClick={() => handleAsignarRevendedor(revendedor.id)}
+                                                        className="flex w-full items-center justify-center gap-2 rounded bg-secondary px-4 py-2 text-white transition hover:opacity-80"
+                                                    >
+                                                        <FaPlus className="h-4 w-4" />
+                                                        Asignar Revendedor
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         )}
                     </div>
