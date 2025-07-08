@@ -3,6 +3,13 @@ import axios from 'axios';
 import { api_url } from '@/api/api';
 import { Ticket } from '@/components/Dashboard/Compras/store/types';
 
+interface Filtros {
+    estado: string;
+    tipoTicket: string;
+    nombreEvento: string;
+    nombreLote: string;
+}
+
 interface ComprasState {
     tickets: Ticket[];
     loading: boolean;
@@ -12,12 +19,14 @@ interface ComprasState {
     qrModal: string | null;
     tipo: 'compras' | 'ventas';
     titulo: string;
+    filtros: Filtros;
 
     // Actions
     setTipo: (tipo: 'compras' | 'ventas') => void;
     setTitulo: (titulo: string) => void;
     setQrModal: (qrCode: string | null) => void;
     setPage: (page: number) => void;
+    setFiltros: (filtros: Partial<Filtros>) => void;
     fetchTickets: (pageNumber?: number) => Promise<void>;
     reset: () => void;
 }
@@ -31,6 +40,12 @@ const initialState = {
     qrModal: null,
     tipo: 'compras' as const,
     titulo: 'Mis Compras',
+    filtros: {
+        estado: '',
+        tipoTicket: '',
+        nombreEvento: '',
+        nombreLote: ''
+    },
 };
 
 export const useComprasStore = create<ComprasState>((set, get) => ({
@@ -49,8 +64,16 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
 
     setPage: (page) => set({ page }),
 
+    setFiltros: (nuevosFiltros) => {
+        const { filtros } = get();
+        set({ 
+            filtros: { ...filtros, ...nuevosFiltros },
+            page: 0 // Resetear a la primera página cuando cambian los filtros
+        });
+    },
+
     fetchTickets: async (pageNumber = 0) => {
-        const { tipo } = get();
+        const { tipo, filtros } = get();
 
         set({ loading: true, error: null });
 
@@ -61,10 +84,22 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
 
             if (!token) throw new Error('No autenticado');
 
-            // URL base para obtener tickets
-            const baseUrl = `${api_url.get_tickets}?pageNumber=${pageNumber}&pageSize=10&sortDirection=DESC`;
+            // Construir URL con filtros
+            const params = new URLSearchParams({
+                pageNumber: pageNumber.toString(),
+                pageSize: '10',
+                sortDirection: 'DESC'
+            });
 
-            const res = await axios.get(baseUrl, {
+            // Agregar filtros solo si tienen valor
+            if (filtros.estado) params.append('estado', filtros.estado);
+            if (filtros.tipoTicket) params.append('tipoTicket', filtros.tipoTicket);
+            if (filtros.nombreEvento) params.append('nombreEvento', filtros.nombreEvento);
+            if (filtros.nombreLote) params.append('nombreLote', filtros.nombreLote);
+
+            const url = `${api_url.get_tickets}?${params.toString()}`;
+
+            const res = await axios.get(url, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 

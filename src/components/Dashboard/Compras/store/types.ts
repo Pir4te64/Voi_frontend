@@ -1,6 +1,7 @@
 export interface Ticket {
     id: string;
     evento: string;
+    lote?: string;
     estado: string;
     tipoTicket?: string;
     fechaEvento: string;
