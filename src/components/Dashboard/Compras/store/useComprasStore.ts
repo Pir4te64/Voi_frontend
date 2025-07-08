@@ -20,6 +20,8 @@ interface ComprasState {
     tipo: 'compras' | 'ventas';
     titulo: string;
     filtros: Filtros;
+    ventasWebCount: number;
+    ventasWebLoading: boolean;
 
     // Actions
     setTipo: (tipo: 'compras' | 'ventas') => void;
@@ -28,6 +30,7 @@ interface ComprasState {
     setPage: (page: number) => void;
     setFiltros: (filtros: Partial<Filtros>) => void;
     fetchTickets: (pageNumber?: number) => Promise<void>;
+    fetchVentasWebCount: () => Promise<void>;
     reset: () => void;
 }
 
@@ -46,6 +49,8 @@ const initialState = {
         nombreEvento: '',
         nombreLote: ''
     },
+    ventasWebCount: 0,
+    ventasWebLoading: false,
 };
 
 export const useComprasStore = create<ComprasState>((set, get) => ({
@@ -93,7 +98,13 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
 
             // Agregar filtros solo si tienen valor
             if (filtros.estado) params.append('estado', filtros.estado);
-            if (filtros.tipoTicket) params.append('tipoTicket', filtros.tipoTicket);
+            if (filtros.tipoTicket) {
+                // Convertir valores de interfaz a valores del backend
+                const tipoTicketBackend = filtros.tipoTicket === 'WEB' ? 'COMPRA_DIRECTA' : 
+                                        filtros.tipoTicket === 'RRPP' ? 'VENTA_REVENDEDOR' : 
+                                        filtros.tipoTicket;
+                params.append('tipoTicket', tipoTicketBackend);
+            }
             if (filtros.nombreEvento) params.append('nombreEvento', filtros.nombreEvento);
             if (filtros.nombreLote) params.append('nombreLote', filtros.nombreLote);
 
@@ -135,6 +146,43 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
             set({ error: errorMessage });
         } finally {
             set({ loading: false });
+        }
+    },
+
+    fetchVentasWebCount: async () => {
+        set({ ventasWebLoading: true });
+
+        try {
+            const token = localStorage.getItem('auth')
+                ? JSON.parse(localStorage.getItem('auth')!).accessToken
+                : null;
+
+            if (!token) throw new Error('No autenticado');
+
+            // Petición específica para ventas web (WEB = COMPRA_DIRECTA)
+            const params = new URLSearchParams({
+                tipoTicket: 'COMPRA_DIRECTA',
+                pageNumber: '0',
+                pageSize: '1000', // Obtener todos los resultados para contar
+                sortDirection: 'DESC'
+            });
+
+            const url = `${api_url.get_tickets}?${params.toString()}`;
+
+            const res = await axios.get(url, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            // Usar totalElements si está disponible, sino contar el array
+            const count = res.data?.totalElements || (Array.isArray(res.data?.content) ? res.data.content.length : 0);
+            
+            set({ ventasWebCount: count });
+
+        } catch (err: any) {
+            console.error('Error al obtener conteo de ventas web:', err);
+            set({ ventasWebCount: 0 });
+        } finally {
+            set({ ventasWebLoading: false });
         }
     },
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useComprasStore } from '@/components/Dashboard/Compras/store/useComprasStore';
 import QRModal from '@/components/Dashboard/Compras/components/QRModal';
 import TablaHeader from '@/components/Dashboard/Compras/components/TablaHeader';
@@ -50,17 +50,13 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({ titulo, tipo 
         fetchTickets(page);
     }, [page, filtros, fetchTickets]);
 
-    // Manejar cambios en la búsqueda de texto
-    const handleSearchChange = (searchValue: string) => {
-        // La búsqueda de texto se aplica tanto a nombre de evento como a lote
-        setFiltros({
-            nombreEvento: searchValue,
-            nombreLote: searchValue
-        });
-    };
-
-    // Manejar cambios en los filtros avanzados
-    const handleFiltrosChange = (nuevosFiltros: { estado: string; tipoTicket: string }) => {
+    // Manejar cambios en los filtros
+    const handleFiltrosChange = (nuevosFiltros: {
+        estado: string;
+        tipoTicket: string;
+        nombreEvento: string;
+        nombreLote: string;
+    }) => {
         setFiltros(nuevosFiltros);
     };
 
@@ -74,12 +70,7 @@ const TablaComprasUsuario: React.FC<TablaComprasUsuarioProps> = ({ titulo, tipo 
             <TablaHeader
                 titulo={titulo}
                 tipo={tipo}
-                search={filtros.nombreEvento || ''}
-                onSearchChange={handleSearchChange}
-                filtros={{
-                    estado: filtros.estado,
-                    tipoTicket: filtros.tipoTicket
-                }}
+                filtros={filtros}
                 onFiltrosChange={handleFiltrosChange}
                 estadosDisponibles={estadosDisponibles}
                 tiposDisponibles={tiposDisponibles}

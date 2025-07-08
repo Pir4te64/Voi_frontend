@@ -87,7 +87,7 @@ const ListarEventos: React.FC = () => {
     };
 
     return (
-        <div className="container mx-auto w-full bg-black px-4 py-8">
+        <div className="container mx-auto w-full px-4 py-8">
             <h1 className="mb-1 text-3xl font-bold text-secondary">Resumen de Eventos</h1>
             <p className="mb-6 text-gray-300">Supervisión de todos los eventos en la plataforma.</p>
 

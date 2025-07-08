@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { useGananciasStore } from '@/components/Dashboard/Compras/store/useGananciasStore';
+import { useComprasStore } from '@/components/Dashboard/Compras/store/useComprasStore';
 import { useUserInfo } from '@/context/useUserInfo';
 import { BiDollar } from "react-icons/bi";
-import { FaWallet, FaChartLine } from "react-icons/fa";
+import { FaWallet, FaChartLine, FaGlobe } from "react-icons/fa";
 
 interface GananciasResumenProps {
     visible: boolean;
@@ -10,10 +11,14 @@ interface GananciasResumenProps {
 
 const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
     const { resumen, loading, error, fetchGanancias } = useGananciasStore();
+    const { ventasWebCount, ventasWebLoading, fetchVentasWebCount } = useComprasStore();
     const { userType } = useUserInfo();
 
     useEffect(() => {
-        if (visible) fetchGanancias();
+        if (visible) {
+            fetchGanancias();
+            fetchVentasWebCount();
+        }
         // eslint-disable-next-line
     }, [visible]);
 
@@ -43,6 +48,19 @@ const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
                         </div>
                         <div className="mb-1 text-xs">De todos los eventos</div>
                         <div className="text-xl font-extrabold sm:text-2xl">{resumen.ticketsVendidos}</div>
+                    </div>
+                    <div className="w-full flex-1 border-b border-black/20 px-2 py-2 last:border-none sm:min-w-[180px] sm:border-b-0 sm:border-r sm:px-4 sm:py-0">
+                        <div className="flex items-center gap-2 text-sm font-bold sm:text-base">
+                            <FaGlobe /> VENTAS WEB
+                        </div>
+                        <div className="mb-1 text-xs">Tickets vendidos por web</div>
+                        <div className="text-xl font-extrabold sm:text-2xl">
+                            {ventasWebLoading ? (
+                                <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-t-2 border-black"></div>
+                            ) : (
+                                ventasWebCount
+                            )}
+                        </div>
                     </div>
                     <div className="w-full flex-1 px-2 py-2 sm:min-w-[180px] sm:px-4 sm:py-0">
                         <div className="flex items-center gap-2 text-sm font-bold sm:text-base">
