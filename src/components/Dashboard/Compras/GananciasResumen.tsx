@@ -3,7 +3,7 @@ import { useGananciasStore } from '@/components/Dashboard/Compras/store/useGanan
 import { useComprasStore } from '@/components/Dashboard/Compras/store/useComprasStore';
 import { useUserInfo } from '@/context/useUserInfo';
 import { BiDollar } from "react-icons/bi";
-import { FaWallet, FaChartLine, FaGlobe } from "react-icons/fa";
+import { FaWallet, FaChartLine, FaGlobe, FaUserTie } from "react-icons/fa";
 
 interface GananciasResumenProps {
     visible: boolean;
@@ -11,13 +11,14 @@ interface GananciasResumenProps {
 
 const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
     const { resumen, loading, error, fetchGanancias } = useGananciasStore();
-    const { ventasWebCount, ventasWebLoading, fetchVentasWebCount } = useComprasStore();
+    const { ventasWebCount, ventasWebLoading, fetchVentasWebCount, ventasRRPPCount, ventasRRPPLoading, fetchVentasRRPPCount } = useComprasStore();
     const { userType } = useUserInfo();
 
     useEffect(() => {
         if (visible) {
             fetchGanancias();
             fetchVentasWebCount();
+            fetchVentasRRPPCount();
         }
         // eslint-disable-next-line
     }, [visible]);
@@ -59,6 +60,19 @@ const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
                                 <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-t-2 border-black"></div>
                             ) : (
                                 ventasWebCount
+                            )}
+                        </div>
+                    </div>
+                    <div className="w-full flex-1 border-b border-black/20 px-2 py-2 last:border-none sm:min-w-[180px] sm:border-b-0 sm:border-r sm:px-4 sm:py-0">
+                        <div className="flex items-center gap-2 text-sm font-bold sm:text-base">
+                            <FaUserTie /> VENTAS RRPP
+                        </div>
+                        <div className="mb-1 text-xs">Tickets vendidos por revendedor</div>
+                        <div className="text-xl font-extrabold sm:text-2xl">
+                            {ventasRRPPLoading ? (
+                                <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-t-2 border-black"></div>
+                            ) : (
+                                ventasRRPPCount
                             )}
                         </div>
                     </div>

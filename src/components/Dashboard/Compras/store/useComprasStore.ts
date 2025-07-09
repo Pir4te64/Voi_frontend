@@ -22,6 +22,8 @@ interface ComprasState {
     filtros: Filtros;
     ventasWebCount: number;
     ventasWebLoading: boolean;
+    ventasRRPPCount: number;
+    ventasRRPPLoading: boolean;
 
     // Actions
     setTipo: (tipo: 'compras' | 'ventas') => void;
@@ -31,6 +33,7 @@ interface ComprasState {
     setFiltros: (filtros: Partial<Filtros>) => void;
     fetchTickets: (pageNumber?: number) => Promise<void>;
     fetchVentasWebCount: () => Promise<void>;
+    fetchVentasRRPPCount: () => Promise<void>;
     reset: () => void;
 }
 
@@ -51,6 +54,8 @@ const initialState = {
     },
     ventasWebCount: 0,
     ventasWebLoading: false,
+    ventasRRPPCount: 0,
+    ventasRRPPLoading: false,
 };
 
 export const useComprasStore = create<ComprasState>((set, get) => ({
@@ -71,7 +76,7 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
 
     setFiltros: (nuevosFiltros) => {
         const { filtros } = get();
-        set({ 
+        set({
             filtros: { ...filtros, ...nuevosFiltros },
             page: 0 // Resetear a la primera página cuando cambian los filtros
         });
@@ -100,9 +105,9 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
             if (filtros.estado) params.append('estado', filtros.estado);
             if (filtros.tipoTicket) {
                 // Convertir valores de interfaz a valores del backend
-                const tipoTicketBackend = filtros.tipoTicket === 'WEB' ? 'COMPRA_DIRECTA' : 
-                                        filtros.tipoTicket === 'RRPP' ? 'VENTA_REVENDEDOR' : 
-                                        filtros.tipoTicket;
+                const tipoTicketBackend = filtros.tipoTicket === 'WEB' ? 'COMPRA_DIRECTA' :
+                    filtros.tipoTicket === 'RRPP' ? 'VENTA_REVENDEDOR' :
+                        filtros.tipoTicket;
                 params.append('tipoTicket', tipoTicketBackend);
             }
             if (filtros.nombreEvento) params.append('nombreEvento', filtros.nombreEvento);
@@ -175,7 +180,7 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
 
             // Usar totalElements si está disponible, sino contar el array
             const count = res.data?.totalElements || (Array.isArray(res.data?.content) ? res.data.content.length : 0);
-            
+
             set({ ventasWebCount: count });
 
         } catch (err: any) {
@@ -183,6 +188,42 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
             set({ ventasWebCount: 0 });
         } finally {
             set({ ventasWebLoading: false });
+        }
+    },
+
+    fetchVentasRRPPCount: async () => {
+        set({ ventasRRPPLoading: true });
+
+        try {
+            const token = localStorage.getItem('auth')
+                ? JSON.parse(localStorage.getItem('auth')!).accessToken
+                : null;
+
+            if (!token) throw new Error('No autenticado');
+
+            // Petición específica para ventas RRPP (VENTA_REVENDEDOR)
+            const params = new URLSearchParams({
+                tipoTicket: 'VENTA_REVENDEDOR',
+                pageNumber: '0',
+                pageSize: '1000', // Obtener todos los resultados para contar
+                sortDirection: 'DESC'
+            });
+
+            const url = `${api_url.get_tickets}?${params.toString()}`;
+
+            const res = await axios.get(url, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            // Usar totalElements si está disponible, sino contar el array
+            const count = res.data?.totalElements || (Array.isArray(res.data?.content) ? res.data.content.length : 0);
+            set({ ventasRRPPCount: count });
+
+        } catch (err: any) {
+            console.error('Error al obtener conteo de ventas RRPP:', err);
+            set({ ventasRRPPCount: 0 });
+        } finally {
+            set({ ventasRRPPLoading: false });
         }
     },
 
