@@ -11,7 +11,7 @@ interface GananciasResumenProps {
 
 const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
     const { resumen, loading, error, fetchGanancias } = useGananciasStore();
-    const { ventasWebCount, ventasWebLoading, fetchVentasWebCount, ventasRRPPCount, ventasRRPPLoading, fetchVentasRRPPCount } = useComprasStore();
+    const { ventasWebCount, ventasWebLoading, fetchVentasWebCount, ventasRRPPCount, ventasRRPPLoading, fetchVentasRRPPCount, ticketsPorLote } = useComprasStore();
     const { userType } = useUserInfo();
 
     useEffect(() => {
@@ -76,6 +76,33 @@ const GananciasResumen: React.FC<GananciasResumenProps> = ({ visible }) => {
                             )}
                         </div>
                     </div>
+                    {/* Calcular total de entradas vendidas por lotes filtrados */}
+                    {Object.keys(ticketsPorLote).length > 0 && (
+                        (() => {
+                            let total = 0;
+                            Object.values(ticketsPorLote).forEach(lotes => {
+                                total += Object.values(lotes).reduce((a, b) => a + b, 0);
+                            });
+                            return (
+                                <div className="w-full flex-1 border-b border-black/20 px-2 py-2 last:border-none sm:min-w-[180px] sm:border-b-0 sm:border-r sm:px-4 sm:py-0">
+                                    <div className="flex items-center gap-2 text-sm font-bold sm:text-base">
+                                        <FaWallet /> ENTRADAS POR LOTE
+                                    </div>
+                                    <div className="text-xs text-black/80">
+                                        {Object.entries(ticketsPorLote).map(([evento, lotes]) => (
+                                            <div key={evento} className="mb-1">
+                                                <span className="font-bold">{evento}:</span>
+                                                {Object.entries(lotes).map(([lote, cantidad]) => (
+                                                    <span key={lote} className="ml-2">{lote}: <span className="font-semibold">{cantidad}</span></span>
+                                                ))}
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <div className="mt-2 text-base font-bold text-black">Total: {total}</div>
+                                </div>
+                            );
+                        })()
+                    )}
                     <div className="w-full flex-1 px-2 py-2 sm:min-w-[180px] sm:px-4 sm:py-0">
                         <div className="flex items-center gap-2 text-sm font-bold sm:text-base">
                             <FaChartLine /> INGRESO PROMEDIO

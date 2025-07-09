@@ -24,6 +24,7 @@ interface ComprasState {
     ventasWebLoading: boolean;
     ventasRRPPCount: number;
     ventasRRPPLoading: boolean;
+    ticketsPorLote: Record<string, Record<string, number>>;
 
     // Actions
     setTipo: (tipo: 'compras' | 'ventas') => void;
@@ -35,6 +36,8 @@ interface ComprasState {
     fetchVentasWebCount: () => Promise<void>;
     fetchVentasRRPPCount: () => Promise<void>;
     reset: () => void;
+    setTicketsPorLote: (tickets: Ticket[], totalElements?: number, filtros?: Filtros) => void;
+    limpiarFiltros: () => void;
 }
 
 const initialState = {
@@ -56,6 +59,7 @@ const initialState = {
     ventasWebLoading: false,
     ventasRRPPCount: 0,
     ventasRRPPLoading: false,
+    ticketsPorLote: {},
 };
 
 export const useComprasStore = create<ComprasState>((set, get) => ({
@@ -80,6 +84,28 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
             filtros: { ...filtros, ...nuevosFiltros },
             page: 0 // Resetear a la primera página cuando cambian los filtros
         });
+    },
+
+    setTicketsPorLote: (tickets, totalElements, filtros) => {
+        // Si hay filtro de evento y lote, buscar coincidencia exacta
+        if (typeof totalElements === 'number' && filtros?.nombreEvento && filtros?.nombreLote && tickets.length > 0) {
+            // Verificar que todos los tickets coincidan con ambos filtros
+            const allMatch = tickets.every(ticket => ticket.evento === filtros.nombreEvento && ticket.lote === filtros.nombreLote);
+            if (allMatch) {
+                set({ ticketsPorLote: { [filtros.nombreEvento]: { [filtros.nombreLote]: totalElements } } });
+                return;
+            }
+        }
+        // Si no, agrupamos manualmente
+        const resumen: Record<string, Record<string, number>> = {};
+        tickets.forEach(ticket => {
+            const evento = ticket.evento || 'Sin evento';
+            const lote = ticket.lote || 'Sin lote';
+            if (!resumen[evento]) resumen[evento] = {};
+            if (!resumen[evento][lote]) resumen[evento][lote] = 0;
+            resumen[evento][lote] += 1;
+        });
+        set({ ticketsPorLote: resumen });
     },
 
     fetchTickets: async (pageNumber = 0) => {
@@ -125,6 +151,10 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
                 totalPages: res.data?.totalPages || 1,
                 page: pageNumber
             });
+            // Si hay filtros de evento o lote, actualizo el resumen usando totalElements si está disponible
+            if (filtros.nombreEvento || filtros.nombreLote) {
+                get().setTicketsPorLote(content, res.data?.totalElements, filtros);
+            }
 
         } catch (err: any) {
             set({ tickets: [] });
@@ -228,4 +258,13 @@ export const useComprasStore = create<ComprasState>((set, get) => ({
     },
 
     reset: () => set(initialState),
+    limpiarFiltros: () => set({
+        filtros: {
+            estado: '',
+            tipoTicket: '',
+            nombreEvento: '',
+            nombreLote: ''
+        },
+        ticketsPorLote: {}
+    }),
 })); 
