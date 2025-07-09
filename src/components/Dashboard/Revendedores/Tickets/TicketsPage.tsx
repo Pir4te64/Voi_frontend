@@ -60,7 +60,7 @@ const TicketsPage: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black">
+        <div className="min-h-screen">
             <div className="container mx-auto px-4 py-4 sm:py-8">
                 {/* Header */}
                 <div className="mb-6 sm:mb-8">
@@ -94,7 +94,7 @@ const TicketsPage: React.FC = () => {
                 </div>
 
                 {/* Vista de escritorio - Tabla */}
-                <div className="hidden lg:block overflow-x-auto rounded-lg bg-[#1C1C1E]">
+                <div className="hidden overflow-x-auto rounded-lg bg-[#1C1C1E] lg:block">
                     <table className="w-full text-left text-sm">
                         <thead className="bg-[#1C1C1E] text-gray-400">
                             <tr>
@@ -166,7 +166,7 @@ const TicketsPage: React.FC = () => {
                 </div>
 
                 {/* Vista móvil - Cards */}
-                <div className="lg:hidden space-y-4">
+                <div className="space-y-4 lg:hidden">
                     {currentEvents.length === 0 && filteredEvents.length === 0 && (
                         <div className="rounded-lg bg-[#1C1C1E] p-6 text-center text-gray-500">
                             {searchTerm.trim()
@@ -178,10 +178,10 @@ const TicketsPage: React.FC = () => {
                     {currentEvents.map((event) => (
                         <div
                             key={event.id}
-                            className="rounded-lg bg-[#1C1C1E] p-4 border border-gray-700"
+                            className="rounded-lg border border-gray-700 bg-[#1C1C1E] p-4"
                         >
                             <div className="mb-3">
-                                <h3 className="text-lg font-bold text-white mb-2">{event.nombre}</h3>
+                                <h3 className="mb-2 text-lg font-bold text-white">{event.nombre}</h3>
                                 <div className="space-y-2 text-sm">
                                     <div className="flex items-center text-gray-300">
                                         <FaCalendar className="mr-2 text-gray-400" />

@@ -1,9 +1,9 @@
-import {
+/* import {
     FaChartLine,
-} from "react-icons/fa";
+} from "react-icons/fa"; */
 import { IoHomeOutline } from "react-icons/io5";
 import { FiUser } from "react-icons/fi";
-import { FaRegBell } from "react-icons/fa";
+//import { FaRegBell } from "react-icons/fa";
 import { BsBarChart } from "react-icons/bs";
 import { IoMdRadioButtonOn } from "react-icons/io";
 /**
@@ -23,12 +23,12 @@ export const navItemsRevendedor = [
         label: "Perfil Profesional",
         Icon: FiUser,
     },
-    {
-        to: "/dashboard/notificaciones",
-        label: "Notificaciones",
-        Icon: FaRegBell,
-        badge: 9, // ← reemplaza por tu contador dinámico
-    },
+    /*  {
+         to: "/dashboard/notificaciones",
+         label: "Notificaciones",
+         Icon: FaRegBell,
+         badge: 9, // ← reemplaza por tu contador dinámico
+     }, */
     {
         to: "/dashboard/misventas",
         label: "Mis Ventas",
@@ -41,11 +41,11 @@ export const navItemsRevendedor = [
             },
         ],
     },
-    {
-        to: "/dashboard/recursos",
-        label: "Recursos",
-        Icon: FaChartLine,
-
-    },
+    /*    {
+           to: "/dashboard/recursos",
+           label: "Recursos",
+           Icon: FaChartLine,
+   
+       }, */
 
 ];

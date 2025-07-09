@@ -108,8 +108,8 @@ const CrearEvento: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-black">
-      <div className="container mx-auto bg-black px-4 py-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen">
+      <div className="container mx-auto px-4 py-4 sm:px-6 lg:px-8">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl font-bold text-white sm:text-3xl lg:ml-8">Crear Evento</h1>
         </div>

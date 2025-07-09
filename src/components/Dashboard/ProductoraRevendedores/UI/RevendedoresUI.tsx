@@ -13,7 +13,7 @@ const RevendedoresUI: React.FC<RevendedoresUIProps> = ({
     handleBackToEvents,
 }) => {
     return (
-        <div className="min-h-screen bg-black">
+        <div className="min-h-screen">
             <div className="container mx-auto px-4 py-4 sm:py-8">
                 {/* Header */}
                 <div className="mb-6 sm:mb-8">

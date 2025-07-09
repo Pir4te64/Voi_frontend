@@ -1,19 +1,22 @@
-import { FaTicketAlt, FaShoppingCart, FaChartLine, FaBell, FaQrcode } from "react-icons/fa";
+import { FaTicketAlt, FaShoppingCart, } from "react-icons/fa";
 import { BiBarChartAlt2 } from "react-icons/bi";
 import { usePageTitle } from '@/context/usePageTitle';
 import { useEventosRevendedorStore } from '@/components/Dashboard/Compras/store/useEventosRevendedorStore';
 import { useTicketsUsuarioStore } from '@/components/Dashboard/Compras/store/useTicketsUsuarioStore';
+import { useGananciasStore } from '@/components/Dashboard/Compras/store/useGananciasStore';
 import { useEffect } from 'react';
 
 const DashboardRevendedor = () => {
     usePageTitle('Dashboard Revendedor');
     const { eventos, loading: eventosLoading, error: eventosError, fetchEventos } = useEventosRevendedorStore();
-    const { totalTickets, loading: ticketsLoading, error: ticketsError, fetchTickets } = useTicketsUsuarioStore();
+    const { fetchTickets } = useTicketsUsuarioStore();
+    const { resumen, loading: gananciasLoading, error: gananciasError, fetchGanancias } = useGananciasStore();
 
     useEffect(() => {
         fetchEventos();
         fetchTickets();
-    }, [fetchEventos, fetchTickets]);
+        fetchGanancias();
+    }, [fetchEventos, fetchTickets, fetchGanancias]);
 
     // Calcular métricas de tickets
     //const ticketsUtilizados = tickets.filter(ticket => ticket.estado === 'UTILIZADO').length;
@@ -37,7 +40,7 @@ const DashboardRevendedor = () => {
                                 </div>
                             </div>
                             <div className="flex h-full items-center text-3xl font-bold text-black">
-                                {ticketsLoading ? '...' : ticketsError ? '0' : totalTickets.toString().padStart(2, '0')}
+                                {gananciasLoading ? '...' : gananciasError ? '0' : resumen?.ticketsVendidos?.toString().padStart(2, '0') ?? '0'}
                             </div>
                         </div>
                         {/* Ventas Totales */}
@@ -49,21 +52,25 @@ const DashboardRevendedor = () => {
                                     <div className="text-xs font-normal text-black/60">Este mes</div>
                                 </div>
                             </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">$0</div>
+                            <div className="flex h-full items-center text-3xl font-bold text-black">
+                                {gananciasLoading ? '...' : gananciasError ? '$0' : `$${resumen?.gananciaTotal?.toLocaleString('es-AR') ?? '0'}`}
+                            </div>
                         </div>
                         {/* Comisiones Generadas */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaChartLine className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">COMISIONES</div>
-                                    <div className="text-xs font-normal text-black/60">Generadas</div>
-                                </div>
-                            </div>
-                            <div className="flex h-full flex-col items-end justify-center">
-                                <div className="text-3xl font-bold text-black">$0</div>
+                        {/*
+                    <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
+                        <div className="flex items-center gap-3">
+                            <FaChartLine className="text-2xl text-black" />
+                            <div>
+                                <div className="text-base font-bold text-black">COMISIONES</div>
+                                <div className="text-xs font-normal text-black/60">Generadas</div>
                             </div>
                         </div>
+                        <div className="flex h-full flex-col items-end justify-center">
+                            <div className="text-3xl font-bold text-black">$0</div>
+                        </div>
+                    </div>
+                    */}
                     </div>
                     {/* Columna derecha */}
                     <div className="flex flex-col divide-y divide-black/30">
@@ -83,27 +90,31 @@ const DashboardRevendedor = () => {
                             </div>
                         </div>
                         {/* Notificaciones */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaBell className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">NOTIFICACIONES</div>
-                                    <div className="text-xs font-normal text-black/60">Pendientes</div>
-                                </div>
+                        {/*
+                    <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
+                        <div className="flex items-center gap-3">
+                            <FaBell className="text-2xl text-black" />
+                            <div>
+                                <div className="text-base font-bold text-black">NOTIFICACIONES</div>
+                                <div className="text-xs font-normal text-black/60">Pendientes</div>
                             </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">09</div>
                         </div>
+                        <div className="flex h-full items-center text-3xl font-bold text-black">09</div>
+                    </div>
+                    */}
                         {/* QR Personalizado */}
-                        <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
-                            <div className="flex items-center gap-3">
-                                <FaQrcode className="text-2xl text-black" />
-                                <div>
-                                    <div className="text-base font-bold text-black">QR PERSONALIZADO</div>
-                                    <div className="text-xs font-normal text-black/60">Disponible</div>
-                                </div>
+                        {/*
+                    <div className="flex min-h-[80px] items-center justify-between px-6 py-6">
+                        <div className="flex items-center gap-3">
+                            <FaQrcode className="text-2xl text-black" />
+                            <div>
+                                <div className="text-base font-bold text-black">QR PERSONALIZADO</div>
+                                <div className="text-xs font-normal text-black/60">Disponible</div>
                             </div>
-                            <div className="flex h-full items-center text-3xl font-bold text-black">✓</div>
                         </div>
+                        <div className="flex h-full items-center text-3xl font-bold text-black">✓</div>
+                    </div>
+                    */}
                     </div>
                 </div>
             </div>

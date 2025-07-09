@@ -1,5 +1,5 @@
 // NavItemsProductora.js
-import { FaWallet, FaCog, FaCalendarPlus, FaRegDotCircle } from "react-icons/fa";
+import { FaWallet, FaCalendarPlus, FaRegDotCircle } from "react-icons/fa";
 import { MdGroup } from "react-icons/md";
 import { IoHomeOutline } from "react-icons/io5";
 import { LuUser } from "react-icons/lu";
@@ -22,5 +22,5 @@ export const navItemsProductora = [
   { to: "/dashboard/lotes", label: "Lotes de Entrada", Icon: FaWallet },
   { to: "/dashboard/misventas", label: "Mis Ventas", Icon: BiBarChartAlt2 },
   { to: "/dashboard/revendedores", label: "Revendedores", Icon: MdGroup },
-  { to: "/dashboard/configuraciones", label: "Configuraciones", Icon: FaCog },
+  /*     */
 ];

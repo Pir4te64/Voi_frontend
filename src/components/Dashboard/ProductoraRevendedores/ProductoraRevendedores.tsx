@@ -99,7 +99,7 @@ const ProductoraRevendedores: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black">
+        <div className="min-h-screen">
             {currentView === "events" && (
                 <EventosUI
                     events={events}
