@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEventoDetallesStore } from "@/components/Dashboard/Admin/Eventos/store/useEventoDetallesStore";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaChevronLeft } from "react-icons/fa";
 import { FiUsers } from "react-icons/fi";
 import EventoInfoGrid from "@/components/Dashboard/Admin/Eventos/EventoInfoGrid";
 import MapButton from "@/components/Dashboard/Admin/Eventos/components/MapButton";
@@ -71,7 +71,7 @@ const EventoDetalles: React.FC = () => {
     const galeria = evento.galeriaUrls || [];
 
     return (
-        <div className="min-h-screen bg-black px-2 py-8">
+        <div className="min-h-screen px-2 py-8">
             <div className="container mx-auto">
                 {/* Header y botón volver */}
                 <div className="mb-4 flex items-center gap-4">
@@ -79,7 +79,7 @@ const EventoDetalles: React.FC = () => {
                         onClick={() => navigate("/dashboard/eventos")}
                         className="flex items-center gap-2 text-secondary hover:underline"
                     >
-                        <FaArrowLeft /> Volver
+                        <FaChevronLeft className="text-xl text-secondary" /> Volver
                     </button>
                 </div>
                 {/* Grid principal: card evento | sidebar (revendedores + galería) */}

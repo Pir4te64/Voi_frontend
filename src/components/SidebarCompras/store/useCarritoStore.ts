@@ -16,7 +16,7 @@ interface CarritoStore {
     removeFromCart: (eventId: number, ticketType: string) => void;
     clearCart: () => void;
     isAuthenticated: () => boolean;
-    updateQuantity: (eventId: number, ticketType: string, quantity: number) => void;
+    updateQuantity: (eventId: number, ticketType: string, quantity: number, itemData?: Partial<ItemCarrito>) => void;
     getItemQuantity: (eventId: number, ticketType: string) => number;
 }
 
@@ -35,19 +35,39 @@ export const useCarritoStore = create<CarritoStore>((set, get) => ({
         return item?.quantity || 0;
     },
 
-    updateQuantity: (eventId: number, ticketType: string, quantity: number) => {
+    updateQuantity: (eventId: number, ticketType: string, quantity: number, itemData?: Partial<ItemCarrito>) => {
         if (!get().isAuthenticated()) {
             toast.error('Debes iniciar sesión para modificar el carrito');
             return;
         }
 
-        set((state) => ({
-            items: state.items.map(item =>
-                item.eventId === eventId && item.ticketType === ticketType
-                    ? { ...item, quantity }
-                    : item
-            ).filter(item => item.quantity > 0)
-        }));
+        const existingItem = get().items.find(
+            i => i.eventId === eventId && i.ticketType === ticketType
+        );
+
+        if (existingItem) {
+            set((state) => ({
+                items: state.items.map(item =>
+                    item.eventId === eventId && item.ticketType === ticketType
+                        ? { ...item, quantity }
+                        : item
+                ).filter(item => item.quantity > 0)
+            }));
+        } else if (quantity > 0 && itemData) {
+            // Si el item no existe y se proveen datos, lo agregamos
+            const newItem: ItemCarrito = {
+                eventId,
+                ticketType,
+                quantity,
+                price: itemData.price || 0,
+                title: itemData.title || '',
+                loteId: itemData.loteId || 0,
+            };
+            set((state) => ({
+                items: [...state.items, newItem]
+            }));
+            toast.success('Item agregado al carrito');
+        }
     },
 
     addToCart: (item: ItemCarrito) => {
