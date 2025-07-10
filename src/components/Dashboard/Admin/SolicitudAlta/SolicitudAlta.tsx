@@ -93,14 +93,14 @@ const SolicitudAlta: React.FC = () => {
                                             <span>Ej: "Sociales"</span>
                                         </div>
                                     </div>
-                                    <div className='my-4 w-96 border-t border-gray-600'></div>
+                                    {/*   <div className='my-4 w-96 border-t border-gray-600'></div>
                                     <button
                                         className="mt-2 flex items-center gap-2 text-sm font-semibold text-red-500 hover:underline"
                                         type="button"
                                         tabIndex={-1}
                                     >
                                         <FiEye /> Ver Documentos presentados
-                                    </button>
+                                    </button> */}
                                 </div>
                                 <div className="mt-6 flex min-w-[180px] flex-col gap-3 md:ml-8 md:mt-0">
                                     <button
@@ -117,13 +117,13 @@ const SolicitudAlta: React.FC = () => {
                                     >
                                         <FaTimesCircle className="text-white" /> Rechazar
                                     </button>
-                                    <button
+                                    {/*   <button
                                         className="flex items-center justify-center gap-2 rounded-md border border-white bg-transparent py-2 text-white transition hover:bg-white/10"
                                         type="button"
                                         tabIndex={-1}
                                     >
                                         <FaMinusCircle className="text-white" /> Solicitar Más Info
-                                    </button>
+                                    </button> */}
                                 </div>
                             </div>
                         ))
