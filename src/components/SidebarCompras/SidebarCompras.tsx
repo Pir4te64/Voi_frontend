@@ -1,15 +1,23 @@
 import { FaTimes, FaMinus, FaPlus } from 'react-icons/fa';
 import { useSidebarComprasStore } from '@/components/SidebarCompras/store/useSidebarComprasStore';
 import { useCarritoStore } from '@/components/SidebarCompras/store/useCarritoStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { api_url } from '@/api/api';
 import { toast } from 'react-toastify';
+import React from 'react';
 
 const SidebarCompras = () => {
     const { isOpen, closeSidebar } = useSidebarComprasStore();
     const { items, removeFromCart, isAuthenticated, updateQuantity } = useCarritoStore();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Cerrar sidebar al cambiar de ruta
+    React.useEffect(() => {
+        closeSidebar();
+        // eslint-disable-next-line
+    }, [location.pathname]);
 
     const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
