@@ -4,7 +4,7 @@ import { FaInstagram, FaWhatsapp } from 'react-icons/fa';
 import logo from '@/assets/Logo.svg';
 
 const Footer: React.FC = () => {
-    const currentYear = new Date().getFullYear();
+    // const currentYear = new Date().getFullYear();
 
     return (
         <footer className="z-50 flex flex-col justify-between bg-primary text-white md:h-auto">
@@ -23,15 +23,12 @@ const Footer: React.FC = () => {
                     <a href="mailto:ticketeravoi@gmail.com" className="transition-colors hover:text-secondary">
                         ticketeravoi@gmail.com
                     </a>
-                    <a href="tel:+5493765484773" className="transition-colors hover:text-secondary">
-                        +54 9 3765 48-4773
-                    </a>
                 </div>
 
                 {/* Iconos sociales */}
                 <div className="flex flex-1 justify-center space-x-4 md:justify-end">
                     <a
-                        href="https://instagram.com/tuCuenta"
+                        href="https://www.instagram.com/voi.arg?utm_source=ig_web_button_share_sheet&igsh=c2UyOWk1MTJjc3Fo"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Instagram"
@@ -53,8 +50,7 @@ const Footer: React.FC = () => {
 
             {/* Separador */}
             <div className="border-t border-white/20" />
-
-            {/* Barra inferior */}
+            {/* 
             <div className="container mx-auto flex flex-col items-center justify-center space-x-3 space-y-4 px-4 py-6 text-xs text-white/70 md:flex-row md:space-y-0">
                 <p className="text-center md:text-left">© {currentYear} VOI. Todos los derechos reservados.</p>
                 <div className="flex flex-col justify-center space-y-2 text-center md:flex-row md:justify-end md:space-x-4 md:space-y-0">
@@ -83,7 +79,7 @@ const Footer: React.FC = () => {
                         Cookies Settings
                     </a>
                 </div>
-            </div>
+            </div> */}
         </footer>
     );
 };

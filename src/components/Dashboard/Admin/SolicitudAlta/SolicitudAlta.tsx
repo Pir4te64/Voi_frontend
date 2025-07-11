@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSolicitudAltaStore } from '@/components/Dashboard/Admin/SolicitudAlta/store/useSolicitudAltaStore';
-import { FiEye, FiSearch } from 'react-icons/fi';
-import { FaCheckCircle, FaTimesCircle, FaMinusCircle } from 'react-icons/fa';
+import { FiSearch } from 'react-icons/fi';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import LoaderOverlay from '@/components/Dashboard/ComponentesReutilizables/LoaderOverlay';
 
 const SolicitudAlta: React.FC = () => {
