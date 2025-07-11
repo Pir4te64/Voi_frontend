@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
                         <FaInstagram className="h-6 w-6" />
                     </a>
                     <a
-                        href="https://api.whatsapp.com/send?phone=+3765484773&text=Te%20comunicaste%20con%20VOI.%F0%9F%8E%9F%EF%B8%8F%20%0ADejanos%20tu%20consulta%20y%20te%20responderemos%20en%20breve."
+                        href='https://wa.me/message/TCYJW6SVR3OZJ1'
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="WhatsApp"
